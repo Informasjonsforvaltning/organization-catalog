@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  description: Provides a basic search api against the National Data Directory of Norway
+  description: Exposes a basic service which provides information related to the publishers of content in the National Data Directory
   version: '1.0'
-  title: National Data Directory Search API
+  title: National Data Directory Publisher API
   termsOfService: 'https://fellesdatakatalog.brreg.no/about'
   contact:
     name: Brønnøysundregistrene
