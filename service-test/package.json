@@ -1,0 +1,23 @@
+{
+  "name": "publisher-test",
+  "version": "1.0.0",
+  "description": "A service test application",
+  "scripts": {
+    "test": "mocha --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Informasjonsforvaltning/publisher.git",
+    "directory": "service-test"
+  },
+  "keywords": [
+    "api",
+    "test"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Informasjonsforvaltning/publisher/issues"
+  },
+  "homepage": "https://github.com/Informasjonsforvaltning/publisher#readme"
+}
