@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.2
 info:
   description: Exposes a basic service which provides information related to the publishers of content in the National Data Directory
   version: '1.0'
