@@ -1,0 +1,1048 @@
+{
+  "hits": [
+    {
+      "name": "STAT",
+      "orgPath": "/STAT",
+      "children": [
+        {
+          "name": "ARBEIDS- OG SOSIALDEPARTEMENTET",
+          "orgPath": "/STAT/983887457",
+          "children": [
+            {
+              "name": "ARBEIDS- OG VELFERDSETATEN",
+              "orgPath": "/STAT/983887457/889640782",
+              "prefLabel": {
+                "no": "ARBEIDS- OG VELFERDSETATEN"
+              },
+              "children": []
+            },
+            {
+              "name": "ARBEIDSTILSYNET",
+              "orgPath": "/STAT/983887457/974761211",
+              "prefLabel": {
+                "no": "ARBEIDSTILSYNET"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "BARNE- OG LIKESTILLINGSDEPARTEMENTET",
+          "orgPath": "/STAT/972417793",
+          "children": [
+            {
+              "name": "BARNE-, UNGDOMS- OG FAMILIEDIREKTORATET",
+              "orgPath": "/STAT/972417793/986128433",
+              "prefLabel": {
+                "no": "BARNE-, UNGDOMS- OG FAMILIEDIREKTORATET"
+              },
+              "children": []
+            },
+            {
+              "name": "INTEGRERINGS- OG MANGFOLDSDIREKTORATET",
+              "orgPath": "/STAT/972417793/987879696",
+              "prefLabel": {
+                "no": "Integrerings- og mangfoldsdirektoratet"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "FINANSDEPARTEMENTET",
+          "orgPath": "/STAT/972417807",
+          "prefLabel": {
+            "no": "Finansdepartementet"
+          },
+          "children": [
+            {
+              "name": "DIREKTORATET FOR ØKONOMISTYRING",
+              "orgPath": "/STAT/972417807/986252932",
+              "prefLabel": {
+                "no": "Direktoratet for økonomistyring (DFØ)"
+              },
+              "children": []
+            },
+            {
+              "name": "SKATTEETATEN",
+              "orgPath": "/STAT/972417807/974761076",
+              "prefLabel": {
+                "no": "SKATTEETATEN"
+              },
+              "children": []
+            },
+            {
+              "name": "STATISTISK SENTRALBYRÅ",
+              "orgPath": "/STAT/972417807/971526920",
+              "prefLabel": {
+                "no": "Statistisk sentralbyrå"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "FORSVARSDEPARTEMENTET",
+          "orgPath": "/STAT/972417823",
+          "children": [
+            {
+              "name": "FORSVARET",
+              "orgPath": "/STAT/972417823/986105174",
+              "prefLabel": {
+                "no": "Forsvaret"
+              },
+              "children": []
+            },
+            {
+              "name": "FORSVARSBYGG",
+              "orgPath": "/STAT/972417823/975950662",
+              "prefLabel": {
+                "no": "Forsvarsbygg"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "HELSE- OG OMSORGSDEPARTEMENTET",
+          "orgPath": "/STAT/983887406",
+          "children": [
+            {
+              "name": "DIREKTORATET FOR E-HELSE",
+              "orgPath": "/STAT/983887406/915933149",
+              "prefLabel": {
+                "no": "Direktoratet for e-helse"
+              },
+              "children": []
+            },
+            {
+              "name": "FOLKEHELSEINSTITUTTET",
+              "orgPath": "/STAT/983887406/983744516",
+              "prefLabel": {
+                "no": "Folkehelseinstituttet"
+              },
+              "children": []
+            },
+            {
+              "name": "HELSEDIREKTORATET",
+              "orgPath": "/STAT/983887406/983544622",
+              "prefLabel": {
+                "no": "Helsedirektoratet"
+              },
+              "children": [
+                {
+                  "name": "DIREKTORATET FOR STRÅLEVERN OG ATOMSIKKERHET",
+                  "orgPath": "/STAT/983887406/983544622/867668292",
+                  "prefLabel": {
+                    "no": "Statens Strålevern"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "STATENS LEGEMIDDELVERK",
+              "orgPath": "/STAT/983887406/974761122",
+              "prefLabel": {
+                "no": "Statens legemiddelverk"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "JUSTIS- OG BEREDSKAPSDEPARTEMENTET",
+          "orgPath": "/STAT/972417831",
+          "children": [
+            {
+              "name": "DIREKTORATET FOR SAMFUNNSSIKKERHET OG BEREDSKAP (DSB)",
+              "orgPath": "/STAT/972417831/974760983",
+              "prefLabel": {
+                "no": "Direktoratet for samfunnssikkerhet og beredskap"
+              },
+              "children": []
+            },
+            {
+              "name": "POLITI- OG LENSMANNSETATEN",
+              "orgPath": "/STAT/972417831/915429785",
+              "prefLabel": {
+                "no": "POLITI- OG LENSMANNSETATEN"
+              },
+              "children": []
+            },
+            {
+              "name": "SYSSELMANNEN PÅ SVALBARD",
+              "orgPath": "/STAT/972417831/971456523",
+              "prefLabel": {
+                "no": "Sysselmannen på Svalbard"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "KLIMA- OG MILJØDEPARTEMENTET",
+          "orgPath": "/STAT/972417882",
+          "children": [
+            {
+              "name": "ARTSDATABANKEN",
+              "orgPath": "/STAT/972417882/919666102",
+              "prefLabel": {
+                "no": "Artsdatabanken (NTNU)"
+              },
+              "children": []
+            },
+            {
+              "name": "MILJØDIREKTORATET",
+              "orgPath": "/STAT/972417882/999601391",
+              "prefLabel": {
+                "no": "Miljødirektoratet"
+              },
+              "children": []
+            },
+            {
+              "name": "NORSK POLARINSTITUTT",
+              "orgPath": "/STAT/972417882/971022264",
+              "prefLabel": {
+                "no": "Norsk Polarinstitutt"
+              },
+              "children": []
+            },
+            {
+              "name": "RIKSANTIKVAREN",
+              "orgPath": "/STAT/972417882/974760819",
+              "prefLabel": {
+                "no": "Riksantikvaren"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "KOMMUNAL- OG MODERNISERINGSDEPARTEMENTET",
+          "orgPath": "/STAT/972417858",
+          "children": [
+            {
+              "name": "DEPARTEMENTENES SIKKERHETS- OG SERVICEORGANISASJON (DSS)",
+              "orgPath": "/STAT/972417858/974761424",
+              "prefLabel": {
+                "no": "DEPARTEMENTENES SIKKERHETS-OG SERVICEORGANISASJON (DSS)"
+              },
+              "children": []
+            },
+            {
+              "name": "DIREKTORATET FOR FORVALTNING OG IKT",
+              "orgPath": "/STAT/972417858/991825827",
+              "prefLabel": {
+                "no": "Direktoratet for forvaltning og IKT"
+              },
+              "children": []
+            },
+            {
+              "name": "FYLKESMANNEN I SOGN OG FJORDANE",
+              "orgPath": "/STAT/972417858/974763907",
+              "prefLabel": {
+                "no": "Fylkesmannen i Sogn og Fjordane"
+              },
+              "children": []
+            },
+            {
+              "name": "FYLKESMANNEN I TROMS OG FINNMARK",
+              "orgPath": "/STAT/972417858/967311014",
+              "prefLabel": {
+                "no": "Fylkesmannen i Finnmark"
+              },
+              "children": []
+            },
+            {
+              "name": "HUSBANKEN",
+              "orgPath": "/STAT/972417858/942114184",
+              "prefLabel": {
+                "no": "Husbanken"
+              },
+              "children": []
+            },
+            {
+              "name": "STATENS KARTVERK",
+              "orgPath": "/STAT/972417858/971040238",
+              "prefLabel": {
+                "no": "STATENS KARTVERK"
+              },
+              "children": []
+            },
+            {
+              "name": "VALGDIREKTORATET",
+              "orgPath": "/STAT/972417858/916132727",
+              "prefLabel": {
+                "no": "Valgdirektoratet"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "KULTURDEPARTEMENTET",
+          "orgPath": "/STAT/972417866",
+          "prefLabel": {
+            "no": "Kulturdepartementet"
+          },
+          "children": [
+            {
+              "name": "ARKIVVERKET",
+              "orgPath": "/STAT/972417866/961181399",
+              "prefLabel": {
+                "no": "Arkivverket"
+              },
+              "children": []
+            },
+            {
+              "name": "LOTTERI-  OG STIFTELSESTILSYNET",
+              "orgPath": "/STAT/972417866/982391490",
+              "prefLabel": {
+                "no": "Lotteri- og Stiftelsestilsynet"
+              },
+              "children": []
+            },
+            {
+              "name": "NORSK KULTURRÅD",
+              "orgPath": "/STAT/972417866/971527412",
+              "prefLabel": {
+                "no": "Norsk kulturråd"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "KUNNSKAPSDEPARTEMENTET",
+          "orgPath": "/STAT/872417842",
+          "children": [
+            {
+              "name": "DIREKTORATET FOR INTERNASJONALISERING OG KVALITETSUTVIKLING I HØYERE UTDANNING (DIKU)",
+              "orgPath": "/STAT/872417842/986339523",
+              "prefLabel": {
+                "no": "Senter for internasjonalisering av utdanning (SIU)"
+              },
+              "children": []
+            },
+            {
+              "name": "METEOROLOGISK INSTITUTT",
+              "orgPath": "/STAT/872417842/971274042",
+              "prefLabel": {
+                "no": "Meteorologisk institutt"
+              },
+              "children": []
+            },
+            {
+              "name": "NORGES TEKNISK-NATURVITENSKAPELIGE UNIVERSITET NTNU",
+              "orgPath": "/STAT/872417842/974767880",
+              "prefLabel": {
+                "no": "Bibsys"
+              },
+              "children": []
+            },
+            {
+              "name": "STATENS LÅNEKASSE FOR UTDANNING",
+              "orgPath": "/STAT/872417842/960885406",
+              "prefLabel": {
+                "no": "STATENS LÅNEKASSE FOR UTDANNING"
+              },
+              "children": []
+            },
+            {
+              "name": "UNIVERSITETET I BERGEN",
+              "orgPath": "/STAT/872417842/874789542",
+              "prefLabel": {
+                "no": "Universitetet i Bergen"
+              },
+              "children": []
+            },
+            {
+              "name": "UNIVERSITETET I OSLO",
+              "orgPath": "/STAT/872417842/971035854",
+              "prefLabel": {
+                "no": "Universitetet i Oslo"
+              },
+              "children": []
+            },
+            {
+              "name": "UTDANNINGSDIREKTORATET",
+              "orgPath": "/STAT/872417842/970018131",
+              "prefLabel": {
+                "no": "Utdanningsdirektoratet"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "LANDBRUKS- OG MATDEPARTEMENTET",
+          "orgPath": "/STAT/972417874",
+          "children": [
+            {
+              "name": "LANDBRUKSDIREKTORATET",
+              "orgPath": "/STAT/972417874/981544315",
+              "prefLabel": {
+                "no": "Landbruksdirektoratet"
+              },
+              "children": []
+            },
+            {
+              "name": "MATTILSYNET",
+              "orgPath": "/STAT/972417874/985399077",
+              "prefLabel": {
+                "no": "Mattilsynet"
+              },
+              "children": []
+            },
+            {
+              "name": "NIBIO - NORSK INSTITUTT FOR BIOØKONOMI",
+              "orgPath": "/STAT/972417874/988983837",
+              "prefLabel": {
+                "no": "Norsk institutt for bioøkonomi"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "NÆRINGS- OG FISKERIDEPARTEMENTET",
+          "orgPath": "/STAT/912660680",
+          "children": [
+            {
+              "name": "DIREKTORATET FOR MINERALFORVALTNING MED BERGMESTEREN FOR SVALBARD",
+              "orgPath": "/STAT/912660680/974760282",
+              "prefLabel": {
+                "no": "Direktoratet for mineralforvaltning"
+              },
+              "children": []
+            },
+            {
+              "name": "FISKERIDIREKTORATET",
+              "orgPath": "/STAT/912660680/971203420",
+              "prefLabel": {
+                "no": "Fiskeridirektoratet"
+              },
+              "children": []
+            },
+            {
+              "name": "HAVFORSKNINGSINSTITUTTET",
+              "orgPath": "/STAT/912660680/971349077",
+              "prefLabel": {
+                "no": "Havforskningsinstituttet"
+              },
+              "children": []
+            },
+            {
+              "name": "NORGES GEOLOGISKE UNDERSØKELSE",
+              "orgPath": "/STAT/912660680/970188290",
+              "prefLabel": {
+                "no": "Norges geologiske undersøkelse"
+              },
+              "children": []
+            },
+            {
+              "name": "NORSK ROMSENTER",
+              "orgPath": "/STAT/912660680/886028482",
+              "prefLabel": {
+                "no": "Norsk Romsenter"
+              },
+              "children": []
+            },
+            {
+              "name": "REGISTERENHETEN I BRØNNØYSUND",
+              "orgPath": "/STAT/912660680/974760673",
+              "prefLabel": {
+                "no": "Brønnøysundregistrene"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "OLJE- OG ENERGIDEPARTEMENTET",
+          "orgPath": "/STAT/977161630",
+          "prefLabel": {
+            "no": "Olje- og energidepartementet"
+          },
+          "children": [
+            {
+              "name": "NORGES VASSDRAGS- OG ENERGIDIREKTORAT (NVE)",
+              "orgPath": "/STAT/977161630/970205039",
+              "prefLabel": {
+                "no": "Norges vassdrags- og energidirektorat (NVE)"
+              },
+              "children": []
+            },
+            {
+              "name": "OLJEDIREKTORATET",
+              "orgPath": "/STAT/977161630/870917732",
+              "prefLabel": {
+                "no": "Oljedirektoratet"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "SAMFERDSELSDEPARTEMENTET",
+          "orgPath": "/STAT/972417904",
+          "children": [
+            {
+              "name": "KYSTVERKET",
+              "orgPath": "/STAT/972417904/874783242",
+              "prefLabel": {
+                "no": "Kystverket"
+              },
+              "children": []
+            },
+            {
+              "name": "NASJONAL KOMMUNIKASJONSMYNDIGHET",
+              "orgPath": "/STAT/972417904/974446871",
+              "prefLabel": {
+                "no": "Nasjonal kommunikasjonsmyndighet"
+              },
+              "children": []
+            },
+            {
+              "name": "STATENS VEGVESEN",
+              "orgPath": "/STAT/972417904/971032081",
+              "prefLabel": {
+                "no": "Statens vegvesen"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "UTENRIKSDEPARTEMENTET",
+          "orgPath": "/STAT/972417920",
+          "children": [
+            {
+              "name": "DIREKTORATET FOR UTVIKLINGS- SAMARBEID",
+              "orgPath": "/STAT/972417920/971277882",
+              "prefLabel": {
+                "no": "Norad – Direktoratet for utviklingssamarbeid"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "BANE NOR SF",
+          "orgPath": "/STAT/917082308",
+          "prefLabel": {
+            "no": "Bane NOR"
+          },
+          "children": []
+        },
+        {
+          "name": "ENOVA SF",
+          "orgPath": "/STAT/983609155",
+          "prefLabel": {
+            "no": "Enova SF"
+          },
+          "children": []
+        },
+        {
+          "name": "NORGES BANK",
+          "orgPath": "/STAT/937884117",
+          "prefLabel": {
+            "no": "Norges Bank"
+          },
+          "children": []
+        },
+        {
+          "name": "STATSKOG SF",
+          "orgPath": "/STAT/966056258",
+          "prefLabel": {
+            "no": "Statskog"
+          },
+          "children": []
+        },
+        {
+          "name": "STORTINGET",
+          "orgPath": "/STAT/971524960",
+          "prefLabel": {
+            "no": "Stortinget"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "FYLKE",
+      "orgPath": "/FYLKE",
+      "children": [
+        {
+          "name": "AKERSHUS FYLKESKOMMUNE",
+          "orgPath": "/FYLKE/958381492",
+          "prefLabel": {
+            "no": "Akershus fylkeskommune"
+          },
+          "children": []
+        },
+        {
+          "name": "HORDALAND FYLKESKOMMUNE",
+          "orgPath": "/FYLKE/938626367",
+          "prefLabel": {
+            "no": "Nasjonal Digital Læringsarena"
+          },
+          "children": []
+        },
+        {
+          "name": "ROGALAND FYLKESKOMMUNE",
+          "orgPath": "/FYLKE/971045698",
+          "prefLabel": {
+            "no": "Rogaland fylkeskommune"
+          },
+          "children": []
+        },
+        {
+          "name": "SOGN OG FJORDANE FYLKESKOMMUNE",
+          "orgPath": "/FYLKE/941388841",
+          "prefLabel": {
+            "no": "Sogn og Fjordane fylkeskommune"
+          },
+          "children": [
+            {
+              "name": "SOGN OG FJORDANE FYLKESKOMMUNE SENTRALADMINISTRASJONEN",
+              "orgPath": "/FYLKE/941388841/974783231",
+              "prefLabel": {
+                "no": "Sogn og Fjordane fylkeskommune"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "KOMMUNE",
+      "orgPath": "/KOMMUNE",
+      "children": [
+        {
+          "name": "ASKIM KOMMUNE",
+          "orgPath": "/KOMMUNE/840894312",
+          "prefLabel": {
+            "no": "Askim kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "AURE KOMMUNE",
+          "orgPath": "/KOMMUNE/988913898",
+          "prefLabel": {
+            "no": "Aure kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "AURLAND KOMMUNE",
+          "orgPath": "/KOMMUNE/964968063",
+          "prefLabel": {
+            "no": "Aurland kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "BERGEN KOMMUNE",
+          "orgPath": "/KOMMUNE/964338531",
+          "prefLabel": {
+            "no": "BERGEN KOMMUNE"
+          },
+          "children": []
+        },
+        {
+          "name": "FREDRIKSTAD KOMMUNE",
+          "orgPath": "/KOMMUNE/940039541",
+          "prefLabel": {
+            "no": "Fredrikstad kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "FUSA KOMMUNE",
+          "orgPath": "/KOMMUNE/964968896",
+          "prefLabel": {
+            "no": "Fusa kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "FØRDE KOMMUNE",
+          "orgPath": "/KOMMUNE/963923511",
+          "prefLabel": {
+            "no": "Førde kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "GJESDAL KOMMUNE",
+          "orgPath": "/KOMMUNE/964978573",
+          "prefLabel": {
+            "no": "Gjesdal kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "HARSTAD KOMMUNE / HÁRSTTÁID SUOHKAN",
+          "orgPath": "/KOMMUNE/972417971",
+          "prefLabel": {
+            "no": "Harstad kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "HITRA KOMMUNE",
+          "orgPath": "/KOMMUNE/938772924",
+          "prefLabel": {
+            "no": "Hitra kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "LEIKANGER KOMMUNE",
+          "orgPath": "/KOMMUNE/964967725",
+          "prefLabel": {
+            "no": "Leikanger kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "LILLEHAMMER KOMMUNE",
+          "orgPath": "/KOMMUNE/945578564",
+          "prefLabel": {
+            "no": "Lillehammer kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "LØRENSKOG KOMMUNE",
+          "orgPath": "/KOMMUNE/842566142",
+          "prefLabel": {
+            "no": "Lørenskog kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "MOLDE KOMMUNE",
+          "orgPath": "/KOMMUNE/944020977",
+          "prefLabel": {
+            "no": "Molde kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "OS KOMMUNE",
+          "orgPath": "/KOMMUNE/844458312",
+          "prefLabel": {
+            "no": "Os kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "OSLO KOMMUNE",
+          "orgPath": "/KOMMUNE/958935420",
+          "children": [
+            {
+              "name": "OSLO KOMMUNE BYRÅDSAVDELING FOR FINANS",
+              "orgPath": "/KOMMUNE/958935420/976819845",
+              "children": [
+                {
+                  "name": "OSLO KOMMUNE ORIGO DIGITALSERINGSENHET",
+                  "orgPath": "/KOMMUNE/958935420/976819845/920204368",
+                  "prefLabel": {
+                    "no": "OSLO KOMMUNE ORIGO DIGITALSERINGSENHET"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RANDABERG KOMMUNE",
+          "orgPath": "/KOMMUNE/934945514",
+          "prefLabel": {
+            "no": "Randaberg kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "SAUDA KOMMUNE",
+          "orgPath": "/KOMMUNE/964979367",
+          "prefLabel": {
+            "no": "Sauda kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "SOGNDAL KOMMUNE",
+          "orgPath": "/KOMMUNE/936401651",
+          "prefLabel": {
+            "no": "Sogndal kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "STAVANGER KOMMUNE",
+          "orgPath": "/KOMMUNE/964965226",
+          "prefLabel": {
+            "no": "Stavanger kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "STEINKJER KOMMUNE",
+          "orgPath": "/KOMMUNE/840029212",
+          "prefLabel": {
+            "no": "Steinkjer kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "SØR-VARANGER KOMMUNE",
+          "orgPath": "/KOMMUNE/942110286",
+          "prefLabel": {
+            "no": "Sør-Varanger kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "TROMSØ KOMMUNE",
+          "orgPath": "/KOMMUNE/940101808",
+          "prefLabel": {
+            "no": "Tromsø kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "TRONDHEIM KOMMUNE",
+          "orgPath": "/KOMMUNE/942110464",
+          "prefLabel": {
+            "no": "Trondheim kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "ÅLESUND KOMMUNE",
+          "orgPath": "/KOMMUNE/942953119",
+          "prefLabel": {
+            "no": "Ålesund kommune"
+          },
+          "children": []
+        },
+        {
+          "name": "ÅS KOMMUNE",
+          "orgPath": "/KOMMUNE/964948798",
+          "prefLabel": {
+            "no": "Ås kommune"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "PRIVAT",
+      "orgPath": "/PRIVAT",
+      "children": [
+        {
+          "name": "ATB AS",
+          "orgPath": "/PRIVAT/994686011",
+          "prefLabel": {
+            "no": "AtB AS"
+          },
+          "children": []
+        },
+        {
+          "name": "AVINOR AS",
+          "orgPath": "/PRIVAT/985198292",
+          "prefLabel": {
+            "no": "Avinor AS"
+          },
+          "children": []
+        },
+        {
+          "name": "BOUVET ASA",
+          "orgPath": "/PRIVAT/974442167",
+          "prefLabel": {
+            "no": "Bouvet ASA"
+          },
+          "children": []
+        },
+        {
+          "name": "DEN NORSKE TURISTFORENING",
+          "orgPath": "/PRIVAT/979469241",
+          "prefLabel": {
+            "no": "Den Norske Turistforening"
+          },
+          "children": []
+        },
+        {
+          "name": "DIREKTORATET FOR NATURFORVALTNING",
+          "orgPath": "/PRIVAT/971036028",
+          "prefLabel": {
+            "no": "Direktoratet for naturforvaltning"
+          },
+          "children": []
+        },
+        {
+          "name": "ENTUR AS",
+          "orgPath": "/PRIVAT/917422575",
+          "prefLabel": {
+            "no": "Entur"
+          },
+          "children": []
+        },
+        {
+          "name": "FINNMARKSEIENDOMMEN",
+          "orgPath": "/PRIVAT/989480731",
+          "prefLabel": {
+            "no": "Finnmarkseiendommen"
+          },
+          "children": []
+        },
+        {
+          "name": "HØGSKOLEN I BERGEN",
+          "orgPath": "/PRIVAT/974652366",
+          "prefLabel": {
+            "no": "Høgskolen i Bergen"
+          },
+          "children": []
+        },
+        {
+          "name": "KA ARBEIDSGIVERORGANISASJON FOR KIRKELIGE VIRKSOMHETER",
+          "orgPath": "/PRIVAT/971273003",
+          "prefLabel": {
+            "no": "Kirkelig arbeidsgiver- og interesseorganisasjon (KA)"
+          },
+          "children": []
+        },
+        {
+          "name": "KOLUMBUS AS",
+          "orgPath": "/PRIVAT/914749360",
+          "prefLabel": {
+            "no": "Kolumbus AS"
+          },
+          "children": []
+        },
+        {
+          "name": "KULTURIT ANS",
+          "orgPath": "/PRIVAT/991467645",
+          "prefLabel": {
+            "no": "KulturIT"
+          },
+          "children": []
+        },
+        {
+          "name": "NORSK RIKSKRINGKASTING AS",
+          "orgPath": "/PRIVAT/976390512",
+          "prefLabel": {
+            "no": "Norsk rikskringkasting AS (NRK)"
+          },
+          "children": []
+        },
+        {
+          "name": "POSTEN NORGE AS",
+          "orgPath": "/PRIVAT/984661185",
+          "prefLabel": {
+            "no": "Posten Norge AS"
+          },
+          "children": []
+        },
+        {
+          "name": "RUTER AS",
+          "orgPath": "/PRIVAT/991609407",
+          "prefLabel": {
+            "no": "Ruter AS"
+          },
+          "children": []
+        },
+        {
+          "name": "STATENS PENSJONSKASSE",
+          "orgPath": "/PRIVAT/974760967",
+          "prefLabel": {
+            "no": "SPK"
+          },
+          "children": []
+        },
+        {
+          "name": "STIFTELSEN NORSK INSTITUTT FOR NATURFORSKNING NINA",
+          "orgPath": "/PRIVAT/950037687",
+          "prefLabel": {
+            "no": "Norsk institutt for naturforskning"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "ANNET",
+      "orgPath": "/ANNET",
+      "children": [
+        {
+          "name": "BarentsWatch",
+          "orgPath": "/ANNET/916285515",
+          "children": []
+        },
+        {
+          "name": "Bibsys",
+          "orgPath": "/ANNET/9747678801",
+          "prefLabel": {
+            "no": "Bibsys"
+          },
+          "children": []
+        },
+        {
+          "name": "Fylkeskommunene",
+          "orgPath": "/ANNET/Fylkeskommunene",
+          "children": []
+        },
+        {
+          "name": "Fylkeskommunene",
+          "orgPath": "/ANNET/568843537",
+          "children": []
+        },
+        {
+          "name": "Fylkesmannsembetene",
+          "orgPath": "/ANNET/Fylkesmannsembetene",
+          "children": []
+        },
+        {
+          "name": "Geonorge",
+          "orgPath": "/ANNET/Geonorge",
+          "children": []
+        },
+        {
+          "name": "Geovekst",
+          "orgPath": "/ANNET/Geovekst",
+          "children": []
+        },
+        {
+          "name": "KS",
+          "orgPath": "/ANNET/971032146",
+          "prefLabel": {
+            "no": "KS"
+          },
+          "children": []
+        },
+        {
+          "name": "Kommunene",
+          "orgPath": "/ANNET/Kommunene",
+          "children": []
+        },
+        {
+          "name": "Norsk institutt for kulturminneforskning",
+          "orgPath": "/ANNET/973633449",
+          "children": []
+        },
+        {
+          "name": "Statens vegvesen",
+          "orgPath": "/ANNET/Statens vegvesen",
+          "children": []
+        }
+      ]
+    }
+  ]
+}
