@@ -1,0 +1,8 @@
+type PublisherDB {
+    id: ID!
+    name: String!
+    uri: String!
+    organizationId: String!
+    orgPath: String!
+    prefLabel: String!
+}
