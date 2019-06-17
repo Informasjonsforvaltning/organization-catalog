@@ -24,13 +24,13 @@ import java.util.List;
 public class PublishersApiTest {
 
     @Mock
-    HttpServletRequest httpServletRequestMock;
+    private HttpServletRequest httpServletRequestMock;
 
     @Mock
     private PublisherService publisherServiceMock;
 
     @InjectMocks
-    PublishersApiImpl publishersApi;
+    private PublishersApiImpl publishersApi;
 
     @Before
     public void resetMocks() {
