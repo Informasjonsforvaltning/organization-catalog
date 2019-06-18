@@ -4,7 +4,7 @@ Provides search and edit functionality for the current list of publishers in the
 
 # Local development
 
-## Install java, git, maven, docker og docker-compose
+## Install java, git, maven, docker and docker-compose
 
 ##### Linux
 ```
