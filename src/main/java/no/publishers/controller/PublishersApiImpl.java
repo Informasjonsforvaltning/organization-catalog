@@ -43,17 +43,17 @@ public class PublishersApiImpl implements no.publishers.generated.api.Publishers
     }
 
     @RequestMapping(value="/publisher/create", method=POST)
-    public ResponseEntity<PublisherDB> createPublisher(HttpServletRequest httpServletRequest, @RequestBody CreatePublisher input) {
-        PublisherDB saved;
+    public ResponseEntity<String> createPublisher(HttpServletRequest httpServletRequest, @RequestBody CreatePublisher input) {
+        String savedId;
 
         try {
-            saved = publisherService.createPublisher(input);
+            savedId = publisherService.createPublisher(input);
         } catch (Exception e) {
             LOGGER.error("createPublisher failed:", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(saved, HttpStatus.OK);
+        return new ResponseEntity<>(savedId, HttpStatus.OK);
     }
 
     @Override
