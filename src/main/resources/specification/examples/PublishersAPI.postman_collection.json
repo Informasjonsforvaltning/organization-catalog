@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "aa0c6d41-e891-4d9f-a54c-04ee6fc35076",
+		"name": "PublishersAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ping",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "text/plain",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "LOCALHOST:8080/ping",
+					"host": [
+						"LOCALHOST"
+					],
+					"port": "8080",
+					"path": [
+						"ping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Testfest3\",\n    \"uri\": \"asdlk.com/as\",\n    \"organizationId\": \"organizationId\",\n    \"orgPath\": \"1/2/3\",\n    \"prefLabel\": \"label\"\n}"
+				},
+				"url": {
+					"raw": "LOCALHOST:8080/publisher/create",
+					"host": [
+						"LOCALHOST"
+					],
+					"port": "8080",
+					"path": [
+						"publisher",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "name",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "LOCALHOST:8080/publishers?q=fest",
+					"host": [
+						"LOCALHOST"
+					],
+					"port": "8080",
+					"path": [
+						"publishers"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "fest"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "LOCALHOST:8080/publishers/5d088110d4f0450006e96aa7",
+					"host": [
+						"LOCALHOST"
+					],
+					"port": "8080",
+					"path": [
+						"publishers",
+						"5d088110d4f0450006e96aa7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
