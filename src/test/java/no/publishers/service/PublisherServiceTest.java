@@ -37,7 +37,7 @@ public class PublisherServiceTest {
     public void getById() {
         PublisherDB persisted = TestData.persistedPublisher;
         Mockito
-            .when(publisherQueryResolver.getPublisherdb("123ID"))
+            .when(publisherQueryResolver.getPublisher("123ID"))
             .thenReturn(persisted);
 
         Publisher publisher = publisherService.getById("123ID");
@@ -54,7 +54,7 @@ public class PublisherServiceTest {
     public void getByName() {
         List<PublisherDB> persistedList = Collections.singletonList(TestData.persistedPublisher);
         Mockito
-            .when(publisherQueryResolver.getPublisherdbByNameLike("Name"))
+            .when(publisherQueryResolver.getPublisherByNameLike("Name"))
             .thenReturn(persistedList);
 
         List<Publisher> publisherList = publisherService.getByName("Name");

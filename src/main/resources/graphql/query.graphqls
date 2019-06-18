@@ -1,5 +1,5 @@
 type Query {
     version: String!
-    publisherdb(id: ID!): PublisherDB
-    publisherdbByNameLike(name: String!): [PublisherDB]
+    publisher(id: ID!): PublisherDB
+    publisherByNameLike(name: String!): [PublisherDB]
 }

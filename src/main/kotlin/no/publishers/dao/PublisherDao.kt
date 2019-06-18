@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component
 class PublisherDao(
     private val publisherRepository: PublisherRepository
 ) {
-    fun getPublisherdbById(id: String): PublisherDB? =
+    fun getPublisherById(id: String): PublisherDB? =
         publisherRepository.findById(id).orElse(null)
 
-    fun getPublisherdbByName(name: String) =
+    fun getPublisherByName(name: String) =
         publisherRepository.findByNameLike(name)
 
     fun createPublisher(publisher: PublisherDB): PublisherDB {
