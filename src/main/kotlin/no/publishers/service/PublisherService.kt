@@ -13,16 +13,18 @@ class PublisherService (
 ) {
     fun getById(id: String): Publisher? =
         publisherQueryResolver
-            .getPublisherdb(id)
+            .getPublisher(id)
             ?.mapToGenerated()
 
     fun getByName(name: String): List<Publisher> =
         publisherQueryResolver
-            .getPublisherdbByNameLike(name)
+            .getPublisherByNameLike(name)
             .map { it.mapToGenerated() }
 
-    fun createPublisher(publisher: CreatePublisher): PublisherDB =
+    fun createPublisher(publisher: CreatePublisher): String =
         publisherQueryResolver
             .createPublisher(publisher)
+            .id
+            .toHexString()
 
 }

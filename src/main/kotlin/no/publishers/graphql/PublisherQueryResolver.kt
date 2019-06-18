@@ -10,11 +10,11 @@ class PublisherQueryResolver (
     private val mutation: Mutation
 ) : GraphQLQueryResolver {
 
-    fun getPublisherdb(id: String) =
-        publisherDao.getPublisherdbById(id)
+    fun getPublisher(id: String) =
+        publisherDao.getPublisherById(id)
 
-    fun getPublisherdbByNameLike(name: String) =
-        publisherDao.getPublisherdbByName(name)
+    fun getPublisherByNameLike(name: String) =
+        publisherDao.getPublisherByName(name)
 
     fun createPublisher(input: CreatePublisher) =
         mutation.publisherCreate(input)

@@ -10,7 +10,7 @@ for docker_app in $docker_apps; do
     BUILD_CMD[$i]="( cd $docker_app && ./buildDocker.sh )"
 done
 
-maven_apps="publisher-api"
+maven_apps="publishers-api"
 
 for maven_app in $maven_apps; do
     i=$((i+1))
