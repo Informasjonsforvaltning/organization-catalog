@@ -31,12 +31,14 @@ public class TestData {
         newPublisherDB.setUri("uri");
         newPublisherDB.setOrganizationId("orgId");
         newPublisherDB.setOrgPath("orgPath");
-        newPublisherDB.setPrefLabel("prefLabel");
+        newPublisherDB.setNbPrefLabel("nbLabel");
+        newPublisherDB.setNnPrefLabel("nnLabel");
+        newPublisherDB.setEnPrefLabel("enLabel");
 
         return newPublisherDB;
     }
 
-    public static String TEST_COMPOSE = "version: \"3.2\"\n" +
+    public static String TEST_COMPOSE = "version: \"2.0\"\n" +
         "\n" +
         "services:\n" +
         "  " + API_SERVICE_NAME + ":\n" +
@@ -58,21 +60,23 @@ public class TestData {
             "\"name\": \"" + input.getName() + "\",\n" +
             "\"organizationId\": \"" + input.getOrganizationId() + "\",\n" +
             "\"orgPath\": \"" + input.getOrgPath() + "\",\n" +
-            "\"prefLabel\": \"" + input.getPrefLabel() + "\",\n" +
+            "\"nbPrefLabel\": \"" + input.getNbPrefLabel() + "\",\n" +
+            "\"nnPrefLabel\": \"" + input.getNnPrefLabel() + "\",\n" +
+            "\"enPrefLabel\": \"" + input.getEnPrefLabel() + "\",\n" +
             "\"uri\": \"" + input.getUri() + "\"\n" +
             "}";
     }
 
     public static final CreatePublisher CREATE_PUBLISHER_0 = new CreatePublisher(
-        "name", "uri", "orgId", "orgPath", "prefLabel"
+        "name", "uri", "1234", "orgPath", "nbLabel", "nnLabel", "enLabel"
     );
 
     public static final CreatePublisher CREATE_PUBLISHER_1 = new CreatePublisher(
-        "name 1", "uri1", "orgId1", "orgPath1", "prefLabel1"
+        "test", "uri1", "3456", "orgPath1", "nbLabel1", "nnLabel1", "enLabel1"
     );
 
     public static final CreatePublisher CREATE_PUBLISHER_2 = new CreatePublisher(
-        "name2", "uri2", "orgId2", "orgPath2", "prefLabel2"
+        "name2", "uri2", "abc", "orgPath2", "nbLabel2", "nnLabel2", "enLabel2"
     );
 
     public static String publisherReturnJson(CreatePublisher input, String id) {
@@ -81,6 +85,6 @@ public class TestData {
             "\"organizationId\":\"" + input.getOrganizationId() + "\"," +
             "\"name\":\"" + input.getName() + "\"," +
             "\"orgPath\":\"" + input.getOrgPath() + "\"," +
-            "\"prefLabel\":{\"nb\":\"" + input.getPrefLabel() + "\"}}";
+            "\"prefLabel\":{\"nb\":\"" + input.getNbPrefLabel() + "\",\"nn\":\"" + input.getNnPrefLabel() + "\",\"en\":\"" + input.getEnPrefLabel() + "\"}}";
     }
 }

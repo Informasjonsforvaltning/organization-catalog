@@ -42,7 +42,6 @@ public class PublisherApi {
                 .withExposedService(API_SERVICE_NAME, API_PORT, Wait.forHttp("/ready").forStatusCode(200))
                 .withTailChildContainers(true)
                 .withPull(false)
-                .withLocalCompose(true)
                 .withLogConsumer(MONGO_SERVICE_NAME, mongoLog)
                 .withLogConsumer(API_SERVICE_NAME, apiLog);
 
@@ -85,12 +84,37 @@ public class PublisherApi {
     }
 
     @Test
-    public void getByName() throws Exception {
-        String response = simpleGet(buildPublishersURL("/publishers?q=name"));
+    public void getByNameSeveralPossibilities() throws Exception {
+        String response = simpleGet(buildPublishersURL("/publishers?name=name"));
 
         String expectedResponse = "[" + publisherReturnJson(TestData.CREATE_PUBLISHER_0, publisherId0) + "," +
-            publisherReturnJson(TestData.CREATE_PUBLISHER_1, publisherId1) + "," +
             publisherReturnJson(TestData.CREATE_PUBLISHER_2, publisherId2) + "]";
+
+        Assert.assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    public void getByNameSingle() throws Exception {
+        String response = simpleGet(buildPublishersURL("/publishers?name=name2"));
+        String expectedResponse = "[" + publisherReturnJson(TestData.CREATE_PUBLISHER_2, publisherId2) + "]";
+
+        Assert.assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    public void getByOrgidSeveralPossibilities() throws Exception {
+        String response = simpleGet(buildPublishersURL("/publishers?organizationId=34"));
+
+        String expectedResponse = "[" + publisherReturnJson(TestData.CREATE_PUBLISHER_0, publisherId0) + "," +
+            publisherReturnJson(TestData.CREATE_PUBLISHER_1, publisherId1) + "]";
+
+        Assert.assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    public void getByOrgidSingle() throws Exception {
+        String response = simpleGet(buildPublishersURL("/publishers?organizationId=3456"));
+        String expectedResponse = "[" + publisherReturnJson(TestData.CREATE_PUBLISHER_1, publisherId1) + "]";
 
         Assert.assertEquals(expectedResponse, response);
     }

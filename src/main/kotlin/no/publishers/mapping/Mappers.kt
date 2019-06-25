@@ -8,14 +8,16 @@ import no.publishers.model.PublisherDB
 fun PublisherDB.mapToGenerated(): Publisher {
     val mapped = Publisher()
 
-    mapped.id = this.id.toHexString()
-    mapped.name = this.name
-    mapped.orgPath = this.orgPath
-    mapped.uri = this.uri
-    mapped.organizationId = this.organizationId
+    mapped.id = id.toHexString()
+    mapped.name = name
+    mapped.orgPath = orgPath
+    mapped.uri = uri
+    mapped.organizationId = organizationId
 
     val prefLabel = PrefLabel()
-    prefLabel.nb = this.prefLabel
+    prefLabel.nb = nbPrefLabel
+    prefLabel.nn = nnPrefLabel
+    prefLabel.en = enPrefLabel
     mapped.prefLabel = prefLabel
 
     return mapped
@@ -24,11 +26,13 @@ fun PublisherDB.mapToGenerated(): Publisher {
 fun CreatePublisher.mapForPersistence(): PublisherDB {
     val mapped = PublisherDB()
 
-    mapped.name = this.name
-    mapped.orgPath = this.orgPath
-    mapped.uri = this.uri
-    mapped.organizationId = this.organizationId
-    mapped.prefLabel = this.prefLabel
+    mapped.name = name
+    mapped.orgPath = orgPath
+    mapped.uri = uri
+    mapped.organizationId = organizationId
+    mapped.nbPrefLabel = nbPrefLabel
+    mapped.nnPrefLabel = nnPrefLabel
+    mapped.enPrefLabel = enPrefLabel
 
     return mapped
 }
