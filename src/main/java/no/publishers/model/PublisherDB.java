@@ -14,7 +14,9 @@ public class PublisherDB {
     private String uri;
     private String organizationId;
     private String orgPath;
-    private String prefLabel;
+    private String nbPrefLabel;
+    private String nnPrefLabel;
+    private String enPrefLabel;
 
     public ObjectId getId() {
         return id;
@@ -56,11 +58,27 @@ public class PublisherDB {
         this.orgPath = orgPath;
     }
 
-    public String getPrefLabel() {
-        return prefLabel;
+    public String getNbPrefLabel() {
+        return nbPrefLabel;
     }
 
-    public void setPrefLabel(String prefLabel) {
-        this.prefLabel = prefLabel;
+    public void setNbPrefLabel(String nbPrefLabel) {
+        this.nbPrefLabel = nbPrefLabel;
+    }
+
+    public String getNnPrefLabel() {
+        return nnPrefLabel;
+    }
+
+    public void setNnPrefLabel(String nnPrefLabel) {
+        this.nnPrefLabel = nnPrefLabel;
+    }
+
+    public String getEnPrefLabel() {
+        return enPrefLabel;
+    }
+
+    public void setEnPrefLabel(String enPrefLabel) {
+        this.enPrefLabel = enPrefLabel;
     }
 }

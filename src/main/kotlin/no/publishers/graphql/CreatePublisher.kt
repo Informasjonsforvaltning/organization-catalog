@@ -5,5 +5,7 @@ data class CreatePublisher (
     val uri: String,
     val organizationId: String,
     val orgPath: String,
-    val prefLabel: String
+    val nbPrefLabel: String?,
+    val nnPrefLabel: String?,
+    val enPrefLabel: String?
 )

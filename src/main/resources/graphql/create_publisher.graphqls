@@ -3,5 +3,7 @@ input CreatePublisher {
     uri: String!
     organizationId: String!
     orgPath: String!
-    prefLabel: String!
+    nbPrefLabel: String!
+    nnPrefLabel: String!
+    enPrefLabel: String!
 }

@@ -1,8 +1,8 @@
 openapi: 3.0.2
 info:
+  title: National Data Directory Publisher API
   description: Exposes a basic service which provides information related to the publishers of content in the National Data Directory
   version: '1.0'
-  title: National Data Directory Publisher API
   termsOfService: 'https://fellesdatakatalog.brreg.no/about'
   contact:
     name: Brønnøysundregistrene
@@ -21,6 +21,25 @@ servers:
   - url: 'https://fellesdatakatalog.brreg.no'
 paths:
   /publishers:
+    post:
+      tags:
+        - publisher
+      summary: Create a new publisher
+      operationId: createPublisher
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+              description: url to the new publisher
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Publisher'
     get:
       tags:
         - publisher
@@ -28,18 +47,18 @@ paths:
       description: Returns a collection of matching publishers
       operationId: getPublishers
       parameters:
-        - name: q
+        - name: name
           in: query
           description: A query string to match a publisher name
           required: false
           schema:
             type: string
-        - name: hierarchy
+        - name: organizationId
           in: query
-          description: If you want the publishers arranged as a hierarchy
+          description: If you want to filter by organizationId
           required: false
           schema:
-            type: boolean
+            type: string
       responses:
         '200':
           description: OK
@@ -49,8 +68,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Publisher'
-        '404':
-          description: Not Found
   /publishers/{id}:
     get:
       tags:
@@ -71,30 +88,53 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Publisher"
-        '404':
-          description: Not Found
+    put:
+      tags:
+        - publisher
+      description: Update a specific publisher by id
+      operationId: updatePublisher
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Publisher"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Publisher'
 components:
   schemas:
     Publisher:
-        type: object
-        description: A publisher of content in FDK [dct:publisher]
-        properties:
-          id:
-            type: string
-            description: system-generated id (GUID)
-          uri:
-            type: string
-            description: Link to the organization entry in The Brønnøysund Register Centre
-          organizationId:
-            type: string
-            description: Organization number
-          name:
-            type: string
-            description: The name of the organization as given in the The Brønnøysund Register Centre
-          orgPath:
-            type: string
-          prefLabel:
-            $ref: "#/components/schemas/PrefLabel"
+      type: object
+      description: A publisher of content in FDK [dct:publisher]
+      properties:
+        id:
+          type: string
+          description: system-generated id (GUID)
+        uri:
+          type: string
+          description: Link to the organization entry in The Brønnøysund Register Centre
+        organizationId:
+          type: string
+          description: Organization id
+        name:
+          type: string
+          description: The name of the organization as given in the The Brønnøysund Register Centre
+        orgPath:
+          type: string
+        prefLabel:
+          $ref: "#/components/schemas/PrefLabel"
     PrefLabel:
       type: object
       description:
@@ -104,3 +144,11 @@ components:
           type: string
           description:
             Preferred label [skosxl:prefLabel] in Norwegian Bokmål
+        nn:
+          type: string
+          description:
+            Preferred label [skosxl:prefLabel] in Norwegian Nynorsk
+        en:
+          type: string
+          description:
+            Preferred label [skosxl:prefLabel] in English
