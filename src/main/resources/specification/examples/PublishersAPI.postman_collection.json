@@ -52,7 +52,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Testfest3\",\n    \"uri\": \"asdlk.com/as\",\n    \"organizationId\": \"organizationId\",\n    \"orgPath\": \"1/2/3\",\n    \"prefLabel\": \"label\"\n}"
+					"raw": "{\n    \"name\": \"name\",\n    \"uri\": \"asdlk.com/as\",\n    \"organizationId\": \"organizationId\",\n    \"orgPath\": \"1/2/3\",\n    \"nbPrefLabel\": \"nbLabel\",\n    \"nnPrefLabel\": \"nnLabel\",\n    \"enPrefLabel\": \"enLabel\"\n}"
 				},
 				"url": {
 					"raw": "LOCALHOST:8080/publisher/create",
@@ -69,41 +69,7 @@
 			"response": []
 		},
 		{
-			"name": "name",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "LOCALHOST:8080/publishers?q=fest",
-					"host": [
-						"LOCALHOST"
-					],
-					"port": "8080",
-					"path": [
-						"publishers"
-					],
-					"query": [
-						{
-							"key": "q",
-							"value": "fest"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "id",
+			"name": "publisher",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -126,6 +92,46 @@
 					"path": [
 						"publishers",
 						"5d088110d4f0450006e96aa7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "publishers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "LOCALHOST:8080/publishers?",
+					"host": [
+						"LOCALHOST"
+					],
+					"port": "8080",
+					"path": [
+						"publishers"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "fest",
+							"disabled": true
+						},
+						{
+							"key": "organizationId",
+							"value": "org",
+							"disabled": true
+						}
 					]
 				}
 			},

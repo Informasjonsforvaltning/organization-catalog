@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiParam;
 import no.publishers.generated.model.Publisher;
 
 import no.publishers.graphql.CreatePublisher;
-import no.publishers.model.PublisherDB;
 import no.publishers.service.PublisherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,24 +57,26 @@ public class PublishersApiImpl implements no.publishers.generated.api.Publishers
 
     @Override
     public ResponseEntity<Publisher> getPublisherById(HttpServletRequest httpServletRequest, @ApiParam(value = "id",required=true) @PathVariable("id") String id) {
-        Publisher doc;
+        ResponseEntity<Publisher> response;
 
         try {
-            doc = publisherService.getById(id);
+            response = publisherService.getById(id)
+                .map(publisher -> new ResponseEntity<>(publisher, HttpStatus.OK))
+                .orElse( new ResponseEntity<>(HttpStatus.NOT_FOUND) );
         } catch (Exception e) {
             LOGGER.error("getPublisherById failed:", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(doc, HttpStatus.OK);
+        return response;
     }
 
     @Override
-    public ResponseEntity<List<Publisher>> getPublishers(HttpServletRequest httpServletRequest, @ApiParam(value = "A query string to match a publisher name") @Valid @RequestParam(value = "q", required = false) String q,@ApiParam(value = "If you want the publishers arranged as a hierarchy") @Valid @RequestParam(value = "hierarchy", required = false) Boolean hierarchy) {
+    public ResponseEntity<List<Publisher>> getPublishers(HttpServletRequest httpServletRequest, @ApiParam(value = "A query string to match a publisher name") @Valid @RequestParam(value = "name", required = false) String name,@ApiParam(value = "If you want to filter by organizationId") @Valid @RequestParam(value = "organizationId", required = false) String organizationId) {
         List<Publisher> publishers;
 
         try {
-            publishers = publisherService.getByName(q);
+            publishers = publisherService.getPublishers(name, organizationId);
         } catch (Exception e) {
             LOGGER.error("getPublishers failed:", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

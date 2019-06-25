@@ -13,8 +13,14 @@ class PublisherQueryResolver (
     fun getPublisher(id: String) =
         publisherDao.getPublisherById(id)
 
-    fun getPublisherByNameLike(name: String) =
-        publisherDao.getPublisherByName(name)
+    fun getPublishers() =
+        publisherDao.getPublishers()
+
+    fun getPublishersByOrganizationIdLike(organizationId: String) =
+        publisherDao.getPublishersByOrganizationId(organizationId)
+
+    fun getPublishersByNameLike(name: String) =
+        publisherDao.getPublishersByName(name)
 
     fun createPublisher(input: CreatePublisher) =
         mutation.publisherCreate(input)

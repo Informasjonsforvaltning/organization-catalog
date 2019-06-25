@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface PublisherRepository : MongoRepository<PublisherDB, String> {
     fun findByNameLike(name: String): List<PublisherDB>
+    fun findByOrganizationIdLike(organizationId: String): List<PublisherDB>
 }
