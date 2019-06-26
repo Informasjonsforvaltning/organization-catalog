@@ -1,20 +1,19 @@
 package no.publishers.service
 
 import no.publishers.generated.model.Publisher
-import no.publishers.graphql.CreatePublisher
-import no.publishers.graphql.PublisherQueryResolver
+import no.publishers.mapping.mapForCreation
 import no.publishers.mapping.mapToGenerated
-import no.publishers.model.PublisherDB
+import no.publishers.repository.PublisherRepository
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class PublisherService (
-    private val publisherQueryResolver: PublisherQueryResolver
+    private val publisherRepository: PublisherRepository
 ) {
     fun getById(id: String): Optional<Publisher> =
-        publisherQueryResolver
-            .getPublisher(id)
+        publisherRepository
+            .findById(id)
             .map { it.mapToGenerated() }
 
     fun getPublishers(name: String?, organizationId: String?): List<Publisher> =
@@ -25,24 +24,23 @@ class PublisherService (
         }
 
     private fun getAllPublishers() =
-        publisherQueryResolver
-            .getPublishers()
+        publisherRepository
+            .findAll()
             .map { it.mapToGenerated() }
 
     private fun getPublishersByOrgId(organizationId: String) =
-        publisherQueryResolver
-            .getPublishersByOrganizationIdLike(organizationId)
+        publisherRepository
+            .findByOrganizationIdLike(organizationId)
             .map { it.mapToGenerated() }
 
     private fun getPublishersByName(name: String) =
-        publisherQueryResolver
-            .getPublishersByNameLike(name)
+        publisherRepository
+            .findByNameLike(name)
             .map { it.mapToGenerated() }
 
-    fun createPublisher(publisher: CreatePublisher): String =
-        publisherQueryResolver
-            .createPublisher(publisher)
-            .id
-            .toHexString()
+    fun createPublisher(publisher: Publisher): Publisher =
+        publisherRepository
+            .save(publisher.mapForCreation())
+            .mapToGenerated()
 
 }

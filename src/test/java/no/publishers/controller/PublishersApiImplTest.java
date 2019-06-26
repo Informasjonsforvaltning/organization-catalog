@@ -40,7 +40,7 @@ public class PublishersApiImplTest {
 
     @Test
     public void getPublishersOkWhenEmptyResult() {
-        List<Publisher> emptyList = TestData.emptyPublisherList;
+        List<Publisher> emptyList = TestData.EMPTY_PUBLISHERS;
         Mockito
             .when(publisherServiceMock.getPublishers("Name does not exists", null))
             .thenReturn(emptyList);
@@ -48,12 +48,12 @@ public class PublishersApiImplTest {
         ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, "Name does not exists", null);
 
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(TestData.emptyPublisherList, response.getBody());
+        Assert.assertEquals(TestData.EMPTY_PUBLISHERS, response.getBody());
     }
 
     @Test
     public void getAllPublishersOk() {
-        List<Publisher> regnskapList = TestData.publishers;
+        List<Publisher> regnskapList = TestData.PUBLISHERS;
         Mockito
             .when(publisherServiceMock.getPublishers(null, null))
             .thenReturn(regnskapList);
@@ -61,12 +61,12 @@ public class PublishersApiImplTest {
         ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, null, null);
 
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(TestData.publishers,response.getBody());
+        Assert.assertEquals(TestData.PUBLISHERS,response.getBody());
     }
 
     @Test
     public void getPublishersByOrganizationIdOk() {
-        List<Publisher> regnskapList = TestData.publishers;
+        List<Publisher> regnskapList = TestData.PUBLISHERS;
         Mockito
             .when(publisherServiceMock.getPublishers(null, "OrgId"))
             .thenReturn(regnskapList);
@@ -74,12 +74,12 @@ public class PublishersApiImplTest {
         ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, null, "OrgId");
 
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(TestData.publishers,response.getBody());
+        Assert.assertEquals(TestData.PUBLISHERS,response.getBody());
     }
 
     @Test
     public void getPublishersByNameOk() {
-        List<Publisher> regnskapList = TestData.publishers;
+        List<Publisher> regnskapList = TestData.PUBLISHERS;
         Mockito
             .when(publisherServiceMock.getPublishers("Name exists", null))
             .thenReturn(regnskapList);
@@ -87,7 +87,7 @@ public class PublishersApiImplTest {
         ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, "Name exists", null);
 
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(TestData.publishers,response.getBody());
+        Assert.assertEquals(TestData.PUBLISHERS,response.getBody());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class PublishersApiImplTest {
 
     @Test
     public void getPublisherByIdOkWhenNonEmptyResult() {
-        Publisher publisher = TestData.publisher;
+        Publisher publisher = TestData.PUBLISHER_0;
         Mockito
             .when(publisherServiceMock.getById("123Ok"))
             .thenReturn(Optional.of(publisher));
@@ -123,7 +123,7 @@ public class PublishersApiImplTest {
         ResponseEntity<Publisher> response = publishersApi.getPublisherById(httpServletRequestMock, "123Ok");
 
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(TestData.publisher, response.getBody());
+        Assert.assertEquals(TestData.PUBLISHER_0, response.getBody());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package no.publishers.model;
 
+import no.publishers.generated.model.PrefLabel;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -14,9 +15,7 @@ public class PublisherDB {
     private String uri;
     private String organizationId;
     private String orgPath;
-    private String nbPrefLabel;
-    private String nnPrefLabel;
-    private String enPrefLabel;
+    private PrefLabel prefLabel;
 
     public ObjectId getId() {
         return id;
@@ -58,27 +57,11 @@ public class PublisherDB {
         this.orgPath = orgPath;
     }
 
-    public String getNbPrefLabel() {
-        return nbPrefLabel;
+    public PrefLabel getPrefLabel() {
+        return prefLabel;
     }
 
-    public void setNbPrefLabel(String nbPrefLabel) {
-        this.nbPrefLabel = nbPrefLabel;
-    }
-
-    public String getNnPrefLabel() {
-        return nnPrefLabel;
-    }
-
-    public void setNnPrefLabel(String nnPrefLabel) {
-        this.nnPrefLabel = nnPrefLabel;
-    }
-
-    public String getEnPrefLabel() {
-        return enPrefLabel;
-    }
-
-    public void setEnPrefLabel(String enPrefLabel) {
-        this.enPrefLabel = enPrefLabel;
+    public void setPrefLabel(PrefLabel prefLabel) {
+        this.prefLabel = prefLabel;
     }
 }
