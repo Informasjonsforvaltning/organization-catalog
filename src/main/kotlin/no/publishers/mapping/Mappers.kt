@@ -2,7 +2,6 @@ package no.publishers.mapping
 
 import no.publishers.generated.model.PrefLabel
 import no.publishers.generated.model.Publisher
-import no.publishers.graphql.CreatePublisher
 import no.publishers.model.PublisherDB
 
 fun PublisherDB.mapToGenerated(): Publisher {
@@ -13,26 +12,19 @@ fun PublisherDB.mapToGenerated(): Publisher {
     mapped.orgPath = orgPath
     mapped.uri = uri
     mapped.organizationId = organizationId
-
-    val prefLabel = PrefLabel()
-    prefLabel.nb = nbPrefLabel
-    prefLabel.nn = nnPrefLabel
-    prefLabel.en = enPrefLabel
     mapped.prefLabel = prefLabel
 
     return mapped
 }
 
-fun CreatePublisher.mapForPersistence(): PublisherDB {
+fun Publisher.mapForCreation(): PublisherDB {
     val mapped = PublisherDB()
 
     mapped.name = name
     mapped.orgPath = orgPath
     mapped.uri = uri
     mapped.organizationId = organizationId
-    mapped.nbPrefLabel = nbPrefLabel
-    mapped.nnPrefLabel = nnPrefLabel
-    mapped.enPrefLabel = enPrefLabel
+    mapped.prefLabel = prefLabel ?: PrefLabel()
 
     return mapped
 }

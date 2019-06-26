@@ -1,6 +1,8 @@
 package no.publishers.integration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import no.publishers.TestData;
+import no.publishers.generated.model.Publisher;
 import no.publishers.testcategories.IntegrationTest;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -30,9 +32,11 @@ public class PublisherApi {
     private static Slf4jLogConsumer apiLog = new Slf4jLogConsumer(logger).withPrefix("api-container");
     private static DockerComposeContainer compose;
 
-    private static String publisherId0;
-    private static String publisherId1;
-    private static String publisherId2;
+    private static String publisherURI0;
+    private static String publisherURI1;
+    private static String publisherURI2;
+
+    private static ObjectMapper mapper = new ObjectMapper();
 
     @BeforeClass
     public static void setup() throws Exception {
@@ -50,9 +54,9 @@ public class PublisherApi {
             logger.debug("Unable to start containers, missing test-compose.yml");
         }
 
-        publisherId2 = postJson(buildPublishersURL("/publisher/create"), TestData.createPublisherJson(TestData.CREATE_PUBLISHER_2));
-        publisherId0 = postJson(buildPublishersURL("/publisher/create"), TestData.createPublisherJson(TestData.CREATE_PUBLISHER_0));
-        publisherId1 = postJson(buildPublishersURL("/publisher/create"), TestData.createPublisherJson(TestData.CREATE_PUBLISHER_1));
+        publisherURI2 = postJson(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_2));
+        publisherURI0 = postJson(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_0));
+        publisherURI1 = postJson(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_1));
     }
 
     @AfterClass
@@ -74,49 +78,55 @@ public class PublisherApi {
 
     @Test
     public void getById() throws Exception {
-        String response0 = simpleGet(buildPublishersURL("/publishers/" + publisherId0));
-        String response1 = simpleGet(buildPublishersURL("/publishers/" + publisherId1));
-        String response2 = simpleGet(buildPublishersURL("/publishers/" + publisherId2));
+        String jsonResponse0 = simpleGet(new URL(publisherURI0));
+        String jsonResponse1 = simpleGet(new URL(publisherURI1));
+        String jsonResponse2 = simpleGet(new URL(publisherURI2));
 
-        Assert.assertEquals(publisherReturnJson(TestData.CREATE_PUBLISHER_0, publisherId0), response0);
-        Assert.assertEquals(publisherReturnJson(TestData.CREATE_PUBLISHER_1, publisherId1), response1);
-        Assert.assertEquals(publisherReturnJson(TestData.CREATE_PUBLISHER_2, publisherId2), response2);
+        Publisher response0 = mapper.readValue(jsonResponse0, Publisher.class);
+        Publisher response1 = mapper.readValue(jsonResponse1, Publisher.class);
+        Publisher response2 = mapper.readValue(jsonResponse2, Publisher.class);
+
+        Assert.assertEquals(TestData.PUBLISHER_0.getName(), response0.getName());
+        Assert.assertEquals(TestData.PUBLISHER_1.getName(), response1.getName());
+        Assert.assertEquals(TestData.PUBLISHER_2.getName(), response2.getName());
     }
 
     @Test
     public void getByNameSeveralPossibilities() throws Exception {
-        String response = simpleGet(buildPublishersURL("/publishers?name=name"));
+        String jsonResponse = simpleGet(buildPublishersURL("/publishers?name=name"));
+        Publisher[] response = mapper.readValue(jsonResponse, Publisher[].class);
 
-        String expectedResponse = "[" + publisherReturnJson(TestData.CREATE_PUBLISHER_0, publisherId0) + "," +
-            publisherReturnJson(TestData.CREATE_PUBLISHER_2, publisherId2) + "]";
-
-        Assert.assertEquals(expectedResponse, response);
+        Assert.assertEquals(2, response.length);
+        Assert.assertEquals(TestData.PUBLISHER_0.getOrganizationId(), response[0].getOrganizationId());
+        Assert.assertEquals(TestData.PUBLISHER_2.getOrganizationId(), response[1].getOrganizationId());
     }
 
     @Test
     public void getByNameSingle() throws Exception {
-        String response = simpleGet(buildPublishersURL("/publishers?name=name2"));
-        String expectedResponse = "[" + publisherReturnJson(TestData.CREATE_PUBLISHER_2, publisherId2) + "]";
+        String jsonResponse = simpleGet(buildPublishersURL("/publishers?name=name2"));
+        Publisher[] response = mapper.readValue(jsonResponse, Publisher[].class);
 
-        Assert.assertEquals(expectedResponse, response);
+        Assert.assertEquals(1, response.length);
+        Assert.assertEquals(TestData.PUBLISHER_2.getOrganizationId(), response[0].getOrganizationId());
     }
 
     @Test
     public void getByOrgidSeveralPossibilities() throws Exception {
-        String response = simpleGet(buildPublishersURL("/publishers?organizationId=34"));
+        String jsonResponse = simpleGet(buildPublishersURL("/publishers?organizationId=34"));
+        Publisher[] response = mapper.readValue(jsonResponse, Publisher[].class);
 
-        String expectedResponse = "[" + publisherReturnJson(TestData.CREATE_PUBLISHER_0, publisherId0) + "," +
-            publisherReturnJson(TestData.CREATE_PUBLISHER_1, publisherId1) + "]";
-
-        Assert.assertEquals(expectedResponse, response);
+        Assert.assertEquals(2, response.length);
+        Assert.assertEquals(TestData.PUBLISHER_0.getName(), response[0].getName());
+        Assert.assertEquals(TestData.PUBLISHER_1.getName(), response[1].getName());
     }
 
     @Test
     public void getByOrgidSingle() throws Exception {
-        String response = simpleGet(buildPublishersURL("/publishers?organizationId=3456"));
-        String expectedResponse = "[" + publisherReturnJson(TestData.CREATE_PUBLISHER_1, publisherId1) + "]";
+        String jsonResponse = simpleGet(buildPublishersURL("/publishers?organizationId=3456"));
+        Publisher[] response = mapper.readValue(jsonResponse, Publisher[].class);
 
-        Assert.assertEquals(expectedResponse, response);
+        Assert.assertEquals(1, response.length);
+        Assert.assertEquals(TestData.PUBLISHER_1.getName(), response[0].getName());
     }
 
     private static String simpleGet(URL address) throws Exception {
@@ -156,21 +166,16 @@ public class PublisherApi {
     }
 
     private static String postJson(URL address, String jsonData) throws Exception {
-        HttpURLConnection con = (HttpURLConnection) address.openConnection();
-        con.setRequestMethod("POST");
-        con.addRequestProperty("Content-Type", "application/json");
-        con.addRequestProperty("Content-Length", Integer.toString(jsonData.length()));
-        con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        HttpURLConnection connection = (HttpURLConnection) address.openConnection();
+        connection.setRequestMethod("POST");
+        connection.addRequestProperty("Content-Type", "application/json");
+        connection.addRequestProperty("Content-Length", Integer.toString(jsonData.length()));
+        connection.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
         wr.writeBytes(jsonData);
         wr.flush();
         wr.close();
 
-        StringBuilder content = new StringBuilder();
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-            reader.lines().forEach(line -> content.append(line));
-        }
-
-        return content.toString();
+        return connection.getHeaderField("Location");
     }
 }

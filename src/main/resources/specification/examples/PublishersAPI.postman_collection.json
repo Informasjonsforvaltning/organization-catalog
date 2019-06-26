@@ -52,17 +52,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"name\",\n    \"uri\": \"asdlk.com/as\",\n    \"organizationId\": \"organizationId\",\n    \"orgPath\": \"1/2/3\",\n    \"nbPrefLabel\": \"nbLabel\",\n    \"nnPrefLabel\": \"nnLabel\",\n    \"enPrefLabel\": \"enLabel\"\n}"
+					"raw": "{\n    \"name\": \"name\",\n    \"uri\": \"asdlk.com/as\",\n    \"organizationId\": \"organizationId\",\n    \"orgPath\": \"1/2/3\",\n    \"prefLabel\": {\n    \t\"nb\": \"nbLabel\",\n    \t\"nn\": \"nnLabel\", \n    \t\"en\": \"enLabel\"\n    }\n}"
 				},
 				"url": {
-					"raw": "LOCALHOST:8080/publisher/create",
+					"raw": "LOCALHOST:8080/publishers",
 					"host": [
 						"LOCALHOST"
 					],
 					"port": "8080",
 					"path": [
-						"publisher",
-						"create"
+						"publishers"
 					]
 				}
 			},
@@ -124,7 +123,7 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "fest",
+							"value": "name",
 							"disabled": true
 						},
 						{

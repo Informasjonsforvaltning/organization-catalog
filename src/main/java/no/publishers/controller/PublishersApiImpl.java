@@ -3,11 +3,11 @@ package no.publishers.controller;
 import io.swagger.annotations.ApiParam;
 import no.publishers.generated.model.Publisher;
 
-import no.publishers.graphql.CreatePublisher;
 import no.publishers.service.PublisherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -22,7 +23,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 public class PublishersApiImpl implements no.publishers.generated.api.PublishersApi{
@@ -41,20 +41,26 @@ public class PublishersApiImpl implements no.publishers.generated.api.Publishers
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value="/publisher/create", method=POST)
-    public ResponseEntity<String> createPublisher(HttpServletRequest httpServletRequest, @RequestBody CreatePublisher input) {
-        String savedId;
+    @Override
+    public ResponseEntity<Void> createPublisher(HttpServletRequest httpServletRequest, @ApiParam(required=true) @Valid @RequestBody Publisher publisher) {
+        HttpHeaders headers = new HttpHeaders();
 
         try {
-            savedId = publisherService.createPublisher(input);
+            headers.setLocation(
+                ServletUriComponentsBuilder
+                    .fromCurrentServletMapping()
+                    .path("/publishers/{id}")
+                    .build()
+                    .expand(publisherService.createPublisher(publisher).getId())
+                    .toUri());
         } catch (Exception e) {
             LOGGER.error("createPublisher failed:", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(savedId, HttpStatus.OK);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
-
+    
     @Override
     public ResponseEntity<Publisher> getPublisherById(HttpServletRequest httpServletRequest, @ApiParam(value = "id",required=true) @PathVariable("id") String id) {
         ResponseEntity<Publisher> response;
