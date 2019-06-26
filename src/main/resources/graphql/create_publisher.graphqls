@@ -1,9 +1,0 @@
-input CreatePublisher {
-    name: String!
-    uri: String!
-    organizationId: String!
-    orgPath: String!
-    nbPrefLabel: String!
-    nnPrefLabel: String!
-    enPrefLabel: String!
-}

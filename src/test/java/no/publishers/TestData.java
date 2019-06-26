@@ -1,11 +1,11 @@
 package no.publishers;
 
+import no.publishers.generated.model.PrefLabel;
 import no.publishers.generated.model.Publisher;
-import no.publishers.graphql.CreatePublisher;
 import no.publishers.model.PublisherDB;
 import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,10 +18,14 @@ public class TestData {
     public static final int API_PORT = 8080;
     public static final int MONGO_PORT = 27017;
 
-    public static Publisher publisher = new Publisher();
-    public static List<Publisher> emptyPublisherList = new ArrayList<>();
-    public static List<Publisher> publishers = Collections.singletonList(publisher);
-    public static PublisherDB persistedPublisher = createPublisherDB();
+    public static final Publisher PUBLISHER_0 = createPublisher("name", "1234");
+    public static final Publisher PUBLISHER_1 = createPublisher("test", "3456");
+    public static final Publisher PUBLISHER_2 = createPublisher("name2", "abc");
+
+    public static List<Publisher> PUBLISHERS = Arrays.asList(PUBLISHER_0, PUBLISHER_1, PUBLISHER_2);
+    public static List<Publisher> EMPTY_PUBLISHERS = Collections.emptyList();
+
+    public static PublisherDB PUBLISHER_DB = createPublisherDB();
 
     private static PublisherDB createPublisherDB() {
         PublisherDB newPublisherDB = new PublisherDB();
@@ -31,11 +35,31 @@ public class TestData {
         newPublisherDB.setUri("uri");
         newPublisherDB.setOrganizationId("orgId");
         newPublisherDB.setOrgPath("orgPath");
-        newPublisherDB.setNbPrefLabel("nbLabel");
-        newPublisherDB.setNnPrefLabel("nnLabel");
-        newPublisherDB.setEnPrefLabel("enLabel");
+
+        PrefLabel prefLabel = new PrefLabel();
+        prefLabel.setNb("nbLabel");
+        prefLabel.setNn("nnLabel");
+        prefLabel.setEn("enLabel");
+        newPublisherDB.setPrefLabel(prefLabel);
 
         return newPublisherDB;
+    }
+
+    private static Publisher createPublisher(String name, String orgId) {
+        Publisher publisher = new Publisher();
+
+        publisher.setName(name);
+        publisher.setOrganizationId(orgId);
+        publisher.setOrgPath("orgPath");
+        publisher.setUri("uri");
+
+        PrefLabel labels = new PrefLabel();
+        labels.setNb("labelNB");
+        labels.setNn("labelNN");
+        labels.setEn("labelEN");
+        publisher.setPrefLabel(labels);
+
+        return publisher;
     }
 
     public static String TEST_COMPOSE = "version: \"2.0\"\n" +
@@ -54,37 +78,4 @@ public class TestData {
         "    environment:\n" +
         "      - MONGO_INITDB_ROOT_USERNAME=" + MONGO_USER + "\n" +
         "      - MONGO_INITDB_ROOT_PASSWORD=" + MONGO_PASSWORD + "\n";
-
-    public static String createPublisherJson(CreatePublisher input) {
-        return "{\n" +
-            "\"name\": \"" + input.getName() + "\",\n" +
-            "\"organizationId\": \"" + input.getOrganizationId() + "\",\n" +
-            "\"orgPath\": \"" + input.getOrgPath() + "\",\n" +
-            "\"nbPrefLabel\": \"" + input.getNbPrefLabel() + "\",\n" +
-            "\"nnPrefLabel\": \"" + input.getNnPrefLabel() + "\",\n" +
-            "\"enPrefLabel\": \"" + input.getEnPrefLabel() + "\",\n" +
-            "\"uri\": \"" + input.getUri() + "\"\n" +
-            "}";
-    }
-
-    public static final CreatePublisher CREATE_PUBLISHER_0 = new CreatePublisher(
-        "name", "uri", "1234", "orgPath", "nbLabel", "nnLabel", "enLabel"
-    );
-
-    public static final CreatePublisher CREATE_PUBLISHER_1 = new CreatePublisher(
-        "test", "uri1", "3456", "orgPath1", "nbLabel1", "nnLabel1", "enLabel1"
-    );
-
-    public static final CreatePublisher CREATE_PUBLISHER_2 = new CreatePublisher(
-        "name2", "uri2", "abc", "orgPath2", "nbLabel2", "nnLabel2", "enLabel2"
-    );
-
-    public static String publisherReturnJson(CreatePublisher input, String id) {
-        return "{\"id\":\"" + id + "\"," +
-            "\"uri\":\"" + input.getUri() + "\"," +
-            "\"organizationId\":\"" + input.getOrganizationId() + "\"," +
-            "\"name\":\"" + input.getName() + "\"," +
-            "\"orgPath\":\"" + input.getOrgPath() + "\"," +
-            "\"prefLabel\":{\"nb\":\"" + input.getNbPrefLabel() + "\",\"nn\":\"" + input.getNnPrefLabel() + "\",\"en\":\"" + input.getEnPrefLabel() + "\"}}";
-    }
 }

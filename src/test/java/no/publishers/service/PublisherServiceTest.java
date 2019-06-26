@@ -2,8 +2,8 @@ package no.publishers.service;
 
 import no.publishers.TestData;
 import no.publishers.generated.model.Publisher;
-import no.publishers.graphql.PublisherQueryResolver;
 import no.publishers.model.PublisherDB;
+import no.publishers.repository.PublisherRepository;
 import no.publishers.testcategories.UnitTest;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,21 +24,21 @@ import java.util.Optional;
 public class PublisherServiceTest {
 
     @Mock
-    private PublisherQueryResolver publisherQueryResolver;
+    private PublisherRepository publisherRepository;
 
     @InjectMocks
     private PublisherService publisherService;
 
     @Before
     public void resetMocks() {
-        Mockito.reset(publisherQueryResolver);
+        Mockito.reset(publisherRepository);
     }
 
     @Test
     public void getById() {
-        PublisherDB persisted = TestData.persistedPublisher;
+        PublisherDB persisted = TestData.PUBLISHER_DB;
         Mockito
-            .when(publisherQueryResolver.getPublisher("123ID"))
+            .when(publisherRepository.findById("123ID"))
             .thenReturn(Optional.of(persisted));
 
         Publisher publisher = publisherService.getById("123ID").get();
@@ -47,17 +47,15 @@ public class PublisherServiceTest {
         Assert.assertEquals(persisted.getName(), publisher.getName());
         Assert.assertEquals(persisted.getOrganizationId(), publisher.getOrganizationId());
         Assert.assertEquals(persisted.getOrgPath(), publisher.getOrgPath());
-        Assert.assertEquals(persisted.getNbPrefLabel(), publisher.getPrefLabel().getNb());
-        Assert.assertEquals(persisted.getNnPrefLabel(), publisher.getPrefLabel().getNn());
-        Assert.assertEquals(persisted.getEnPrefLabel(), publisher.getPrefLabel().getEn());
+        Assert.assertEquals(persisted.getPrefLabel(), publisher.getPrefLabel());
         Assert.assertEquals(persisted.getUri(), publisher.getUri());
     }
 
     @Test
     public void getAll() {
-        List<PublisherDB> persistedList = Collections.singletonList(TestData.persistedPublisher);
+        List<PublisherDB> persistedList = Collections.singletonList(TestData.PUBLISHER_DB);
         Mockito
-            .when(publisherQueryResolver.getPublishers())
+            .when(publisherRepository.findAll())
             .thenReturn(persistedList);
 
         List<Publisher> publisherList = publisherService.getPublishers(null, null);
@@ -66,17 +64,15 @@ public class PublisherServiceTest {
         Assert.assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
         Assert.assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
         Assert.assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
-        Assert.assertEquals(persistedList.get(0).getNbPrefLabel(), publisherList.get(0).getPrefLabel().getNb());
-        Assert.assertEquals(persistedList.get(0).getNnPrefLabel(), publisherList.get(0).getPrefLabel().getNn());
-        Assert.assertEquals(persistedList.get(0).getEnPrefLabel(), publisherList.get(0).getPrefLabel().getEn());
+        Assert.assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
         Assert.assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
     }
 
     @Test
     public void getByOrgIdIsPrioritized() {
-        List<PublisherDB> persistedList = Collections.singletonList(TestData.persistedPublisher);
+        List<PublisherDB> persistedList = Collections.singletonList(TestData.PUBLISHER_DB);
         Mockito
-            .when(publisherQueryResolver.getPublishersByOrganizationIdLike("OrgId"))
+            .when(publisherRepository.findByOrganizationIdLike("OrgId"))
             .thenReturn(persistedList);
 
         List<Publisher> publisherList = publisherService.getPublishers("Name", "OrgId");
@@ -85,17 +81,15 @@ public class PublisherServiceTest {
         Assert.assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
         Assert.assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
         Assert.assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
-        Assert.assertEquals(persistedList.get(0).getNbPrefLabel(), publisherList.get(0).getPrefLabel().getNb());
-        Assert.assertEquals(persistedList.get(0).getNnPrefLabel(), publisherList.get(0).getPrefLabel().getNn());
-        Assert.assertEquals(persistedList.get(0).getEnPrefLabel(), publisherList.get(0).getPrefLabel().getEn());
+        Assert.assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
         Assert.assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
     }
 
     @Test
     public void getByName() {
-        List<PublisherDB> persistedList = Collections.singletonList(TestData.persistedPublisher);
+        List<PublisherDB> persistedList = Collections.singletonList(TestData.PUBLISHER_DB);
         Mockito
-            .when(publisherQueryResolver.getPublishersByNameLike("Name"))
+            .when(publisherRepository.findByNameLike("Name"))
             .thenReturn(persistedList);
 
         List<Publisher> publisherList = publisherService.getPublishers("Name", null);
@@ -104,9 +98,7 @@ public class PublisherServiceTest {
         Assert.assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
         Assert.assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
         Assert.assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
-        Assert.assertEquals(persistedList.get(0).getNbPrefLabel(), publisherList.get(0).getPrefLabel().getNb());
-        Assert.assertEquals(persistedList.get(0).getNnPrefLabel(), publisherList.get(0).getPrefLabel().getNn());
-        Assert.assertEquals(persistedList.get(0).getEnPrefLabel(), publisherList.get(0).getPrefLabel().getEn());
+        Assert.assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
         Assert.assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
     }
 }
