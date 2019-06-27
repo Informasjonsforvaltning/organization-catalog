@@ -34,40 +34,6 @@
 			"response": []
 		},
 		{
-			"name": "create",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "application/xml",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"name\",\n    \"uri\": \"asdlk.com/as\",\n    \"organizationId\": \"organizationId\",\n    \"orgPath\": \"1/2/3\",\n    \"prefLabel\": {\n    \t\"nb\": \"nbLabel\",\n    \t\"nn\": \"nnLabel\", \n    \t\"en\": \"enLabel\"\n    }\n}"
-				},
-				"url": {
-					"raw": "LOCALHOST:8080/publishers",
-					"host": [
-						"LOCALHOST"
-					],
-					"port": "8080",
-					"path": [
-						"publishers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "publisher",
 			"request": {
 				"method": "GET",
@@ -131,6 +97,70 @@
 							"value": "org",
 							"disabled": true
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"name\",\n    \"uri\": \"asdlk.com/as\",\n    \"organizationId\": \"organizationId\",\n    \"orgPath\": \"1/2/3\",\n    \"prefLabel\": {\n    \t\"nb\": \"nbLabel\",\n    \t\"nn\": \"nnLabel\", \n    \t\"en\": \"enLabel\"\n    }\n}"
+				},
+				"url": {
+					"raw": "LOCALHOST:8080/publishers",
+					"host": [
+						"LOCALHOST"
+					],
+					"port": "8080",
+					"path": [
+						"publishers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"new name\",\n    \"uri\": \"qwer.com/as\",\n    \"organizationId\": \"new organizationId\",\n    \"orgPath\": \"3/2/1\",\n    \"prefLabel\": {\n    \t\"nb\": \"label nb\",\n    \t\"nn\": \"label nn\", \n    \t\"en\": \"label en\"\n    }\n}"
+				},
+				"url": {
+					"raw": "LOCALHOST:8080/publishers/5d131f7cda6ad500064665a0",
+					"host": [
+						"LOCALHOST"
+					],
+					"port": "8080",
+					"path": [
+						"publishers",
+						"5d131f7cda6ad500064665a0"
 					]
 				}
 			},

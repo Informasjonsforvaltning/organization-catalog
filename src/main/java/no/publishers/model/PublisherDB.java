@@ -1,5 +1,6 @@
 package no.publishers.model;
 
+import javax.validation.constraints.NotBlank;
 import no.publishers.generated.model.PrefLabel;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -8,12 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="publisher")
 public class PublisherDB {
-    @Id
-    private ObjectId id;
-    @Indexed
-    private String name;
+    @Id private ObjectId id;
+    @NotBlank private String name;
     private String uri;
-    private String organizationId;
+    @Indexed(unique = true) @NotBlank private String organizationId;
     private String orgPath;
     private PrefLabel prefLabel;
 
