@@ -41,7 +41,7 @@ public class PublisherServiceTest {
             .when(publisherRepository.findById("123ID"))
             .thenReturn(Optional.of(persisted));
 
-        Publisher publisher = publisherService.getById("123ID").get();
+        Publisher publisher = publisherService.getById("123ID");
 
         Assert.assertEquals(persisted.getId().toHexString(), publisher.getId());
         Assert.assertEquals(persisted.getName(), publisher.getName());

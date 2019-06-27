@@ -21,6 +21,7 @@ public class TestData {
     public static final Publisher PUBLISHER_0 = createPublisher("name", "1234");
     public static final Publisher PUBLISHER_1 = createPublisher("test", "3456");
     public static final Publisher PUBLISHER_2 = createPublisher("name2", "abc");
+    public static final Publisher PUBLISHER_3 = createPublisher("toBeUpdated", "qwerty");
 
     public static List<Publisher> PUBLISHERS = Arrays.asList(PUBLISHER_0, PUBLISHER_1, PUBLISHER_2);
     public static List<Publisher> EMPTY_PUBLISHERS = Collections.emptyList();

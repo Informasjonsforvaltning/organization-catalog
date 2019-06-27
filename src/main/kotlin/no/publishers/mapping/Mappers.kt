@@ -28,3 +28,14 @@ fun Publisher.mapForCreation(): PublisherDB {
 
     return mapped
 }
+
+fun PublisherDB.updateValues(publisher: Publisher): PublisherDB =
+    apply {
+        name = publisher.name ?: name
+        orgPath = publisher.orgPath ?: orgPath
+        uri = publisher.uri ?: uri
+        organizationId = publisher.organizationId ?: organizationId
+        prefLabel.nb = publisher.prefLabel?.nb ?: prefLabel.nb
+        prefLabel.nn = publisher.prefLabel?.nn ?: prefLabel.nn
+        prefLabel.en = publisher.prefLabel?.en ?: prefLabel.en
+    }
