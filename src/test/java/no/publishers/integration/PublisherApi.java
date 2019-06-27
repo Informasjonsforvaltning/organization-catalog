@@ -54,9 +54,9 @@ public class PublisherApi {
             logger.debug("Unable to start containers, missing test-compose.yml");
         }
 
-        publisherURI2 = postJson(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_2));
-        publisherURI0 = postJson(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_0));
-        publisherURI1 = postJson(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_1));
+        publisherURI0 = jsonRequest(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_0), "POST").getHeaderField("Location");
+        publisherURI1 = jsonRequest(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_1), "POST").getHeaderField("Location");
+        publisherURI2 = jsonRequest(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_2), "POST").getHeaderField("Location");
     }
 
     @AfterClass
@@ -129,16 +129,29 @@ public class PublisherApi {
         Assert.assertEquals(TestData.PUBLISHER_1.getName(), response[0].getName());
     }
 
+    @Test
+    public void createAndUpdateName() throws Exception {
+        String createdURI = jsonRequest(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_3), "POST").getHeaderField("Location");
+
+        Publisher getOriginal = mapper.readValue(simpleGet(new URL(createdURI)), Publisher.class);
+        Publisher originalWithUpdatedName = mapper.readValue(simpleGet(new URL(createdURI)), Publisher.class);
+        Publisher updated = mapper.readValue(readDataFromInputStream(jsonRequest(new URL(createdURI), "{\"name\":\"updatedName\"}", "PUT").getInputStream()), Publisher.class);
+        Publisher getUpdated = mapper.readValue(simpleGet(new URL(createdURI)), Publisher.class);
+
+        originalWithUpdatedName.setName("updatedName");
+
+        Assert.assertEquals("toBeUpdated", getOriginal.getName());
+        Assert.assertEquals("updatedName", getUpdated.getName());
+
+        Assert.assertEquals(updated, originalWithUpdatedName);
+        Assert.assertEquals(updated, getUpdated);
+    }
+
     private static String simpleGet(URL address) throws Exception {
         HttpURLConnection con = (HttpURLConnection) address.openConnection();
         con.setRequestMethod("GET");
 
-        StringBuilder content = new StringBuilder();
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-            reader.lines().forEach(line -> content.append(line));
-        }
-
-        return content.toString();
+        return readDataFromInputStream(con.getInputStream());
     }
 
     private static URL buildPublishersURL(String address) throws MalformedURLException {
@@ -165,9 +178,9 @@ public class PublisherApi {
         }
     }
 
-    private static String postJson(URL address, String jsonData) throws Exception {
+    private static HttpURLConnection jsonRequest(URL address, String jsonData, String method) throws Exception {
         HttpURLConnection connection = (HttpURLConnection) address.openConnection();
-        connection.setRequestMethod("POST");
+        connection.setRequestMethod(method);
         connection.addRequestProperty("Content-Type", "application/json");
         connection.addRequestProperty("Content-Length", Integer.toString(jsonData.length()));
         connection.setDoOutput(true);
@@ -176,6 +189,14 @@ public class PublisherApi {
         wr.flush();
         wr.close();
 
-        return connection.getHeaderField("Location");
+        return connection;
+    }
+
+    private static String readDataFromInputStream(InputStream inputStream) throws Exception {
+        StringBuilder content = new StringBuilder();
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            reader.lines().forEach(line -> content.append(line));
+        }
+        return content.toString();
     }
 }

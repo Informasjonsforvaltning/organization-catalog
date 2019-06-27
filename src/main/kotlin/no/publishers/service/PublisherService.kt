@@ -3,18 +3,19 @@ package no.publishers.service
 import no.publishers.generated.model.Publisher
 import no.publishers.mapping.mapForCreation
 import no.publishers.mapping.mapToGenerated
+import no.publishers.mapping.updateValues
 import no.publishers.repository.PublisherRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class PublisherService (
     private val publisherRepository: PublisherRepository
 ) {
-    fun getById(id: String): Optional<Publisher> =
+    fun getById(id: String): Publisher? =
         publisherRepository
-            .findById(id)
-            .map { it.mapToGenerated() }
+            .findByIdOrNull(id)
+            ?.mapToGenerated()
 
     fun getPublishers(name: String?, organizationId: String?): List<Publisher> =
         when {
@@ -43,4 +44,10 @@ class PublisherService (
             .save(publisher.mapForCreation())
             .mapToGenerated()
 
+    fun updatePublisher(id: String, publisher: Publisher): Publisher? =
+        publisherRepository
+            .findByIdOrNull(id)
+            ?.updateValues(publisher)
+            ?.let { publisherRepository.save(it) }
+            ?.mapToGenerated()
 }
