@@ -3,17 +3,14 @@ package no.publishers.controller;
 import no.publishers.TestData;
 import no.publishers.generated.model.Publisher;
 import no.publishers.service.PublisherService;
-import no.publishers.testcategories.UnitTest;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +23,12 @@ import javax.validation.ConstraintViolationException;
 import java.util.HashSet;
 import java.util.List;
 
-@RunWith(MockitoJUnitRunner.class)
-@Category(UnitTest.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+@ExtendWith(MockitoExtension.class)
+@RunWith(JUnitPlatform.class)
+@Tag("unit")
 public class PublishersApiImplTest {
 
     @Mock
@@ -39,194 +40,220 @@ public class PublishersApiImplTest {
     @InjectMocks
     private PublishersApiImpl publishersApi;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(new MockHttpServletRequest()));
     }
 
-    @Before
+    @BeforeEach
     public void resetMocks() {
         Mockito.reset(publisherServiceMock);
     }
 
-    @Test
-    public void getPublishersOkWhenEmptyResult() {
-        List<Publisher> emptyList = TestData.EMPTY_PUBLISHERS;
-        Mockito
-            .when(publisherServiceMock.getPublishers("Name does not exists", null))
-            .thenReturn(emptyList);
+    @Nested
+    class getPublishers {
 
-        ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, "Name does not exists", null);
+        @Test
+        public void okWhenEmptyResult() {
+            List<Publisher> emptyList = TestData.EMPTY_PUBLISHERS;
+            Mockito
+                .when(publisherServiceMock.getPublishers("Name does not exists", null))
+                .thenReturn(emptyList);
 
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(TestData.EMPTY_PUBLISHERS, response.getBody());
+            ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, "Name does not exists", null);
+
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+            assertEquals(TestData.EMPTY_PUBLISHERS, response.getBody());
+        }
+
+        @Test
+        public void okGetAll() {
+            List<Publisher> regnskapList = TestData.PUBLISHERS;
+            Mockito
+                .when(publisherServiceMock.getPublishers(null, null))
+                .thenReturn(regnskapList);
+
+            ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, null, null);
+
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+            assertEquals(TestData.PUBLISHERS,response.getBody());
+        }
+
+        @Test
+        public void okByOrganizationId() {
+            List<Publisher> regnskapList = TestData.PUBLISHERS;
+            Mockito
+                .when(publisherServiceMock.getPublishers(null, "OrgId"))
+                .thenReturn(regnskapList);
+
+            ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, null, "OrgId");
+
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+            assertEquals(TestData.PUBLISHERS, response.getBody());
+        }
+
+        @Test
+        public void okByName() {
+            List<Publisher> regnskapList = TestData.PUBLISHERS;
+            Mockito
+                .when(publisherServiceMock.getPublishers("Name exists", null))
+                .thenReturn(regnskapList);
+
+            ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, "Name exists", null);
+
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+            assertEquals(TestData.PUBLISHERS, response.getBody());
+        }
+
+        @Test
+        public void whenExceptions500() {
+            Mockito
+                .when(publisherServiceMock.getPublishers(null, null))
+                .thenAnswer(invocation -> {
+                    throw new Exception("Test error message");
+                });
+
+            ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, null, null);
+
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        }
+
     }
 
-    @Test
-    public void getAllPublishersOk() {
-        List<Publisher> regnskapList = TestData.PUBLISHERS;
-        Mockito
-            .when(publisherServiceMock.getPublishers(null, null))
-            .thenReturn(regnskapList);
+    @Nested
+    class GetPublisherById {
 
-        ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, null, null);
+        @Test
+        public void whenEmptyResult404() {
+            Mockito
+                .when(publisherServiceMock.getById("123Null"))
+                .thenReturn(null);
 
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(TestData.PUBLISHERS,response.getBody());
+            ResponseEntity<Publisher> response = publishersApi.getPublisherById(httpServletRequestMock, "123Null");
+
+            assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+            assertNull(response.getBody());
+        }
+
+        @Test
+        public void whenNonEmptyResult200() {
+            Publisher publisher = TestData.PUBLISHER_0;
+            Mockito
+                .when(publisherServiceMock.getById("123Ok"))
+                .thenReturn(publisher);
+
+            ResponseEntity<Publisher> response = publishersApi.getPublisherById(httpServletRequestMock, "123Ok");
+
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+            assertEquals(TestData.PUBLISHER_0, response.getBody());
+        }
+
+        @Test
+        public void whenException500() {
+            Mockito
+                .when(publisherServiceMock.getById("123Error"))
+                .thenAnswer(invocation -> {
+                    throw new Exception("Test error message");
+                });
+
+            ResponseEntity<Publisher> response = publishersApi.getPublisherById(httpServletRequestMock, "123Error");
+
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        }
+
     }
 
-    @Test
-    public void getPublishersByOrganizationIdOk() {
-        List<Publisher> regnskapList = TestData.PUBLISHERS;
-        Mockito
-            .when(publisherServiceMock.getPublishers(null, "OrgId"))
-            .thenReturn(regnskapList);
+    @Nested
+    class CreatePublisher{
 
-        ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, null, "OrgId");
+        @Test
+        public void whenCreated201WithLocationHeader() {
+            Publisher publisher = TestData.PUBLISHER_0;
+            publisher.setId("abc123qwerty");
+            Mockito
+                .when(publisherServiceMock.createPublisher(TestData.PUBLISHER_0))
+                .thenReturn(publisher);
 
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(TestData.PUBLISHERS,response.getBody());
+            ResponseEntity<Void> response = publishersApi.createPublisher(httpServletRequestMock, TestData.PUBLISHER_0);
+
+            String expectedLocationHeader = "http://localhost/publishers/abc123qwerty";
+
+            assertEquals(HttpStatus.CREATED, response.getStatusCode());
+            assertEquals(expectedLocationHeader, response.getHeaders().getLocation().toString());
+        }
+
+        @Test
+        public void conflictOnDuplicate() {
+            Mockito
+                .when(publisherServiceMock.createPublisher(TestData.PUBLISHER_0))
+                .thenAnswer( invocation -> { throw new DuplicateKeyException("Duplicate organizationId"); });
+
+            ResponseEntity<Void> response = publishersApi.createPublisher(httpServletRequestMock, TestData.PUBLISHER_0);
+
+            assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        }
+
+        @Test
+        public void badRequestOnValidationError() {
+            Mockito
+                .when(publisherServiceMock.createPublisher(TestData.PUBLISHER_0))
+                .thenAnswer( invocation -> { throw new ConstraintViolationException(new HashSet<>()); });
+
+            ResponseEntity<Void> response = publishersApi.createPublisher(httpServletRequestMock, TestData.PUBLISHER_0);
+
+            assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        }
+
     }
 
-    @Test
-    public void getPublishersByNameOk() {
-        List<Publisher> regnskapList = TestData.PUBLISHERS;
-        Mockito
-            .when(publisherServiceMock.getPublishers("Name exists", null))
-            .thenReturn(regnskapList);
+    @Nested
+    class UpdatePublisher {
+        @Test
+        public void okWhenImplemented() {
+            Mockito
+                .when(publisherServiceMock.updatePublisher("id", TestData.PUBLISHER_0))
+                .thenReturn(TestData.PUBLISHER_0);
 
-        ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, "Name exists", null);
+            ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", TestData.PUBLISHER_0);
 
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(TestData.PUBLISHERS,response.getBody());
-    }
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+        }
 
-    @Test
-    public void getPublishers500ForExceptions() {
-        Mockito
-            .when(publisherServiceMock.getPublishers(null, null))
-            .thenAnswer( invocation -> { throw new Exception("Test error message"); });
+        @Test
+        public void notFoundWhenIdNotAvailableInDB() {
+            Mockito
+                .when(publisherServiceMock.updatePublisher("id", TestData.PUBLISHER_0))
+                .thenReturn(null);
 
-        ResponseEntity<List<Publisher>> response = publishersApi.getPublishers(httpServletRequestMock, null, null);
+            ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", TestData.PUBLISHER_0);
 
-        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }
+            assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        }
 
-    @Test
-    public void getPublisherById404WhenEmptyResult() {
-        Mockito
-            .when(publisherServiceMock.getById("123Null"))
-            .thenReturn(null);
+        @Test
+        public void conflictOnDuplicate() {
+            Mockito
+                .when(publisherServiceMock.updatePublisher("id", TestData.PUBLISHER_0))
+                .thenAnswer(invocation -> {
+                    throw new DuplicateKeyException("Duplicate organizationId");
+                });
 
-        ResponseEntity<Publisher> response = publishersApi.getPublisherById(httpServletRequestMock, "123Null");
+            ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", TestData.PUBLISHER_0);
 
-        Assert.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        Assert.assertNull(response.getBody());
-    }
+            assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        }
 
-    @Test
-    public void getPublisherByIdOkWhenNonEmptyResult() {
-        Publisher publisher = TestData.PUBLISHER_0;
-        Mockito
-            .when(publisherServiceMock.getById("123Ok"))
-            .thenReturn(publisher);
+        @Test
+        public void badRequestOnValidationError() {
+            Mockito
+                .when(publisherServiceMock.updatePublisher("id", TestData.PUBLISHER_0))
+                .thenAnswer(invocation -> {
+                    throw new ConstraintViolationException(new HashSet<>());
+                });
 
-        ResponseEntity<Publisher> response = publishersApi.getPublisherById(httpServletRequestMock, "123Ok");
+            ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", TestData.PUBLISHER_0);
 
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(TestData.PUBLISHER_0, response.getBody());
-    }
-
-    @Test
-    public void getPublisherById500ForExceptions() {
-        Mockito
-            .when(publisherServiceMock.getById("123Error"))
-            .thenAnswer( invocation -> { throw new Exception("Test error message"); });
-
-        ResponseEntity<Publisher> response = publishersApi.getPublisherById(httpServletRequestMock, "123Error");
-
-        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }
-
-    @Test
-    public void createPublisher201WithLocationHeader() {
-        Publisher publisher = TestData.PUBLISHER_0;
-        publisher.setId("abc123qwerty");
-        Mockito
-            .when(publisherServiceMock.createPublisher(TestData.PUBLISHER_0))
-            .thenReturn(publisher);
-
-        ResponseEntity<Void> response = publishersApi.createPublisher(httpServletRequestMock, TestData.PUBLISHER_0);
-
-        String expectedLocationHeader = "http://localhost/publishers/abc123qwerty";
-
-        Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        Assert.assertEquals(expectedLocationHeader, response.getHeaders().getLocation().toString());
-    }
-
-    @Test
-    public void createPublisherConflictOnDuplicate() {
-        Mockito
-            .when(publisherServiceMock.createPublisher(TestData.PUBLISHER_0))
-            .thenAnswer( invocation -> { throw new DuplicateKeyException("Duplicate organizationId"); });
-
-        ResponseEntity<Void> response = publishersApi.createPublisher(httpServletRequestMock, TestData.PUBLISHER_0);
-
-        Assert.assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-    }
-
-    @Test
-    public void createPublisherBadRequestOnValidationError() {
-        Mockito
-            .when(publisherServiceMock.createPublisher(TestData.PUBLISHER_0))
-            .thenAnswer( invocation -> { throw new ConstraintViolationException(new HashSet<>()); });
-
-        ResponseEntity<Void> response = publishersApi.createPublisher(httpServletRequestMock, TestData.PUBLISHER_0);
-
-        Assert.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
-
-    @Test
-    public void updatePublisherOk() {
-        Mockito
-            .when(publisherServiceMock.updatePublisher("id", TestData.PUBLISHER_0))
-            .thenReturn(TestData.PUBLISHER_0);
-
-        ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", TestData.PUBLISHER_0);
-
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
-    public void updatePublisherNotFound() {
-        Mockito
-            .when(publisherServiceMock.updatePublisher("id", TestData.PUBLISHER_0))
-            .thenReturn(null);
-
-        ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", TestData.PUBLISHER_0);
-
-        Assert.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
-    public void updatePublisherConflictOnDuplicate() {
-        Mockito
-            .when(publisherServiceMock.updatePublisher("id", TestData.PUBLISHER_0))
-            .thenAnswer( invocation -> { throw new DuplicateKeyException("Duplicate organizationId"); });
-
-        ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", TestData.PUBLISHER_0);
-
-        Assert.assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-    }
-
-    @Test
-    public void updatePublisherBadRequestOnValidationError() {
-        Mockito
-            .when(publisherServiceMock.updatePublisher("id", TestData.PUBLISHER_0))
-            .thenAnswer( invocation -> { throw new ConstraintViolationException(new HashSet<>()); });
-
-        ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", TestData.PUBLISHER_0);
-
-        Assert.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+            assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        }
     }
 }

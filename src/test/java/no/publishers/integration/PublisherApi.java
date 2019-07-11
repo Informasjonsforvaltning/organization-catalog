@@ -1,202 +1,182 @@
 package no.publishers.integration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import no.publishers.TestData;
+import no.publishers.controller.PublishersApiImpl;
 import no.publishers.generated.model.Publisher;
-import no.publishers.testcategories.IntegrationTest;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import no.publishers.service.PublisherService;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testcontainers.containers.DockerComposeContainer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.shaded.org.apache.commons.io.IOUtils;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import static no.publishers.TestData.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Category(IntegrationTest.class)
-public class PublisherApi {
-    private static File testComposeFile = createTmpComposeFile();
+@Testcontainers
+@SpringBootTest
+@ContextConfiguration(initializers = {PublisherApi.Initializer.class})
+@Tag("service")
+class PublisherApi {
     private final static Logger logger = LoggerFactory.getLogger(PublisherApi.class);
     private static Slf4jLogConsumer mongoLog = new Slf4jLogConsumer(logger).withPrefix("mongo-container");
-    private static Slf4jLogConsumer apiLog = new Slf4jLogConsumer(logger).withPrefix("api-container");
-    private static DockerComposeContainer compose;
 
-    private static String publisherURI0;
-    private static String publisherURI1;
-    private static String publisherURI2;
+    private static String publisherId0;
+    private static String publisherId1;
+    private static String publisherId2;
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    @Mock
+    private static HttpServletRequest httpServletRequestMock;
 
-    @BeforeClass
-    public static void setup() throws Exception {
-        if (testComposeFile != null && testComposeFile.exists()) {
-            compose = new DockerComposeContainer<>(testComposeFile)
-                .withExposedService(MONGO_SERVICE_NAME, MONGO_PORT, Wait.forListeningPort())
-                .withExposedService(API_SERVICE_NAME, API_PORT, Wait.forHttp("/ready").forStatusCode(200))
-                .withTailChildContainers(true)
-                .withPull(false)
-                .withLogConsumer(MONGO_SERVICE_NAME, mongoLog)
-                .withLogConsumer(API_SERVICE_NAME, apiLog);
+    @Autowired
+    private PublishersApiImpl publishersApiImpl;
 
-            compose.start();
-        } else {
-            logger.debug("Unable to start containers, missing test-compose.yml");
-        }
+    @Container
+    private static final GenericContainer mongoContainer = new GenericContainer("mongo:latest")
+        .withEnv(MONGO_ENV_VALUES)
+        .withLogConsumer(mongoLog)
+        .withExposedPorts(MONGO_PORT)
+        .waitingFor(Wait.forListeningPort());
 
-        publisherURI0 = jsonRequest(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_0), "POST").getHeaderField("Location");
-        publisherURI1 = jsonRequest(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_1), "POST").getHeaderField("Location");
-        publisherURI2 = jsonRequest(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_2), "POST").getHeaderField("Location");
-    }
-
-    @AfterClass
-    public static void teardown() {
-        if (testComposeFile != null && testComposeFile.exists()) {
-            compose.stop();
-
-            logger.debug("Delete temporary test-compose.yml: " + testComposeFile.delete());
-        } else {
-            logger.debug("Teardown skipped, missing test-compose.yml");
+    static class Initializer
+        implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                "spring.data.mongodb.database=" + DATABASE_NAME,
+                "spring.data.mongodb.uri=" + buildMongoURI(mongoContainer.getContainerIpAddress(), mongoContainer.getMappedPort(MONGO_PORT), false)
+            ).applyTo(configurableApplicationContext.getEnvironment());
         }
     }
 
-    @Test
-    public void pingTest() throws Exception {
-        String response = simpleGet(buildPublishersURL("/ping"));
-        Assert.assertEquals("RegnskapAPI is available", "pong", response);
+    @BeforeAll
+    static void setup(@Autowired PublisherService publisherService) {
+        publisherId0 = publisherService
+            .createPublisher(TestData.PUBLISHER_0)
+            .getId();
+        publisherId1 = publisherService
+            .createPublisher(TestData.PUBLISHER_1)
+            .getId();
+        publisherId2 = publisherService
+            .createPublisher(TestData.PUBLISHER_2)
+            .getId();
     }
 
     @Test
-    public void getById() throws Exception {
-        String jsonResponse0 = simpleGet(new URL(publisherURI0));
-        String jsonResponse1 = simpleGet(new URL(publisherURI1));
-        String jsonResponse2 = simpleGet(new URL(publisherURI2));
-
-        Publisher response0 = mapper.readValue(jsonResponse0, Publisher.class);
-        Publisher response1 = mapper.readValue(jsonResponse1, Publisher.class);
-        Publisher response2 = mapper.readValue(jsonResponse2, Publisher.class);
-
-        Assert.assertEquals(TestData.PUBLISHER_0.getName(), response0.getName());
-        Assert.assertEquals(TestData.PUBLISHER_1.getName(), response1.getName());
-        Assert.assertEquals(TestData.PUBLISHER_2.getName(), response2.getName());
+    void pingTest() {
+        String response = publishersApiImpl.ping().getBody();
+        assertEquals("pong", response);
     }
 
     @Test
-    public void getByNameSeveralPossibilities() throws Exception {
-        String jsonResponse = simpleGet(buildPublishersURL("/publishers?name=name"));
-        Publisher[] response = mapper.readValue(jsonResponse, Publisher[].class);
+    void getById() {
+        Publisher response0 = publishersApiImpl
+            .getPublisherById(httpServletRequestMock, publisherId0)
+            .getBody();
 
-        Assert.assertEquals(2, response.length);
-        Assert.assertEquals(TestData.PUBLISHER_0.getOrganizationId(), response[0].getOrganizationId());
-        Assert.assertEquals(TestData.PUBLISHER_2.getOrganizationId(), response[1].getOrganizationId());
+        Publisher response1 = publishersApiImpl
+            .getPublisherById(httpServletRequestMock, publisherId1)
+            .getBody();
+        
+        Publisher response2 = publishersApiImpl
+            .getPublisherById(httpServletRequestMock, publisherId2)
+            .getBody();
+
+        assertEquals(TestData.PUBLISHER_0.getName(), response0.getName());
+        assertEquals(TestData.PUBLISHER_1.getName(), response1.getName());
+        assertEquals(TestData.PUBLISHER_2.getName(), response2.getName());
     }
 
     @Test
-    public void getByNameSingle() throws Exception {
-        String jsonResponse = simpleGet(buildPublishersURL("/publishers?name=name2"));
-        Publisher[] response = mapper.readValue(jsonResponse, Publisher[].class);
+    void getByNameSeveralPossibilities() {
+        List<Publisher> response = publishersApiImpl
+            .getPublishers(httpServletRequestMock, "name", null)
+            .getBody();
 
-        Assert.assertEquals(1, response.length);
-        Assert.assertEquals(TestData.PUBLISHER_2.getOrganizationId(), response[0].getOrganizationId());
+        assertEquals(2, response.size());
+        assertEquals(TestData.PUBLISHER_0.getOrganizationId(), response.get(0).getOrganizationId());
+        assertEquals(TestData.PUBLISHER_2.getOrganizationId(), response.get(1).getOrganizationId());
     }
 
     @Test
-    public void getByOrgidSeveralPossibilities() throws Exception {
-        String jsonResponse = simpleGet(buildPublishersURL("/publishers?organizationId=34"));
-        Publisher[] response = mapper.readValue(jsonResponse, Publisher[].class);
+    void getByNameSingle() {
+        List<Publisher> response = publishersApiImpl
+            .getPublishers(httpServletRequestMock, "name2", null)
+            .getBody();
 
-        Assert.assertEquals(2, response.length);
-        Assert.assertEquals(TestData.PUBLISHER_0.getName(), response[0].getName());
-        Assert.assertEquals(TestData.PUBLISHER_1.getName(), response[1].getName());
+        assertEquals(1, response.size());
+        assertEquals(TestData.PUBLISHER_2.getOrganizationId(), response.get(0).getOrganizationId());
     }
 
     @Test
-    public void getByOrgidSingle() throws Exception {
-        String jsonResponse = simpleGet(buildPublishersURL("/publishers?organizationId=3456"));
-        Publisher[] response = mapper.readValue(jsonResponse, Publisher[].class);
+    void getByOrgidSeveralPossibilities() {
+        List<Publisher> response = publishersApiImpl
+            .getPublishers(httpServletRequestMock, null, "34")
+            .getBody();
 
-        Assert.assertEquals(1, response.length);
-        Assert.assertEquals(TestData.PUBLISHER_1.getName(), response[0].getName());
+        assertEquals(2, response.size());
+        assertEquals(TestData.PUBLISHER_0.getName(), response.get(0).getName());
+        assertEquals(TestData.PUBLISHER_1.getName(), response.get(1).getName());
     }
 
     @Test
-    public void createAndUpdateName() throws Exception {
-        String createdURI = jsonRequest(buildPublishersURL("/publishers"), mapper.writeValueAsString(TestData.PUBLISHER_3), "POST").getHeaderField("Location");
+    void getByOrgidSingle() {
+        List<Publisher> response = publishersApiImpl
+            .getPublishers(httpServletRequestMock, null, "3456")
+            .getBody();
 
-        Publisher getOriginal = mapper.readValue(simpleGet(new URL(createdURI)), Publisher.class);
-        Publisher originalWithUpdatedName = mapper.readValue(simpleGet(new URL(createdURI)), Publisher.class);
-        Publisher updated = mapper.readValue(readDataFromInputStream(jsonRequest(new URL(createdURI), "{\"name\":\"updatedName\"}", "PUT").getInputStream()), Publisher.class);
-        Publisher getUpdated = mapper.readValue(simpleGet(new URL(createdURI)), Publisher.class);
-
-        originalWithUpdatedName.setName("updatedName");
-
-        Assert.assertEquals("toBeUpdated", getOriginal.getName());
-        Assert.assertEquals("updatedName", getUpdated.getName());
-
-        Assert.assertEquals(updated, originalWithUpdatedName);
-        Assert.assertEquals(updated, getUpdated);
+        assertEquals(1, response.size());
+        assertEquals(TestData.PUBLISHER_1.getName(), response.get(0).getName());
     }
 
-    private static String simpleGet(URL address) throws Exception {
-        HttpURLConnection con = (HttpURLConnection) address.openConnection();
-        con.setRequestMethod("GET");
+    @Test
+    void createAndUpdateName() {
+        String createdId = publishersApiImpl
+            .createPublisher(httpServletRequestMock, TestData.PUBLISHER_3)
+            .getHeaders()
+            .getLocation()
+            .getPath()
+            .split("/")[2];
 
-        return readDataFromInputStream(con.getInputStream());
-    }
+        Publisher publisher = publishersApiImpl
+            .getPublisherById(httpServletRequestMock, createdId)
+            .getBody();
 
-    private static URL buildPublishersURL(String address) throws MalformedURLException {
-        return new URL("http", compose.getServiceHost(API_SERVICE_NAME, API_PORT), compose.getServicePort(API_SERVICE_NAME, API_PORT), address);
-    }
+        // Created publisher has correct name
+        assertEquals("toBeUpdated", publisher.getName());
 
-    private static File createTmpComposeFile() {
-        try {
-            File tmpComposeFile = File.createTempFile("test-compose", ".yml");
-            InputStream testCompseStream = IOUtils.toInputStream(TEST_COMPOSE, StandardCharsets.UTF_8);
+        Publisher newNameElseNull = new Publisher();
+        newNameElseNull.setName("updatedName");
+        newNameElseNull.setId("idInObjectIsIgnored");
 
-            try (FileOutputStream outputStream = new FileOutputStream(tmpComposeFile)) {
-                int read;
-                byte[] bytes = new byte[1024];
+        Publisher updated = publishersApiImpl
+            .updatePublisher(httpServletRequestMock, createdId, newNameElseNull)
+            .getBody();
 
-                while ((read = testCompseStream.read(bytes)) != -1) {
-                    outputStream.write(bytes, 0, read);
-                }
-            }
+        Publisher getUpdated = publishersApiImpl
+            .getPublisherById(httpServletRequestMock, createdId)
+            .getBody();
 
-            return tmpComposeFile;
-        } catch (IOException e) {
-            return null;
-        }
-    }
+        // Publisher has updated name, same object from update and getById
+        assertEquals("updatedName", updated.getName());
+        assertEquals(updated, getUpdated);
 
-    private static HttpURLConnection jsonRequest(URL address, String jsonData, String method) throws Exception {
-        HttpURLConnection connection = (HttpURLConnection) address.openConnection();
-        connection.setRequestMethod(method);
-        connection.addRequestProperty("Content-Type", "application/json");
-        connection.addRequestProperty("Content-Length", Integer.toString(jsonData.length()));
-        connection.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-        wr.writeBytes(jsonData);
-        wr.flush();
-        wr.close();
-
-        return connection;
-    }
-
-    private static String readDataFromInputStream(InputStream inputStream) throws Exception {
-        StringBuilder content = new StringBuilder();
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            reader.lines().forEach(line -> content.append(line));
-        }
-        return content.toString();
+        // Only name is changed
+        publisher.setName("updatedName");
+        assertEquals(updated, publisher);
     }
 }
