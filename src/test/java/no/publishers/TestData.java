@@ -1,5 +1,6 @@
 package no.publishers;
 
+import com.google.common.collect.ImmutableMap;
 import no.publishers.generated.model.PrefLabel;
 import no.publishers.generated.model.Publisher;
 import no.publishers.model.PublisherDB;
@@ -8,15 +9,28 @@ import org.bson.types.ObjectId;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class TestData {
     private static final String MONGO_USER = "testuser";
     private static final String MONGO_PASSWORD = "testpassword";
-
-    public static final String API_SERVICE_NAME = "publisher";
-    public static final String MONGO_SERVICE_NAME = "mongodb";
-    public static final int API_PORT = 8080;
+    private static final String MONGO_AUTH = "?authSource=admin&authMechanism=SCRAM-SHA-1";
     public static final int MONGO_PORT = 27017;
+    public static final String DATABASE_NAME = "publisherAPI";
+
+    public static final Map<String, String> MONGO_ENV_VALUES = ImmutableMap.of(
+        "MONGO_INITDB_ROOT_USERNAME", MONGO_USER,
+        "MONGO_INITDB_ROOT_PASSWORD", MONGO_PASSWORD);
+
+    public static String buildMongoURI(String host, int port, boolean withDbName) {
+        String uri = "mongodb://" + MONGO_USER + ":" + MONGO_PASSWORD + "@" + host + ":" + port + "/";
+
+        if(withDbName) {
+            uri += DATABASE_NAME;
+        }
+
+        return uri + MONGO_AUTH;
+    }
 
     public static final Publisher PUBLISHER_0 = createPublisher("name", "1234");
     public static final Publisher PUBLISHER_1 = createPublisher("test", "3456");
@@ -62,21 +76,4 @@ public class TestData {
 
         return publisher;
     }
-
-    public static String TEST_COMPOSE = "version: \"2.0\"\n" +
-        "\n" +
-        "services:\n" +
-        "  " + API_SERVICE_NAME + ":\n" +
-        "    image: brreg/publishers-api:latest\n" +
-        "    environment:\n" +
-        "      - PUBAPI_MONGO_USERNAME=" + MONGO_USER + "\n" +
-        "      - PUBAPI_MONGO_PASSWORD=" + MONGO_PASSWORD + "\n" +
-        "    depends_on:\n" +
-        "      - mongodb\n" +
-        "\n" +
-        "  " + MONGO_SERVICE_NAME + ":\n" +
-        "    image: mongo:latest\n" +
-        "    environment:\n" +
-        "      - MONGO_INITDB_ROOT_USERNAME=" + MONGO_USER + "\n" +
-        "      - MONGO_INITDB_ROOT_PASSWORD=" + MONGO_PASSWORD + "\n";
 }
