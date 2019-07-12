@@ -4,23 +4,26 @@ import no.publishers.TestData;
 import no.publishers.generated.model.Publisher;
 import no.publishers.model.PublisherDB;
 import no.publishers.repository.PublisherRepository;
-import no.publishers.testcategories.UnitTest;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@RunWith(MockitoJUnitRunner.class)
-@Category(UnitTest.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ExtendWith(MockitoExtension.class)
+@RunWith(JUnitPlatform.class)
+@Tag("unit")
 public class PublisherServiceTest {
 
     @Mock
@@ -29,7 +32,7 @@ public class PublisherServiceTest {
     @InjectMocks
     private PublisherService publisherService;
 
-    @Before
+    @BeforeEach
     public void resetMocks() {
         Mockito.reset(publisherRepository);
     }
@@ -43,12 +46,12 @@ public class PublisherServiceTest {
 
         Publisher publisher = publisherService.getById("123ID");
 
-        Assert.assertEquals(persisted.getId().toHexString(), publisher.getId());
-        Assert.assertEquals(persisted.getName(), publisher.getName());
-        Assert.assertEquals(persisted.getOrganizationId(), publisher.getOrganizationId());
-        Assert.assertEquals(persisted.getOrgPath(), publisher.getOrgPath());
-        Assert.assertEquals(persisted.getPrefLabel(), publisher.getPrefLabel());
-        Assert.assertEquals(persisted.getUri(), publisher.getUri());
+        assertEquals(persisted.getId().toHexString(), publisher.getId());
+        assertEquals(persisted.getName(), publisher.getName());
+        assertEquals(persisted.getOrganizationId(), publisher.getOrganizationId());
+        assertEquals(persisted.getOrgPath(), publisher.getOrgPath());
+        assertEquals(persisted.getPrefLabel(), publisher.getPrefLabel());
+        assertEquals(persisted.getUri(), publisher.getUri());
     }
 
     @Test
@@ -60,12 +63,12 @@ public class PublisherServiceTest {
 
         List<Publisher> publisherList = publisherService.getPublishers(null, null);
 
-        Assert.assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
-        Assert.assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
-        Assert.assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
-        Assert.assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
-        Assert.assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
-        Assert.assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
+        assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
+        assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
+        assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
+        assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
+        assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
+        assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
     }
 
     @Test
@@ -77,12 +80,12 @@ public class PublisherServiceTest {
 
         List<Publisher> publisherList = publisherService.getPublishers("Name", "OrgId");
 
-        Assert.assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
-        Assert.assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
-        Assert.assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
-        Assert.assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
-        Assert.assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
-        Assert.assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
+        assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
+        assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
+        assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
+        assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
+        assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
+        assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
     }
 
     @Test
@@ -94,11 +97,11 @@ public class PublisherServiceTest {
 
         List<Publisher> publisherList = publisherService.getPublishers("Name", null);
 
-        Assert.assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
-        Assert.assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
-        Assert.assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
-        Assert.assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
-        Assert.assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
-        Assert.assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
+        assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
+        assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
+        assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
+        assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
+        assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
+        assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
     }
 }
