@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiParam
 import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 import no.publishers.generated.model.Publisher
+import no.publishers.jena.createModel
+import no.publishers.jena.createResponseString
 import no.publishers.service.PublisherService
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
@@ -33,6 +35,22 @@ open class PublishersApiImpl (
     @RequestMapping(value = ["/ready"], method = [GET])
     fun ready(): ResponseEntity<Void> =
         ResponseEntity.ok().build()
+
+
+    override fun testJena(
+        httpServletRequest: HttpServletRequest
+    ): ResponseEntity<String?> {
+        val publisher = publisherService.getOne()
+
+        val publisherModel = publisher?.createModel()
+
+        return when(httpServletRequest.getHeader("Accept")){
+            "text/turtle" -> ResponseEntity(publisherModel?.createResponseString("TURTLE"), HttpStatus.OK)
+            "application/rdf+xml" -> ResponseEntity(publisherModel?.createResponseString("RDF/XML"), HttpStatus.OK)
+            else -> ResponseEntity(publisherModel?.createResponseString("JSON-LD"), HttpStatus.OK)
+        }
+    }
+
 
     override fun createPublisher(
         httpServletRequest: HttpServletRequest,

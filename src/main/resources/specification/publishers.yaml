@@ -113,6 +113,25 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Publisher'
+  /publishers/jena:
+    get:
+      tags:
+        - publisher
+      description: Test Jena
+      operationId: testJena
+      responses:
+        '200':
+          description: OK
+          content:
+            application/ld+json:
+              schema:
+                type: string
+            application/rdf+xml:
+              schema:
+                type: string
+            text/turtle:
+              schema:
+                type: string
 components:
   schemas:
     Publisher:
