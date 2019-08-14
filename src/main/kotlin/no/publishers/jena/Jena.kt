@@ -31,7 +31,7 @@ fun Publisher.createModel(): Model {
     return model
 }
 
-fun List<Publisher>.createModelList(): Model {
+fun List<Publisher>.createListModel(): Model {
     val modelList = ModelFactory.createDefaultModel()
     modelList.setNsPrefix("dct", DCTerms.getURI())
     modelList.setNsPrefix("dcat", DCAT.getURI())

@@ -50,7 +50,7 @@ public class PublishersApiImplTest {
         Mockito.reset(publisherServiceMock);
     }
 
-    @Nested
+   /* @Nested
     class getPublishers {
 
         @Test
@@ -161,7 +161,7 @@ public class PublishersApiImplTest {
             assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         }
 
-    }
+    }*/
 
     @Nested
     class CreatePublisher{
