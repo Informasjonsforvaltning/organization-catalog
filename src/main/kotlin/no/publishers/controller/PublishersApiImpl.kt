@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiParam
 import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 import no.publishers.generated.model.Publisher
-import no.publishers.jena.createModel
+import no.publishers.jena.createModelList
 import no.publishers.jena.createResponseString
 import no.publishers.service.PublisherService
 import org.slf4j.LoggerFactory
@@ -39,15 +39,15 @@ open class PublishersApiImpl (
 
     override fun testJena(
         httpServletRequest: HttpServletRequest
-    ): ResponseEntity<String?> {
-        val publisher = publisherService.getOne()
+    ): ResponseEntity<String> {
+        val publishers = publisherService.getOne()
 
-        val publisherModel = publisher?.createModel()
+        val publisherModel = publishers.createModelList()
 
         return when(httpServletRequest.getHeader("Accept")){
-            "text/turtle" -> ResponseEntity(publisherModel?.createResponseString("TURTLE"), HttpStatus.OK)
-            "application/rdf+xml" -> ResponseEntity(publisherModel?.createResponseString("RDF/XML"), HttpStatus.OK)
-            else -> ResponseEntity(publisherModel?.createResponseString("JSON-LD"), HttpStatus.OK)
+            "text/turtle" -> ResponseEntity(publisherModel.createResponseString("TURTLE"), HttpStatus.OK)
+            "application/rdf+xml" -> ResponseEntity(publisherModel.createResponseString("RDF/XML"), HttpStatus.OK)
+            else -> ResponseEntity(publisherModel.createResponseString("JSON-LD"), HttpStatus.OK)
         }
     }
 

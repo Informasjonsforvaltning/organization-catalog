@@ -51,9 +51,8 @@ class PublisherService (
             ?.let { publisherRepository.save(it) }
             ?.mapToGenerated()
 
-    fun getOne(): Publisher? =
+    fun getOne(): List<Publisher> =
         publisherRepository
             .findAll()
-            .first()
-            ?.mapToGenerated()
+            .map { it.mapToGenerated() }
 }
