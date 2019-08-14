@@ -63,11 +63,15 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
+            application/ld+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Publisher'
+                type: string
+            application/rdf+xml:
+              schema:
+                type: string
+            text/turtle:
+              schema:
+                type: string
   /publishers/{id}:
     get:
       tags:
@@ -85,9 +89,15 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
+            application/ld+json:
               schema:
-                $ref: "#/components/schemas/Publisher"
+                type: string
+            application/rdf+xml:
+              schema:
+                type: string
+            text/turtle:
+              schema:
+                type: string
     put:
       tags:
         - publisher
@@ -113,25 +123,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Publisher'
-  /publishers/jena:
-    get:
-      tags:
-        - publisher
-      description: Test Jena
-      operationId: testJena
-      responses:
-        '200':
-          description: OK
-          content:
-            application/ld+json:
-              schema:
-                type: string
-            application/rdf+xml:
-              schema:
-                type: string
-            text/turtle:
-              schema:
-                type: string
 components:
   schemas:
     Publisher:

@@ -81,7 +81,7 @@ class PublisherApi {
         String response = publishersApiImpl.ping().getBody();
         assertEquals("pong", response);
     }
-
+/*
     @Test
     void getById() {
         Publisher response0 = publishersApiImpl
@@ -178,5 +178,5 @@ class PublisherApi {
         // Only name is changed
         publisher.setName("updatedName");
         assertEquals(updated, publisher);
-    }
+    }*/
 }
