@@ -1,0 +1,34 @@
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+
+<http://data.brreg.no/enhetsregisteret/enhet/986105174>
+        a                 dct:publisher ;
+        dct:identifier    "5d5531e45c40450006848159" ;
+        dct:title         "FORSVARET" ;
+        skos:altLabel     "986105174" ;
+        skos:note         "/STAT/972417823/986105174" ;
+        skosxl:prefLabel  [ a                   skosxl:Label ;
+                            skosxl:literalForm  "Forsvaret"@nb
+                          ] .
+
+<http://data.brreg.no/enhetsregisteret/enhet/994686011>
+        a                 dct:publisher ;
+        dct:identifier    "5d5531e45c40450006848160" ;
+        dct:title         "ATB AS" ;
+        skos:altLabel     "994686011" ;
+        skos:note         "/PRIVAT/994686011" ;
+        skosxl:prefLabel  [ a                   skosxl:Label ;
+                            skosxl:literalForm  "AtB AS"@nb
+                          ] .
+
+<http://data.brreg.no/enhetsregisteret/enhet/974760673>
+        a                 dct:publisher ;
+        dct:identifier    "5d5531e55c404500068481da" ;
+        dct:title         "REGISTERENHETEN I BRØNNØYSUND" ;
+        skos:altLabel     "974760673" ;
+        skos:note         "/STAT/912660680/974760673" ;
+        skosxl:prefLabel  [ a                   skosxl:Label ;
+                            skosxl:literalForm  "Brønnøysundregistrene"@nb
+                          ] .

@@ -1,6 +1,5 @@
 package no.publishers.service;
 
-import no.publishers.TestData;
 import no.publishers.generated.model.Publisher;
 import no.publishers.model.PublisherDB;
 import no.publishers.repository.PublisherRepository;
@@ -20,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static no.publishers.TestDataKt.getPUBLISHER_DB_0;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
@@ -39,7 +39,7 @@ public class PublisherServiceTest {
 
     @Test
     public void getById() {
-        PublisherDB persisted = TestData.PUBLISHER_DB;
+        PublisherDB persisted = getPUBLISHER_DB_0();
         Mockito
             .when(publisherRepository.findById("123ID"))
             .thenReturn(Optional.of(persisted));
@@ -56,7 +56,7 @@ public class PublisherServiceTest {
 
     @Test
     public void getAll() {
-        List<PublisherDB> persistedList = Collections.singletonList(TestData.PUBLISHER_DB);
+        List<PublisherDB> persistedList = Collections.singletonList(getPUBLISHER_DB_0());
         Mockito
             .when(publisherRepository.findAll())
             .thenReturn(persistedList);
@@ -73,7 +73,7 @@ public class PublisherServiceTest {
 
     @Test
     public void getByOrgIdIsPrioritized() {
-        List<PublisherDB> persistedList = Collections.singletonList(TestData.PUBLISHER_DB);
+        List<PublisherDB> persistedList = Collections.singletonList(getPUBLISHER_DB_0());
         Mockito
             .when(publisherRepository.findByOrganizationIdLike("OrgId"))
             .thenReturn(persistedList);
@@ -90,7 +90,7 @@ public class PublisherServiceTest {
 
     @Test
     public void getByName() {
-        List<PublisherDB> persistedList = Collections.singletonList(TestData.PUBLISHER_DB);
+        List<PublisherDB> persistedList = Collections.singletonList(getPUBLISHER_DB_0());
         Mockito
             .when(publisherRepository.findByNameLike("Name"))
             .thenReturn(persistedList);

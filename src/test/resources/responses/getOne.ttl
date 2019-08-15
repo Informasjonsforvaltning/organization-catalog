@@ -1,0 +1,14 @@
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+
+<http://data.brreg.no/enhetsregisteret/enhet/974760673>
+        a                 dct:publisher ;
+        dct:identifier    "5d5531e55c404500068481da" ;
+        dct:title         "REGISTERENHETEN I BRØNNØYSUND" ;
+        skos:altLabel     "974760673" ;
+        skos:note         "/STAT/912660680/974760673" ;
+        skosxl:prefLabel  [ a                   skosxl:Label ;
+                            skosxl:literalForm  "Brønnøysundregistrene"@nb
+                          ] .
