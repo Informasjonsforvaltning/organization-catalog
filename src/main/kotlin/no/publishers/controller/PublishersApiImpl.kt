@@ -32,22 +32,6 @@ open class PublishersApiImpl (
     fun ready(): ResponseEntity<Void> =
         ResponseEntity.ok().build()
 
-/*
-    override fun testJena(
-        httpServletRequest: HttpServletRequest
-    ): ResponseEntity<String> {
-        val publishers = publisherService.getOne()
-
-        val publisherModel = publishers.createModelList()
-
-        return when(httpServletRequest.getHeader("Accept")){
-            "text/turtle" -> ResponseEntity(publisherModel.createResponseString("TURTLE"), HttpStatus.OK)
-            "application/rdf+xml" -> ResponseEntity(publisherModel.createResponseString("RDF/XML"), HttpStatus.OK)
-            else -> ResponseEntity(publisherModel.createResponseString("JSON-LD"), HttpStatus.OK)
-        }
-    }
-*/
-
     override fun createPublisher(httpServletRequest: HttpServletRequest, publisher: Publisher): ResponseEntity<Void> =
         try {
             HttpHeaders()

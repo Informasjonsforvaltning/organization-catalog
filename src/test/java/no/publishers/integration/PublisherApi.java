@@ -150,7 +150,7 @@ class PublisherApi {
         String response = publishersApiImpl
             .getPublishers(httpServletRequestMock, null, "60")
             .getBody();
-        System.out.println(response);
+
         Model modelFromResponse = responseReader.parseResponse(response);
         Model expectedResponse = responseReader.getExpectedResponse("searchByOrgId");
 
