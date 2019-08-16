@@ -50,9 +50,4 @@ class PublisherService (
             ?.updateValues(publisher)
             ?.let { publisherRepository.save(it) }
             ?.mapToGenerated()
-
-    fun getOne(): List<Publisher> =
-        publisherRepository
-            .findAll()
-            .map { it.mapToGenerated() }
 }
