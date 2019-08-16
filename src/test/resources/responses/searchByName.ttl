@@ -2,23 +2,50 @@
 @prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcat:  <http://www.w3.org/ns/dcat#> .
-
-<http://data.brreg.no/enhetsregisteret/enhet/974760673>
-        a                 dct:publisher ;
-        dct:identifier    "5d5531e55c404500068481da" ;
-        dct:title         "REGISTERENHETEN I BRØNNØYSUND" ;
-        skos:altLabel     "974760673" ;
-        skos:note         "/STAT/912660680/974760673" ;
-        skosxl:prefLabel  [ a                   skosxl:Label ;
-                            skosxl:literalForm  "Brønnøysundregistrene"@nb
-                          ] .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 
 <http://data.brreg.no/enhetsregisteret/enhet/986105174>
-        a                 dct:publisher ;
-        dct:identifier    "5d5531e45c40450006848159" ;
-        dct:title         "FORSVARET" ;
-        skos:altLabel     "986105174" ;
-        skos:note         "/STAT/972417823/986105174" ;
-        skosxl:prefLabel  [ a                   skosxl:Label ;
-                            skosxl:literalForm  "Forsvaret"@nb
-                          ] .
+        a                     [ a  foaf:Organization ] ;
+        dct:alternative       "986105174" ;
+        dct:format            "" ;
+        dct:identifier        "5d5531e45c40450006848159" ;
+        dct:isPartOf          "" ;
+        skos:historyNote      "kommunenr" ;
+        skos:mappingRelation  "/STAT/972417823/986105174" ;
+        skosxl:prefLabel      [ a                   skosxl:Label ;
+                                skosxl:literalForm  "Forsvaret"@nb
+                              ] ;
+        foaf:interest         [ a                 skosxl:Label ;
+                                skosxl:prefLabel  [ a  skosxl:Label ] ;
+                                dcat:accessURL    "" ;
+                                foaf:nick         ""
+                              ] ;
+        foaf:name             "FORSVARET" ;
+        foaf:schoolHomepage   [ a                 skosxl:Label ;
+                                skosxl:prefLabel  [ a  skosxl:Label ] ;
+                                dcat:accessURL    "" ;
+                                foaf:nick         ""
+                              ] .
+
+<http://data.brreg.no/enhetsregisteret/enhet/974760673>
+        a                     [ a  foaf:Organization ] ;
+        dct:alternative       "974760673" ;
+        dct:format            "" ;
+        dct:identifier        "5d5531e55c404500068481da" ;
+        dct:isPartOf          "" ;
+        skos:historyNote      "kommunenr" ;
+        skos:mappingRelation  "/STAT/912660680/974760673" ;
+        skosxl:prefLabel      [ a                   skosxl:Label ;
+                                skosxl:literalForm  "Brønnøysundregistrene"@nb
+                              ] ;
+        foaf:interest         [ a                 skosxl:Label ;
+                                skosxl:prefLabel  [ a  skosxl:Label ] ;
+                                dcat:accessURL    "" ;
+                                foaf:nick         ""
+                              ] ;
+        foaf:name             "REGISTERENHETEN I BRØNNØYSUND" ;
+        foaf:schoolHomepage   [ a                 skosxl:Label ;
+                                skosxl:prefLabel  [ a  skosxl:Label ] ;
+                                dcat:accessURL    "" ;
+                                foaf:nick         ""
+                              ] .

@@ -31,15 +31,29 @@ public class TestResponseReader {
             "@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .\n" +
             "@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .\n" +
             "@prefix dcat:  <http://www.w3.org/ns/dcat#> .\n" +
+            "@prefix foaf:  <http://xmlns.com/foaf/0.1/> .\n" +
             "\n" +
-            "<uri>   a                 dct:publisher ;\n" +
-            "        dct:identifier    \"" + id + "\" ;\n" +
-            "        dct:title         \"toBeUpdated\" ;\n" +
-            "        skos:altLabel     \"orgId\" ;\n" +
-            "        skos:note         \"orgPath\" ;\n" +
-            "        skosxl:prefLabel  [ a                   skosxl:Label ;\n" +
-            "                            skosxl:literalForm  \"enLabel\"@en , \"nnLabel\"@nn , \"nbLabel\"@nb\n" +
-            "                          ] .\n";
+            "<uri>   a                     [ a  foaf:Organization ] ;\n" +
+            "        dct:alternative       \"orgId\" ;\n" +
+            "        dct:format            \"\" ;\n" +
+            "        dct:identifier        \"" + id + "\" ;\n" +
+            "        dct:isPartOf          \"\" ;\n" +
+            "        skos:historyNote      \"kommunenr\" ;\n" +
+            "        skos:mappingRelation  \"orgPath\" ;\n" +
+            "        skosxl:prefLabel      [ a                   skosxl:Label ;\n" +
+            "                                skosxl:literalForm  \"enLabel\"@en , \"nnLabel\"@nn , \"nbLabel\"@nb\n" +
+            "                              ] ;\n" +
+            "        foaf:interest         [ a                 skosxl:Label ;\n" +
+            "                                skosxl:prefLabel  [ a  skosxl:Label ] ;\n" +
+            "                                dcat:accessURL    \"\" ;\n" +
+            "                                foaf:nick         \"\"\n" +
+            "                              ] ;\n" +
+            "        foaf:name             \"toBeUpdated\" ;\n" +
+            "        foaf:schoolHomepage   [ a                 skosxl:Label ;\n" +
+            "                                skosxl:prefLabel  [ a  skosxl:Label ] ;\n" +
+            "                                dcat:accessURL    \"\" ;\n" +
+            "                                foaf:nick         \"\"\n" +
+            "                              ] .";
 
         Model responseModel = ModelFactory.createDefaultModel();
         responseModel.read(new StringReader(expected), "", "text/turtle");
@@ -52,15 +66,29 @@ public class TestResponseReader {
             "@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .\n" +
             "@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .\n" +
             "@prefix dcat:  <http://www.w3.org/ns/dcat#> .\n" +
+            "@prefix foaf:  <http://xmlns.com/foaf/0.1/> .\n" +
             "\n" +
-            "<uri>   a                 dct:publisher ;\n" +
-            "        dct:identifier    \"" + id + "\" ;\n" +
-            "        dct:title         \"updatedName\" ;\n" +
-            "        skos:altLabel     \"orgId\" ;\n" +
-            "        skos:note         \"orgPath\" ;\n" +
-            "        skosxl:prefLabel  [ a                   skosxl:Label ;\n" +
-            "                            skosxl:literalForm  \"enLabel\"@en , \"nnLabel\"@nn , \"nbLabel\"@nb\n" +
-            "                          ] .\n";
+            "<uri>   a                     [ a  foaf:Organization ] ;\n" +
+            "        dct:alternative       \"orgId\" ;\n" +
+            "        dct:format            \"\" ;\n" +
+            "        dct:identifier        \"" + id + "\" ;\n" +
+            "        dct:isPartOf          \"\" ;\n" +
+            "        skos:historyNote      \"kommunenr\" ;\n" +
+            "        skos:mappingRelation  \"orgPath\" ;\n" +
+            "        skosxl:prefLabel      [ a                   skosxl:Label ;\n" +
+            "                                skosxl:literalForm  \"enLabel\"@en , \"nnLabel\"@nn , \"nbLabel\"@nb\n" +
+            "                              ] ;\n" +
+            "        foaf:interest         [ a                 skosxl:Label ;\n" +
+            "                                skosxl:prefLabel  [ a  skosxl:Label ] ;\n" +
+            "                                dcat:accessURL    \"\" ;\n" +
+            "                                foaf:nick         \"\"\n" +
+            "                              ] ;\n" +
+            "        foaf:name             \"updatedName\" ;\n" +
+            "        foaf:schoolHomepage   [ a                 skosxl:Label ;\n" +
+            "                                skosxl:prefLabel  [ a  skosxl:Label ] ;\n" +
+            "                                dcat:accessURL    \"\" ;\n" +
+            "                                foaf:nick         \"\"\n" +
+            "                              ] .";
 
         Model responseModel = ModelFactory.createDefaultModel();
         responseModel.read(new StringReader(expected), "", "text/turtle");
