@@ -2,9 +2,8 @@ package no.publishers.controller
 
 import javax.servlet.http.HttpServletRequest
 import no.publishers.generated.model.Publisher
-import no.publishers.jena.createModel
-import no.publishers.jena.createListModel
-import no.publishers.jena.createResponseString
+import no.publishers.jena.MissingAcceptHeaderException
+import no.publishers.jena.jenaResponse
 import no.publishers.service.PublisherService
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
@@ -68,46 +67,31 @@ open class PublishersApiImpl (
         }
 
     override fun getPublisherById(httpServletRequest: HttpServletRequest, id: String): ResponseEntity<String> =
-        httpServletRequest
-            .getHeader("Accept")
-            .acceptHeaderToJenaType()
-            ?.let { jenaType ->
-                try {
-                    publisherService
-                        .getById(id)
-                        ?.let { publisher -> publisher.createModel() }
-                        ?.let { model -> model.createResponseString(jenaType) }
-                        ?.let { response -> ResponseEntity(response, HttpStatus.OK) }
-                        ?: ResponseEntity(HttpStatus.NOT_FOUND)
-                } catch (exception: Exception) {
-                    LOGGER.error("getPublisherById failed:", exception)
-                    ResponseEntity("", HttpStatus.INTERNAL_SERVER_ERROR)
-                } }
-            ?: ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+        try {
+            publisherService
+                .getById(id)
+                ?.let { publisher -> publisher.jenaResponse(httpServletRequest.getHeader("Accept")) }
+                ?.let { response -> ResponseEntity(response, HttpStatus.OK) }
+                ?: ResponseEntity(HttpStatus.NOT_FOUND)
+        } catch (exception: Exception) {
+            LOGGER.error("getPublisherById failed:", exception)
+            when(exception) {
+                is MissingAcceptHeaderException -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+                else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+            }
+        }
 
     override fun getPublishers(httpServletRequest: HttpServletRequest, name: String?, organizationId: String?): ResponseEntity<String> =
-        httpServletRequest
-            .getHeader("Accept")
-            .acceptHeaderToJenaType()
-            ?.let { jenaType ->
-                try {
-                    publisherService
-                        .getPublishers(name, organizationId)
-                        .let { publishers -> publishers.createListModel() }
-                        .let { model -> model.createResponseString(jenaType) }
-                        .let { response -> ResponseEntity(response, HttpStatus.OK) }
-                } catch (exception: Exception) {
-                    LOGGER.error("getPublishers failed:", exception)
-                    ResponseEntity("", HttpStatus.INTERNAL_SERVER_ERROR)
-                } }
-            ?: ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+        try {
+            publisherService
+                .getPublishers(name, organizationId)
+                .let { publishers -> publishers.jenaResponse(httpServletRequest.getHeader("Accept")) }
+                .let { response -> ResponseEntity(response, HttpStatus.OK) }
+        } catch (exception: Exception) {
+            LOGGER.error("getPublishers failed:", exception)
+            when(exception) {
+                is MissingAcceptHeaderException -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+                else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+            }
+        }
 }
-
-
-private fun String.acceptHeaderToJenaType(): String? =
-    when (this) {
-        "text/turtle" -> "TURTLE"
-        "application/rdf+xml" -> "RDF/XML"
-        "application/ld+json" -> "JSON-LD"
-        else -> null
-    }
