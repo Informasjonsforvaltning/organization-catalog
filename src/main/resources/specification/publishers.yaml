@@ -141,7 +141,26 @@ components:
         name:
           type: string
           description: The name of the organization as given in the The Brønnøysund Register Centre
+        orgForm:
+          type: string
         orgPath:
+          type: string
+        orgParent:
+          type: string
+        municipalityNumber:
+          type: string
+        industryCode:
+          $ref: "#/components/schemas/Code"
+        sectorCode:
+          $ref: "#/components/schemas/Code"
+        prefLabel:
+          $ref: "#/components/schemas/PrefLabel"
+    Code:
+      type: object
+      properties:
+        uri:
+          type: string
+        code:
           type: string
         prefLabel:
           $ref: "#/components/schemas/PrefLabel"

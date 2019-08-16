@@ -4,7 +4,6 @@ import no.publishers.TestResponseReader;
 import no.publishers.controller.PublishersApiImpl;
 import no.publishers.generated.model.Publisher;
 import no.publishers.repository.PublisherRepository;
-import no.publishers.service.PublisherService;
 import org.apache.jena.rdf.model.Model;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
@@ -26,7 +25,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 import static no.publishers.TestDataKt.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;

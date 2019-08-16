@@ -2,13 +2,27 @@
 @prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 
 <http://data.brreg.no/enhetsregisteret/enhet/994686011>
-        a                 dct:publisher ;
-        dct:identifier    "5d5531e45c40450006848160" ;
-        dct:title         "ATB AS" ;
-        skos:altLabel     "994686011" ;
-        skos:note         "/PRIVAT/994686011" ;
-        skosxl:prefLabel  [ a                   skosxl:Label ;
-                            skosxl:literalForm  "AtB AS"@nb
-                          ] .
+        a                     [ a  foaf:Organization ] ;
+        dct:alternative       "994686011" ;
+        dct:format            "" ;
+        dct:identifier        "5d5531e45c40450006848160" ;
+        dct:isPartOf          "" ;
+        skos:historyNote      "kommunenr" ;
+        skos:mappingRelation  "/PRIVAT/994686011" ;
+        skosxl:prefLabel      [ a                   skosxl:Label ;
+                                skosxl:literalForm  "AtB AS"@nb
+                              ] ;
+        foaf:interest         [ a                 skosxl:Label ;
+                                skosxl:prefLabel  [ a  skosxl:Label ] ;
+                                dcat:accessURL    "" ;
+                                foaf:nick         ""
+                              ] ;
+        foaf:name             "ATB AS" ;
+        foaf:schoolHomepage   [ a                 skosxl:Label ;
+                                skosxl:prefLabel  [ a  skosxl:Label ] ;
+                                dcat:accessURL    "" ;
+                                foaf:nick         ""
+                              ] .
