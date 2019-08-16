@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -144,10 +143,6 @@ public class PublishersApiImplTest {
                     throw new Exception("Test error message");
                 });
 
-            Mockito
-                .when(httpServletRequestMock.getHeader("Accept"))
-                .thenReturn("text/turtle");
-
             ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, null, null);
 
             assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -163,10 +158,6 @@ public class PublishersApiImplTest {
             Mockito
                 .when(publisherServiceMock.getById("123Null"))
                 .thenReturn(null);
-
-            Mockito
-                .when(httpServletRequestMock.getHeader("Accept"))
-                .thenReturn("text/turtle");
 
             ResponseEntity<String> response = publishersApi.getPublisherById(httpServletRequestMock, "123Null");
 
@@ -201,10 +192,6 @@ public class PublishersApiImplTest {
                 .thenAnswer(invocation -> {
                     throw new Exception("Test error message");
                 });
-
-            Mockito
-                .when(httpServletRequestMock.getHeader("Accept"))
-                .thenReturn("text/turtle");
 
             ResponseEntity<String> response = publishersApi.getPublisherById(httpServletRequestMock, "123Error");
 
