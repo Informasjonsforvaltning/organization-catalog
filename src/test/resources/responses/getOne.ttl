@@ -5,17 +5,21 @@
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcat:  <http://www.w3.org/ns/dcat#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix br:    <http://data.brreg.no/informasjonsjonsmodeller/enhetsregisteret/> .
 
 <http://data.brreg.no/enhetsregisteret/enhet/974760673>
-        a                     [ a  foaf:Organization ] ;
-        dct:format            "ORGL" ;
-        dct:identifier        "5d5531e55c404500068481da" ;
-        dct:isPartOf          "912660680" ;
-        skos:historyNote      "1813" ;
-        skos:mappingRelation  "/STAT/912660680/974760673" ;
-        skosxl:prefLabel      [ a                   skosxl:Label ;
-                                skosxl:literalForm  "Brønnøysundregistrene"@nb
-                              ] ;
+        a                     foaf:Organization ;
+        dct:format            "ORGL" ; # endre til egendefinert: br:organizationalType
+        dct:identifier        "5d5531e55c404500068481da" ; # ok
+        dct:isPartOf          "912660680" ; # endre object til uri.
+        br:kommunenr          <813>; # kommunenr i forretningsadresse, geo-norge sin uri for kommunenr, evt vurder nuts-vokabularet
+        br:orgPath            "/STAT/912660680/974760673" ;
+        rdf:label             "Brønnøysundregistrene"@nb ;
+
+# næringskorov:orgActivityde:
+        rov:orgActivity       <http://www.ssb.no/nace/sn2007/84.110> # range til orgActivity er concept, så dette er ikkje heilt rett.
+
+        # Generelt: bruk http://www.w3.org/ns/regorg# der det er mulig. Der det er umulig, bruk br.
         rov:registration      [ a                  adms:Identifier ;
                                 dct:issued         "1999-02-03" ;
                                 skos:notation      "974760673" ;
@@ -28,7 +32,7 @@
                                 dcat:accessURL    "http://www.ssb.no/nace/sn2007/84.110" ;
                                 foaf:nick         "84.110"
                               ] ;
-        foaf:name             "REGISTERENHETEN I BRØNNØYSUND" ;
+        foaf:name             "REGISTERENHETEN I BRØNNØYSUND"@nb ; # legg til ulike språk
         foaf:schoolHomepage   [ a                 skosxl:Label ;
                                 skosxl:prefLabel  [ a                   skosxl:Label ;
                                                     skosxl:literalForm  "Statsforvaltningen"@nb
