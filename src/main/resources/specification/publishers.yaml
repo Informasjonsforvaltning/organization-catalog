@@ -149,6 +149,9 @@ components:
           type: string
         municipalityNumber:
           type: string
+        issued:
+          type: string
+          format: date
         industryCode:
           $ref: "#/components/schemas/Code"
         sectorCode:

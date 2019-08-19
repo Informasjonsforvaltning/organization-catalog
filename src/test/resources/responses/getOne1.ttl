@@ -1,28 +1,37 @@
 @prefix dct:   <http://purl.org/dc/terms/> .
+@prefix adms:  <http://www.w3.org/ns/adms#> .
 @prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix rov:   <http://www.w3.org/ns/regorg#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcat:  <http://www.w3.org/ns/dcat#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 
 <http://data.brreg.no/enhetsregisteret/enhet/994686011>
         a                     [ a  foaf:Organization ] ;
-        dct:alternative       "994686011" ;
-        dct:format            "" ;
+        dct:format            "AS" ;
         dct:identifier        "5d5531e45c40450006848160" ;
-        dct:isPartOf          "" ;
-        skos:historyNote      "kommunenr" ;
+        skos:historyNote      "5001" ;
         skos:mappingRelation  "/PRIVAT/994686011" ;
         skosxl:prefLabel      [ a                   skosxl:Label ;
                                 skosxl:literalForm  "AtB AS"@nb
                               ] ;
+        rov:registration      [ a                  adms:Identifier ;
+                                dct:issued         "1999-02-03" ;
+                                skos:notation      "994686011" ;
+                                adms:schemaAgency  "Brønnøysundregistrene"
+                              ] ;
         foaf:interest         [ a                 skosxl:Label ;
-                                skosxl:prefLabel  [ a  skosxl:Label ] ;
-                                dcat:accessURL    "" ;
-                                foaf:nick         ""
+                                skosxl:prefLabel  [ a                   skosxl:Label ;
+                                                    skosxl:literalForm  "Offentlig administrasjon tilknyttet næringsvirksomhet og arbeidsmarked"@nb
+                                                  ] ;
+                                dcat:accessURL    "http://www.ssb.no/nace/sn2007/84.130" ;
+                                foaf:nick         "84.130"
                               ] ;
         foaf:name             "ATB AS" ;
         foaf:schoolHomepage   [ a                 skosxl:Label ;
-                                skosxl:prefLabel  [ a  skosxl:Label ] ;
-                                dcat:accessURL    "" ;
-                                foaf:nick         ""
+                                skosxl:prefLabel  [ a                   skosxl:Label ;
+                                                    skosxl:literalForm  "Kommuneforvaltningen"@nb
+                                                  ] ;
+                                dcat:accessURL    "http://www.brreg.no/sektorkode/6500" ;
+                                foaf:nick         "6500"
                               ] .

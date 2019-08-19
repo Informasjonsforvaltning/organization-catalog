@@ -2,13 +2,16 @@ package no.publishers.jena
 
 import no.publishers.generated.model.PrefLabel
 import no.publishers.generated.model.Publisher
+import no.publishers.jena.adms.ADMS
 import org.apache.jena.rdf.model.Model
 import org.apache.jena.rdf.model.ModelFactory
+import org.apache.jena.rdf.model.Property
 import org.apache.jena.rdf.model.Resource
 import org.apache.jena.sparql.vocabulary.FOAF
 import org.apache.jena.vocabulary.DCAT
 import org.apache.jena.vocabulary.DCTerms
 import org.apache.jena.vocabulary.RDF
+import org.apache.jena.vocabulary.ROV
 import org.apache.jena.vocabulary.SKOS
 import org.apache.jena.vocabulary.SKOSXL
 import java.io.ByteArrayOutputStream
@@ -23,46 +26,57 @@ fun List<Publisher>.jenaResponse(acceptHeader: String?): String =
         .createResponseString(acceptHeaderToJenaType(acceptHeader))
 
 private fun List<Publisher>.createModel(): Model {
-    val modelList = ModelFactory.createDefaultModel()
-    modelList.setNsPrefix("dct", DCTerms.getURI())
-    modelList.setNsPrefix("dcat", DCAT.getURI())
-    modelList.setNsPrefix("skosxl", SKOSXL.uri)
-    modelList.setNsPrefix("skos", SKOS.uri)
-    modelList.setNsPrefix("foaf", FOAF.getURI())
+    val model = ModelFactory.createDefaultModel()
+    model.setNsPrefix("dct", DCTerms.getURI())
+    model.setNsPrefix("dcat", DCAT.getURI())
+    model.setNsPrefix("skosxl", SKOSXL.uri)
+    model.setNsPrefix("skos", SKOS.uri)
+    model.setNsPrefix("foaf", FOAF.getURI())
+    model.setNsPrefix("rov", ROV.getURI())
+    model.setNsPrefix("adms", ADMS.uri)
 
     forEach {
-        modelList.createResource(it.uri)
-            .addProperty(RDF.type, modelList.createResource(FOAF.Organization))
+        model.createResource(it.uri)
+            .addProperty(RDF.type, model.createResource(FOAF.Organization))
             .addProperty(DCTerms.identifier, it.id)
-            .addProperty(FOAF.name, it.name ?: "")
-            .addProperty(DCTerms.alternative, it.organizationId ?: "")
-            .addProperty(DCTerms.format, it.orgForm ?: "")
-            .addProperty(SKOS.mappingRelation, it.orgPath ?: "")
-            .addProperty(DCTerms.isPartOf, it.orgParent ?: "")
-            .addProperty(SKOS.historyNote, it.municipalityNumber ?: "kommunenr")
+            .safeAddProperty(FOAF.name, it.name)
+            .addProperty(
+                ROV.registration,
+                model.createResource(ADMS.Identifier)
+                    .safeAddProperty(DCTerms.issued, it.issued?.toString())
+                    .addProperty(SKOS.notation, it.organizationId)
+                    .addProperty(ADMS.schemaAgency, "Brønnøysundregistrene"))
+            .safeAddProperty(DCTerms.format, it.orgForm)
+            .safeAddProperty(SKOS.mappingRelation, it.orgPath)
+            .safeAddProperty(DCTerms.isPartOf, it.orgParent)
+            .safeAddProperty(SKOS.historyNote, it.municipalityNumber)
             .addProperty(
                 FOAF.interest,
-                modelList.createResource(SKOSXL.Label)
-                    .addProperty(DCAT.accessURL, it.industryCode?.uri ?: "")
-                    .addProperty(FOAF.nick, it.industryCode?.code ?: "")
+                model.createResource(SKOSXL.Label)
+                    .safeAddProperty(DCAT.accessURL, it.industryCode?.uri)
+                    .safeAddProperty(FOAF.nick, it.industryCode?.code)
                     .addProperty(
                         SKOSXL.prefLabel,
-                        modelList.createResource(SKOSXL.Label).addPrefLabels(it.industryCode?.prefLabel ?: PrefLabel())))
+                        model.createResource(SKOSXL.Label).addPrefLabels(it.industryCode?.prefLabel ?: PrefLabel())))
             .addProperty(
                 FOAF.schoolHomepage,
-                modelList.createResource(SKOSXL.Label)
-                    .addProperty(DCAT.accessURL, it.sectorCode?.uri ?: "")
-                    .addProperty(FOAF.nick, it.sectorCode?.code ?: "")
+                model.createResource(SKOSXL.Label)
+                    .safeAddProperty(DCAT.accessURL, it.sectorCode?.uri)
+                    .safeAddProperty(FOAF.nick, it.sectorCode?.code)
                     .addProperty(
                         SKOSXL.prefLabel,
-                        modelList.createResource(SKOSXL.Label).addPrefLabels(it.sectorCode?.prefLabel ?: PrefLabel())))
+                        model.createResource(SKOSXL.Label).addPrefLabels(it.sectorCode?.prefLabel ?: PrefLabel())))
             .addProperty(
                 SKOSXL.prefLabel,
-                modelList.createResource(SKOSXL.Label).addPrefLabels(it.prefLabel))
+                model.createResource(SKOSXL.Label).addPrefLabels(it.prefLabel))
     }
 
-    return modelList
+    return model
 }
+
+private fun Resource.safeAddProperty(property: Property, value: String?): Resource =
+    if(value == null) this
+    else addProperty(property, value)
 
 private fun Resource.addPrefLabels(prefLabel: PrefLabel):Resource {
     if (prefLabel.nb != null) addProperty(SKOSXL.literalForm, prefLabel.nb, "nb")
