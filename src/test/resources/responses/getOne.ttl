@@ -1,42 +1,23 @@
+@prefix br:    <http://data.brreg.no/informasjonsmodeller/enhetsregisteret/> .
 @prefix dct:   <http://purl.org/dc/terms/> .
 @prefix adms:  <http://www.w3.org/ns/adms#> .
-@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
 @prefix rov:   <http://www.w3.org/ns/regorg#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
-@prefix dcat:  <http://www.w3.org/ns/dcat#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
-@prefix br:    <http://data.brreg.no/informasjonsjonsmodeller/enhetsregisteret/> .
 
 <http://data.brreg.no/enhetsregisteret/enhet/974760673>
         a                     foaf:Organization ;
-        dct:format            "ORGL" ; # endre til egendefinert: br:organizationalType
-        dct:identifier        "5d5531e55c404500068481da" ; # ok
-        dct:isPartOf          "912660680" ; # endre object til uri.
-        br:kommunenr          <813>; # kommunenr i forretningsadresse, geo-norge sin uri for kommunenr, evt vurder nuts-vokabularet
+        br:kommunenummer      "1813" ;
+        br:naeringskode       <http://www.ssb.no/nace/sn2007/84.110> ;
         br:orgPath            "/STAT/912660680/974760673" ;
-        rdf:label             "Brønnøysundregistrene"@nb ;
-
-# næringskorov:orgActivityde:
-        rov:orgActivity       <http://www.ssb.no/nace/sn2007/84.110> # range til orgActivity er concept, så dette er ikkje heilt rett.
-
-        # Generelt: bruk http://www.w3.org/ns/regorg# der det er mulig. Der det er umulig, bruk br.
+        br:organisasjonsform  "ORGL" ;
+        br:overordnetEnhet    <http://data.brreg.no/enhetsregisteret/enhet/912660680> ;
+        br:sektorkode         <http://www.brreg.no/sektorkode/6100> ;
+        dct:identifier        "5d5531e55c404500068481da" ;
+        rov:legalName         "REGISTERENHETEN I BRØNNØYSUND" ;
         rov:registration      [ a                  adms:Identifier ;
                                 dct:issued         "1999-02-03" ;
                                 skos:notation      "974760673" ;
                                 adms:schemaAgency  "Brønnøysundregistrene"
                               ] ;
-        foaf:interest         [ a                 skosxl:Label ;
-                                skosxl:prefLabel  [ a                   skosxl:Label ;
-                                                    skosxl:literalForm  "Generell offentlig administrasjon"@nb
-                                                  ] ;
-                                dcat:accessURL    "http://www.ssb.no/nace/sn2007/84.110" ;
-                                foaf:nick         "84.110"
-                              ] ;
-        foaf:name             "REGISTERENHETEN I BRØNNØYSUND"@nb ; # legg til ulike språk
-        foaf:schoolHomepage   [ a                 skosxl:Label ;
-                                skosxl:prefLabel  [ a                   skosxl:Label ;
-                                                    skosxl:literalForm  "Statsforvaltningen"@nb
-                                                  ] ;
-                                dcat:accessURL    "http://www.brreg.no/sektorkode/6100" ;
-                                foaf:nick         "6100"
-                              ] .
+        foaf:name             "Brønnøysundregistrene"@nb .
