@@ -9,6 +9,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+
 @Document(collection="publisher")
 public class PublisherDB {
     @Id private ObjectId id;
@@ -19,6 +21,7 @@ public class PublisherDB {
     private String orgPath;
     private String orgParent;
     private String municipalityNumber;
+    private LocalDate issued;
     private Code industryCode;
     private Code sectorCode;
     private PrefLabel prefLabel;
@@ -85,6 +88,14 @@ public class PublisherDB {
 
     public void setMunicipalityNumber(String municipalityNumber) {
         this.municipalityNumber = municipalityNumber;
+    }
+
+    public LocalDate getIssued() {
+        return issued;
+    }
+
+    public void setIssued(LocalDate issued) {
+        this.issued = issued;
     }
 
     public Code getIndustryCode() {

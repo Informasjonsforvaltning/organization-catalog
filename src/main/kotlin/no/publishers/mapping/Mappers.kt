@@ -4,6 +4,7 @@ import no.publishers.generated.model.Code
 import no.publishers.generated.model.PrefLabel
 import no.publishers.generated.model.Publisher
 import no.publishers.model.PublisherDB
+import java.time.LocalDate
 
 fun PublisherDB.mapToGenerated(): Publisher {
     val mapped = Publisher()
@@ -16,6 +17,7 @@ fun PublisherDB.mapToGenerated(): Publisher {
     mapped.orgPath = orgPath
     mapped.orgParent = orgParent
     mapped.municipalityNumber = municipalityNumber
+    mapped.issued = issued
     mapped.industryCode = industryCode
     mapped.sectorCode = sectorCode
     mapped.prefLabel = prefLabel
@@ -33,6 +35,7 @@ fun Publisher.mapForCreation(): PublisherDB {
     mapped.orgPath = orgPath
     mapped.orgParent = orgParent
     mapped.municipalityNumber = municipalityNumber
+    mapped.issued = issued
     mapped.industryCode = industryCode ?: Code().apply { prefLabel = PrefLabel() }
     mapped.sectorCode = sectorCode ?: Code().apply { prefLabel = PrefLabel() }
     mapped.prefLabel = prefLabel ?: PrefLabel()
@@ -49,6 +52,7 @@ fun PublisherDB.updateValues(publisher: Publisher): PublisherDB =
         orgPath = publisher.orgPath ?: orgPath
         orgParent = publisher.orgParent ?: orgParent
         municipalityNumber = publisher.municipalityNumber ?: municipalityNumber
+        issued = publisher.issued ?: issued
         industryCode = industryCode.update(publisher.industryCode)
         sectorCode = sectorCode.update(publisher.sectorCode)
         prefLabel = prefLabel.update(publisher.prefLabel)
