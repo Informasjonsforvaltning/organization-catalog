@@ -1,4 +1,4 @@
-package no.publishers.jena.adms
+package no.publishers.jena
 
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.Property

@@ -27,43 +27,28 @@ public class TestResponseReader {
     }
 
     public Model getExpectedFromCreate(String id) {
-        String expected = "@prefix dct:   <http://purl.org/dc/terms/> .\n" +
+        String expected = "@prefix br:    <http://data.brreg.no/informasjonsmodeller/enhetsregisteret/> .\n" +
+            "@prefix dct:   <http://purl.org/dc/terms/> .\n" +
             "@prefix adms:  <http://www.w3.org/ns/adms#> .\n" +
-            "@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .\n" +
             "@prefix rov:   <http://www.w3.org/ns/regorg#> .\n" +
             "@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .\n" +
-            "@prefix dcat:  <http://www.w3.org/ns/dcat#> .\n" +
             "@prefix foaf:  <http://xmlns.com/foaf/0.1/> .\n" +
             "\n" +
-            "<uri>   a                     [ a  foaf:Organization ] ;\n" +
-            "        dct:format            \"orgForm\" ;\n" +
+            "<uri>   a                     foaf:Organization ;\n" +
+            "        br:kommunenummer      \"0456\" ;\n" +
+            "        br:naeringskode       <industryUri> ;\n" +
+            "        br:orgPath            \"/STAT/123/456\" ;\n" +
+            "        br:organisasjonsform  \"orgForm\" ;\n" +
+            "        br:overordnetEnhet    <http://data.brreg.no/enhetsregisteret/enhet/98765421> ;\n" +
+            "        br:sektorkode         <sectorUri> ;\n" +
             "        dct:identifier        \"" + id + "\" ;\n" +
-            "        dct:isPartOf          \"98765421\" ;\n" +
-            "        skos:historyNote      \"0456\" ;\n" +
-            "        skos:mappingRelation  \"/STAT/123/456\" ;\n" +
-            "        skosxl:prefLabel      [ a                   skosxl:Label ;\n" +
-            "                                skosxl:literalForm  \"enLabel\"@en , \"nnLabel\"@nn , \"nbLabel\"@nb\n" +
-            "                              ] ;\n" +
+            "        rov:legalName         \"toBeUpdated\" ;\n" +
             "        rov:registration      [ a                  adms:Identifier ;\n" +
             "                                dct:issued         \"1999-02-03\" ;\n" +
             "                                skos:notation      \"orgId\" ;\n" +
             "                                adms:schemaAgency  \"Brønnøysundregistrene\"\n" +
             "                              ] ;\n" +
-            "        foaf:interest         [ a                 skosxl:Label ;\n" +
-            "                                skosxl:prefLabel  [ a                   skosxl:Label ;\n" +
-            "                                                    skosxl:literalForm  \"enIndustryLabel\"@en , \"nnIndustryLabel\"@nn , \"nbIndustryLabel\"@nb\n" +
-            "                                                  ] ;\n" +
-            "                                dcat:accessURL    \"industryUri\" ;\n" +
-            "                                foaf:nick         \"industryCode\"\n" +
-            "                              ] ;\n" +
-            "        foaf:name             \"toBeUpdated\" ;\n" +
-            "        foaf:schoolHomepage   [ a                 skosxl:Label ;\n" +
-            "                                skosxl:prefLabel  [ a                   skosxl:Label ;\n" +
-            "                                                    skosxl:literalForm  \"enSectorLabel\"@en , \"nnSectorLabel\"@nn , \"nbSectorLabel\"@nb\n" +
-            "                                                  ] ;\n" +
-            "                                dcat:accessURL    \"sectorUri\" ;\n" +
-            "                                foaf:nick         \"sectorCode\"\n" +
-            "                              ] .\n";
+            "        foaf:name             \"nnLabel\"@nn , \"nbLabel\"@nb , \"enLabel\"@en .\n";
 
         Model responseModel = ModelFactory.createDefaultModel();
         responseModel.read(new StringReader(expected), "", "text/turtle");
@@ -72,43 +57,28 @@ public class TestResponseReader {
     }
 
     public Model getExpectedFromUpdate(String id) {
-        String expected = "@prefix dct:   <http://purl.org/dc/terms/> .\n" +
+        String expected = "@prefix br:    <http://data.brreg.no/informasjonsmodeller/enhetsregisteret/> .\n" +
+            "@prefix dct:   <http://purl.org/dc/terms/> .\n" +
             "@prefix adms:  <http://www.w3.org/ns/adms#> .\n" +
-            "@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .\n" +
             "@prefix rov:   <http://www.w3.org/ns/regorg#> .\n" +
             "@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .\n" +
-            "@prefix dcat:  <http://www.w3.org/ns/dcat#> .\n" +
             "@prefix foaf:  <http://xmlns.com/foaf/0.1/> .\n" +
             "\n" +
-            "<uri>   a                     [ a  foaf:Organization ] ;\n" +
-            "        dct:format            \"orgForm\" ;\n" +
+            "<uri>   a                     foaf:Organization ;\n" +
+            "        br:kommunenummer      \"0456\" ;\n" +
+            "        br:naeringskode       <industryUri> ;\n" +
+            "        br:orgPath            \"/STAT/123/456\" ;\n" +
+            "        br:organisasjonsform  \"orgForm\" ;\n" +
+            "        br:overordnetEnhet    <http://data.brreg.no/enhetsregisteret/enhet/98765421> ;\n" +
+            "        br:sektorkode         <sectorUri> ;\n" +
             "        dct:identifier        \"" + id + "\" ;\n" +
-            "        dct:isPartOf          \"98765421\" ;\n" +
-            "        skos:historyNote      \"0456\" ;\n" +
-            "        skos:mappingRelation  \"/STAT/123/456\" ;\n" +
-            "        skosxl:prefLabel      [ a                   skosxl:Label ;\n" +
-            "                                skosxl:literalForm  \"enLabel\"@en , \"nnLabel\"@nn , \"nbLabel\"@nb\n" +
-            "                              ] ;\n" +
+            "        rov:legalName         \"updatedName\" ;\n" +
             "        rov:registration      [ a                  adms:Identifier ;\n" +
             "                                dct:issued         \"1999-02-03\" ;\n" +
             "                                skos:notation      \"orgId\" ;\n" +
             "                                adms:schemaAgency  \"Brønnøysundregistrene\"\n" +
             "                              ] ;\n" +
-            "        foaf:interest         [ a                 skosxl:Label ;\n" +
-            "                                skosxl:prefLabel  [ a                   skosxl:Label ;\n" +
-            "                                                    skosxl:literalForm  \"enIndustryLabel\"@en , \"nnIndustryLabel\"@nn , \"nbIndustryLabel\"@nb\n" +
-            "                                                  ] ;\n" +
-            "                                dcat:accessURL    \"industryUri\" ;\n" +
-            "                                foaf:nick         \"industryCode\"\n" +
-            "                              ] ;\n" +
-            "        foaf:name             \"updatedName\" ;\n" +
-            "        foaf:schoolHomepage   [ a                 skosxl:Label ;\n" +
-            "                                skosxl:prefLabel  [ a                   skosxl:Label ;\n" +
-            "                                                    skosxl:literalForm  \"enSectorLabel\"@en , \"nnSectorLabel\"@nn , \"nbSectorLabel\"@nb\n" +
-            "                                                  ] ;\n" +
-            "                                dcat:accessURL    \"sectorUri\" ;\n" +
-            "                                foaf:nick         \"sectorCode\"\n" +
-            "                              ] .\n";
+            "        foaf:name             \"nnLabel\"@nn , \"nbLabel\"@nb , \"enLabel\"@en .\n";
 
         Model responseModel = ModelFactory.createDefaultModel();
         responseModel.read(new StringReader(expected), "", "text/turtle");
