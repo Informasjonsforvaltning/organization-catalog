@@ -1,11 +1,14 @@
 package no.publishers.model;
 
 import javax.validation.constraints.NotBlank;
+
 import no.publishers.generated.model.PrefLabel;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDate;
 
 @Document(collection="publisher")
 public class PublisherDB {
@@ -13,7 +16,13 @@ public class PublisherDB {
     @NotBlank private String name;
     private String uri;
     @Indexed(unique = true) @NotBlank private String organizationId;
+    private String orgType;
     private String orgPath;
+    private String subOrganizationOf;
+    private LocalDate issued;
+    private String uriMunicipalityNumber;
+    private String uriIndustryCode;
+    private String uriSectorCode;
     private PrefLabel prefLabel;
 
     public ObjectId getId() {
@@ -48,12 +57,60 @@ public class PublisherDB {
         this.organizationId = organizationId;
     }
 
+    public String getOrgType() {
+        return orgType;
+    }
+
+    public void setOrgType(String orgType) {
+        this.orgType = orgType;
+    }
+
     public String getOrgPath() {
         return orgPath;
     }
 
     public void setOrgPath(String orgPath) {
         this.orgPath = orgPath;
+    }
+
+    public String getSubOrganizationOf() {
+        return subOrganizationOf;
+    }
+
+    public void setSubOrganizationOf(String subOrganizationOf) {
+        this.subOrganizationOf = subOrganizationOf;
+    }
+
+    public LocalDate getIssued() {
+        return issued;
+    }
+
+    public void setIssued(LocalDate issued) {
+        this.issued = issued;
+    }
+
+    public String getUriMunicipalityNumber() {
+        return uriMunicipalityNumber;
+    }
+
+    public void setUriMunicipalityNumber(String uriMunicipalityNumber) {
+        this.uriMunicipalityNumber = uriMunicipalityNumber;
+    }
+
+    public String getUriIndustryCode() {
+        return uriIndustryCode;
+    }
+
+    public void setUriIndustryCode(String uriIndustryCode) {
+        this.uriIndustryCode = uriIndustryCode;
+    }
+
+    public String getUriSectorCode() {
+        return uriSectorCode;
+    }
+
+    public void setUriSectorCode(String uriSectorCode) {
+        this.uriSectorCode = uriSectorCode;
     }
 
     public PrefLabel getPrefLabel() {

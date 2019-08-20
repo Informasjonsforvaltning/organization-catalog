@@ -1,9 +1,9 @@
 package no.publishers.controller
 
-import io.swagger.annotations.ApiParam
 import javax.servlet.http.HttpServletRequest
-import javax.validation.Valid
 import no.publishers.generated.model.Publisher
+import no.publishers.jena.MissingAcceptHeaderException
+import no.publishers.jena.jenaResponse
 import no.publishers.service.PublisherService
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
@@ -11,11 +11,8 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import javax.validation.ConstraintViolationException
 
@@ -34,10 +31,7 @@ open class PublishersApiImpl (
     fun ready(): ResponseEntity<Void> =
         ResponseEntity.ok().build()
 
-    override fun createPublisher(
-        httpServletRequest: HttpServletRequest,
-        @ApiParam(required = true) @Valid @RequestBody publisher: Publisher
-    ): ResponseEntity<Void> =
+    override fun createPublisher(httpServletRequest: HttpServletRequest, publisher: Publisher): ResponseEntity<Void> =
         try {
             HttpHeaders()
                 .apply {
@@ -53,15 +47,11 @@ open class PublishersApiImpl (
             when(exception) {
                 is ConstraintViolationException -> ResponseEntity(HttpStatus.BAD_REQUEST)
                 is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
-                else  -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+                else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
             }
         }
 
-    override fun updatePublisher(
-        httpServletRequest: HttpServletRequest,
-        @ApiParam(value = "id", required = true) @PathVariable("id") id: String,
-        @ApiParam(required = true) @Valid @RequestBody publisher: Publisher
-    ): ResponseEntity<Publisher> =
+    override fun updatePublisher(httpServletRequest: HttpServletRequest, id: String, publisher: Publisher): ResponseEntity<Publisher> =
         try {
             publisherService
                 .updatePublisher(id, publisher)
@@ -72,35 +62,36 @@ open class PublishersApiImpl (
             when(exception) {
                 is ConstraintViolationException -> ResponseEntity(HttpStatus.BAD_REQUEST)
                 is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
-                else  -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+                else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
             }
         }
 
-    override fun getPublisherById(
-        httpServletRequest: HttpServletRequest,
-        @ApiParam(value = "id", required = true) @PathVariable("id") id: String
-    ): ResponseEntity<Publisher> =
+    override fun getPublisherById(httpServletRequest: HttpServletRequest, id: String): ResponseEntity<String> =
         try {
             publisherService
                 .getById(id)
-                ?.let { publisher -> ResponseEntity(publisher, HttpStatus.OK) }
+                ?.let { publisher -> publisher.jenaResponse(httpServletRequest.getHeader("Accept")) }
+                ?.let { response -> ResponseEntity(response, HttpStatus.OK) }
                 ?: ResponseEntity(HttpStatus.NOT_FOUND)
         } catch (exception: Exception) {
             LOGGER.error("getPublisherById failed:", exception)
-            ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+            when(exception) {
+                is MissingAcceptHeaderException -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+                else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+            }
         }
 
-    override fun getPublishers(
-        httpServletRequest: HttpServletRequest,
-        @ApiParam(value = "A query string to match a publisher name") @Valid @RequestParam(value = "name", required = false) name: String?,
-        @ApiParam(value = "If you want to filter by organizationId") @Valid @RequestParam(value = "organizationId", required = false) organizationId: String?
-    ): ResponseEntity<List<Publisher>> =
+    override fun getPublishers(httpServletRequest: HttpServletRequest, name: String?, organizationId: String?): ResponseEntity<String> =
         try {
             publisherService
                 .getPublishers(name, organizationId)
-                .let { ResponseEntity(it, HttpStatus.OK) }
+                .let { publishers -> publishers.jenaResponse(httpServletRequest.getHeader("Accept")) }
+                .let { response -> ResponseEntity(response, HttpStatus.OK) }
         } catch (exception: Exception) {
             LOGGER.error("getPublishers failed:", exception)
-            ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+            when(exception) {
+                is MissingAcceptHeaderException -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+                else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+            }
         }
 }
