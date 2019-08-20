@@ -9,11 +9,9 @@ class BR {
 
         val uri = "http://data.brreg.no/informasjonsmodeller/enhetsregisteret/"
 
-        val organisasjonsform: Property = m.createProperty(uri + "organisasjonsform")
-        val overordnetEnhet: Property = m.createProperty(uri + "overordnetEnhet")
-        val kommunenummer: Property = m.createProperty(uri + "kommunenummer")
+        val municipalityNumber: Property = m.createProperty(uri + "municipalityNumber")
         val orgPath: Property = m.createProperty(uri + "orgPath")
-        val naeringskode: Property = m.createProperty(uri + "naeringskode")
-        val sektorkode: Property = m.createProperty(uri + "sektorkode")
+        val industryCode: Property = m.createProperty(uri + "industryCode")
+        val sectorCode: Property = m.createProperty(uri + "sectorCode")
     }
 }

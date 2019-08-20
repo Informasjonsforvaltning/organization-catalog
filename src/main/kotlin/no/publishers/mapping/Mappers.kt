@@ -1,10 +1,8 @@
 package no.publishers.mapping
 
-import no.publishers.generated.model.Code
 import no.publishers.generated.model.PrefLabel
 import no.publishers.generated.model.Publisher
 import no.publishers.model.PublisherDB
-import java.time.LocalDate
 
 fun PublisherDB.mapToGenerated(): Publisher {
     val mapped = Publisher()
@@ -13,13 +11,13 @@ fun PublisherDB.mapToGenerated(): Publisher {
     mapped.name = name
     mapped.uri = uri
     mapped.organizationId = organizationId
-    mapped.orgForm = orgForm
+    mapped.orgType = orgType
     mapped.orgPath = orgPath
-    mapped.orgParent = orgParent
-    mapped.municipalityNumber = municipalityNumber
+    mapped.subOrganizationOf = subOrganizationOf
     mapped.issued = issued
-    mapped.industryCode = industryCode
-    mapped.sectorCode = sectorCode
+    mapped.uriMunicipalityNumber = uriMunicipalityNumber
+    mapped.uriIndustryCode = uriIndustryCode
+    mapped.uriSectorCode = uriSectorCode
     mapped.prefLabel = prefLabel
 
     return mapped
@@ -31,13 +29,13 @@ fun Publisher.mapForCreation(): PublisherDB {
     mapped.name = name
     mapped.uri = uri
     mapped.organizationId = organizationId
-    mapped.orgForm = orgForm
+    mapped.orgType = orgType
     mapped.orgPath = orgPath
-    mapped.orgParent = orgParent
-    mapped.municipalityNumber = municipalityNumber
+    mapped.subOrganizationOf = subOrganizationOf
+    mapped.uriMunicipalityNumber = uriMunicipalityNumber
     mapped.issued = issued
-    mapped.industryCode = industryCode ?: Code().apply { prefLabel = PrefLabel() }
-    mapped.sectorCode = sectorCode ?: Code().apply { prefLabel = PrefLabel() }
+    mapped.uriIndustryCode = uriIndustryCode
+    mapped.uriSectorCode = uriSectorCode
     mapped.prefLabel = prefLabel ?: PrefLabel()
 
     return mapped
@@ -48,13 +46,13 @@ fun PublisherDB.updateValues(publisher: Publisher): PublisherDB =
         name = publisher.name ?: name
         uri = publisher.uri ?: uri
         organizationId = publisher.organizationId ?: organizationId
-        orgForm = publisher.orgForm ?: orgForm
+        orgType = publisher.orgType ?: orgType
         orgPath = publisher.orgPath ?: orgPath
-        orgParent = publisher.orgParent ?: orgParent
-        municipalityNumber = publisher.municipalityNumber ?: municipalityNumber
+        subOrganizationOf = publisher.subOrganizationOf ?: subOrganizationOf
+        uriMunicipalityNumber = publisher.uriMunicipalityNumber ?: uriMunicipalityNumber
         issued = publisher.issued ?: issued
-        industryCode = industryCode.update(publisher.industryCode)
-        sectorCode = sectorCode.update(publisher.sectorCode)
+        uriIndustryCode = uriIndustryCode ?: uriIndustryCode
+        uriSectorCode = uriSectorCode ?: uriSectorCode
         prefLabel = prefLabel.update(publisher.prefLabel)
     }
 
@@ -62,14 +60,6 @@ private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel {
     nb = newValues?.nb ?: nb
     nn = newValues?.nn ?: nn
     en = newValues?.en ?: en
-
-    return this
-}
-
-private fun Code.update(newValues: Code?): Code {
-    uri = newValues?.uri ?: uri
-    code = newValues?.code ?: code
-    prefLabel = prefLabel.update(newValues?.prefLabel)
 
     return this
 }
