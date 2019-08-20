@@ -2,7 +2,6 @@ package no.publishers.model;
 
 import javax.validation.constraints.NotBlank;
 
-import no.publishers.generated.model.Code;
 import no.publishers.generated.model.PrefLabel;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -17,13 +16,13 @@ public class PublisherDB {
     @NotBlank private String name;
     private String uri;
     @Indexed(unique = true) @NotBlank private String organizationId;
-    private String orgForm;
+    private String orgType;
     private String orgPath;
-    private String orgParent;
-    private String municipalityNumber;
+    private String subOrganizationOf;
     private LocalDate issued;
-    private Code industryCode;
-    private Code sectorCode;
+    private String uriMunicipalityNumber;
+    private String uriIndustryCode;
+    private String uriSectorCode;
     private PrefLabel prefLabel;
 
     public ObjectId getId() {
@@ -58,12 +57,12 @@ public class PublisherDB {
         this.organizationId = organizationId;
     }
 
-    public String getOrgForm() {
-        return orgForm;
+    public String getOrgType() {
+        return orgType;
     }
 
-    public void setOrgForm(String orgForm) {
-        this.orgForm = orgForm;
+    public void setOrgType(String orgType) {
+        this.orgType = orgType;
     }
 
     public String getOrgPath() {
@@ -74,20 +73,12 @@ public class PublisherDB {
         this.orgPath = orgPath;
     }
 
-    public String getOrgParent() {
-        return orgParent;
+    public String getSubOrganizationOf() {
+        return subOrganizationOf;
     }
 
-    public void setOrgParent(String orgParent) {
-        this.orgParent = orgParent;
-    }
-
-    public String getMunicipalityNumber() {
-        return municipalityNumber;
-    }
-
-    public void setMunicipalityNumber(String municipalityNumber) {
-        this.municipalityNumber = municipalityNumber;
+    public void setSubOrganizationOf(String subOrganizationOf) {
+        this.subOrganizationOf = subOrganizationOf;
     }
 
     public LocalDate getIssued() {
@@ -98,20 +89,28 @@ public class PublisherDB {
         this.issued = issued;
     }
 
-    public Code getIndustryCode() {
-        return industryCode;
+    public String getUriMunicipalityNumber() {
+        return uriMunicipalityNumber;
     }
 
-    public void setIndustryCode(Code industryCode) {
-        this.industryCode = industryCode;
+    public void setUriMunicipalityNumber(String uriMunicipalityNumber) {
+        this.uriMunicipalityNumber = uriMunicipalityNumber;
     }
 
-    public Code getSectorCode() {
-        return sectorCode;
+    public String getUriIndustryCode() {
+        return uriIndustryCode;
     }
 
-    public void setSectorCode(Code sectorCode) {
-        this.sectorCode = sectorCode;
+    public void setUriIndustryCode(String uriIndustryCode) {
+        this.uriIndustryCode = uriIndustryCode;
+    }
+
+    public String getUriSectorCode() {
+        return uriSectorCode;
+    }
+
+    public void setUriSectorCode(String uriSectorCode) {
+        this.uriSectorCode = uriSectorCode;
     }
 
     public PrefLabel getPrefLabel() {

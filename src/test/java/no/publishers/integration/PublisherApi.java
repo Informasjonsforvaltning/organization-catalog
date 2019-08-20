@@ -187,7 +187,6 @@ class PublisherApi {
         String createdResponse = publishersApiImpl
             .getPublisherById(httpServletRequestMock, createdId)
             .getBody();
-        System.out.println(createdResponse);
 
         Model modelFromCreate = responseReader.parseResponse(createdResponse);
         Model expectedFromCreate = responseReader.getExpectedFromCreate(createdId);

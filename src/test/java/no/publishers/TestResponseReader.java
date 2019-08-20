@@ -30,25 +30,26 @@ public class TestResponseReader {
         String expected = "@prefix br:    <http://data.brreg.no/informasjonsmodeller/enhetsregisteret/> .\n" +
             "@prefix dct:   <http://purl.org/dc/terms/> .\n" +
             "@prefix adms:  <http://www.w3.org/ns/adms#> .\n" +
+            "@prefix org:   <http://www.w3.org/ns/org#> .\n" +
             "@prefix rov:   <http://www.w3.org/ns/regorg#> .\n" +
             "@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .\n" +
             "@prefix foaf:  <http://xmlns.com/foaf/0.1/> .\n" +
             "\n" +
-            "<uri>   a                     foaf:Organization ;\n" +
-            "        br:kommunenummer      \"0456\" ;\n" +
-            "        br:naeringskode       <industryUri> ;\n" +
-            "        br:orgPath            \"/STAT/123/456\" ;\n" +
-            "        br:organisasjonsform  \"orgForm\" ;\n" +
-            "        br:overordnetEnhet    <http://data.brreg.no/enhetsregisteret/enhet/98765421> ;\n" +
-            "        br:sektorkode         <sectorUri> ;\n" +
-            "        dct:identifier        \"" + id + "\" ;\n" +
-            "        rov:legalName         \"toBeUpdated\" ;\n" +
-            "        rov:registration      [ a                  adms:Identifier ;\n" +
-            "                                dct:issued         \"1999-02-03\" ;\n" +
-            "                                skos:notation      \"orgId\" ;\n" +
-            "                                adms:schemaAgency  \"Brønnøysundregistrene\"\n" +
-            "                              ] ;\n" +
-            "        foaf:name             \"nnLabel\"@nn , \"nbLabel\"@nb , \"enLabel\"@en .\n";
+            "<uri>   a                      foaf:Organization ;\n" +
+            "        br:industryCode        <industryUri> ;\n" +
+            "        br:municipalityNumber  <0456> ;\n" +
+            "        br:orgPath             \"/STAT/123/456\" ;\n" +
+            "        br:sectorCode          <sectorUri> ;\n" +
+            "        dct:identifier         \"" + id + "\" ;\n" +
+            "        org:subOrganizationOf  <http://data.brreg.no/enhetsregisteret/enhet/98765421> ;\n" +
+            "        rov:legalName          \"toBeUpdated\" ;\n" +
+            "        rov:orgType            \"orgForm\" ;\n" +
+            "        rov:registration       [ a                  adms:Identifier ;\n" +
+            "                                 dct:issued         \"1999-02-03\" ;\n" +
+            "                                 skos:notation      \"orgId\" ;\n" +
+            "                                 adms:schemaAgency  \"Brønnøysundregistrene\"\n" +
+            "                               ] ;\n" +
+            "        foaf:name              \"nnLabel\"@nn , \"nbLabel\"@nb , \"enLabel\"@en .\n";
 
         Model responseModel = ModelFactory.createDefaultModel();
         responseModel.read(new StringReader(expected), "", "text/turtle");
@@ -60,25 +61,26 @@ public class TestResponseReader {
         String expected = "@prefix br:    <http://data.brreg.no/informasjonsmodeller/enhetsregisteret/> .\n" +
             "@prefix dct:   <http://purl.org/dc/terms/> .\n" +
             "@prefix adms:  <http://www.w3.org/ns/adms#> .\n" +
+            "@prefix org:   <http://www.w3.org/ns/org#> .\n" +
             "@prefix rov:   <http://www.w3.org/ns/regorg#> .\n" +
             "@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .\n" +
             "@prefix foaf:  <http://xmlns.com/foaf/0.1/> .\n" +
             "\n" +
-            "<uri>   a                     foaf:Organization ;\n" +
-            "        br:kommunenummer      \"0456\" ;\n" +
-            "        br:naeringskode       <industryUri> ;\n" +
-            "        br:orgPath            \"/STAT/123/456\" ;\n" +
-            "        br:organisasjonsform  \"orgForm\" ;\n" +
-            "        br:overordnetEnhet    <http://data.brreg.no/enhetsregisteret/enhet/98765421> ;\n" +
-            "        br:sektorkode         <sectorUri> ;\n" +
-            "        dct:identifier        \"" + id + "\" ;\n" +
-            "        rov:legalName         \"updatedName\" ;\n" +
-            "        rov:registration      [ a                  adms:Identifier ;\n" +
-            "                                dct:issued         \"1999-02-03\" ;\n" +
-            "                                skos:notation      \"orgId\" ;\n" +
-            "                                adms:schemaAgency  \"Brønnøysundregistrene\"\n" +
-            "                              ] ;\n" +
-            "        foaf:name             \"nnLabel\"@nn , \"nbLabel\"@nb , \"enLabel\"@en .\n";
+            "<uri>   a                      foaf:Organization ;\n" +
+            "        br:industryCode        <industryUri> ;\n" +
+            "        br:municipalityNumber  <0456> ;\n" +
+            "        br:orgPath             \"/STAT/123/456\" ;\n" +
+            "        br:sectorCode          <sectorUri> ;\n" +
+            "        dct:identifier         \"" + id + "\" ;\n" +
+            "        org:subOrganizationOf  <http://data.brreg.no/enhetsregisteret/enhet/98765421> ;\n" +
+            "        rov:legalName          \"updatedName\" ;\n" +
+            "        rov:orgType            \"orgForm\" ;\n" +
+            "        rov:registration       [ a                  adms:Identifier ;\n" +
+            "                                 dct:issued         \"1999-02-03\" ;\n" +
+            "                                 skos:notation      \"orgId\" ;\n" +
+            "                                 adms:schemaAgency  \"Brønnøysundregistrene\"\n" +
+            "                               ] ;\n" +
+            "        foaf:name              \"nnLabel\"@nn , \"nbLabel\"@nb , \"enLabel\"@en .\n";
 
         Model responseModel = ModelFactory.createDefaultModel();
         responseModel.read(new StringReader(expected), "", "text/turtle");

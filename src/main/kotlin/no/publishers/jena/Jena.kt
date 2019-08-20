@@ -8,6 +8,7 @@ import org.apache.jena.rdf.model.Property
 import org.apache.jena.rdf.model.Resource
 import org.apache.jena.sparql.vocabulary.FOAF
 import org.apache.jena.vocabulary.DCTerms
+import org.apache.jena.vocabulary.ORG
 import org.apache.jena.vocabulary.RDF
 import org.apache.jena.vocabulary.ROV
 import org.apache.jena.vocabulary.SKOS
@@ -27,6 +28,7 @@ private fun List<Publisher>.createModel(): Model {
     model.setNsPrefix("dct", DCTerms.getURI())
     model.setNsPrefix("skos", SKOS.uri)
     model.setNsPrefix("foaf", FOAF.getURI())
+    model.setNsPrefix("org", ORG.getURI())
     model.setNsPrefix("rov", ROV.getURI())
     model.setNsPrefix("adms", ADMS.uri)
     model.setNsPrefix("br", BR.uri)
@@ -37,12 +39,12 @@ private fun List<Publisher>.createModel(): Model {
             .addProperty(DCTerms.identifier, it.id)
             .safeAddProperty(ROV.legalName, it.name)
             .addRegistration(it)
-            .safeAddProperty(BR.organisasjonsform, it.orgForm)
+            .safeAddProperty(ROV.orgType, it.orgType)
             .safeAddProperty(BR.orgPath, it.orgPath)
-            .safeAddProperty(BR.kommunenummer, it.municipalityNumber)
-            .safeAddLinkedProperty(BR.overordnetEnhet, it.orgParent)
-            .safeAddLinkedProperty(BR.naeringskode, it.industryCode.uri)
-            .safeAddLinkedProperty(BR.sektorkode, it.sectorCode.uri)
+            .safeAddLinkedProperty(ORG.subOrganizationOf, it.subOrganizationOf)
+            .safeAddLinkedProperty(BR.municipalityNumber, it.uriMunicipalityNumber)
+            .safeAddLinkedProperty(BR.industryCode, it.uriIndustryCode)
+            .safeAddLinkedProperty(BR.sectorCode, it.uriSectorCode)
             .addPreferredNames(it.prefLabel)
     }
 
