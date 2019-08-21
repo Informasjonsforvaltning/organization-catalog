@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventL
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.DispatcherServlet;
 
+//force build
+
 @SpringBootApplication
 public class Application {
 
