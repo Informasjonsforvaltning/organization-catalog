@@ -4,6 +4,7 @@ import no.publishers.TestResponseReader;
 import no.publishers.generated.model.Publisher;
 import no.publishers.service.PublisherService;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.riot.RIOT;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
@@ -44,6 +45,7 @@ public class PublishersApiImplTest {
 
     @BeforeAll
     public static void setup() {
+        RIOT.init();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(new MockHttpServletRequest()));
     }
 
@@ -52,8 +54,31 @@ public class PublishersApiImplTest {
         Mockito.reset(publisherServiceMock);
     }
 
+    @Test
+    void readyTest() {
+        HttpStatus statusCode = publishersApi.ready().getStatusCode();
+        assertEquals(HttpStatus.OK, statusCode);
+    }
+
     @Nested
     class getPublishers {
+
+        @Test
+        public void missingAcceptHeader() {
+            Publisher publisher = getPUBLISHER_0();
+            Mockito
+                .when(publisherServiceMock.getPublishers("123NotAccepted", null))
+                .thenReturn(getEMPTY_PUBLISHERS());
+
+            Mockito
+                .when(httpServletRequestMock.getHeader("Accept"))
+                .thenReturn(null);
+
+            ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, "123NotAccepted", null);
+
+            assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+            assertNull(response.getBody());
+        }
 
         @Test
         public void okWhenEmptyResult() {
@@ -67,9 +92,9 @@ public class PublishersApiImplTest {
                 .thenReturn("text/turtle");
 
             ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, "Name does not exists", null);
-            Model modelFromResponse = responseReader.parseResponse(response.getBody());
+            Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
 
-            Model expectedResponse = responseReader.getExpectedResponse("emptyList");
+            Model expectedResponse = responseReader.getExpectedResponse("emptyList.ttl", "TURTLE");
 
             assertEquals(HttpStatus.OK, response.getStatusCode());
             assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -87,9 +112,9 @@ public class PublishersApiImplTest {
                 .thenReturn("text/turtle");
 
             ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, null, null);
-            Model modelFromResponse = responseReader.parseResponse(response.getBody());
+            Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
 
-            Model expectedResponse = responseReader.getExpectedResponse("getList");
+            Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
 
             assertEquals(HttpStatus.OK, response.getStatusCode());
             assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -107,9 +132,9 @@ public class PublishersApiImplTest {
                 .thenReturn("text/turtle");
 
             ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, null, "OrgId");
-            Model modelFromResponse = responseReader.parseResponse(response.getBody());
+            Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
 
-            Model expectedResponse = responseReader.getExpectedResponse("getList");
+            Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
 
             assertEquals(HttpStatus.OK, response.getStatusCode());
             assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -127,9 +152,9 @@ public class PublishersApiImplTest {
                 .thenReturn("text/turtle");
 
             ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, "Name exists", null);
-            Model modelFromResponse = responseReader.parseResponse(response.getBody());
+            Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
 
-            Model expectedResponse = responseReader.getExpectedResponse("getList");
+            Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
 
             assertEquals(HttpStatus.OK, response.getStatusCode());
             assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -166,6 +191,23 @@ public class PublishersApiImplTest {
         }
 
         @Test
+        public void wrongAcceptHeader() {
+            Publisher publisher = getPUBLISHER_0();
+            Mockito
+                .when(publisherServiceMock.getById("123NotAccepted"))
+                .thenReturn(publisher);
+
+            Mockito
+                .when(httpServletRequestMock.getHeader("Accept"))
+                .thenReturn("application/json");
+
+            ResponseEntity<String> response = publishersApi.getPublisherById(httpServletRequestMock, "123NotAccepted");
+
+            assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+            assertNull(response.getBody());
+        }
+
+        @Test
         public void whenNonEmptyResult200() {
             Publisher publisher = getPUBLISHER_0();
             Mockito
@@ -177,9 +219,9 @@ public class PublishersApiImplTest {
                 .thenReturn("text/turtle");
 
             ResponseEntity<String> response = publishersApi.getPublisherById(httpServletRequestMock, "5d5531e55c404500068481da");
-            Model modelFromResponse = responseReader.parseResponse(response.getBody());
+            Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
 
-            Model expectedResponse = responseReader.getExpectedResponse("getOne");
+            Model expectedResponse = responseReader.getExpectedResponse("getOne.ttl", "TURTLE");
 
             assertEquals(HttpStatus.OK, response.getStatusCode());
             assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -240,6 +282,17 @@ public class PublishersApiImplTest {
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         }
 
+        @Test
+        public void whenUnexpectedException500() {
+            Mockito
+                .when(publisherServiceMock.createPublisher(getPUBLISHER_0()))
+                .thenAnswer( invocation -> { throw new Exception("Unexpected exception"); });
+
+            ResponseEntity<Void> response = publishersApi.createPublisher(httpServletRequestMock, getPUBLISHER_0());
+
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        }
+
     }
 
     @Nested
@@ -290,6 +343,19 @@ public class PublishersApiImplTest {
             ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", getPUBLISHER_0());
 
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        }
+
+        @Test
+        public void whenUnexpectedException500() {
+            Mockito
+                .when(publisherServiceMock.updatePublisher("id", getPUBLISHER_0()))
+                .thenAnswer(invocation -> {
+                    throw new Exception("Unexpected exception");
+                });
+
+            ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", getPUBLISHER_0());
+
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         }
     }
 }

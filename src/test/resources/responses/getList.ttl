@@ -9,7 +9,7 @@
 <http://data.brreg.no/enhetsregisteret/enhet/986105174>
         a                      foaf:Organization ;
         br:industryCode        <http://www.ssb.no/nace/sn2007/84.220> ;
-        br:municipalityNumber  <0301> ;
+        br:municipalityNumber  <http://www.test.no/fest/0301> ;
         br:orgPath             "/STAT/972417823/986105174" ;
         br:sectorCode          <http://www.brreg.no/sektorkode/6100> ;
         dct:identifier         "5d5531e45c40450006848159" ;
@@ -17,16 +17,15 @@
         rov:legalName          "FORSVARET" ;
         rov:orgType            "ORGL" ;
         rov:registration       [ a                  adms:Identifier ;
-                                 dct:issued         "1999-02-03" ;
                                  skos:notation      "986105174" ;
                                  adms:schemaAgency  "Brønnøysundregistrene"
                                ] ;
-        foaf:name              "Forsvaret"@nb .
+        foaf:name              "Forsvaret"@en .
 
 <http://data.brreg.no/enhetsregisteret/enhet/994686011>
         a                      foaf:Organization ;
         br:industryCode        <http://www.ssb.no/nace/sn2007/84.130> ;
-        br:municipalityNumber  <5001> ;
+        br:municipalityNumber  <http://www.test.no/fest/5001> ;
         br:orgPath             "/PRIVAT/994686011" ;
         br:sectorCode          <http://www.brreg.no/sektorkode/6500> ;
         dct:identifier         "5d5531e45c40450006848160" ;
@@ -37,12 +36,12 @@
                                  skos:notation      "994686011" ;
                                  adms:schemaAgency  "Brønnøysundregistrene"
                                ] ;
-        foaf:name              "AtB AS"@nb .
+        foaf:name              "AtB AS"@nn .
 
 <http://data.brreg.no/enhetsregisteret/enhet/974760673>
         a                      foaf:Organization ;
         br:industryCode        <http://www.ssb.no/nace/sn2007/84.110> ;
-        br:municipalityNumber  <1813> ;
+        br:municipalityNumber  <http://www.test.no/fest/1813> ;
         br:orgPath             "/STAT/912660680/974760673" ;
         br:sectorCode          <http://www.brreg.no/sektorkode/6100> ;
         dct:identifier         "5d5531e55c404500068481da" ;

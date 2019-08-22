@@ -9,7 +9,7 @@
 <http://data.brreg.no/enhetsregisteret/enhet/986105174>
         a                      foaf:Organization ;
         br:industryCode        <http://www.ssb.no/nace/sn2007/84.220> ;
-        br:municipalityNumber  <0301> ;
+        br:municipalityNumber  <http://www.test.no/fest/0301> ;
         br:orgPath             "/STAT/972417823/986105174" ;
         br:sectorCode          <http://www.brreg.no/sektorkode/6100> ;
         dct:identifier         "5d5531e45c40450006848159" ;
@@ -17,8 +17,7 @@
         rov:legalName          "FORSVARET" ;
         rov:orgType            "ORGL" ;
         rov:registration       [ a                  adms:Identifier ;
-                                 dct:issued         "1999-02-03" ;
                                  skos:notation      "986105174" ;
                                  adms:schemaAgency  "Brønnøysundregistrene"
                                ] ;
-        foaf:name              "Forsvaret"@nb .
+        foaf:name              "Forsvaret"@en .
