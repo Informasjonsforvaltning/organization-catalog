@@ -9,7 +9,7 @@
 <http://data.brreg.no/enhetsregisteret/enhet/994686011>
         a                      foaf:Organization ;
         br:industryCode        <http://www.ssb.no/nace/sn2007/84.130> ;
-        br:municipalityNumber  <5001> ;
+        br:municipalityNumber  <http://www.test.no/fest/5001> ;
         br:orgPath             "/PRIVAT/994686011" ;
         br:sectorCode          <http://www.brreg.no/sektorkode/6500> ;
         dct:identifier         "5d5531e45c40450006848160" ;
@@ -20,4 +20,4 @@
                                  skos:notation      "994686011" ;
                                  adms:schemaAgency  "Brønnøysundregistrene"
                                ] ;
-        foaf:name              "AtB AS"@nb .
+        foaf:name              "AtB AS"@nn .

@@ -36,7 +36,7 @@ val PUBLISHER_0 = Publisher().apply {
     orgPath = "/STAT/912660680/974760673"
     subOrganizationOf = "http://data.brreg.no/enhetsregisteret/enhet/912660680"
     issued = LocalDate.of(1999, 2, 3)
-    uriMunicipalityNumber = "1813"
+    uriMunicipalityNumber = "http://www.test.no/fest/1813"
     uriIndustryCode = "http://www.ssb.no/nace/sn2007/84.110"
     uriSectorCode = "http://www.brreg.no/sektorkode/6100"
     prefLabel = PrefLabel().apply {
@@ -52,11 +52,11 @@ val PUBLISHER_1 =  Publisher().apply {
     orgType = "AS"
     orgPath = "/PRIVAT/994686011"
     issued = LocalDate.of(1999, 2, 3)
-    uriMunicipalityNumber = "5001"
+    uriMunicipalityNumber = "http://www.test.no/fest/5001"
     uriIndustryCode = "http://www.ssb.no/nace/sn2007/84.130"
     uriSectorCode = "http://www.brreg.no/sektorkode/6500"
     prefLabel = PrefLabel().apply {
-        nb = "AtB AS"
+        nn = "AtB AS"
     }
 }
 
@@ -68,30 +68,58 @@ val PUBLISHER_2 =  Publisher().apply {
     orgType = "ORGL"
     orgPath = "/STAT/972417823/986105174"
     subOrganizationOf = "http://data.brreg.no/enhetsregisteret/enhet/972417823"
-    issued = LocalDate.of(1999, 2, 3)
-    uriMunicipalityNumber = "0301"
+    uriMunicipalityNumber = "http://www.test.no/fest/0301"
     uriIndustryCode = "http://www.ssb.no/nace/sn2007/84.220"
     uriSectorCode = "http://www.brreg.no/sektorkode/6100"
     prefLabel = PrefLabel().apply {
-        nb = "Forsvaret"
+        en = "Forsvaret"
     }
 }
 
-val PUBLISHER_3 =  Publisher().apply {
-    name = "toBeUpdated"
-    uri = "uri"
-    organizationId = "orgId"
-    orgType = "orgForm"
+val NEW_PUBLISHER_0 =  Publisher().apply {
+    name = "toBeUpdated0"
+    uri = "uri0"
+    organizationId = "orgId0"
+    orgType = "orgForm0"
     orgPath = "/STAT/123/456"
     subOrganizationOf = "http://data.brreg.no/enhetsregisteret/enhet/98765421"
     issued = LocalDate.of(1999, 2, 3)
-    uriMunicipalityNumber = "0456"
-    uriIndustryCode = "industryUri"
-    uriSectorCode = "sectorUri"
+    uriMunicipalityNumber = "http://www.test.no/fest/0456"
+    uriIndustryCode = "industryUri0"
+    uriSectorCode = "sectorUri0"
     prefLabel = PrefLabel().apply {
-        nb = "nbLabel"
         nn = "nnLabel"
         en = "enLabel"
+    }
+}
+
+val NEW_PUBLISHER_1 =  Publisher().apply {
+    name = "Name"
+    uri = "uri1"
+    organizationId = "orgId1"
+    orgType = "orgForm1"
+    orgPath = "/STAT/654/321"
+    subOrganizationOf = "http://data.brreg.no/enhetsregisteret/enhet/972417823"
+    issued = LocalDate.of(1999, 3, 2)
+    uriMunicipalityNumber = "http://www.test.no/fest/1289"
+    uriIndustryCode = "industryUri1"
+    uriSectorCode = "sectorUri1"
+}
+
+val UPDATE_PUBLISHER =  Publisher().apply {
+    uri = "uriUpdated"
+    organizationId = "orgIdUpdated"
+    orgType = "orgFormUpdated"
+    orgPath = "/STAT/654/655"
+    subOrganizationOf = "http://data.brreg.no/enhetsregisteret/enhet/12345678"
+    issued = LocalDate.of(2001, 1, 3)
+    uriMunicipalityNumber = "http://www.test.no/fest/6548"
+    uriIndustryCode = "industryUriUpdated"
+    uriSectorCode = "sectorUriUpdated"
+    prefLabel = PrefLabel().apply {
+        nb = "nbLabelUpdated"
+        nn = "nnLabelUpdated"
+        en = "enLabelUpdated"
     }
 }
 
@@ -107,7 +135,7 @@ var PUBLISHER_DB_0 = PublisherDB().apply {
     orgPath = "/STAT/912660680/974760673"
     subOrganizationOf = "http://data.brreg.no/enhetsregisteret/enhet/912660680"
     issued = LocalDate.of(1999, 2, 3)
-    uriMunicipalityNumber = "1813"
+    uriMunicipalityNumber = "http://www.test.no/fest/1813"
     uriIndustryCode = "http://www.ssb.no/nace/sn2007/84.110"
     uriSectorCode = "http://www.brreg.no/sektorkode/6100"
     prefLabel = PrefLabel().apply {
@@ -123,11 +151,11 @@ val PUBLISHER_DB_1 =  PublisherDB().apply {
     orgType = "AS"
     orgPath = "/PRIVAT/994686011"
     issued = LocalDate.of(1999, 2, 3)
-    uriMunicipalityNumber = "5001"
+    uriMunicipalityNumber = "http://www.test.no/fest/5001"
     uriIndustryCode = "http://www.ssb.no/nace/sn2007/84.130"
     uriSectorCode = "http://www.brreg.no/sektorkode/6500"
     prefLabel = PrefLabel().apply {
-        nb = "AtB AS"
+        nn = "AtB AS"
     }
 }
 
@@ -139,11 +167,10 @@ val PUBLISHER_DB_2 =  PublisherDB().apply {
     orgType = "ORGL"
     orgPath = "/STAT/972417823/986105174"
     subOrganizationOf = "http://data.brreg.no/enhetsregisteret/enhet/972417823"
-    issued = LocalDate.of(1999, 2, 3)
-    uriMunicipalityNumber = "0301"
+    uriMunicipalityNumber = "http://www.test.no/fest/0301"
     uriIndustryCode = "http://www.ssb.no/nace/sn2007/84.220"
     uriSectorCode = "http://www.brreg.no/sektorkode/6100"
     prefLabel = PrefLabel().apply {
-        nb = "Forsvaret"
+        en = "Forsvaret"
     }
 }
