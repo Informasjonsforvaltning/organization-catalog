@@ -2,9 +2,11 @@ package no.publishers.integration;
 
 import no.publishers.TestResponseReader;
 import no.publishers.controller.PublishersApiImpl;
+import no.publishers.generated.model.PrefLabel;
 import no.publishers.generated.model.Publisher;
 import no.publishers.repository.PublisherRepository;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.riot.RIOT;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
@@ -64,6 +68,7 @@ class PublisherApi {
 
     @BeforeAll
     static void setup(@Autowired PublisherRepository repository) {
+        RIOT.init();
         repository.save(getPUBLISHER_DB_0());
         repository.save(getPUBLISHER_DB_1());
         repository.save(getPUBLISHER_DB_2());
@@ -93,14 +98,14 @@ class PublisherApi {
             .getPublisherById(httpServletRequestMock, getPUBLISHER_2().getId())
             .getBody();
 
-        Model modelFromResponse0 = responseReader.parseResponse(response0);
-        Model expectedResponse0 = responseReader.getExpectedResponse("getOne");
+        Model modelFromResponse0 = responseReader.parseResponse(response0, "text/turtle");
+        Model expectedResponse0 = responseReader.getExpectedResponse("getOne.ttl", "TURTLE");
 
-        Model modelFromResponse1 = responseReader.parseResponse(response1);
-        Model expectedResponse1 = responseReader.getExpectedResponse("getOne1");
+        Model modelFromResponse1 = responseReader.parseResponse(response1, "text/turtle");
+        Model expectedResponse1 = responseReader.getExpectedResponse("getOne1.ttl", "TURTLE");
 
-        Model modelFromResponse2 = responseReader.parseResponse(response2);
-        Model expectedResponse2 = responseReader.getExpectedResponse("getOne2");
+        Model modelFromResponse2 = responseReader.parseResponse(response2, "text/turtle");
+        Model expectedResponse2 = responseReader.getExpectedResponse("getOne2.ttl", "TURTLE");
 
         assertTrue(expectedResponse0.isIsomorphicWith(modelFromResponse0));
         assertTrue(expectedResponse1.isIsomorphicWith(modelFromResponse1));
@@ -117,8 +122,8 @@ class PublisherApi {
             .getPublishers(httpServletRequestMock, "ET", null)
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse(response);
-        Model expectedResponse = responseReader.getExpectedResponse("searchByName");
+        Model modelFromResponse = responseReader.parseResponse(response, "TURTLE");
+        Model expectedResponse = responseReader.getExpectedResponse("searchByName.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
     }
@@ -127,14 +132,14 @@ class PublisherApi {
     void getByNameSingle() {
         Mockito
             .when(httpServletRequestMock.getHeader("Accept"))
-            .thenReturn("text/turtle");
+            .thenReturn("application/ld+json");
 
         String response = publishersApiImpl
             .getPublishers(httpServletRequestMock, "FORSVARET", null)
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse(response);
-        Model expectedResponse = responseReader.getExpectedResponse("getOne2");
+        Model modelFromResponse = responseReader.parseResponse(response, "JSONLD");
+        Model expectedResponse = responseReader.getExpectedResponse("getOne2.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
     }
@@ -149,8 +154,8 @@ class PublisherApi {
             .getPublishers(httpServletRequestMock, null, "60")
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse(response);
-        Model expectedResponse = responseReader.getExpectedResponse("searchByOrgId");
+        Model modelFromResponse = responseReader.parseResponse(response, "text/turtle");
+        Model expectedResponse = responseReader.getExpectedResponse("searchByOrgId.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
     }
@@ -159,61 +164,83 @@ class PublisherApi {
     void getByOrgidSingle() {
         Mockito
             .when(httpServletRequestMock.getHeader("Accept"))
-            .thenReturn("text/turtle");
+            .thenReturn("application/rdf+xml");
 
         String response = publishersApiImpl
             .getPublishers(httpServletRequestMock, null, "994686011")
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse(response);
-        Model expectedResponse = responseReader.getExpectedResponse("getOne1");
+        Model modelFromResponse = responseReader.parseResponse(response, "RDFXML");
+        Model expectedResponse = responseReader.getExpectedResponse("getOne1.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
     }
 
     @Test
-    void createAndUpdateName() {
+    void createAndUpdate() {
         Mockito
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("text/turtle");
 
-        String createdId = publishersApiImpl
-            .createPublisher(httpServletRequestMock, getPUBLISHER_3())
+        Publisher newPublisherWithPrefLabel = getNEW_PUBLISHER_0();
+        Publisher newPublisherNoPrefLabel = getNEW_PUBLISHER_1();
+
+        String createdId0 = publishersApiImpl
+            .createPublisher(httpServletRequestMock, newPublisherWithPrefLabel)
             .getHeaders()
             .getLocation()
             .getPath()
             .split("/")[2];
 
-        String createdResponse = publishersApiImpl
-            .getPublisherById(httpServletRequestMock, createdId)
-            .getBody();
+        String createdId1 = publishersApiImpl
+            .createPublisher(httpServletRequestMock, newPublisherNoPrefLabel)
+            .getHeaders()
+            .getLocation()
+            .getPath()
+            .split("/")[2];
 
-        Model modelFromCreate = responseReader.parseResponse(createdResponse);
-        Model expectedFromCreate = responseReader.getExpectedFromCreate(createdId);
-
-        // Created publisher as expected
-        assertTrue(expectedFromCreate.isIsomorphicWith(modelFromCreate));
+        ResponseEntity<Void> conflictResponseCreate = publishersApiImpl.createPublisher(httpServletRequestMock, newPublisherNoPrefLabel);
+        // Unable to create publisher with existing OrgId
+        assertEquals(HttpStatus.CONFLICT, conflictResponseCreate.getStatusCode());
 
         Publisher newNameElseNull = new Publisher();
         newNameElseNull.setName("updatedName");
         newNameElseNull.setId("idInObjectIsIgnored");
 
-        Publisher updated = publishersApiImpl
-            .updatePublisher(httpServletRequestMock, createdId, newNameElseNull)
+        Publisher updated0 = publishersApiImpl
+            .updatePublisher(httpServletRequestMock, createdId0, newNameElseNull)
             .getBody();
 
-        // Publisher has updated name
-        assertEquals("updatedName", updated.getName());
+        Publisher expectedUpdate0 = getNEW_PUBLISHER_0();
+        expectedUpdate0.setId(createdId0);
+        expectedUpdate0.setName("updatedName");
 
-        String updatedResponse = publishersApiImpl
-            .getPublisherById(httpServletRequestMock, createdId)
+        // Only name was changed
+        assertEquals(updated0, expectedUpdate0);
+
+        Publisher updated1 = publishersApiImpl
+            .updatePublisher(httpServletRequestMock, createdId1, getUPDATE_PUBLISHER())
             .getBody();
 
-        Model modelFromUpdate = responseReader.parseResponse(updatedResponse);
-        Model expectedFromUpdate = responseReader.getExpectedFromUpdate(createdId);
+        Publisher expectedUpdate1 = getUPDATE_PUBLISHER();
+        expectedUpdate1.setId(createdId1);
+        expectedUpdate1.setName("Name");
 
-        // Created publisher as expected
-        assertTrue(expectedFromUpdate.isIsomorphicWith(modelFromUpdate));
+        // All values except name were changed
+        assertEquals(updated1, expectedUpdate1);
 
+        Publisher nothingWillBeUpdated = new Publisher();
+        nothingWillBeUpdated.setPrefLabel(new PrefLabel());
+
+        Publisher updated2 = publishersApiImpl
+            .updatePublisher(httpServletRequestMock, createdId1, nothingWillBeUpdated)
+            .getBody();
+
+        // No values changed
+        assertEquals(updated2, expectedUpdate1);
+
+        ResponseEntity<Publisher> conflictResponseUpdate = publishersApiImpl.updatePublisher(httpServletRequestMock, createdId0, getUPDATE_PUBLISHER());
+        // Unable to update publisher with existing OrgId
+        assertEquals(HttpStatus.CONFLICT, conflictResponseUpdate.getStatusCode());
     }
 }

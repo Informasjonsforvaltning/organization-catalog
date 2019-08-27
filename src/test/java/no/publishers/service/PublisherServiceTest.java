@@ -18,8 +18,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static no.publishers.TestDataKt.getPUBLISHER_0;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static no.publishers.TestDataKt.getPUBLISHER_DB_0;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
@@ -35,6 +37,17 @@ public class PublisherServiceTest {
     @BeforeEach
     public void resetMocks() {
         Mockito.reset(publisherRepository);
+    }
+
+    @Test
+    public void getByIdNotFound() {
+        Mockito
+            .when(publisherRepository.findById("123ID"))
+            .thenReturn(Optional.empty());
+
+        Publisher publisher = publisherService.getById("123ID");
+
+        assertNull(publisher);
     }
 
     @Test
@@ -103,5 +116,16 @@ public class PublisherServiceTest {
         assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
         assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
         assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
+    }
+
+    @Test
+    public void updateNotFound() {
+        Mockito
+            .when(publisherRepository.findById("123ID"))
+            .thenReturn(Optional.empty());
+
+        Publisher publisher = publisherService.updatePublisher("123ID", getPUBLISHER_0());
+
+        assertNull(publisher);
     }
 }

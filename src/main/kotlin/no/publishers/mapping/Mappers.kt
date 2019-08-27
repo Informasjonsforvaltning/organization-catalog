@@ -51,8 +51,8 @@ fun PublisherDB.updateValues(publisher: Publisher): PublisherDB =
         subOrganizationOf = publisher.subOrganizationOf ?: subOrganizationOf
         uriMunicipalityNumber = publisher.uriMunicipalityNumber ?: uriMunicipalityNumber
         issued = publisher.issued ?: issued
-        uriIndustryCode = uriIndustryCode ?: uriIndustryCode
-        uriSectorCode = uriSectorCode ?: uriSectorCode
+        uriIndustryCode = publisher.uriIndustryCode ?: uriIndustryCode
+        uriSectorCode = publisher.uriSectorCode ?: uriSectorCode
         prefLabel = prefLabel.update(publisher.prefLabel)
     }
 
