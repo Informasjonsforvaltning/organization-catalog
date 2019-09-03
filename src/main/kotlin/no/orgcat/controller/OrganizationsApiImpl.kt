@@ -1,10 +1,10 @@
-package no.publishers.controller
+package no.orgcat.controller
 
 import javax.servlet.http.HttpServletRequest
-import no.publishers.generated.model.Publisher
-import no.publishers.jena.MissingAcceptHeaderException
-import no.publishers.jena.jenaResponse
-import no.publishers.service.PublisherService
+import no.orgcat.generated.model.Organization
+import no.orgcat.jena.MissingAcceptHeaderException
+import no.orgcat.jena.jenaResponse
+import no.orgcat.service.OrganizationCatalogueService
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpHeaders
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import javax.validation.ConstraintViolationException
 
-private val LOGGER = LoggerFactory.getLogger(PublishersApiImpl::class.java)
+private val LOGGER = LoggerFactory.getLogger(OrganizationsApiImpl::class.java)
 
 @Controller
-open class PublishersApiImpl (
-    private val publisherService: PublisherService
-): no.publishers.generated.api.PublishersApi {
+open class OrganizationsApiImpl (
+    private val catalogueService: OrganizationCatalogueService
+): no.orgcat.generated.api.OrganizationsApi {
 
     @RequestMapping(value = ["/ping"], method = [GET], produces = ["text/plain"])
     fun ping(): ResponseEntity<String> =
@@ -31,7 +31,7 @@ open class PublishersApiImpl (
     fun ready(): ResponseEntity<Void> =
         ResponseEntity.ok().build()
 
-    override fun createPublisher(httpServletRequest: HttpServletRequest, publisher: Publisher): ResponseEntity<Void> =
+    override fun createOrganization(httpServletRequest: HttpServletRequest, publisher: Organization): ResponseEntity<Void> =
         try {
             HttpHeaders()
                 .apply {
@@ -39,7 +39,7 @@ open class PublishersApiImpl (
                         .fromCurrentServletMapping()
                         .path("/publishers/{id}")
                         .build()
-                        .expand(publisherService.createPublisher(publisher).id)
+                        .expand(catalogueService.createEntry(publisher).id)
                         .toUri() }
                 .let { ResponseEntity(it, HttpStatus.CREATED) }
         } catch (exception: Exception) {
@@ -51,10 +51,10 @@ open class PublishersApiImpl (
             }
         }
 
-    override fun updatePublisher(httpServletRequest: HttpServletRequest, id: String, publisher: Publisher): ResponseEntity<Publisher> =
+    override fun updateOrganization(httpServletRequest: HttpServletRequest?, id: String, organization: Organization): ResponseEntity<Organization> =
         try {
-            publisherService
-                .updatePublisher(id, publisher)
+            catalogueService
+                .updateEntry(id, organization)
                 ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
                 ?: ResponseEntity(HttpStatus.NOT_FOUND)
         } catch (exception: Exception) {
@@ -66,11 +66,11 @@ open class PublishersApiImpl (
             }
         }
 
-    override fun getPublisherById(httpServletRequest: HttpServletRequest, id: String): ResponseEntity<String> =
+    override fun getOrganizationById(httpServletRequest: HttpServletRequest, id: String): ResponseEntity<String> =
         try {
-            publisherService
+            catalogueService
                 .getById(id)
-                ?.let { publisher -> publisher.jenaResponse(httpServletRequest.getHeader("Accept")) }
+                ?.let { org -> org.jenaResponse(httpServletRequest.getHeader("Accept")) }
                 ?.let { response -> ResponseEntity(response, HttpStatus.OK) }
                 ?: ResponseEntity(HttpStatus.NOT_FOUND)
         } catch (exception: Exception) {
@@ -81,11 +81,11 @@ open class PublishersApiImpl (
             }
         }
 
-    override fun getPublishers(httpServletRequest: HttpServletRequest, name: String?, organizationId: String?): ResponseEntity<String> =
+    override fun getOrganizations(httpServletRequest: HttpServletRequest, name: String?, organizationId: String?): ResponseEntity<String> =
         try {
-            publisherService
-                .getPublishers(name, organizationId)
-                .let { publishers -> publishers.jenaResponse(httpServletRequest.getHeader("Accept")) }
+            catalogueService
+                .getOrganizations(name, organizationId)
+                .let { orgs -> orgs.jenaResponse(httpServletRequest.getHeader("Accept")) }
                 .let { response -> ResponseEntity(response, HttpStatus.OK) }
         } catch (exception: Exception) {
             LOGGER.error("getPublishers failed:", exception)

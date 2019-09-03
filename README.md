@@ -1,6 +1,6 @@
-# Publisher Service
+# Organization Catalogue
 
-Provides search and edit functionality for the current list of publishers in the National Data Catalog
+Provides search and edit functionality for the current organization catalogue in the National Data Catalog
 
 # Local development
 
