@@ -1,8 +1,8 @@
-package no.publishers.controller;
+package no.orgcat.controller;
 
-import no.publishers.TestResponseReader;
-import no.publishers.generated.model.Publisher;
-import no.publishers.service.PublisherService;
+import no.orgcat.TestResponseReader;
+import no.orgcat.generated.model.Organization;
+import no.orgcat.service.OrganizationCatalogueService;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RIOT;
 import org.junit.jupiter.api.*;
@@ -25,23 +25,23 @@ import javax.validation.ConstraintViolationException;
 import java.util.HashSet;
 import java.util.List;
 
-import static no.publishers.TestDataKt.*;
+import static no.orgcat.TestDataKt.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
 @Tag("unit")
-public class PublishersApiImplTest {
+public class OrganizationsApiImplTest {
     private TestResponseReader responseReader = new TestResponseReader();
 
     @Mock
     private HttpServletRequest httpServletRequestMock;
 
     @Mock
-    private PublisherService publisherServiceMock;
+    private OrganizationCatalogueService catalogueServiceMock;
 
     @InjectMocks
-    private PublishersApiImpl publishersApi;
+    private OrganizationsApiImpl controller;
 
     @BeforeAll
     public static void setup() {
@@ -51,30 +51,30 @@ public class PublishersApiImplTest {
 
     @BeforeEach
     public void resetMocks() {
-        Mockito.reset(publisherServiceMock);
+        Mockito.reset(catalogueServiceMock);
     }
 
     @Test
     void readyTest() {
-        HttpStatus statusCode = publishersApi.ready().getStatusCode();
+        HttpStatus statusCode = controller.ready().getStatusCode();
         assertEquals(HttpStatus.OK, statusCode);
     }
 
     @Nested
-    class getPublishers {
+    class getOrganizations {
 
         @Test
         public void missingAcceptHeader() {
-            Publisher publisher = getPUBLISHER_0();
+            Organization publisher = getORG_0();
             Mockito
-                .when(publisherServiceMock.getPublishers("123NotAccepted", null))
-                .thenReturn(getEMPTY_PUBLISHERS());
+                .when(catalogueServiceMock.getOrganizations("123NotAccepted", null))
+                .thenReturn(getEMPTY_LIST());
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn(null);
 
-            ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, "123NotAccepted", null);
+            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, "123NotAccepted", null);
 
             assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
             assertNull(response.getBody());
@@ -82,16 +82,16 @@ public class PublishersApiImplTest {
 
         @Test
         public void okWhenEmptyResult() {
-            List<Publisher> emptyList = getEMPTY_PUBLISHERS();
+            List<Organization> emptyList = getEMPTY_LIST();
             Mockito
-                .when(publisherServiceMock.getPublishers("Name does not exists", null))
+                .when(catalogueServiceMock.getOrganizations("Name does not exists", null))
                 .thenReturn(emptyList);
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
-            ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, "Name does not exists", null);
+            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, "Name does not exists", null);
             Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("emptyList.ttl", "TURTLE");
@@ -102,16 +102,16 @@ public class PublishersApiImplTest {
 
         @Test
         public void okGetAll() {
-            List<Publisher> regnskapList = getPUBLISHERS();
+            List<Organization> regnskapList = getORGS();
             Mockito
-                .when(publisherServiceMock.getPublishers(null, null))
+                .when(catalogueServiceMock.getOrganizations(null, null))
                 .thenReturn(regnskapList);
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
-            ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, null, null);
+            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, null, null);
             Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
@@ -122,16 +122,16 @@ public class PublishersApiImplTest {
 
         @Test
         public void okByOrganizationId() {
-            List<Publisher> regnskapList = getPUBLISHERS();
+            List<Organization> regnskapList = getORGS();
             Mockito
-                .when(publisherServiceMock.getPublishers(null, "OrgId"))
+                .when(catalogueServiceMock.getOrganizations(null, "OrgId"))
                 .thenReturn(regnskapList);
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
-            ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, null, "OrgId");
+            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, null, "OrgId");
             Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
@@ -142,16 +142,16 @@ public class PublishersApiImplTest {
 
         @Test
         public void okByName() {
-            List<Publisher> regnskapList = getPUBLISHERS();
+            List<Organization> regnskapList = getORGS();
             Mockito
-                .when(publisherServiceMock.getPublishers("Name exists", null))
+                .when(catalogueServiceMock.getOrganizations("Name exists", null))
                 .thenReturn(regnskapList);
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
-            ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, "Name exists", null);
+            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, "Name exists", null);
             Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
@@ -163,12 +163,12 @@ public class PublishersApiImplTest {
         @Test
         public void whenExceptions500() {
             Mockito
-                .when(publisherServiceMock.getPublishers(null, null))
+                .when(catalogueServiceMock.getOrganizations(null, null))
                 .thenAnswer(invocation -> {
                     throw new Exception("Test error message");
                 });
 
-            ResponseEntity<String> response = publishersApi.getPublishers(httpServletRequestMock, null, null);
+            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, null, null);
 
             assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         }
@@ -176,15 +176,15 @@ public class PublishersApiImplTest {
     }
 
     @Nested
-    class GetPublisherById {
+    class GetOrganizationById {
 
         @Test
         public void whenEmptyResult404() {
             Mockito
-                .when(publisherServiceMock.getById("123Null"))
+                .when(catalogueServiceMock.getById("123Null"))
                 .thenReturn(null);
 
-            ResponseEntity<String> response = publishersApi.getPublisherById(httpServletRequestMock, "123Null");
+            ResponseEntity<String> response = controller.getOrganizationById(httpServletRequestMock, "123Null");
 
             assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
             assertNull(response.getBody());
@@ -192,16 +192,16 @@ public class PublishersApiImplTest {
 
         @Test
         public void wrongAcceptHeader() {
-            Publisher publisher = getPUBLISHER_0();
+            Organization publisher = getORG_0();
             Mockito
-                .when(publisherServiceMock.getById("123NotAccepted"))
+                .when(catalogueServiceMock.getById("123NotAccepted"))
                 .thenReturn(publisher);
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("application/json");
 
-            ResponseEntity<String> response = publishersApi.getPublisherById(httpServletRequestMock, "123NotAccepted");
+            ResponseEntity<String> response = controller.getOrganizationById(httpServletRequestMock, "123NotAccepted");
 
             assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
             assertNull(response.getBody());
@@ -209,16 +209,16 @@ public class PublishersApiImplTest {
 
         @Test
         public void whenNonEmptyResult200() {
-            Publisher publisher = getPUBLISHER_0();
+            Organization publisher = getORG_0();
             Mockito
-                .when(publisherServiceMock.getById("5d5531e55c404500068481da"))
+                .when(catalogueServiceMock.getById("5d5531e55c404500068481da"))
                 .thenReturn(publisher);
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
-            ResponseEntity<String> response = publishersApi.getPublisherById(httpServletRequestMock, "5d5531e55c404500068481da");
+            ResponseEntity<String> response = controller.getOrganizationById(httpServletRequestMock, "5d5531e55c404500068481da");
             Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getOne.ttl", "TURTLE");
@@ -230,12 +230,12 @@ public class PublishersApiImplTest {
         @Test
         public void whenException500() {
             Mockito
-                .when(publisherServiceMock.getById("123Error"))
+                .when(catalogueServiceMock.getById("123Error"))
                 .thenAnswer(invocation -> {
                     throw new Exception("Test error message");
                 });
 
-            ResponseEntity<String> response = publishersApi.getPublisherById(httpServletRequestMock, "123Error");
+            ResponseEntity<String> response = controller.getOrganizationById(httpServletRequestMock, "123Error");
 
             assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         }
@@ -243,16 +243,16 @@ public class PublishersApiImplTest {
     }
 
     @Nested
-    class CreatePublisher{
+    class CreateOrganization{
 
         @Test
         public void whenCreated201WithLocationHeader() {
-            Publisher publisher = getPUBLISHER_0();
+            Organization publisher = getORG_0();
             Mockito
-                .when(publisherServiceMock.createPublisher(getPUBLISHER_0()))
+                .when(catalogueServiceMock.createEntry(getORG_0()))
                 .thenReturn(publisher);
 
-            ResponseEntity<Void> response = publishersApi.createPublisher(httpServletRequestMock, getPUBLISHER_0());
+            ResponseEntity<Void> response = controller.createOrganization(httpServletRequestMock, getORG_0());
 
             String expectedLocationHeader = "http://localhost/publishers/" + publisher.getId();
 
@@ -263,10 +263,10 @@ public class PublishersApiImplTest {
         @Test
         public void conflictOnDuplicate() {
             Mockito
-                .when(publisherServiceMock.createPublisher(getPUBLISHER_0()))
+                .when(catalogueServiceMock.createEntry(getORG_0()))
                 .thenAnswer( invocation -> { throw new DuplicateKeyException("Duplicate organizationId"); });
 
-            ResponseEntity<Void> response = publishersApi.createPublisher(httpServletRequestMock, getPUBLISHER_0());
+            ResponseEntity<Void> response = controller.createOrganization(httpServletRequestMock, getORG_0());
 
             assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         }
@@ -274,10 +274,10 @@ public class PublishersApiImplTest {
         @Test
         public void badRequestOnValidationError() {
             Mockito
-                .when(publisherServiceMock.createPublisher(getPUBLISHER_0()))
+                .when(catalogueServiceMock.createEntry(getORG_0()))
                 .thenAnswer( invocation -> { throw new ConstraintViolationException(new HashSet<>()); });
 
-            ResponseEntity<Void> response = publishersApi.createPublisher(httpServletRequestMock, getPUBLISHER_0());
+            ResponseEntity<Void> response = controller.createOrganization(httpServletRequestMock, getORG_0());
 
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         }
@@ -285,10 +285,10 @@ public class PublishersApiImplTest {
         @Test
         public void whenUnexpectedException500() {
             Mockito
-                .when(publisherServiceMock.createPublisher(getPUBLISHER_0()))
+                .when(catalogueServiceMock.createEntry(getORG_0()))
                 .thenAnswer( invocation -> { throw new Exception("Unexpected exception"); });
 
-            ResponseEntity<Void> response = publishersApi.createPublisher(httpServletRequestMock, getPUBLISHER_0());
+            ResponseEntity<Void> response = controller.createOrganization(httpServletRequestMock, getORG_0());
 
             assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         }
@@ -296,14 +296,14 @@ public class PublishersApiImplTest {
     }
 
     @Nested
-    class UpdatePublisher {
+    class UpdateOrganization {
         @Test
         public void okWhenImplemented() {
             Mockito
-                .when(publisherServiceMock.updatePublisher("id", getPUBLISHER_0()))
-                .thenReturn(getPUBLISHER_0());
+                .when(catalogueServiceMock.updateEntry("id", getORG_0()))
+                .thenReturn(getORG_0());
 
-            ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", getPUBLISHER_0());
+            ResponseEntity<Organization> response = controller.updateOrganization(httpServletRequestMock, "id", getORG_0());
 
             assertEquals(HttpStatus.OK, response.getStatusCode());
         }
@@ -311,10 +311,10 @@ public class PublishersApiImplTest {
         @Test
         public void notFoundWhenIdNotAvailableInDB() {
             Mockito
-                .when(publisherServiceMock.updatePublisher("id", getPUBLISHER_0()))
+                .when(catalogueServiceMock.updateEntry("id", getORG_0()))
                 .thenReturn(null);
 
-            ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", getPUBLISHER_0());
+            ResponseEntity<Organization> response = controller.updateOrganization(httpServletRequestMock, "id", getORG_0());
 
             assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         }
@@ -322,12 +322,12 @@ public class PublishersApiImplTest {
         @Test
         public void conflictOnDuplicate() {
             Mockito
-                .when(publisherServiceMock.updatePublisher("id", getPUBLISHER_0()))
+                .when(catalogueServiceMock.updateEntry("id", getORG_0()))
                 .thenAnswer(invocation -> {
                     throw new DuplicateKeyException("Duplicate organizationId");
                 });
 
-            ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", getPUBLISHER_0());
+            ResponseEntity<Organization> response = controller.updateOrganization(httpServletRequestMock, "id", getORG_0());
 
             assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         }
@@ -335,12 +335,12 @@ public class PublishersApiImplTest {
         @Test
         public void badRequestOnValidationError() {
             Mockito
-                .when(publisherServiceMock.updatePublisher("id", getPUBLISHER_0()))
+                .when(catalogueServiceMock.updateEntry("id", getORG_0()))
                 .thenAnswer(invocation -> {
                     throw new ConstraintViolationException(new HashSet<>());
                 });
 
-            ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", getPUBLISHER_0());
+            ResponseEntity<Organization> response = controller.updateOrganization(httpServletRequestMock, "id", getORG_0());
 
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         }
@@ -348,12 +348,12 @@ public class PublishersApiImplTest {
         @Test
         public void whenUnexpectedException500() {
             Mockito
-                .when(publisherServiceMock.updatePublisher("id", getPUBLISHER_0()))
+                .when(catalogueServiceMock.updateEntry("id", getORG_0()))
                 .thenAnswer(invocation -> {
                     throw new Exception("Unexpected exception");
                 });
 
-            ResponseEntity<Publisher> response = publishersApi.updatePublisher(httpServletRequestMock, "id", getPUBLISHER_0());
+            ResponseEntity<Organization> response = controller.updateOrganization(httpServletRequestMock, "id", getORG_0());
 
             assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         }

@@ -1,6 +1,6 @@
-package no.publishers;
+package no.orgcat;
 
-import no.publishers.spring.CachableDispatcherServlet;
+import no.orgcat.spring.CachableDispatcherServlet;
 import org.apache.jena.riot.RIOT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.DispatcherServlet;
-
-//force build
-//another force
-// force
 
 @SpringBootApplication
 public class Application {

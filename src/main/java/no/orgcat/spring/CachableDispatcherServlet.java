@@ -1,4 +1,4 @@
-package no.publishers.spring;
+package no.orgcat.spring;
 
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.util.ContentCachingRequestWrapper;

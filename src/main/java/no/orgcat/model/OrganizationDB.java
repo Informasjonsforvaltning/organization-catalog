@@ -1,8 +1,8 @@
-package no.publishers.model;
+package no.orgcat.model;
 
 import javax.validation.constraints.NotBlank;
 
-import no.publishers.generated.model.PrefLabel;
+import no.orgcat.generated.model.PrefLabel;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -10,8 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
-@Document(collection="publisher")
-public class PublisherDB {
+@Document(collection="catalogue")
+public class OrganizationDB {
     @Id private ObjectId id;
     @NotBlank private String name;
     private String uri;

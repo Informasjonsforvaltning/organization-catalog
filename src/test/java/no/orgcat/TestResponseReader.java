@@ -1,4 +1,4 @@
-package no.publishers;
+package no.orgcat;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;

@@ -1,8 +1,8 @@
-package no.publishers.service;
+package no.orgcat.service;
 
-import no.publishers.generated.model.Publisher;
-import no.publishers.model.PublisherDB;
-import no.publishers.repository.PublisherRepository;
+import no.orgcat.generated.model.Organization;
+import no.orgcat.model.OrganizationDB;
+import no.orgcat.repository.OrganizationCatalogueRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -18,46 +18,46 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static no.publishers.TestDataKt.getPUBLISHER_0;
+import static no.orgcat.TestDataKt.getORG_0;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static no.publishers.TestDataKt.getPUBLISHER_DB_0;
+import static no.orgcat.TestDataKt.getORG_DB_0;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
 @Tag("unit")
-public class PublisherServiceTest {
+public class OrganizationCatalogueServiceTest {
 
     @Mock
-    private PublisherRepository publisherRepository;
+    private OrganizationCatalogueRepository repository;
 
     @InjectMocks
-    private PublisherService publisherService;
+    private OrganizationCatalogueService catalogueService;
 
     @BeforeEach
     public void resetMocks() {
-        Mockito.reset(publisherRepository);
+        Mockito.reset(repository);
     }
 
     @Test
     public void getByIdNotFound() {
         Mockito
-            .when(publisherRepository.findById("123ID"))
+            .when(repository.findById("123ID"))
             .thenReturn(Optional.empty());
 
-        Publisher publisher = publisherService.getById("123ID");
+        Organization publisher = catalogueService.getById("123ID");
 
         assertNull(publisher);
     }
 
     @Test
     public void getById() {
-        PublisherDB persisted = getPUBLISHER_DB_0();
+        OrganizationDB persisted = getORG_DB_0();
         Mockito
-            .when(publisherRepository.findById("123ID"))
+            .when(repository.findById("123ID"))
             .thenReturn(Optional.of(persisted));
 
-        Publisher publisher = publisherService.getById("123ID");
+        Organization publisher = catalogueService.getById("123ID");
 
         assertEquals(persisted.getId().toHexString(), publisher.getId());
         assertEquals(persisted.getName(), publisher.getName());
@@ -69,12 +69,12 @@ public class PublisherServiceTest {
 
     @Test
     public void getAll() {
-        List<PublisherDB> persistedList = Collections.singletonList(getPUBLISHER_DB_0());
+        List<OrganizationDB> persistedList = Collections.singletonList(getORG_DB_0());
         Mockito
-            .when(publisherRepository.findAll())
+            .when(repository.findAll())
             .thenReturn(persistedList);
 
-        List<Publisher> publisherList = publisherService.getPublishers(null, null);
+        List<Organization> publisherList = catalogueService.getOrganizations(null, null);
 
         assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
         assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
@@ -86,12 +86,12 @@ public class PublisherServiceTest {
 
     @Test
     public void getByOrgIdIsPrioritized() {
-        List<PublisherDB> persistedList = Collections.singletonList(getPUBLISHER_DB_0());
+        List<OrganizationDB> persistedList = Collections.singletonList(getORG_DB_0());
         Mockito
-            .when(publisherRepository.findByOrganizationIdLike("OrgId"))
+            .when(repository.findByOrganizationIdLike("OrgId"))
             .thenReturn(persistedList);
 
-        List<Publisher> publisherList = publisherService.getPublishers("Name", "OrgId");
+        List<Organization> publisherList = catalogueService.getOrganizations("Name", "OrgId");
 
         assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
         assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
@@ -103,12 +103,12 @@ public class PublisherServiceTest {
 
     @Test
     public void getByName() {
-        List<PublisherDB> persistedList = Collections.singletonList(getPUBLISHER_DB_0());
+        List<OrganizationDB> persistedList = Collections.singletonList(getORG_DB_0());
         Mockito
-            .when(publisherRepository.findByNameLike("Name"))
+            .when(repository.findByNameLike("Name"))
             .thenReturn(persistedList);
 
-        List<Publisher> publisherList = publisherService.getPublishers("Name", null);
+        List<Organization> publisherList = catalogueService.getOrganizations("Name", null);
 
         assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
         assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
@@ -121,10 +121,10 @@ public class PublisherServiceTest {
     @Test
     public void updateNotFound() {
         Mockito
-            .when(publisherRepository.findById("123ID"))
+            .when(repository.findById("123ID"))
             .thenReturn(Optional.empty());
 
-        Publisher publisher = publisherService.updatePublisher("123ID", getPUBLISHER_0());
+        Organization publisher = catalogueService.updateEntry("123ID", getORG_0());
 
         assertNull(publisher);
     }
