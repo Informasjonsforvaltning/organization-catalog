@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>no.orgcat</groupId>
+    <groupId>no.brreg.organizationcatalogue</groupId>
     <artifactId>organization-catalogue</artifactId>
     <name>Organization Catalogue</name>
     <version>1.0.0-SNAPSHOT</version>
@@ -37,7 +37,7 @@
         <testcontainers.version>1.11.4</testcontainers.version>
         <jena.version>3.9.0</jena.version>
 
-        <start-class>no.orgcat.Application</start-class>
+        <start-class>no.brreg.organizationcatalogue.Application</start-class>
         <docker.image.name>brreg/organization-catalogue</docker.image.name>
         <docker.image.tag>latest</docker.image.tag>
 
@@ -274,9 +274,9 @@
                             <generatorName>spring</generatorName>
                             <templateDirectory>${project.basedir}/src/main/resources/openAPI/openapi-generator-maven-plugin/templates/JavaSpring</templateDirectory>
                             <output>${project.build.directory}/generated-sources/openapi</output>
-                            <invokerPackage>no.orgcat.generated</invokerPackage>
-                            <apiPackage>no.orgcat.generated.api</apiPackage>
-                            <modelPackage>no.orgcat.generated.model</modelPackage>
+                            <invokerPackage>no.brreg.organizationcatalogue.generated</invokerPackage>
+                            <apiPackage>no.brreg.organizationcatalogue.generated.api</apiPackage>
+                            <modelPackage>no.brreg.organizationcatalogue.generated.model</modelPackage>
                             <configOptions>
                                 <allowUnicodeIdentifiers>true</allowUnicodeIdentifiers>
                                 <sourceFolder>src/main/java/gen</sourceFolder>

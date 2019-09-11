@@ -1,8 +1,8 @@
-package no.orgcat.service;
+package no.brreg.organizationcatalogue.service;
 
-import no.orgcat.generated.model.Organization;
-import no.orgcat.model.OrganizationDB;
-import no.orgcat.repository.OrganizationCatalogueRepository;
+import no.brreg.organizationcatalogue.generated.model.Organization;
+import no.brreg.organizationcatalogue.model.OrganizationDB;
+import no.brreg.organizationcatalogue.repository.OrganizationCatalogueRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -18,9 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static no.orgcat.TestDataKt.getORG_0;
+import static no.brreg.organizationcatalogue.TestDataKt.getORG_0;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static no.orgcat.TestDataKt.getORG_DB_0;
+import static no.brreg.organizationcatalogue.TestDataKt.getORG_DB_0;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)

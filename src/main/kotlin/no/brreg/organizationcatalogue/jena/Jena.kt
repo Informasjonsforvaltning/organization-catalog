@@ -1,7 +1,7 @@
-package no.orgcat.jena
+package no.brreg.organizationcatalogue.jena
 
-import no.orgcat.generated.model.Organization
-import no.orgcat.generated.model.PrefLabel
+import no.brreg.organizationcatalogue.generated.model.Organization
+import no.brreg.organizationcatalogue.generated.model.PrefLabel
 import org.apache.jena.rdf.model.Model
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.Property

@@ -1,11 +1,10 @@
-package no.orgcat.integration;
+package no.brreg.organizationcatalogue.integration;
 
-import no.orgcat.TestDataKt;
-import no.orgcat.TestResponseReader;
-import no.orgcat.controller.OrganizationsApiImpl;
-import no.orgcat.generated.model.PrefLabel;
-import no.orgcat.generated.model.Organization;
-import no.orgcat.repository.OrganizationCatalogueRepository;
+import no.brreg.organizationcatalogue.TestResponseReader;
+import no.brreg.organizationcatalogue.controller.OrganizationsApiImpl;
+import no.brreg.organizationcatalogue.generated.model.PrefLabel;
+import no.brreg.organizationcatalogue.generated.model.Organization;
+import no.brreg.organizationcatalogue.repository.OrganizationCatalogueRepository;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RIOT;
 import org.junit.jupiter.api.BeforeAll;
@@ -31,7 +30,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static no.orgcat.TestDataKt.*;
+import static no.brreg.organizationcatalogue.TestDataKt.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -54,15 +53,15 @@ class OrganizationsApi {
     private static final GenericContainer mongoContainer = new GenericContainer("mongo:latest")
         .withEnv(getMONGO_ENV_VALUES())
         .withLogConsumer(mongoLog)
-        .withExposedPorts(TestDataKt.MONGO_PORT)
+        .withExposedPorts(MONGO_PORT)
         .waitingFor(Wait.forListeningPort());
 
     static class Initializer
         implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
-                "spring.data.mongodb.database=" + TestDataKt.DATABASE_NAME,
-                "spring.data.mongodb.uri=" + buildMongoURI(mongoContainer.getContainerIpAddress(), mongoContainer.getMappedPort(TestDataKt.MONGO_PORT), false)
+                "spring.data.mongodb.database=" + DATABASE_NAME,
+                "spring.data.mongodb.uri=" + buildMongoURI(mongoContainer.getContainerIpAddress(), mongoContainer.getMappedPort(MONGO_PORT), false)
             ).applyTo(configurableApplicationContext.getEnvironment());
         }
     }

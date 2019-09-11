@@ -1,10 +1,10 @@
-package no.orgcat.controller
+package no.brreg.organizationcatalogue.controller
 
 import javax.servlet.http.HttpServletRequest
-import no.orgcat.generated.model.Organization
-import no.orgcat.jena.MissingAcceptHeaderException
-import no.orgcat.jena.jenaResponse
-import no.orgcat.service.OrganizationCatalogueService
+import no.brreg.organizationcatalogue.generated.model.Organization
+import no.brreg.organizationcatalogue.jena.MissingAcceptHeaderException
+import no.brreg.organizationcatalogue.jena.jenaResponse
+import no.brreg.organizationcatalogue.service.OrganizationCatalogueService
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpHeaders
@@ -21,7 +21,7 @@ private val LOGGER = LoggerFactory.getLogger(OrganizationsApiImpl::class.java)
 @Controller
 open class OrganizationsApiImpl (
     private val catalogueService: OrganizationCatalogueService
-): no.orgcat.generated.api.OrganizationsApi {
+): no.brreg.organizationcatalogue.generated.api.OrganizationsApi {
 
     @RequestMapping(value = ["/ping"], method = [GET], produces = ["text/plain"])
     fun ping(): ResponseEntity<String> =

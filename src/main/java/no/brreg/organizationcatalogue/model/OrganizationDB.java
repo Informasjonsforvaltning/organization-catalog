@@ -1,8 +1,8 @@
-package no.orgcat.model;
+package no.brreg.organizationcatalogue.model;
 
 import javax.validation.constraints.NotBlank;
 
-import no.orgcat.generated.model.PrefLabel;
+import no.brreg.organizationcatalogue.generated.model.PrefLabel;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
-@Document(collection="catalogue")
+@Document(collection="organizations")
 public class OrganizationDB {
     @Id private ObjectId id;
     @NotBlank private String name;
