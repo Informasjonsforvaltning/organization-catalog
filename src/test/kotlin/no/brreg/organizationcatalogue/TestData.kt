@@ -1,9 +1,9 @@
-package no.orgcat
+package no.brreg.organizationcatalogue
 
 import com.google.common.collect.ImmutableMap
-import no.orgcat.generated.model.Organization
-import no.orgcat.generated.model.PrefLabel
-import no.orgcat.model.OrganizationDB
+import no.brreg.organizationcatalogue.generated.model.Organization
+import no.brreg.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.organizationcatalogue.model.OrganizationDB
 import org.bson.types.ObjectId
 import java.time.LocalDate
 

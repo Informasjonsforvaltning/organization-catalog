@@ -1,8 +1,8 @@
-package no.orgcat.mapping
+package no.brreg.organizationcatalogue.mapping
 
-import no.orgcat.generated.model.PrefLabel
-import no.orgcat.generated.model.Organization
-import no.orgcat.model.OrganizationDB
+import no.brreg.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.organizationcatalogue.generated.model.Organization
+import no.brreg.organizationcatalogue.model.OrganizationDB
 
 fun OrganizationDB.mapToGenerated(): Organization {
     val mapped = Organization()

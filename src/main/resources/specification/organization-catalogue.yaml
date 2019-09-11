@@ -24,7 +24,7 @@ paths:
     post:
       tags:
         - organization-catalogue
-      summary: Create a new entry
+      summary: Create a new organization
       operationId: createOrganization
       responses:
         '201':
@@ -33,7 +33,7 @@ paths:
             Location:
               schema:
                 type: string
-              description: url to the new entry
+              description: url to the new organization
       requestBody:
         required: true
         content:
@@ -101,7 +101,7 @@ paths:
     put:
       tags:
         - organization-catalogue
-      description: Update a specific entry by id
+      description: Update a specific organization by id
       operationId: updateOrganization
       parameters:
         - name: id
@@ -127,14 +127,14 @@ components:
   schemas:
     Organization:
       type: object
-      description: An entry in the organization catalogue
+      description: An organization in the catalogue
       properties:
         id:
           type: string
           description: system-generated id (GUID)
         uri:
           type: string
-          description: Link to the organization entry in The Brønnøysund Register Centre
+          description: Link to the organization in The Brønnøysund Register Centre
         organizationId:
           type: string
           description: Organization id

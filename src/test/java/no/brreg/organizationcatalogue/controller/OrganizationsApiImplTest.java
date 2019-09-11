@@ -1,8 +1,8 @@
-package no.orgcat.controller;
+package no.brreg.organizationcatalogue.controller;
 
-import no.orgcat.TestResponseReader;
-import no.orgcat.generated.model.Organization;
-import no.orgcat.service.OrganizationCatalogueService;
+import no.brreg.organizationcatalogue.TestResponseReader;
+import no.brreg.organizationcatalogue.generated.model.Organization;
+import no.brreg.organizationcatalogue.service.OrganizationCatalogueService;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RIOT;
 import org.junit.jupiter.api.*;
@@ -25,7 +25,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.HashSet;
 import java.util.List;
 
-import static no.orgcat.TestDataKt.*;
+import static no.brreg.organizationcatalogue.TestDataKt.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -65,7 +65,6 @@ public class OrganizationsApiImplTest {
 
         @Test
         public void missingAcceptHeader() {
-            Organization publisher = getORG_0();
             Mockito
                 .when(catalogueServiceMock.getOrganizations("123NotAccepted", null))
                 .thenReturn(getEMPTY_LIST());

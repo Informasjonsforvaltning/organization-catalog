@@ -1,10 +1,10 @@
-package no.orgcat.service
+package no.brreg.organizationcatalogue.service
 
-import no.orgcat.generated.model.Organization
-import no.orgcat.mapping.mapForCreation
-import no.orgcat.mapping.mapToGenerated
-import no.orgcat.mapping.updateValues
-import no.orgcat.repository.OrganizationCatalogueRepository
+import no.brreg.organizationcatalogue.generated.model.Organization
+import no.brreg.organizationcatalogue.mapping.mapForCreation
+import no.brreg.organizationcatalogue.mapping.mapToGenerated
+import no.brreg.organizationcatalogue.mapping.updateValues
+import no.brreg.organizationcatalogue.repository.OrganizationCatalogueRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 

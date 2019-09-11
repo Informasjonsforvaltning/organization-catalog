@@ -1,6 +1,6 @@
-package no.orgcat;
+package no.brreg.organizationcatalogue;
 
-import no.orgcat.spring.CachableDispatcherServlet;
+import no.brreg.organizationcatalogue.spring.CachableDispatcherServlet;
 import org.apache.jena.riot.RIOT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

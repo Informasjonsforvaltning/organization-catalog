@@ -1,6 +1,6 @@
-package no.orgcat.repository
+package no.brreg.organizationcatalogue.repository
 
-import no.orgcat.model.OrganizationDB
+import no.brreg.organizationcatalogue.model.OrganizationDB
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
