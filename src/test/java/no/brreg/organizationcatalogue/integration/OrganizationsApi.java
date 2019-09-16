@@ -1,10 +1,10 @@
-package no.publishers.integration;
+package no.brreg.organizationcatalogue.integration;
 
-import no.publishers.TestResponseReader;
-import no.publishers.controller.PublishersApiImpl;
-import no.publishers.generated.model.PrefLabel;
-import no.publishers.generated.model.Publisher;
-import no.publishers.repository.PublisherRepository;
+import no.brreg.organizationcatalogue.TestResponseReader;
+import no.brreg.organizationcatalogue.controller.OrganizationsApiImpl;
+import no.brreg.organizationcatalogue.generated.model.PrefLabel;
+import no.brreg.organizationcatalogue.generated.model.Organization;
+import no.brreg.organizationcatalogue.repository.OrganizationCatalogueRepository;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RIOT;
 import org.junit.jupiter.api.BeforeAll;
@@ -30,16 +30,16 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static no.publishers.TestDataKt.*;
+import static no.brreg.organizationcatalogue.TestDataKt.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
 @SpringBootTest
-@ContextConfiguration(initializers = {PublisherApi.Initializer.class})
+@ContextConfiguration(initializers = {OrganizationsApi.Initializer.class})
 @Tag("service")
-class PublisherApi {
-    private final static Logger logger = LoggerFactory.getLogger(PublisherApi.class);
+class OrganizationsApi {
+    private final static Logger logger = LoggerFactory.getLogger(OrganizationsApi.class);
     private static Slf4jLogConsumer mongoLog = new Slf4jLogConsumer(logger).withPrefix("mongo-container");
     private TestResponseReader responseReader = new TestResponseReader();
 
@@ -47,7 +47,7 @@ class PublisherApi {
     private static HttpServletRequest httpServletRequestMock;
 
     @Autowired
-    private PublishersApiImpl publishersApiImpl;
+    private OrganizationsApiImpl controller;
 
     @Container
     private static final GenericContainer mongoContainer = new GenericContainer("mongo:latest")
@@ -67,16 +67,16 @@ class PublisherApi {
     }
 
     @BeforeAll
-    static void setup(@Autowired PublisherRepository repository) {
+    static void setup(@Autowired OrganizationCatalogueRepository repository) {
         RIOT.init();
-        repository.save(getPUBLISHER_DB_0());
-        repository.save(getPUBLISHER_DB_1());
-        repository.save(getPUBLISHER_DB_2());
+        repository.save(getORG_DB_0());
+        repository.save(getORG_DB_1());
+        repository.save(getORG_DB_2());
     }
 
     @Test
     void pingTest() {
-        String response = publishersApiImpl.ping().getBody();
+        String response = controller.ping().getBody();
         assertEquals("pong", response);
     }
 
@@ -86,16 +86,16 @@ class PublisherApi {
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("text/turtle");
 
-        String response0 = publishersApiImpl
-            .getPublisherById(httpServletRequestMock, getPUBLISHER_0().getId())
+        String response0 = controller
+            .getOrganizationById(httpServletRequestMock, getORG_0().getId())
             .getBody();
 
-        String response1 = publishersApiImpl
-            .getPublisherById(httpServletRequestMock, getPUBLISHER_1().getId())
+        String response1 = controller
+            .getOrganizationById(httpServletRequestMock, getORG_1().getId())
             .getBody();
 
-        String response2 = publishersApiImpl
-            .getPublisherById(httpServletRequestMock, getPUBLISHER_2().getId())
+        String response2 = controller
+            .getOrganizationById(httpServletRequestMock, getORG_2().getId())
             .getBody();
 
         Model modelFromResponse0 = responseReader.parseResponse(response0, "text/turtle");
@@ -118,8 +118,8 @@ class PublisherApi {
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("text/turtle");
 
-        String response = publishersApiImpl
-            .getPublishers(httpServletRequestMock, "ET", null)
+        String response = controller
+            .getOrganizations(httpServletRequestMock, "ET", null)
             .getBody();
 
         Model modelFromResponse = responseReader.parseResponse(response, "TURTLE");
@@ -134,8 +134,8 @@ class PublisherApi {
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("application/ld+json");
 
-        String response = publishersApiImpl
-            .getPublishers(httpServletRequestMock, "FORSVARET", null)
+        String response = controller
+            .getOrganizations(httpServletRequestMock, "FORSVARET", null)
             .getBody();
 
         Model modelFromResponse = responseReader.parseResponse(response, "JSONLD");
@@ -150,8 +150,8 @@ class PublisherApi {
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("text/turtle");
 
-        String response = publishersApiImpl
-            .getPublishers(httpServletRequestMock, null, "60")
+        String response = controller
+            .getOrganizations(httpServletRequestMock, null, "60")
             .getBody();
 
         Model modelFromResponse = responseReader.parseResponse(response, "text/turtle");
@@ -166,8 +166,8 @@ class PublisherApi {
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("application/rdf+xml");
 
-        String response = publishersApiImpl
-            .getPublishers(httpServletRequestMock, null, "994686011")
+        String response = controller
+            .getOrganizations(httpServletRequestMock, null, "994686011")
             .getBody();
 
         Model modelFromResponse = responseReader.parseResponse(response, "RDFXML");
@@ -182,64 +182,64 @@ class PublisherApi {
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("text/turtle");
 
-        Publisher newPublisherWithPrefLabel = getNEW_PUBLISHER_0();
-        Publisher newPublisherNoPrefLabel = getNEW_PUBLISHER_1();
+        Organization newOrganizationWithPrefLabel = getNEW_ORG_0();
+        Organization newOrganizationNoPrefLabel = getNEW_ORG_1();
 
-        String createdId0 = publishersApiImpl
-            .createPublisher(httpServletRequestMock, newPublisherWithPrefLabel)
+        String createdId0 = controller
+            .createOrganization(httpServletRequestMock, newOrganizationWithPrefLabel)
             .getHeaders()
             .getLocation()
             .getPath()
             .split("/")[2];
 
-        String createdId1 = publishersApiImpl
-            .createPublisher(httpServletRequestMock, newPublisherNoPrefLabel)
+        String createdId1 = controller
+            .createOrganization(httpServletRequestMock, newOrganizationNoPrefLabel)
             .getHeaders()
             .getLocation()
             .getPath()
             .split("/")[2];
 
-        ResponseEntity<Void> conflictResponseCreate = publishersApiImpl.createPublisher(httpServletRequestMock, newPublisherNoPrefLabel);
+        ResponseEntity<Void> conflictResponseCreate = controller.createOrganization(httpServletRequestMock, newOrganizationNoPrefLabel);
         // Unable to create publisher with existing OrgId
         assertEquals(HttpStatus.CONFLICT, conflictResponseCreate.getStatusCode());
 
-        Publisher newNameElseNull = new Publisher();
+        Organization newNameElseNull = new Organization();
         newNameElseNull.setName("updatedName");
         newNameElseNull.setId("idInObjectIsIgnored");
 
-        Publisher updated0 = publishersApiImpl
-            .updatePublisher(httpServletRequestMock, createdId0, newNameElseNull)
+        Organization updated0 = controller
+            .updateOrganization(httpServletRequestMock, createdId0, newNameElseNull)
             .getBody();
 
-        Publisher expectedUpdate0 = getNEW_PUBLISHER_0();
+        Organization expectedUpdate0 = getNEW_ORG_0();
         expectedUpdate0.setId(createdId0);
         expectedUpdate0.setName("updatedName");
 
         // Only name was changed
         assertEquals(updated0, expectedUpdate0);
 
-        Publisher updated1 = publishersApiImpl
-            .updatePublisher(httpServletRequestMock, createdId1, getUPDATE_PUBLISHER())
+        Organization updated1 = controller
+            .updateOrganization(httpServletRequestMock, createdId1, getUPDATE_ORG())
             .getBody();
 
-        Publisher expectedUpdate1 = getUPDATE_PUBLISHER();
+        Organization expectedUpdate1 = getUPDATE_ORG();
         expectedUpdate1.setId(createdId1);
         expectedUpdate1.setName("Name");
 
         // All values except name were changed
         assertEquals(updated1, expectedUpdate1);
 
-        Publisher nothingWillBeUpdated = new Publisher();
+        Organization nothingWillBeUpdated = new Organization();
         nothingWillBeUpdated.setPrefLabel(new PrefLabel());
 
-        Publisher updated2 = publishersApiImpl
-            .updatePublisher(httpServletRequestMock, createdId1, nothingWillBeUpdated)
+        Organization updated2 = controller
+            .updateOrganization(httpServletRequestMock, createdId1, nothingWillBeUpdated)
             .getBody();
 
         // No values changed
         assertEquals(updated2, expectedUpdate1);
 
-        ResponseEntity<Publisher> conflictResponseUpdate = publishersApiImpl.updatePublisher(httpServletRequestMock, createdId0, getUPDATE_PUBLISHER());
+        ResponseEntity<Organization> conflictResponseUpdate = controller.updateOrganization(httpServletRequestMock, createdId0, getUPDATE_ORG());
         // Unable to update publisher with existing OrgId
         assertEquals(HttpStatus.CONFLICT, conflictResponseUpdate.getStatusCode());
     }

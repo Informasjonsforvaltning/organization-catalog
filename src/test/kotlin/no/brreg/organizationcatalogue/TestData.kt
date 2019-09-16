@@ -1,9 +1,9 @@
-package no.publishers
+package no.brreg.organizationcatalogue
 
 import com.google.common.collect.ImmutableMap
-import no.publishers.generated.model.PrefLabel
-import no.publishers.generated.model.Publisher
-import no.publishers.model.PublisherDB
+import no.brreg.organizationcatalogue.generated.model.Organization
+import no.brreg.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.organizationcatalogue.model.OrganizationDB
 import org.bson.types.ObjectId
 import java.time.LocalDate
 
@@ -11,7 +11,7 @@ private const val MONGO_USER = "testuser"
 private const val MONGO_PASSWORD = "testpassword"
 private const val MONGO_AUTH = "?authSource=admin&authMechanism=SCRAM-SHA-1"
 const val MONGO_PORT = 27017
-const val DATABASE_NAME = "publisherAPI"
+const val DATABASE_NAME = "organizations"
 
 val MONGO_ENV_VALUES: Map<String, String> = ImmutableMap.of(
     "MONGO_INITDB_ROOT_USERNAME", MONGO_USER,
@@ -27,7 +27,7 @@ fun buildMongoURI(host: String, port: Int, withDbName: Boolean): String {
     return uri + MONGO_AUTH
 }
 
-val PUBLISHER_0 = Publisher().apply {
+val ORG_0 = Organization().apply {
     id = "5d5531e55c404500068481da"
     name = "REGISTERENHETEN I BRØNNØYSUND"
     uri = "http://data.brreg.no/enhetsregisteret/enhet/974760673"
@@ -44,7 +44,7 @@ val PUBLISHER_0 = Publisher().apply {
     }
 }
 
-val PUBLISHER_1 =  Publisher().apply {
+val ORG_1 =  Organization().apply {
     id = "5d5531e45c40450006848160"
     name = "ATB AS"
     uri = "http://data.brreg.no/enhetsregisteret/enhet/994686011"
@@ -60,7 +60,7 @@ val PUBLISHER_1 =  Publisher().apply {
     }
 }
 
-val PUBLISHER_2 =  Publisher().apply {
+val ORG_2 =  Organization().apply {
     id = "5d5531e45c40450006848159"
     name = "FORSVARET"
     uri = "http://data.brreg.no/enhetsregisteret/enhet/986105174"
@@ -76,7 +76,7 @@ val PUBLISHER_2 =  Publisher().apply {
     }
 }
 
-val NEW_PUBLISHER_0 =  Publisher().apply {
+val NEW_ORG_0 =  Organization().apply {
     name = "toBeUpdated0"
     uri = "uri0"
     organizationId = "orgId0"
@@ -93,7 +93,7 @@ val NEW_PUBLISHER_0 =  Publisher().apply {
     }
 }
 
-val NEW_PUBLISHER_1 =  Publisher().apply {
+val NEW_ORG_1 =  Organization().apply {
     name = "Name"
     uri = "uri1"
     organizationId = "orgId1"
@@ -106,7 +106,7 @@ val NEW_PUBLISHER_1 =  Publisher().apply {
     uriSectorCode = "sectorUri1"
 }
 
-val UPDATE_PUBLISHER =  Publisher().apply {
+val UPDATE_ORG =  Organization().apply {
     uri = "uriUpdated"
     organizationId = "orgIdUpdated"
     orgType = "orgFormUpdated"
@@ -123,10 +123,10 @@ val UPDATE_PUBLISHER =  Publisher().apply {
     }
 }
 
-var PUBLISHERS = listOf(PUBLISHER_0, PUBLISHER_1, PUBLISHER_2)
-var EMPTY_PUBLISHERS = emptyList<Publisher>()
+var ORGS = listOf(ORG_0, ORG_1, ORG_2)
+var EMPTY_LIST = emptyList<Organization>()
 
-var PUBLISHER_DB_0 = PublisherDB().apply {
+var ORG_DB_0 = OrganizationDB().apply {
     id = ObjectId("5d5531e55c404500068481da")
     name = "REGISTERENHETEN I BRØNNØYSUND"
     uri = "http://data.brreg.no/enhetsregisteret/enhet/974760673"
@@ -143,7 +143,7 @@ var PUBLISHER_DB_0 = PublisherDB().apply {
     }
 }
 
-val PUBLISHER_DB_1 =  PublisherDB().apply {
+val ORG_DB_1 =  OrganizationDB().apply {
     id = ObjectId("5d5531e45c40450006848160")
     name = "ATB AS"
     uri = "http://data.brreg.no/enhetsregisteret/enhet/994686011"
@@ -159,7 +159,7 @@ val PUBLISHER_DB_1 =  PublisherDB().apply {
     }
 }
 
-val PUBLISHER_DB_2 =  PublisherDB().apply {
+val ORG_DB_2 =  OrganizationDB().apply {
     id = ObjectId("5d5531e45c40450006848159")
     name = "FORSVARET"
     uri = "http://data.brreg.no/enhetsregisteret/enhet/986105174"

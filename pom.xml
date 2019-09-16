@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>no.publishers</groupId>
-    <artifactId>publishers-api</artifactId>
-    <name>Publishers API</name>
+    <groupId>no.brreg.organizationcatalogue</groupId>
+    <artifactId>organization-catalogue</artifactId>
+    <name>Organization Catalogue</name>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -37,8 +37,8 @@
         <testcontainers.version>1.11.4</testcontainers.version>
         <jena.version>3.9.0</jena.version>
 
-        <start-class>no.publishers.Application</start-class>
-        <docker.image.name>brreg/publishers-api</docker.image.name>
+        <start-class>no.brreg.organizationcatalogue.Application</start-class>
+        <docker.image.name>brreg/organization-catalogue</docker.image.name>
         <docker.image.tag>latest</docker.image.tag>
 
         <!-- Sonar properties -->
@@ -270,13 +270,13 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/specification/publishers.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/specification/organization-catalogue.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <templateDirectory>${project.basedir}/src/main/resources/openAPI/openapi-generator-maven-plugin/templates/JavaSpring</templateDirectory>
                             <output>${project.build.directory}/generated-sources/openapi</output>
-                            <invokerPackage>no.publishers.generated</invokerPackage>
-                            <apiPackage>no.publishers.generated.api</apiPackage>
-                            <modelPackage>no.publishers.generated.model</modelPackage>
+                            <invokerPackage>no.brreg.organizationcatalogue.generated</invokerPackage>
+                            <apiPackage>no.brreg.organizationcatalogue.generated.api</apiPackage>
+                            <modelPackage>no.brreg.organizationcatalogue.generated.model</modelPackage>
                             <configOptions>
                                 <allowUnicodeIdentifiers>true</allowUnicodeIdentifiers>
                                 <sourceFolder>src/main/java/gen</sourceFolder>

@@ -1,7 +1,7 @@
 openapi: 3.0.2
 info:
-  title: National Data Directory Publisher API
-  description: Exposes a basic service which provides information related to the publishers of content in the National Data Directory
+  title: National Data Directory Organization Catalogue
+  description: Exposes a basic service which provides information related to the organization catalogue in the National Data Directory
   version: '1.0'
   termsOfService: 'https://fellesdatakatalog.brreg.no/about'
   contact:
@@ -15,17 +15,17 @@ externalDocs:
   description: Dokumentasjon på Informasjonsforvaltning GitHub
   url: https://informasjonsforvaltning.github.io/felles-datakatalog/datasett-katalog/api/
 tags:
-  - name: publisher
-    description: Publisher Service
+  - name: organization-catalogue
+    description: Organization Catalogue
 servers:
   - url: 'https://fellesdatakatalog.brreg.no'
 paths:
-  /publishers:
+  /organizations:
     post:
       tags:
-        - publisher
-      summary: Create a new publisher
-      operationId: createPublisher
+        - organization-catalogue
+      summary: Create a new organization
+      operationId: createOrganization
       responses:
         '201':
           description: Created
@@ -33,23 +33,23 @@ paths:
             Location:
               schema:
                 type: string
-              description: url to the new publisher
+              description: url to the new organization
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Publisher'
+              $ref: '#/components/schemas/Organization'
     get:
       tags:
-        - publisher
-      summary: Query for publishers.
-      description: Returns a collection of matching publishers
-      operationId: getPublishers
+        - organization-catalogue
+      summary: Query for organizations.
+      description: Returns a collection of matching organizations
+      operationId: getOrganizations
       parameters:
         - name: name
           in: query
-          description: A query string to match a publisher name
+          description: A query string to match a organization name
           required: false
           schema:
             type: string
@@ -72,12 +72,12 @@ paths:
             text/turtle:
               schema:
                 type: string
-  /publishers/{id}:
+  /organizations/{id}:
     get:
       tags:
-        - publisher
-      description: Get a specific publisher by id
-      operationId: getPublisherById
+        - organization-catalogue
+      description: Get a specific organization by id
+      operationId: getOrganizationById
       parameters:
         - name: id
           in: path
@@ -100,9 +100,9 @@ paths:
                 type: string
     put:
       tags:
-        - publisher
-      description: Update a specific publisher by id
-      operationId: updatePublisher
+        - organization-catalogue
+      description: Update a specific organization by id
+      operationId: updateOrganization
       parameters:
         - name: id
           in: path
@@ -116,25 +116,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Publisher"
+                $ref: "#/components/schemas/Organization"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Publisher'
+              $ref: '#/components/schemas/Organization'
 components:
   schemas:
-    Publisher:
+    Organization:
       type: object
-      description: A publisher of content in FDK [dct:publisher]
+      description: An organization in the catalogue
       properties:
         id:
           type: string
           description: system-generated id (GUID)
         uri:
           type: string
-          description: Link to the organization entry in The Brønnøysund Register Centre
+          description: Link to the organization in The Brønnøysund Register Centre
         organizationId:
           type: string
           description: Organization id

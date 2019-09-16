@@ -1,11 +1,11 @@
-package no.publishers.mapping
+package no.brreg.organizationcatalogue.mapping
 
-import no.publishers.generated.model.PrefLabel
-import no.publishers.generated.model.Publisher
-import no.publishers.model.PublisherDB
+import no.brreg.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.organizationcatalogue.generated.model.Organization
+import no.brreg.organizationcatalogue.model.OrganizationDB
 
-fun PublisherDB.mapToGenerated(): Publisher {
-    val mapped = Publisher()
+fun OrganizationDB.mapToGenerated(): Organization {
+    val mapped = Organization()
 
     mapped.id = id.toHexString()
     mapped.name = name
@@ -23,8 +23,8 @@ fun PublisherDB.mapToGenerated(): Publisher {
     return mapped
 }
 
-fun Publisher.mapForCreation(): PublisherDB {
-    val mapped = PublisherDB()
+fun Organization.mapForCreation(): OrganizationDB {
+    val mapped = OrganizationDB()
 
     mapped.name = name
     mapped.uri = uri
@@ -41,19 +41,19 @@ fun Publisher.mapForCreation(): PublisherDB {
     return mapped
 }
 
-fun PublisherDB.updateValues(publisher: Publisher): PublisherDB =
+fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
     apply {
-        name = publisher.name ?: name
-        uri = publisher.uri ?: uri
-        organizationId = publisher.organizationId ?: organizationId
-        orgType = publisher.orgType ?: orgType
-        orgPath = publisher.orgPath ?: orgPath
-        subOrganizationOf = publisher.subOrganizationOf ?: subOrganizationOf
-        uriMunicipalityNumber = publisher.uriMunicipalityNumber ?: uriMunicipalityNumber
-        issued = publisher.issued ?: issued
-        uriIndustryCode = publisher.uriIndustryCode ?: uriIndustryCode
-        uriSectorCode = publisher.uriSectorCode ?: uriSectorCode
-        prefLabel = prefLabel.update(publisher.prefLabel)
+        name = org.name ?: name
+        uri = org.uri ?: uri
+        organizationId = org.organizationId ?: organizationId
+        orgType = org.orgType ?: orgType
+        orgPath = org.orgPath ?: orgPath
+        subOrganizationOf = org.subOrganizationOf ?: subOrganizationOf
+        uriMunicipalityNumber = org.uriMunicipalityNumber ?: uriMunicipalityNumber
+        issued = org.issued ?: issued
+        uriIndustryCode = org.uriIndustryCode ?: uriIndustryCode
+        uriSectorCode = org.uriSectorCode ?: uriSectorCode
+        prefLabel = prefLabel.update(org.prefLabel)
     }
 
 private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel {

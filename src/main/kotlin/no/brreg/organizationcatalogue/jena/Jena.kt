@@ -1,7 +1,7 @@
-package no.publishers.jena
+package no.brreg.organizationcatalogue.jena
 
-import no.publishers.generated.model.PrefLabel
-import no.publishers.generated.model.Publisher
+import no.brreg.organizationcatalogue.generated.model.Organization
+import no.brreg.organizationcatalogue.generated.model.PrefLabel
 import org.apache.jena.rdf.model.Model
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.Property
@@ -14,16 +14,16 @@ import org.apache.jena.vocabulary.ROV
 import org.apache.jena.vocabulary.SKOS
 import java.io.ByteArrayOutputStream
 
-fun Publisher.jenaResponse(acceptHeader: String?): String =
+fun Organization.jenaResponse(acceptHeader: String?): String =
     listOf(this)
         .createModel()
         .createResponseString(acceptHeaderToJenaType(acceptHeader))
 
-fun List<Publisher>.jenaResponse(acceptHeader: String?): String =
+fun List<Organization>.jenaResponse(acceptHeader: String?): String =
     createModel()
         .createResponseString(acceptHeaderToJenaType(acceptHeader))
 
-private fun List<Publisher>.createModel(): Model {
+private fun List<Organization>.createModel(): Model {
     val model = ModelFactory.createDefaultModel()
     model.setNsPrefix("dct", DCTerms.getURI())
     model.setNsPrefix("skos", SKOS.uri)
@@ -51,12 +51,12 @@ private fun List<Publisher>.createModel(): Model {
     return model
 }
 
-private fun Resource.addRegistration(publisher: Publisher): Resource =
+private fun Resource.addRegistration(org: Organization): Resource =
     addProperty(
         ROV.registration,
         model.createResource(ADMS.Identifier)
-            .safeAddProperty(DCTerms.issued, publisher.issued?.toString())
-            .addProperty(SKOS.notation, publisher.organizationId)
+            .safeAddProperty(DCTerms.issued, org.issued?.toString())
+            .addProperty(SKOS.notation, org.organizationId)
             .addProperty(ADMS.schemaAgency, "Brønnøysundregistrene"))
 
 private fun Resource.safeAddProperty(property: Property, value: String?): Resource =

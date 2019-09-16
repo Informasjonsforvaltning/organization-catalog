@@ -1,4 +1,4 @@
-package no.publishers;
+package no.brreg.organizationcatalogue;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
