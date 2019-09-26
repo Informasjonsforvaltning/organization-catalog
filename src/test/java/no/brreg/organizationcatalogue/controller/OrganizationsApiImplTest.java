@@ -180,7 +180,7 @@ public class OrganizationsApiImplTest {
         @Test
         public void whenEmptyResult404() {
             Mockito
-                .when(catalogueServiceMock.getById("123Null"))
+                .when(catalogueServiceMock.getByOrgnr("123Null"))
                 .thenReturn(null);
 
             ResponseEntity<String> response = controller.getOrganizationById(httpServletRequestMock, "123Null");
@@ -193,7 +193,7 @@ public class OrganizationsApiImplTest {
         public void wrongAcceptHeader() {
             Organization publisher = getORG_0();
             Mockito
-                .when(catalogueServiceMock.getById("123NotAccepted"))
+                .when(catalogueServiceMock.getByOrgnr("123NotAccepted"))
                 .thenReturn(publisher);
 
             Mockito
@@ -210,14 +210,14 @@ public class OrganizationsApiImplTest {
         public void whenNonEmptyResult200() {
             Organization publisher = getORG_0();
             Mockito
-                .when(catalogueServiceMock.getById("5d5531e55c404500068481da"))
+                .when(catalogueServiceMock.getByOrgnr("974760673"))
                 .thenReturn(publisher);
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
-            ResponseEntity<String> response = controller.getOrganizationById(httpServletRequestMock, "5d5531e55c404500068481da");
+            ResponseEntity<String> response = controller.getOrganizationById(httpServletRequestMock, "974760673");
             Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getOne.ttl", "TURTLE");
@@ -229,7 +229,7 @@ public class OrganizationsApiImplTest {
         @Test
         public void whenException500() {
             Mockito
-                .when(catalogueServiceMock.getById("123Error"))
+                .when(catalogueServiceMock.getByOrgnr("123Error"))
                 .thenAnswer(invocation -> {
                     throw new Exception("Test error message");
                 });
@@ -253,7 +253,7 @@ public class OrganizationsApiImplTest {
 
             ResponseEntity<Void> response = controller.createOrganization(httpServletRequestMock, getORG_0());
 
-            String expectedLocationHeader = "http://localhost/publishers/" + publisher.getId();
+            String expectedLocationHeader = "http://localhost/publishers/" + publisher.getOrganizationId();
 
             assertEquals(HttpStatus.CREATED, response.getStatusCode());
             assertEquals(expectedLocationHeader, response.getHeaders().getLocation().toString());

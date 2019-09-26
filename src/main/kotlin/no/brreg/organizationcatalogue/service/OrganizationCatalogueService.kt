@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service
 class OrganizationCatalogueService (
     private val repository: OrganizationCatalogueRepository
 ) {
-    fun getById(id: String): Organization? =
+
+    fun getByOrgnr(orgId: String): Organization? =
         repository
-            .findByIdOrNull(id)
+            .findByOrganizationId(orgId)
             ?.mapToGenerated()
 
     fun getOrganizations(name: String?, organizationId: String?): List<Organization> =
@@ -44,9 +45,9 @@ class OrganizationCatalogueService (
             .save(org.mapForCreation())
             .mapToGenerated()
 
-    fun updateEntry(id: String, org: Organization): Organization? =
+    fun updateEntry(orgId: String, org: Organization): Organization? =
         repository
-            .findByIdOrNull(id)
+            .findByOrganizationId(orgId)
             ?.updateValues(org)
             ?.let { repository.save(it) }
             ?.mapToGenerated()
