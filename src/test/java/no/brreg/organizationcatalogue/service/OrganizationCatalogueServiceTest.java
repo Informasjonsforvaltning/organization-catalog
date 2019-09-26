@@ -42,10 +42,10 @@ public class OrganizationCatalogueServiceTest {
     @Test
     public void getByIdNotFound() {
         Mockito
-            .when(repository.findById("123ID"))
-            .thenReturn(Optional.empty());
+            .when(repository.findByOrganizationId("123ID"))
+            .thenReturn(null);
 
-        Organization publisher = catalogueService.getById("123ID");
+        Organization publisher = catalogueService.getByOrgnr("123ID");
 
         assertNull(publisher);
     }
@@ -54,10 +54,10 @@ public class OrganizationCatalogueServiceTest {
     public void getById() {
         OrganizationDB persisted = getORG_DB_0();
         Mockito
-            .when(repository.findById("123ID"))
-            .thenReturn(Optional.of(persisted));
+            .when(repository.findByOrganizationId("123ID"))
+            .thenReturn(persisted);
 
-        Organization publisher = catalogueService.getById("123ID");
+        Organization publisher = catalogueService.getByOrgnr("123ID");
 
         assertEquals(persisted.getId().toHexString(), publisher.getId());
         assertEquals(persisted.getName(), publisher.getName());
@@ -121,8 +121,8 @@ public class OrganizationCatalogueServiceTest {
     @Test
     public void updateNotFound() {
         Mockito
-            .when(repository.findById("123ID"))
-            .thenReturn(Optional.empty());
+            .when(repository.findByOrganizationId("123ID"))
+            .thenReturn(null);
 
         Organization publisher = catalogueService.updateEntry("123ID", getORG_0());
 

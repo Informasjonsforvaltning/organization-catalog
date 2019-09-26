@@ -39,7 +39,7 @@ open class OrganizationsApiImpl (
                         .fromCurrentServletMapping()
                         .path("/publishers/{id}")
                         .build()
-                        .expand(catalogueService.createEntry(publisher).id)
+                        .expand(catalogueService.createEntry(publisher).organizationId)
                         .toUri() }
                 .let { ResponseEntity(it, HttpStatus.CREATED) }
         } catch (exception: Exception) {
@@ -51,10 +51,10 @@ open class OrganizationsApiImpl (
             }
         }
 
-    override fun updateOrganization(httpServletRequest: HttpServletRequest?, id: String, organization: Organization): ResponseEntity<Organization> =
+    override fun updateOrganization(httpServletRequest: HttpServletRequest?, organizationId: String, organization: Organization): ResponseEntity<Organization> =
         try {
             catalogueService
-                .updateEntry(id, organization)
+                .updateEntry(organizationId, organization)
                 ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
                 ?: ResponseEntity(HttpStatus.NOT_FOUND)
         } catch (exception: Exception) {
@@ -66,10 +66,10 @@ open class OrganizationsApiImpl (
             }
         }
 
-    override fun getOrganizationById(httpServletRequest: HttpServletRequest, id: String): ResponseEntity<String> =
+    override fun getOrganizationById(httpServletRequest: HttpServletRequest, organizationId: String): ResponseEntity<String> =
         try {
             catalogueService
-                .getById(id)
+                .getByOrgnr(organizationId)
                 ?.let { org -> org.jenaResponse(httpServletRequest.getHeader("Accept")) }
                 ?.let { response -> ResponseEntity(response, HttpStatus.OK) }
                 ?: ResponseEntity(HttpStatus.NOT_FOUND)

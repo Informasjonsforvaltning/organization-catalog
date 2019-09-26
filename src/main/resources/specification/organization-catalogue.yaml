@@ -98,6 +98,32 @@ paths:
             text/turtle:
               schema:
                 type: string
+  /organizations/orgnr/{orgnr}:
+    get:
+      tags:
+        - organization-catalogue
+      description: Get a specific organization by orgnr
+      operationId: getOrganizationByOrgnr
+      parameters:
+        - name: orgnr
+          in: path
+          description: The organization id as given in the The Brønnøysund Register Centre
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/ld+json:
+              schema:
+                type: string
+            application/rdf+xml:
+              schema:
+                type: string
+            text/turtle:
+              schema:
+                type: string
     put:
       tags:
         - organization-catalogue

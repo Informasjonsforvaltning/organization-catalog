@@ -34,9 +34,9 @@ private fun List<Organization>.createModel(): Model {
     model.setNsPrefix("br", BR.uri)
 
     forEach {
-        model.createResource(it.uri)
+        model.createResource("https://publishers-api.ut1.fellesdatakatalog.brreg.no/${it.organizationId}")
             .addProperty(RDF.type, FOAF.Organization)
-            .addProperty(DCTerms.identifier, it.id)
+            .addProperty(DCTerms.identifier, it.uri)
             .safeAddProperty(ROV.legalName, it.name)
             .addRegistration(it)
             .safeAddProperty(ROV.orgType, it.orgType)

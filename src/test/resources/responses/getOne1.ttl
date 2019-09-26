@@ -1,18 +1,18 @@
 @prefix br:    <http://data.brreg.no/informasjonsmodeller/enhetsregisteret/> .
-@prefix dct:   <http://purl.org/dc/terms/> .
 @prefix adms:  <http://www.w3.org/ns/adms#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
 @prefix org:   <http://www.w3.org/ns/org#> .
 @prefix rov:   <http://www.w3.org/ns/regorg#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 
-<http://data.brreg.no/enhetsregisteret/enhet/994686011>
+<https://publishers-api.ut1.fellesdatakatalog.brreg.no/994686011>
         a                      foaf:Organization ;
         br:industryCode        <http://www.ssb.no/nace/sn2007/84.130> ;
         br:municipalityNumber  <http://www.test.no/fest/5001> ;
         br:orgPath             "/PRIVAT/994686011" ;
         br:sectorCode          <http://www.brreg.no/sektorkode/6500> ;
-        dct:identifier         "5d5531e45c40450006848160" ;
+        dct:identifier         "http://data.brreg.no/enhetsregisteret/enhet/994686011" ;
         rov:legalName          "ATB AS" ;
         rov:orgType            "AS" ;
         rov:registration       [ a                  adms:Identifier ;
