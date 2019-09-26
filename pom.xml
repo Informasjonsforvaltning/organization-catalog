@@ -437,40 +437,6 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.6.0.1398</version>
-                <executions>
-                    <execution>
-                        <id>sonar-report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sonar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- Sets the missing sonar property, sonar.branch.name, as the git branch name -->
-                <groupId>org.dellroad</groupId>
-                <artifactId>dellroad-stuff-maven-plugin</artifactId>
-                <version>2.4.2</version>
-                <executions>
-                    <execution>
-                        <id>set-sonar-branch-name</id>
-                        <configuration>
-                            <propertyName>sonar.branch.name</propertyName>
-                            <command>./src/main/resources/gitBranchName.sh</command>
-                        </configuration>
-                        <goals>
-                            <goal>exec-set-property</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-
         </plugins>
     </build>
 </project>

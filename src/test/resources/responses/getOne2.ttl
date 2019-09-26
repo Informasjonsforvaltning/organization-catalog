@@ -1,19 +1,19 @@
 @prefix br:    <http://data.brreg.no/informasjonsmodeller/enhetsregisteret/> .
-@prefix dct:   <http://purl.org/dc/terms/> .
 @prefix adms:  <http://www.w3.org/ns/adms#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
 @prefix org:   <http://www.w3.org/ns/org#> .
 @prefix rov:   <http://www.w3.org/ns/regorg#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 
-<http://data.brreg.no/enhetsregisteret/enhet/986105174>
+<https://publishers-api.ut1.fellesdatakatalog.brreg.no/986105174>
         a                      foaf:Organization ;
         br:industryCode        <http://www.ssb.no/nace/sn2007/84.220> ;
         br:municipalityNumber  <http://www.test.no/fest/0301> ;
         br:orgPath             "/STAT/972417823/986105174" ;
         br:sectorCode          <http://www.brreg.no/sektorkode/6100> ;
-        dct:identifier         "5d5531e45c40450006848159" ;
-        org:subOrganizationOf  <http://data.brreg.no/enhetsregisteret/enhet/972417823> ;
+        dct:identifier         "http://data.brreg.no/enhetsregisteret/enhet/986105174" ;
+        org:subOrganizationOf  <https://publishers-api.ut1.fellesdatakatalog.brreg.no/972417823> ;
         rov:legalName          "FORSVARET" ;
         rov:orgType            "ORGL" ;
         rov:registration       [ a                  adms:Identifier ;
