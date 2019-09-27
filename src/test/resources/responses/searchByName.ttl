@@ -8,12 +8,11 @@
 
 <https://publishers-api.ut1.fellesdatakatalog.brreg.no/974760673>
         a                      foaf:Organization ;
-        br:industryCode        <http://www.ssb.no/nace/sn2007/84.110> ;
-        br:municipalityNumber  <http://www.test.no/fest/1813> ;
+        br:industryCode        "http://www.ssb.no/nace/sn2007/84.110" ;
+        br:municipalityNumber  "http://www.test.no/fest/1813" ;
         br:orgPath             "/STAT/912660680/974760673" ;
-        br:sectorCode          <http://www.brreg.no/sektorkode/6100> ;
-        dct:identifier         "http://data.brreg.no/enhetsregisteret/enhet/974760673" ;
-        org:subOrganizationOf  <https://publishers-api.ut1.fellesdatakatalog.brreg.no/912660680> ;
+        br:sectorCode          "http://www.brreg.no/sektorkode/6100" ;
+        org:subOrganizationOf  "https://publishers-api.ut1.fellesdatakatalog.brreg.no/912660680" ;
         rov:legalName          "REGISTERENHETEN I BRØNNØYSUND" ;
         rov:orgType            "ORGL" ;
         rov:registration       [ a                  adms:Identifier ;
@@ -25,12 +24,11 @@
 
 <https://publishers-api.ut1.fellesdatakatalog.brreg.no/986105174>
         a                      foaf:Organization ;
-        br:industryCode        <http://www.ssb.no/nace/sn2007/84.220> ;
-        br:municipalityNumber  <http://www.test.no/fest/0301> ;
+        br:industryCode        "http://www.ssb.no/nace/sn2007/84.220" ;
+        br:municipalityNumber  "http://www.test.no/fest/0301" ;
         br:orgPath             "/STAT/972417823/986105174" ;
-        br:sectorCode          <http://www.brreg.no/sektorkode/6100> ;
-        dct:identifier         "http://data.brreg.no/enhetsregisteret/enhet/986105174" ;
-        org:subOrganizationOf  <https://publishers-api.ut1.fellesdatakatalog.brreg.no/972417823> ;
+        br:sectorCode          "http://www.brreg.no/sektorkode/6100" ;
+        org:subOrganizationOf  "https://publishers-api.ut1.fellesdatakatalog.brreg.no/972417823" ;
         rov:legalName          "FORSVARET" ;
         rov:orgType            "ORGL" ;
         rov:registration       [ a                  adms:Identifier ;

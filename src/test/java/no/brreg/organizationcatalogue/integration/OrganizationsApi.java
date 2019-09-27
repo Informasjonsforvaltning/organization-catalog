@@ -86,25 +86,29 @@ class OrganizationsApi {
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("text/turtle");
 
-        String response0 = controller
+        Object response0 = controller
             .getOrganizationById(httpServletRequestMock, getORG_0().getOrganizationId())
             .getBody();
 
-        String response1 = controller
+        Object response1 = controller
             .getOrganizationById(httpServletRequestMock, getORG_1().getOrganizationId())
             .getBody();
 
-        String response2 = controller
+        Object response2 = controller
             .getOrganizationById(httpServletRequestMock, getORG_2().getOrganizationId())
             .getBody();
 
-        Model modelFromResponse0 = responseReader.parseResponse(response0, "text/turtle");
+        System.out.println(response1);
+
+        System.out.println(response2);
+
+        Model modelFromResponse0 = responseReader.parseResponse((String)response0, "text/turtle");
         Model expectedResponse0 = responseReader.getExpectedResponse("getOne.ttl", "TURTLE");
 
-        Model modelFromResponse1 = responseReader.parseResponse(response1, "text/turtle");
+        Model modelFromResponse1 = responseReader.parseResponse((String)response1, "text/turtle");
         Model expectedResponse1 = responseReader.getExpectedResponse("getOne1.ttl", "TURTLE");
 
-        Model modelFromResponse2 = responseReader.parseResponse(response2, "text/turtle");
+        Model modelFromResponse2 = responseReader.parseResponse((String)response2, "text/turtle");
         Model expectedResponse2 = responseReader.getExpectedResponse("getOne2.ttl", "TURTLE");
 
         assertTrue(expectedResponse0.isIsomorphicWith(modelFromResponse0));
@@ -118,11 +122,11 @@ class OrganizationsApi {
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("text/turtle");
 
-        String response = controller
+        Object response = controller
             .getOrganizations(httpServletRequestMock, "ET", null)
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse(response, "TURTLE");
+        Model modelFromResponse = responseReader.parseResponse((String)response, "TURTLE");
         Model expectedResponse = responseReader.getExpectedResponse("searchByName.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -134,11 +138,11 @@ class OrganizationsApi {
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("application/ld+json");
 
-        String response = controller
+        Object response = controller
             .getOrganizations(httpServletRequestMock, "FORSVARET", null)
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse(response, "JSONLD");
+        Model modelFromResponse = responseReader.parseResponse((String)response, "JSONLD");
         Model expectedResponse = responseReader.getExpectedResponse("getOne2.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -150,11 +154,11 @@ class OrganizationsApi {
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("text/turtle");
 
-        String response = controller
+        Object response = controller
             .getOrganizations(httpServletRequestMock, null, "60")
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse(response, "text/turtle");
+        Model modelFromResponse = responseReader.parseResponse((String)response, "text/turtle");
         Model expectedResponse = responseReader.getExpectedResponse("searchByOrgId.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -166,11 +170,11 @@ class OrganizationsApi {
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("application/rdf+xml");
 
-        String response = controller
+        Object response = controller
             .getOrganizations(httpServletRequestMock, null, "994686011")
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse(response, "RDFXML");
+        Model modelFromResponse = responseReader.parseResponse((String)response, "RDFXML");
         Model expectedResponse = responseReader.getExpectedResponse("getOne1.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));

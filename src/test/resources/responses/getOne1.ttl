@@ -8,11 +8,10 @@
 
 <https://publishers-api.ut1.fellesdatakatalog.brreg.no/994686011>
         a                      foaf:Organization ;
-        br:industryCode        <http://www.ssb.no/nace/sn2007/84.130> ;
-        br:municipalityNumber  <http://www.test.no/fest/5001> ;
+        br:industryCode        "http://www.ssb.no/nace/sn2007/84.130" ;
+        br:municipalityNumber  "http://www.test.no/fest/5001" ;
         br:orgPath             "/PRIVAT/994686011" ;
-        br:sectorCode          <http://www.brreg.no/sektorkode/6500> ;
-        dct:identifier         "http://data.brreg.no/enhetsregisteret/enhet/994686011" ;
+        br:sectorCode          "http://www.brreg.no/sektorkode/6500" ;
         rov:legalName          "ATB AS" ;
         rov:orgType            "AS" ;
         rov:registration       [ a                  adms:Identifier ;
