@@ -14,14 +14,11 @@ import org.apache.jena.vocabulary.ROV
 import org.apache.jena.vocabulary.SKOS
 import java.io.ByteArrayOutputStream
 
-fun Organization.jenaResponse(acceptHeader: String?): String =
-    listOf(this)
-        .createModel()
-        .createResponseString(acceptHeaderToJenaType(acceptHeader))
+fun Organization.jenaResponse(responseType: JenaType): String =
+    listOf(this).jenaResponse(responseType)
 
-fun List<Organization>.jenaResponse(acceptHeader: String?): String =
-    createModel()
-        .createResponseString(acceptHeaderToJenaType(acceptHeader))
+fun List<Organization>.jenaResponse(responseType: JenaType): String =
+    createModel().createResponseString(responseType)
 
 private fun List<Organization>.createModel(): Model {
     val model = ModelFactory.createDefaultModel()
@@ -36,15 +33,14 @@ private fun List<Organization>.createModel(): Model {
     forEach {
         model.createResource("https://publishers-api.ut1.fellesdatakatalog.brreg.no/${it.organizationId}")
             .addProperty(RDF.type, FOAF.Organization)
-            .addProperty(DCTerms.identifier, it.uri)
             .safeAddProperty(ROV.legalName, it.name)
             .addRegistration(it)
             .safeAddProperty(ROV.orgType, it.orgType)
             .safeAddProperty(BR.orgPath, it.orgPath)
-            .safeAddLinkedProperty(ORG.subOrganizationOf, it.subOrganizationOf)
-            .safeAddLinkedProperty(BR.municipalityNumber, it.uriMunicipalityNumber)
-            .safeAddLinkedProperty(BR.industryCode, it.uriIndustryCode)
-            .safeAddLinkedProperty(BR.sectorCode, it.uriSectorCode)
+            .safeAddProperty(ORG.subOrganizationOf, it.subOrganizationOf)
+            .safeAddProperty(BR.municipalityNumber, it.municipalityNumber)
+            .safeAddProperty(BR.industryCode, it.industryCode)
+            .safeAddProperty(BR.sectorCode, it.sectorCode)
             .addPreferredNames(it.prefLabel)
     }
 
@@ -73,19 +69,29 @@ private fun Resource.addPreferredNames(preferredNames: PrefLabel): Resource {
     if (preferredNames.en != null) addProperty(FOAF.name, preferredNames.en, "en")
     return this
 }
-private fun Model.createResponseString(responseType: String):String =
+private fun Model.createResponseString(responseType: JenaType):String =
     ByteArrayOutputStream().use{ out ->
-        write(out, responseType)
+        write(out, responseType.value)
         out.flush()
         out.toString("UTF-8")
     }
 
-private fun acceptHeaderToJenaType(accept: String?): String =
+fun acceptHeaderToJenaType(accept: String?): JenaType =
     when (accept) {
-        "text/turtle" -> "TURTLE"
-        "application/rdf+xml" -> "RDF/XML"
-        "application/ld+json" -> "JSON-LD"
-        else -> throw MissingAcceptHeaderException()
+        "text/turtle" -> JenaType.TURTLE
+        "application/rdf+xml" -> JenaType.RDF_XML
+        "application/rdf+json" -> JenaType.RDF_JSON
+        "application/ld+json" -> JenaType.JSON_LD
+        "application/xml" -> JenaType.NOT_JENA
+        "application/json" -> JenaType.NOT_JENA
+        else -> JenaType.NOT_ACCEPTABLE
     }
 
-class MissingAcceptHeaderException(): Exception()
+enum class JenaType(val value: String){
+    TURTLE("TURTLE"),
+    RDF_XML("RDF/XML"),
+    RDF_JSON("RDF/JSON"),
+    JSON_LD("JSON-LD"),
+    NOT_JENA("NOT-JENA"),
+    NOT_ACCEPTABLE("")
+}

@@ -2,7 +2,8 @@ package no.brreg.organizationcatalogue.controller
 
 import javax.servlet.http.HttpServletRequest
 import no.brreg.organizationcatalogue.generated.model.Organization
-import no.brreg.organizationcatalogue.jena.MissingAcceptHeaderException
+import no.brreg.organizationcatalogue.jena.JenaType
+import no.brreg.organizationcatalogue.jena.acceptHeaderToJenaType
 import no.brreg.organizationcatalogue.jena.jenaResponse
 import no.brreg.organizationcatalogue.service.OrganizationCatalogueService
 import org.slf4j.LoggerFactory
@@ -43,7 +44,6 @@ open class OrganizationsApiImpl (
                         .toUri() }
                 .let { ResponseEntity(it, HttpStatus.CREATED) }
         } catch (exception: Exception) {
-            LOGGER.error("createPublisher failed:", exception)
             when(exception) {
                 is ConstraintViolationException -> ResponseEntity(HttpStatus.BAD_REQUEST)
                 is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
@@ -58,7 +58,6 @@ open class OrganizationsApiImpl (
                 ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
                 ?: ResponseEntity(HttpStatus.NOT_FOUND)
         } catch (exception: Exception) {
-            LOGGER.error("updatePublisher failed:", exception)
             when(exception) {
                 is ConstraintViolationException -> ResponseEntity(HttpStatus.BAD_REQUEST)
                 is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
@@ -66,32 +65,26 @@ open class OrganizationsApiImpl (
             }
         }
 
-    override fun getOrganizationById(httpServletRequest: HttpServletRequest, organizationId: String): ResponseEntity<String> =
-        try {
-            catalogueService
-                .getByOrgnr(organizationId)
-                ?.let { org -> org.jenaResponse(httpServletRequest.getHeader("Accept")) }
-                ?.let { response -> ResponseEntity(response, HttpStatus.OK) }
-                ?: ResponseEntity(HttpStatus.NOT_FOUND)
-        } catch (exception: Exception) {
-            LOGGER.error("getPublisherById failed:", exception)
-            when(exception) {
-                is MissingAcceptHeaderException -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
-                else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
-            }
-        }
+    override fun getOrganizationById(httpServletRequest: HttpServletRequest, organizationId: String): ResponseEntity<Any> {
+        val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
+        val organization = catalogueService.getByOrgnr(organizationId)
 
-    override fun getOrganizations(httpServletRequest: HttpServletRequest, name: String?, organizationId: String?): ResponseEntity<String> =
-        try {
-            catalogueService
-                .getOrganizations(name, organizationId)
-                .let { orgs -> orgs.jenaResponse(httpServletRequest.getHeader("Accept")) }
-                .let { response -> ResponseEntity(response, HttpStatus.OK) }
-        } catch (exception: Exception) {
-            LOGGER.error("getPublishers failed:", exception)
-            when(exception) {
-                is MissingAcceptHeaderException -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
-                else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
-            }
+        return when {
+            organization == null -> ResponseEntity(HttpStatus.NOT_FOUND)
+            jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+            jenaType == JenaType.NOT_JENA -> ResponseEntity(organization, HttpStatus.OK)
+            else -> ResponseEntity(organization.jenaResponse(jenaType), HttpStatus.OK)
         }
+    }
+
+    override fun getOrganizations(httpServletRequest: HttpServletRequest, name: String?, organizationId: String?): ResponseEntity<Any> {
+        val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
+        val organizations = catalogueService.getOrganizations(name, organizationId)
+
+        return when {
+            jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+            jenaType == JenaType.NOT_JENA -> ResponseEntity(organizations, HttpStatus.OK)
+            else -> ResponseEntity(organizations.jenaResponse(jenaType), HttpStatus.OK)
+        }
+    }
 }

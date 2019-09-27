@@ -15,9 +15,9 @@ fun OrganizationDB.mapToGenerated(): Organization {
     mapped.orgPath = orgPath
     mapped.subOrganizationOf = subOrganizationOf
     mapped.issued = issued
-    mapped.uriMunicipalityNumber = uriMunicipalityNumber
-    mapped.uriIndustryCode = uriIndustryCode
-    mapped.uriSectorCode = uriSectorCode
+    mapped.municipalityNumber = municipalityNumber
+    mapped.industryCode = industryCode
+    mapped.sectorCode = sectorCode
     mapped.prefLabel = prefLabel
 
     return mapped
@@ -32,10 +32,10 @@ fun Organization.mapForCreation(): OrganizationDB {
     mapped.orgType = orgType
     mapped.orgPath = orgPath
     mapped.subOrganizationOf = subOrganizationOf
-    mapped.uriMunicipalityNumber = uriMunicipalityNumber
+    mapped.municipalityNumber = municipalityNumber
     mapped.issued = issued
-    mapped.uriIndustryCode = uriIndustryCode
-    mapped.uriSectorCode = uriSectorCode
+    mapped.industryCode = industryCode
+    mapped.sectorCode = sectorCode
     mapped.prefLabel = prefLabel ?: PrefLabel()
 
     return mapped
@@ -49,10 +49,10 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         orgType = org.orgType ?: orgType
         orgPath = org.orgPath ?: orgPath
         subOrganizationOf = org.subOrganizationOf ?: subOrganizationOf
-        uriMunicipalityNumber = org.uriMunicipalityNumber ?: uriMunicipalityNumber
+        municipalityNumber = org.municipalityNumber ?: municipalityNumber
         issued = org.issued ?: issued
-        uriIndustryCode = org.uriIndustryCode ?: uriIndustryCode
-        uriSectorCode = org.uriSectorCode ?: uriSectorCode
+        industryCode = org.industryCode ?: industryCode
+        sectorCode = org.sectorCode ?: sectorCode
         prefLabel = prefLabel.update(org.prefLabel)
     }
 

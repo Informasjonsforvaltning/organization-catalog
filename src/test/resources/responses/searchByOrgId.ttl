@@ -8,12 +8,11 @@
 
 <https://publishers-api.ut1.fellesdatakatalog.brreg.no/974760673>
         a                      foaf:Organization ;
-        br:industryCode        <http://www.ssb.no/nace/sn2007/84.110> ;
-        br:municipalityNumber  <http://www.test.no/fest/1813> ;
+        br:industryCode        "http://www.ssb.no/nace/sn2007/84.110" ;
+        br:municipalityNumber  "http://www.test.no/fest/1813" ;
         br:orgPath             "/STAT/912660680/974760673" ;
-        br:sectorCode          <http://www.brreg.no/sektorkode/6100> ;
-        dct:identifier         "http://data.brreg.no/enhetsregisteret/enhet/974760673" ;
-        org:subOrganizationOf  <https://publishers-api.ut1.fellesdatakatalog.brreg.no/912660680> ;
+        br:sectorCode          "http://www.brreg.no/sektorkode/6100" ;
+        org:subOrganizationOf  "https://publishers-api.ut1.fellesdatakatalog.brreg.no/912660680" ;
         rov:legalName          "REGISTERENHETEN I BRØNNØYSUND" ;
         rov:orgType            "ORGL" ;
         rov:registration       [ a                  adms:Identifier ;
@@ -25,11 +24,10 @@
 
 <https://publishers-api.ut1.fellesdatakatalog.brreg.no/994686011>
         a                      foaf:Organization ;
-        br:industryCode        <http://www.ssb.no/nace/sn2007/84.130> ;
-        br:municipalityNumber  <http://www.test.no/fest/5001> ;
+        br:industryCode        "http://www.ssb.no/nace/sn2007/84.130" ;
+        br:municipalityNumber  "http://www.test.no/fest/5001" ;
         br:orgPath             "/PRIVAT/994686011" ;
-        br:sectorCode          <http://www.brreg.no/sektorkode/6500> ;
-        dct:identifier         "http://data.brreg.no/enhetsregisteret/enhet/994686011" ;
+        br:sectorCode          "http://www.brreg.no/sektorkode/6500" ;
         rov:legalName          "ATB AS" ;
         rov:orgType            "AS" ;
         rov:registration       [ a                  adms:Identifier ;

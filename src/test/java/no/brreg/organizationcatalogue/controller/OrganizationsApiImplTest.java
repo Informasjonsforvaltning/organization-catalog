@@ -73,7 +73,7 @@ public class OrganizationsApiImplTest {
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn(null);
 
-            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, "123NotAccepted", null);
+            ResponseEntity<Object> response = controller.getOrganizations(httpServletRequestMock, "123NotAccepted", null);
 
             assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
             assertNull(response.getBody());
@@ -90,8 +90,8 @@ public class OrganizationsApiImplTest {
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
-            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, "Name does not exists", null);
-            Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
+            ResponseEntity<Object> response = controller.getOrganizations(httpServletRequestMock, "Name does not exists", null);
+            Model modelFromResponse = responseReader.parseResponse((String)response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("emptyList.ttl", "TURTLE");
 
@@ -110,8 +110,8 @@ public class OrganizationsApiImplTest {
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
-            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, null, null);
-            Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
+            ResponseEntity<Object> response = controller.getOrganizations(httpServletRequestMock, null, null);
+            Model modelFromResponse = responseReader.parseResponse((String)response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
 
@@ -130,8 +130,8 @@ public class OrganizationsApiImplTest {
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
-            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, null, "OrgId");
-            Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
+            ResponseEntity<Object> response = controller.getOrganizations(httpServletRequestMock, null, "OrgId");
+            Model modelFromResponse = responseReader.parseResponse((String)response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
 
@@ -150,26 +150,13 @@ public class OrganizationsApiImplTest {
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
-            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, "Name exists", null);
-            Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
+            ResponseEntity<Object> response = controller.getOrganizations(httpServletRequestMock, "Name exists", null);
+            Model modelFromResponse = responseReader.parseResponse((String)response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
 
             assertEquals(HttpStatus.OK, response.getStatusCode());
             assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
-        }
-
-        @Test
-        public void whenExceptions500() {
-            Mockito
-                .when(catalogueServiceMock.getOrganizations(null, null))
-                .thenAnswer(invocation -> {
-                    throw new Exception("Test error message");
-                });
-
-            ResponseEntity<String> response = controller.getOrganizations(httpServletRequestMock, null, null);
-
-            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         }
 
     }
@@ -183,7 +170,7 @@ public class OrganizationsApiImplTest {
                 .when(catalogueServiceMock.getByOrgnr("123Null"))
                 .thenReturn(null);
 
-            ResponseEntity<String> response = controller.getOrganizationById(httpServletRequestMock, "123Null");
+            ResponseEntity<Object> response = controller.getOrganizationById(httpServletRequestMock, "123Null");
 
             assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
             assertNull(response.getBody());
@@ -198,9 +185,9 @@ public class OrganizationsApiImplTest {
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
-                .thenReturn("application/json");
+                .thenReturn("text/plain");
 
-            ResponseEntity<String> response = controller.getOrganizationById(httpServletRequestMock, "123NotAccepted");
+            ResponseEntity<Object> response = controller.getOrganizationById(httpServletRequestMock, "123NotAccepted");
 
             assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
             assertNull(response.getBody());
@@ -217,26 +204,13 @@ public class OrganizationsApiImplTest {
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
-            ResponseEntity<String> response = controller.getOrganizationById(httpServletRequestMock, "974760673");
-            Model modelFromResponse = responseReader.parseResponse(response.getBody(), "text/turtle");
+            ResponseEntity<Object> response = controller.getOrganizationById(httpServletRequestMock, "974760673");
+            Model modelFromResponse = responseReader.parseResponse((String) response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getOne.ttl", "TURTLE");
 
             assertEquals(HttpStatus.OK, response.getStatusCode());
             assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
-        }
-
-        @Test
-        public void whenException500() {
-            Mockito
-                .when(catalogueServiceMock.getByOrgnr("123Error"))
-                .thenAnswer(invocation -> {
-                    throw new Exception("Test error message");
-                });
-
-            ResponseEntity<String> response = controller.getOrganizationById(httpServletRequestMock, "123Error");
-
-            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         }
 
     }
