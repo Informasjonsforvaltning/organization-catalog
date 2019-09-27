@@ -20,9 +20,9 @@ public class OrganizationDB {
     private String orgPath;
     private String subOrganizationOf;
     private LocalDate issued;
-    private String uriMunicipalityNumber;
-    private String uriIndustryCode;
-    private String uriSectorCode;
+    private String municipalityNumber;
+    private String industryCode;
+    private String sectorCode;
     private PrefLabel prefLabel;
 
     public ObjectId getId() {
@@ -89,28 +89,28 @@ public class OrganizationDB {
         this.issued = issued;
     }
 
-    public String getUriMunicipalityNumber() {
-        return uriMunicipalityNumber;
+    public String getMunicipalityNumber() {
+        return municipalityNumber;
     }
 
-    public void setUriMunicipalityNumber(String uriMunicipalityNumber) {
-        this.uriMunicipalityNumber = uriMunicipalityNumber;
+    public void setMunicipalityNumber(String municipalityNumber) {
+        this.municipalityNumber = municipalityNumber;
     }
 
-    public String getUriIndustryCode() {
-        return uriIndustryCode;
+    public String getIndustryCode() {
+        return industryCode;
     }
 
-    public void setUriIndustryCode(String uriIndustryCode) {
-        this.uriIndustryCode = uriIndustryCode;
+    public void setIndustryCode(String industryCode) {
+        this.industryCode = industryCode;
     }
 
-    public String getUriSectorCode() {
-        return uriSectorCode;
+    public String getSectorCode() {
+        return sectorCode;
     }
 
-    public void setUriSectorCode(String uriSectorCode) {
-        this.uriSectorCode = uriSectorCode;
+    public void setSectorCode(String sectorCode) {
+        this.sectorCode = sectorCode;
     }
 
     public PrefLabel getPrefLabel() {
