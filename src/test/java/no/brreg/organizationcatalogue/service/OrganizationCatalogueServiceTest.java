@@ -1,5 +1,6 @@
 package no.brreg.organizationcatalogue.service;
 
+import no.brreg.organizationcatalogue.adapter.EnhetsregisteretAdapter;
 import no.brreg.organizationcatalogue.generated.model.Organization;
 import no.brreg.organizationcatalogue.model.OrganizationDB;
 import no.brreg.organizationcatalogue.repository.OrganizationCatalogueRepository;
@@ -30,6 +31,9 @@ public class OrganizationCatalogueServiceTest {
 
     @Mock
     private OrganizationCatalogueRepository repository;
+
+    @Mock
+    private EnhetsregisteretAdapter adapter;
 
     @InjectMocks
     private OrganizationCatalogueService catalogueService;
