@@ -1,4 +1,4 @@
 ==============================================================================================
-Publishers-API @project.version@
+Organization Catalogue @project.version@
 Spring Boot @parent.version@, Spring @spring.version@
 ==============================================================================================
