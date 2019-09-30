@@ -1,8 +1,11 @@
 package no.brreg.organizationcatalogue.mapping
 
+import no.brreg.organizationcatalogue.adapter.enhetsregisteretUrl
 import no.brreg.organizationcatalogue.generated.model.PrefLabel
 import no.brreg.organizationcatalogue.generated.model.Organization
+import no.brreg.organizationcatalogue.model.EnhetsregisteretOrganization
 import no.brreg.organizationcatalogue.model.OrganizationDB
+import java.time.LocalDate
 
 fun OrganizationDB.mapToGenerated(): Organization {
     val mapped = Organization()
@@ -23,20 +26,19 @@ fun OrganizationDB.mapToGenerated(): Organization {
     return mapped
 }
 
-fun Organization.mapForCreation(): OrganizationDB {
+fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB {
     val mapped = OrganizationDB()
 
-    mapped.name = name
-    mapped.uri = uri
-    mapped.organizationId = organizationId
-    mapped.orgType = orgType
+    mapped.name = navn
+    mapped.uri = enhetsregisteretUrl + organisasjonsnummer
+    mapped.organizationId = organisasjonsnummer
+    mapped.orgType = organisasjonsform?.kode
     mapped.orgPath = orgPath
-    mapped.subOrganizationOf = subOrganizationOf
-    mapped.municipalityNumber = municipalityNumber
-    mapped.issued = issued
-    mapped.industryCode = industryCode
-    mapped.sectorCode = sectorCode
-    mapped.prefLabel = prefLabel ?: PrefLabel()
+    mapped.subOrganizationOf = overordnetEnhet
+    mapped.municipalityNumber = forretningsadresse?.kommunenummer ?: postadresse?.kommunenummer
+    mapped.issued = LocalDate.parse(registreringsdatoEnhetsregisteret)
+    mapped.industryCode = naeringskode1?.kode
+    mapped.sectorCode = institusjonellSektorkode?.kode
 
     return mapped
 }
@@ -53,7 +55,7 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         issued = org.issued ?: issued
         industryCode = org.industryCode ?: industryCode
         sectorCode = org.sectorCode ?: sectorCode
-        prefLabel = prefLabel.update(org.prefLabel)
+        prefLabel = prefLabel?.update(org.prefLabel) ?: PrefLabel().update(org.prefLabel)
     }
 
 private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel {

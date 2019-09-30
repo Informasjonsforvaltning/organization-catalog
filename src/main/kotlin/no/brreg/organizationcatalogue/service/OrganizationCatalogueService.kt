@@ -1,5 +1,6 @@
 package no.brreg.organizationcatalogue.service
 
+import no.brreg.organizationcatalogue.adapter.EnhetsregisteretAdapter
 import no.brreg.organizationcatalogue.generated.model.Organization
 import no.brreg.organizationcatalogue.mapping.mapForCreation
 import no.brreg.organizationcatalogue.mapping.mapToGenerated
@@ -10,18 +11,20 @@ import org.springframework.stereotype.Service
 
 @Service
 class OrganizationCatalogueService (
-    private val repository: OrganizationCatalogueRepository
+    private val repository: OrganizationCatalogueRepository,
+    private val enhetsregisteretAdapter: EnhetsregisteretAdapter
 ) {
 
     fun getByOrgnr(orgId: String): Organization? =
         repository
             .findByOrganizationId(orgId)
             ?.mapToGenerated()
+            ?: createFromEnhetsregisteret(orgId)
 
     fun getOrganizations(name: String?, organizationId: String?): List<Organization> =
         when {
-            organizationId != null -> getOrganizationsByOrgId(organizationId)
-            name != null -> getOrganizationsByName(name)
+            organizationId != null -> searchForOrganizationsByOrgId(organizationId)
+            name != null -> searchForOrganizationsByName(name)
             else -> getCatalogue()
         }
 
@@ -30,20 +33,22 @@ class OrganizationCatalogueService (
             .findAll()
             .map { it.mapToGenerated() }
 
-    private fun getOrganizationsByOrgId(organizationId: String) =
+    private fun searchForOrganizationsByOrgId(organizationId: String) =
         repository
             .findByOrganizationIdLike(organizationId)
             .map { it.mapToGenerated() }
 
-    private fun getOrganizationsByName(name: String) =
+    private fun searchForOrganizationsByName(name: String) =
         repository
             .findByNameLike(name)
             .map { it.mapToGenerated() }
 
-    fun createEntry(org: Organization): Organization =
-        repository
-            .save(org.mapForCreation())
-            .mapToGenerated()
+    private fun createFromEnhetsregisteret(orgId: String): Organization? =
+        enhetsregisteretAdapter
+            .getOrganization(orgId)
+            ?.mapForCreation()
+            ?.let { repository.save(it) }
+            ?.mapToGenerated()
 
     fun updateEntry(orgId: String, org: Organization): Organization? =
         repository

@@ -32,25 +32,6 @@ open class OrganizationsApiImpl (
     fun ready(): ResponseEntity<Void> =
         ResponseEntity.ok().build()
 
-    override fun createOrganization(httpServletRequest: HttpServletRequest, publisher: Organization): ResponseEntity<Void> =
-        try {
-            HttpHeaders()
-                .apply {
-                    location = ServletUriComponentsBuilder
-                        .fromCurrentServletMapping()
-                        .path("/publishers/{id}")
-                        .build()
-                        .expand(catalogueService.createEntry(publisher).organizationId)
-                        .toUri() }
-                .let { ResponseEntity(it, HttpStatus.CREATED) }
-        } catch (exception: Exception) {
-            when(exception) {
-                is ConstraintViolationException -> ResponseEntity(HttpStatus.BAD_REQUEST)
-                is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
-                else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
-            }
-        }
-
     override fun updateOrganization(httpServletRequest: HttpServletRequest?, organizationId: String, organization: Organization): ResponseEntity<Organization> =
         try {
             catalogueService

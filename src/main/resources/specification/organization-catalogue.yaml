@@ -21,25 +21,6 @@ servers:
   - url: 'https://fellesdatakatalog.brreg.no'
 paths:
   /organizations:
-    post:
-      tags:
-        - organization-catalogue
-      summary: Create a new organization
-      operationId: createOrganization
-      responses:
-        '201':
-          description: Created
-          headers:
-            Location:
-              schema:
-                type: string
-              description: url to the new organization
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Organization'
     get:
       tags:
         - organization-catalogue
