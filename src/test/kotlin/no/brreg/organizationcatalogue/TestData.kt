@@ -35,9 +35,9 @@ val ORG_0 = Organization().apply {
     orgPath = "/STAT/912660680/974760673"
     subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/912660680"
     issued = LocalDate.of(1999, 2, 3)
-    municipalityNumber = "http://www.test.no/fest/1813"
-    industryCode = "http://www.ssb.no/nace/sn2007/84.110"
-    sectorCode = "http://www.brreg.no/sektorkode/6100"
+    municipalityNumber = "1813"
+    industryCode = "84.110"
+    sectorCode = "6100"
     prefLabel = PrefLabel().apply {
         nb = "Brønnøysundregistrene"
     }
@@ -50,9 +50,9 @@ val ORG_1 =  Organization().apply {
     orgType = "AS"
     orgPath = "/PRIVAT/994686011"
     issued = LocalDate.of(1999, 2, 3)
-    municipalityNumber = "http://www.test.no/fest/5001"
-    industryCode = "http://www.ssb.no/nace/sn2007/84.130"
-    sectorCode = "http://www.brreg.no/sektorkode/6500"
+    municipalityNumber = "5001"
+    industryCode = "84.130"
+    sectorCode = "6500"
     prefLabel = PrefLabel().apply {
         nn = "AtB AS"
     }
@@ -65,52 +65,73 @@ val ORG_2 =  Organization().apply {
     orgType = "ORGL"
     orgPath = "/STAT/972417823/986105174"
     subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/972417823"
-    municipalityNumber = "http://www.test.no/fest/0301"
-    industryCode = "http://www.ssb.no/nace/sn2007/84.220"
-    sectorCode = "http://www.brreg.no/sektorkode/6100"
+    municipalityNumber = "0301"
+    industryCode = "84.220"
+    sectorCode = "6100"
     prefLabel = PrefLabel().apply {
         en = "Forsvaret"
     }
 }
 
-val NEW_ORG_0 =  Organization().apply {
-    name = "toBeUpdated0"
-    uri = "uri0"
-    organizationId = "orgId0"
-    orgType = "orgForm0"
-    orgPath = "/STAT/123/456"
-    subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/98765421"
-    issued = LocalDate.of(1999, 2, 3)
-    municipalityNumber = "http://www.test.no/fest/0456"
-    industryCode = "industryUri0"
-    sectorCode = "sectorUri0"
+val NOT_UPDATED_0 =  Organization().apply {
+    id = "5d5531e45c40450006848170"
+    name = "Not updated name"
+    uri = "http://data.brreg.no/enhetsregisteret/enhet/44332211"
+    organizationId = "44332211"
+    orgType = "FYLK"
+    orgPath = "/FYLKE/972417823/44332211"
+    subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/972417823"
+    municipalityNumber = "0301"
+    industryCode = "84.220"
+    sectorCode = "6100"
     prefLabel = PrefLabel().apply {
-        nn = "nnLabel"
-        en = "enLabel"
+        nb = "nbNotUpdated"
+        nn = "nnNotUpdated"
+        en = "enNotUpdated"
     }
 }
 
-val NEW_ORG_1 =  Organization().apply {
-    name = "Name"
-    uri = "uri1"
-    organizationId = "orgId1"
-    orgType = "orgForm1"
-    orgPath = "/STAT/654/321"
+val NOT_UPDATED_1 =  Organization().apply {
+    id = "5d5531e45c40450006848169"
+    name = "Organization Name"
+    uri = "http://data.brreg.no/enhetsregisteret/enhet/11223344"
+    organizationId = "11223344"
+    orgType = "STAT"
+    orgPath = "/STAT/972417823/11223344"
     subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/972417823"
-    issued = LocalDate.of(1999, 3, 2)
-    municipalityNumber = "http://www.test.no/fest/1289"
-    industryCode = "industryUri1"
-    sectorCode = "sectorUri1"
+    municipalityNumber = "0301"
+    industryCode = "84.220"
+    sectorCode = "6100"
 }
 
-val UPDATE_ORG =  Organization().apply {
-    uri = "uriUpdated"
-    organizationId = "orgIdUpdated"
-    orgType = "orgFormUpdated"
-    orgPath = "/STAT/654/655"
-    subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/12345678"
+val UPDATED_0 =  Organization().apply {
+    id = "5d5531e45c40450006848170"
+    name = "updatedName"
+    uri = "http://data.brreg.no/enhetsregisteret/enhet/44332211"
+    organizationId = "44332211"
+    orgType = "FYLK"
+    orgPath = "/FYLKE/972417823/44332211"
+    subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/972417823"
+    municipalityNumber = "0301"
+    industryCode = "84.220"
+    sectorCode = "6100"
+    prefLabel = PrefLabel().apply {
+        nb = "nbNotUpdated"
+        nn = "nnNotUpdated"
+        en = "enNotUpdated"
+    }
+}
+
+val UPDATED_1 =  Organization().apply {
+    id = "5d5531e45c40450006848169"
+    name = "Organization Name"
+    uri = "http://data.brreg.no/enhetsregisteret/enhet/55667788"
+    organizationId = "55667788"
+    orgType = "ORGL"
+    orgPath = "/STAT/986105174/55667788"
+    subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/986105174"
     issued = LocalDate.of(2001, 1, 3)
-    municipalityNumber = "http://www.test.no/fest/6548"
+    municipalityNumber = "6548"
     industryCode = "industryUriUpdated"
     sectorCode = "sectorUriUpdated"
     prefLabel = PrefLabel().apply {
@@ -132,9 +153,9 @@ var ORG_DB_0 = OrganizationDB().apply {
     orgPath = "/STAT/912660680/974760673"
     subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/912660680"
     issued = LocalDate.of(1999, 2, 3)
-    municipalityNumber = "http://www.test.no/fest/1813"
-    industryCode = "http://www.ssb.no/nace/sn2007/84.110"
-    sectorCode = "http://www.brreg.no/sektorkode/6100"
+    municipalityNumber = "1813"
+    industryCode = "84.110"
+    sectorCode = "6100"
     prefLabel = PrefLabel().apply {
         nb = "Brønnøysundregistrene"
     }
@@ -148,9 +169,9 @@ val ORG_DB_1 =  OrganizationDB().apply {
     orgType = "AS"
     orgPath = "/PRIVAT/994686011"
     issued = LocalDate.of(1999, 2, 3)
-    municipalityNumber = "http://www.test.no/fest/5001"
-    industryCode = "http://www.ssb.no/nace/sn2007/84.130"
-    sectorCode = "http://www.brreg.no/sektorkode/6500"
+    municipalityNumber = "5001"
+    industryCode = "84.130"
+    sectorCode = "6500"
     prefLabel = PrefLabel().apply {
         nn = "AtB AS"
     }
@@ -164,10 +185,41 @@ val ORG_DB_2 =  OrganizationDB().apply {
     orgType = "ORGL"
     orgPath = "/STAT/972417823/986105174"
     subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/972417823"
-    municipalityNumber = "http://www.test.no/fest/0301"
-    industryCode = "http://www.ssb.no/nace/sn2007/84.220"
-    sectorCode = "http://www.brreg.no/sektorkode/6100"
+    municipalityNumber = "0301"
+    industryCode = "84.220"
+    sectorCode = "6100"
     prefLabel = PrefLabel().apply {
         en = "Forsvaret"
+    }
+}
+
+val ORG_DB_3 =  OrganizationDB().apply {
+    id = ObjectId("5d5531e45c40450006848169")
+    name = "To Be Updated"
+    uri = "http://data.brreg.no/enhetsregisteret/enhet/11223344"
+    organizationId = "11223344"
+    orgType = "STAT"
+    orgPath = "/STAT/972417823/11223344"
+    subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/972417823"
+    municipalityNumber = "0301"
+    industryCode = "84.220"
+    sectorCode = "6100"
+}
+
+val ORG_DB_4 =  OrganizationDB().apply {
+    id = ObjectId("5d5531e45c40450006848170")
+    name = "Not updated name"
+    uri = "http://data.brreg.no/enhetsregisteret/enhet/44332211"
+    organizationId = "44332211"
+    orgType = "FYLK"
+    orgPath = "/FYLKE/972417823/44332211"
+    subOrganizationOf = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/972417823"
+    municipalityNumber = "0301"
+    industryCode = "84.220"
+    sectorCode = "6100"
+    prefLabel = PrefLabel().apply {
+        nb = "nbNotUpdated"
+        nn = "nnNotUpdated"
+        en = "enNotUpdated"
     }
 }

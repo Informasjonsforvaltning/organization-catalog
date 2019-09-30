@@ -72,6 +72,8 @@ class OrganizationsApi {
         repository.save(getORG_DB_0());
         repository.save(getORG_DB_1());
         repository.save(getORG_DB_2());
+        repository.save(getORG_DB_3());
+        repository.save(getORG_DB_4());
     }
 
     @Test
@@ -97,10 +99,6 @@ class OrganizationsApi {
         Object response2 = controller
             .getOrganizationById(httpServletRequestMock, getORG_2().getOrganizationId())
             .getBody();
-
-        System.out.println(response1);
-
-        System.out.println(response2);
 
         Model modelFromResponse0 = responseReader.parseResponse((String)response0, "text/turtle");
         Model expectedResponse0 = responseReader.getExpectedResponse("getOne.ttl", "TURTLE");
@@ -181,58 +179,44 @@ class OrganizationsApi {
     }
 
     @Test
-    void createAndUpdate() {
+    void updateOrganization() {
         Mockito
             .when(httpServletRequestMock.getHeader("Accept"))
             .thenReturn("text/turtle");
-
-        Organization newOrganizationWithPrefLabel = getNEW_ORG_0();
-        Organization newOrganizationNoPrefLabel = getNEW_ORG_1();
-
-        controller.createOrganization(httpServletRequestMock, newOrganizationWithPrefLabel);
-        controller.createOrganization(httpServletRequestMock, newOrganizationNoPrefLabel);
-
-        ResponseEntity<Void> conflictResponseCreate = controller.createOrganization(httpServletRequestMock, newOrganizationNoPrefLabel);
-        // Unable to create publisher with existing OrgId
-        assertEquals(HttpStatus.CONFLICT, conflictResponseCreate.getStatusCode());
 
         Organization newNameElseNull = new Organization();
         newNameElseNull.setName("updatedName");
         newNameElseNull.setId("idInObjectIsIgnored");
 
         Organization updated0 = controller
-            .updateOrganization(httpServletRequestMock, newOrganizationWithPrefLabel.getOrganizationId(), newNameElseNull)
+            .updateOrganization(httpServletRequestMock, getNOT_UPDATED_0().getOrganizationId(), newNameElseNull)
             .getBody();
-
-        Organization expectedUpdate0 = getNEW_ORG_0();
-        expectedUpdate0.setId(updated0.getId());
-        expectedUpdate0.setName("updatedName");
 
         // Only name was changed
-        assertEquals(expectedUpdate0, updated0);
+        assertEquals(getUPDATED_0(), updated0);
 
         Organization updated1 = controller
-            .updateOrganization(httpServletRequestMock, newOrganizationNoPrefLabel.getOrganizationId(), getUPDATE_ORG())
+            .updateOrganization(httpServletRequestMock, getNOT_UPDATED_1().getOrganizationId(), getUPDATED_1())
             .getBody();
 
-        Organization expectedUpdate1 = getUPDATE_ORG();
-        expectedUpdate1.setId(updated1.getId());
-        expectedUpdate1.setName("Name");
-
         // All values except name were changed
-        assertEquals(expectedUpdate1, updated1);
+        assertEquals(getUPDATED_1(), updated1);
 
         Organization nothingWillBeUpdated = new Organization();
         nothingWillBeUpdated.setPrefLabel(new PrefLabel());
 
         Organization updated2 = controller
-            .updateOrganization(httpServletRequestMock, updated1.getOrganizationId(), nothingWillBeUpdated)
+            .updateOrganization(httpServletRequestMock, getUPDATED_1().getOrganizationId(), nothingWillBeUpdated)
             .getBody();
 
         // No values changed
-        assertEquals(expectedUpdate1, updated2);
+        assertEquals(getUPDATED_1(), updated2);
 
-        ResponseEntity<Organization> conflictResponseUpdate = controller.updateOrganization(httpServletRequestMock, newOrganizationWithPrefLabel.getOrganizationId(), getUPDATE_ORG());
+        Organization conflictingOrgId = new Organization();
+        conflictingOrgId.setName("will not update");
+        conflictingOrgId.setOrganizationId(getUPDATED_1().getOrganizationId());
+
+        ResponseEntity<Organization> conflictResponseUpdate = controller.updateOrganization(httpServletRequestMock, getNOT_UPDATED_0().getOrganizationId(), conflictingOrgId);
         // Unable to update publisher with existing OrgId
         assertEquals(HttpStatus.CONFLICT, conflictResponseUpdate.getStatusCode());
     }

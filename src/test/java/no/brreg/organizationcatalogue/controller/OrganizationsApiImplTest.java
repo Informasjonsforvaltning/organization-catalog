@@ -216,59 +216,6 @@ public class OrganizationsApiImplTest {
     }
 
     @Nested
-    class CreateOrganization{
-
-        @Test
-        public void whenCreated201WithLocationHeader() {
-            Organization publisher = getORG_0();
-            Mockito
-                .when(catalogueServiceMock.createEntry(getORG_0()))
-                .thenReturn(publisher);
-
-            ResponseEntity<Void> response = controller.createOrganization(httpServletRequestMock, getORG_0());
-
-            String expectedLocationHeader = "http://localhost/publishers/" + publisher.getOrganizationId();
-
-            assertEquals(HttpStatus.CREATED, response.getStatusCode());
-            assertEquals(expectedLocationHeader, response.getHeaders().getLocation().toString());
-        }
-
-        @Test
-        public void conflictOnDuplicate() {
-            Mockito
-                .when(catalogueServiceMock.createEntry(getORG_0()))
-                .thenAnswer( invocation -> { throw new DuplicateKeyException("Duplicate organizationId"); });
-
-            ResponseEntity<Void> response = controller.createOrganization(httpServletRequestMock, getORG_0());
-
-            assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-        }
-
-        @Test
-        public void badRequestOnValidationError() {
-            Mockito
-                .when(catalogueServiceMock.createEntry(getORG_0()))
-                .thenAnswer( invocation -> { throw new ConstraintViolationException(new HashSet<>()); });
-
-            ResponseEntity<Void> response = controller.createOrganization(httpServletRequestMock, getORG_0());
-
-            assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        }
-
-        @Test
-        public void whenUnexpectedException500() {
-            Mockito
-                .when(catalogueServiceMock.createEntry(getORG_0()))
-                .thenAnswer( invocation -> { throw new Exception("Unexpected exception"); });
-
-            ResponseEntity<Void> response = controller.createOrganization(httpServletRequestMock, getORG_0());
-
-            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        }
-
-    }
-
-    @Nested
     class UpdateOrganization {
         @Test
         public void okWhenImplemented() {
