@@ -2,20 +2,20 @@ version: "3.5"
 
 services:
   publisher:
-    image: brreg/organization-catalogue:latest
+    image: brreg/publishers-api:latest
     depends_on:
       - mongodb
     restart: always
     environment:
-      - ORGCAT_MONGO_USERNAME
-      - ORGCAT_MONGO_PASSWORD
+      - PUBAPI_MONGO_USERNAME
+      - PUBAPI_MONGO_PASSWORD
     ports:
       - 8080:8080
 
   mongodb:
     image: mongo:latest
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=$ORGCAT_MONGO_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD=$ORGCAT_MONGO_PASSWORD
+      - MONGO_INITDB_ROOT_USERNAME=$PUBAPI_MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$PUBAPI_MONGO_PASSWORD
     ports:
       - 27017:27017
