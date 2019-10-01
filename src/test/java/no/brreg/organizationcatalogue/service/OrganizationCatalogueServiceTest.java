@@ -17,9 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static no.brreg.organizationcatalogue.TestDataKt.getORG_0;
+import static no.brreg.organizationcatalogue.adapter.EnhetsregisteretAdapterKt.enhetsregisteretUrl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static no.brreg.organizationcatalogue.TestDataKt.getORG_DB_0;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -68,7 +68,7 @@ public class OrganizationCatalogueServiceTest {
         assertEquals(persisted.getOrganizationId(), publisher.getOrganizationId());
         assertEquals(persisted.getOrgPath(), publisher.getOrgPath());
         assertEquals(persisted.getPrefLabel(), publisher.getPrefLabel());
-        assertEquals(persisted.getUri(), publisher.getUri());
+        assertEquals(enhetsregisteretUrl + persisted.getOrganizationId(), publisher.getNorwegianRegistry());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class OrganizationCatalogueServiceTest {
         assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
         assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
         assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
-        assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
+        assertEquals(enhetsregisteretUrl + persistedList.get(0).getOrganizationId(), publisherList.get(0).getNorwegianRegistry());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class OrganizationCatalogueServiceTest {
         assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
         assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
         assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
-        assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
+        assertEquals(enhetsregisteretUrl + persistedList.get(0).getOrganizationId(), publisherList.get(0).getNorwegianRegistry());
     }
 
     @Test
@@ -119,7 +119,7 @@ public class OrganizationCatalogueServiceTest {
         assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
         assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
         assertEquals(persistedList.get(0).getPrefLabel(), publisherList.get(0).getPrefLabel());
-        assertEquals(persistedList.get(0).getUri(), publisherList.get(0).getUri());
+        assertEquals(enhetsregisteretUrl + persistedList.get(0).getOrganizationId(), publisherList.get(0).getNorwegianRegistry());
     }
 
     @Test

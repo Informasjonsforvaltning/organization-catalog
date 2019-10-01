@@ -199,8 +199,12 @@ class OrganizationsApi {
             .updateOrganization(httpServletRequestMock, getNOT_UPDATED_1().getOrganizationId(), getUPDATED_1())
             .getBody();
 
-        // All values except name were changed
-        assertEquals(getUPDATED_1(), updated1);
+        Organization expected1 = getUPDATED_1();
+        expected1.setOrganizationId(getNOT_UPDATED_1().getOrganizationId());
+        expected1.setNorwegianRegistry(getNOT_UPDATED_1().getNorwegianRegistry());
+
+        // Name & orgId were not changed
+        assertEquals(expected1, updated1);
 
         Organization nothingWillBeUpdated = new Organization();
         nothingWillBeUpdated.setPrefLabel(new PrefLabel());
@@ -211,13 +215,5 @@ class OrganizationsApi {
 
         // No values changed
         assertEquals(getUPDATED_1(), updated2);
-
-        Organization conflictingOrgId = new Organization();
-        conflictingOrgId.setName("will not update");
-        conflictingOrgId.setOrganizationId(getUPDATED_1().getOrganizationId());
-
-        ResponseEntity<Organization> conflictResponseUpdate = controller.updateOrganization(httpServletRequestMock, getNOT_UPDATED_0().getOrganizationId(), conflictingOrgId);
-        // Unable to update publisher with existing OrgId
-        assertEquals(HttpStatus.CONFLICT, conflictResponseUpdate.getStatusCode());
     }
 }

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class OrganizationDB {
     @Id private ObjectId id;
     @NotBlank private String name;
-    private String uri;
+    private String internationalRegistry;
     @Indexed(unique = true) @NotBlank private String organizationId;
     private String orgType;
     private String orgPath;
@@ -41,12 +41,12 @@ public class OrganizationDB {
         this.name = name;
     }
 
-    public String getUri() {
-        return uri;
+    public String getInternationalRegistry() {
+        return internationalRegistry;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setInternationalRegistry(String internationalRegistry) {
+        this.internationalRegistry = internationalRegistry;
     }
 
     public String getOrganizationId() {
