@@ -63,10 +63,10 @@ private fun Resource.safeAddLinkedProperty(property: Property, value: String?): 
     if(value == null) this
     else addProperty(property, model.createResource(value))
 
-private fun Resource.addPreferredNames(preferredNames: PrefLabel): Resource {
-    if (preferredNames.nb != null) addProperty(FOAF.name, preferredNames.nb, "nb")
-    if (preferredNames.nn != null) addProperty(FOAF.name, preferredNames.nn, "nn")
-    if (preferredNames.en != null) addProperty(FOAF.name, preferredNames.en, "en")
+private fun Resource.addPreferredNames(preferredNames: PrefLabel?): Resource {
+    if (preferredNames?.nb != null) addProperty(FOAF.name, preferredNames.nb, "nb")
+    if (preferredNames?.nn != null) addProperty(FOAF.name, preferredNames.nn, "nn")
+    if (preferredNames?.en != null) addProperty(FOAF.name, preferredNames.en, "en")
     return this
 }
 private fun Model.createResponseString(responseType: JenaType):String =
