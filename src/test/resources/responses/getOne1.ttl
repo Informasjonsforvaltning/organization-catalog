@@ -6,10 +6,11 @@
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 
-<https://publishers-api.ut1.fellesdatakatalog.brreg.no/994686011>
+<https://publishers-api.ut1.fellesdatakatalog.brreg.no/organizations/994686011>
         a                      foaf:Organization ;
         br:industryCode        "84.130" ;
-        br:municipalityNumber  "5001" ;
+        br:municipality        <https://data.geonorge.no/administrativeEnheter/kommune/id/173068> ;
+        br:norwegianRegistry   <https://data.brreg.no/enhetsregisteret/api/enheter/994686011> ;
         br:orgPath             "/PRIVAT/994686011" ;
         br:sectorCode          "6500" ;
         rov:legalName          "ATB AS" ;

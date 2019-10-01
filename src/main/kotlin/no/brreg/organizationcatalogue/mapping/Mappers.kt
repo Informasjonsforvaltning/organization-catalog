@@ -12,7 +12,8 @@ fun OrganizationDB.mapToGenerated(): Organization {
 
     mapped.id = id.toHexString()
     mapped.name = name
-    mapped.uri = uri
+    mapped.norwegianRegistry = enhetsregisteretUrl + organizationId
+    mapped.internationalRegistry = internationalRegistry
     mapped.organizationId = organizationId
     mapped.orgType = orgType
     mapped.orgPath = orgPath
@@ -30,7 +31,6 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB {
     val mapped = OrganizationDB()
 
     mapped.name = navn
-    mapped.uri = enhetsregisteretUrl + organisasjonsnummer
     mapped.organizationId = organisasjonsnummer
     mapped.orgType = organisasjonsform?.kode
     mapped.orgPath = orgPath
@@ -46,8 +46,7 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB {
 fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
     apply {
         name = org.name ?: name
-        uri = org.uri ?: uri
-        organizationId = org.organizationId ?: organizationId
+        internationalRegistry = org.internationalRegistry ?: internationalRegistry
         orgType = org.orgType ?: orgType
         orgPath = org.orgPath ?: orgPath
         subOrganizationOf = org.subOrganizationOf ?: subOrganizationOf
@@ -64,4 +63,22 @@ private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel {
     en = newValues?.en ?: en
 
     return this
+}
+
+private const val orgUrl = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/organizations/"
+private const val municipalityUrl = "https://data.geonorge.no/administrativeEnheter/kommune/id/"
+
+fun organizationIdUrl(id: String): String? =
+    orgUrl + id
+
+fun organizationUrl(organizationId: String?): String? =
+    if(organizationId == null) null
+    else orgUrl + "orgnr/$organizationId"
+
+fun municipalityUrl(municipalityNumber: String?): String? {
+    if (municipalityNumber == null) return null
+    else {
+        val municipalityId = municipalityNumberToId(municipalityNumber)
+        return municipalityUrl + municipalityId
+    }
 }

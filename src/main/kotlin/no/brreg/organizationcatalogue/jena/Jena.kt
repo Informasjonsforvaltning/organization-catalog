@@ -2,6 +2,9 @@ package no.brreg.organizationcatalogue.jena
 
 import no.brreg.organizationcatalogue.generated.model.Organization
 import no.brreg.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.organizationcatalogue.mapping.municipalityUrl
+import no.brreg.organizationcatalogue.mapping.organizationIdUrl
+import no.brreg.organizationcatalogue.mapping.organizationUrl
 import org.apache.jena.rdf.model.Model
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.Property
@@ -31,14 +34,16 @@ private fun List<Organization>.createModel(): Model {
     model.setNsPrefix("br", BR.uri)
 
     forEach {
-        model.createResource("https://publishers-api.ut1.fellesdatakatalog.brreg.no/${it.organizationId}")
+        model.createResource(organizationIdUrl(it.organizationId))
             .addProperty(RDF.type, FOAF.Organization)
             .safeAddProperty(ROV.legalName, it.name)
             .addRegistration(it)
             .safeAddProperty(ROV.orgType, it.orgType)
             .safeAddProperty(BR.orgPath, it.orgPath)
-            .safeAddProperty(ORG.subOrganizationOf, it.subOrganizationOf)
-            .safeAddProperty(BR.municipalityNumber, it.municipalityNumber)
+            .safeAddLinkedProperty(ORG.subOrganizationOf, organizationUrl(it.subOrganizationOf))
+            .safeAddLinkedProperty(BR.municipality, municipalityUrl(it.municipalityNumber))
+            .safeAddLinkedProperty(BR.norwegianRegistry, it.norwegianRegistry)
+            .safeAddLinkedProperty(BR.internationalRegistry, it.internationalRegistry)
             .safeAddProperty(BR.industryCode, it.industryCode)
             .safeAddProperty(BR.sectorCode, it.sectorCode)
             .addPreferredNames(it.prefLabel)
