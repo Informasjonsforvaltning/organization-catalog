@@ -6,13 +6,31 @@
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 
-<https://publishers-api.ut1.fellesdatakatalog.brreg.no/986105174>
+<https://invalid.org/organizations/974760673>
+        a                      foaf:Organization ;
+        br:industryCode        "84.110" ;
+        br:municipality        <https://invalid.org/administrativeEnheter/kommune/id/172833> ;
+        br:norwegianRegistry   <https://invalid.org/enhetsregisteret/api/enheter/974760673> ;
+        br:orgPath             "/STAT/912660680/974760673" ;
+        br:sectorCode          "6100" ;
+        org:subOrganizationOf  <https://invalid.org/organizations/912660680> ;
+        rov:legalName          "REGISTERENHETEN I BRØNNØYSUND" ;
+        rov:orgType            "ORGL" ;
+        rov:registration       [ a                  adms:Identifier ;
+                                 dct:issued         "1999-02-03" ;
+                                 skos:notation      "974760673" ;
+                                 adms:schemaAgency  "Brønnøysundregistrene"
+                               ] ;
+        foaf:name              "Brønnøysundregistrene"@nb .
+
+<https://invalid.org/organizations/986105174>
         a                      foaf:Organization ;
         br:industryCode        "84.220" ;
-        br:municipalityNumber  "0301" ;
+        br:municipality        <https://invalid.org/administrativeEnheter/kommune/id/173018> ;
+        br:norwegianRegistry   <https://invalid.org/enhetsregisteret/api/enheter/986105174> ;
         br:orgPath             "/STAT/972417823/986105174" ;
         br:sectorCode          "6100" ;
-        org:subOrganizationOf  "https://publishers-api.ut1.fellesdatakatalog.brreg.no/972417823" ;
+        org:subOrganizationOf  <https://invalid.org/organizations/972417823> ;
         rov:legalName          "FORSVARET" ;
         rov:orgType            "ORGL" ;
         rov:registration       [ a                  adms:Identifier ;
@@ -21,10 +39,11 @@
                                ] ;
         foaf:name              "Forsvaret"@en .
 
-<https://publishers-api.ut1.fellesdatakatalog.brreg.no/994686011>
+<https://invalid.org/organizations/994686011>
         a                      foaf:Organization ;
         br:industryCode        "84.130" ;
-        br:municipalityNumber  "5001" ;
+        br:municipality        <https://invalid.org/administrativeEnheter/kommune/id/173068> ;
+        br:norwegianRegistry   <https://invalid.org/enhetsregisteret/api/enheter/994686011> ;
         br:orgPath             "/PRIVAT/994686011" ;
         br:sectorCode          "6500" ;
         rov:legalName          "ATB AS" ;
@@ -35,19 +54,3 @@
                                  adms:schemaAgency  "Brønnøysundregistrene"
                                ] ;
         foaf:name              "AtB AS"@nn .
-
-<https://publishers-api.ut1.fellesdatakatalog.brreg.no/974760673>
-        a                      foaf:Organization ;
-        br:industryCode        "84.110" ;
-        br:municipalityNumber  "1813" ;
-        br:orgPath             "/STAT/912660680/974760673" ;
-        br:sectorCode          "6100" ;
-        org:subOrganizationOf  "https://publishers-api.ut1.fellesdatakatalog.brreg.no/912660680" ;
-        rov:legalName          "REGISTERENHETEN I BRØNNØYSUND" ;
-        rov:orgType            "ORGL" ;
-        rov:registration       [ a                  adms:Identifier ;
-                                 dct:issued         "1999-02-03" ;
-                                 skos:notation      "974760673" ;
-                                 adms:schemaAgency  "Brønnøysundregistrene"
-                               ] ;
-        foaf:name              "Brønnøysundregistrene"@nb .

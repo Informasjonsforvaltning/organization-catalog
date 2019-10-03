@@ -1,18 +1,19 @@
 package no.brreg.organizationcatalogue.mapping
 
-import no.brreg.organizationcatalogue.adapter.enhetsregisteretUrl
 import no.brreg.organizationcatalogue.generated.model.PrefLabel
 import no.brreg.organizationcatalogue.generated.model.Organization
 import no.brreg.organizationcatalogue.model.EnhetsregisteretOrganization
 import no.brreg.organizationcatalogue.model.OrganizationDB
 import java.time.LocalDate
 
-fun OrganizationDB.mapToGenerated(): Organization {
+fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization {
+
     val mapped = Organization()
 
     mapped.id = id.toHexString()
     mapped.name = name
-    mapped.uri = uri
+    mapped.norwegianRegistry = enhetsregisteretUrl + organizationId
+    mapped.internationalRegistry = internationalRegistry
     mapped.organizationId = organizationId
     mapped.orgType = orgType
     mapped.orgPath = orgPath
@@ -30,7 +31,6 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB {
     val mapped = OrganizationDB()
 
     mapped.name = navn
-    mapped.uri = enhetsregisteretUrl + organisasjonsnummer
     mapped.organizationId = organisasjonsnummer
     mapped.orgType = organisasjonsform?.kode
     mapped.orgPath = orgPath
@@ -46,8 +46,7 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB {
 fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
     apply {
         name = org.name ?: name
-        uri = org.uri ?: uri
-        organizationId = org.organizationId ?: organizationId
+        internationalRegistry = org.internationalRegistry ?: internationalRegistry
         orgType = org.orgType ?: orgType
         orgPath = org.orgPath ?: orgPath
         subOrganizationOf = org.subOrganizationOf ?: subOrganizationOf

@@ -2,6 +2,7 @@ package no.brreg.organizationcatalogue.jena
 
 import no.brreg.organizationcatalogue.generated.model.Organization
 import no.brreg.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.organizationcatalogue.mapping.municipalityNumberToId
 import org.apache.jena.rdf.model.Model
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.Property
@@ -14,13 +15,13 @@ import org.apache.jena.vocabulary.ROV
 import org.apache.jena.vocabulary.SKOS
 import java.io.ByteArrayOutputStream
 
-fun Organization.jenaResponse(responseType: JenaType): String =
-    listOf(this).jenaResponse(responseType)
+fun Organization.jenaResponse(responseType: JenaType, urls: ExternalUrls): String =
+    listOf(this).jenaResponse(responseType, urls)
 
-fun List<Organization>.jenaResponse(responseType: JenaType): String =
-    createModel().createResponseString(responseType)
+fun List<Organization>.jenaResponse(responseType: JenaType, urls: ExternalUrls): String =
+    createModel(urls).createResponseString(responseType)
 
-private fun List<Organization>.createModel(): Model {
+private fun List<Organization>.createModel(urls: ExternalUrls): Model {
     val model = ModelFactory.createDefaultModel()
     model.setNsPrefix("dct", DCTerms.getURI())
     model.setNsPrefix("skos", SKOS.uri)
@@ -31,14 +32,16 @@ private fun List<Organization>.createModel(): Model {
     model.setNsPrefix("br", BR.uri)
 
     forEach {
-        model.createResource("https://publishers-api.ut1.fellesdatakatalog.brreg.no/${it.organizationId}")
+        model.createResource(urls.organizationCatalogue + it.organizationId)
             .addProperty(RDF.type, FOAF.Organization)
             .safeAddProperty(ROV.legalName, it.name)
             .addRegistration(it)
             .safeAddProperty(ROV.orgType, it.orgType)
             .safeAddProperty(BR.orgPath, it.orgPath)
-            .safeAddProperty(ORG.subOrganizationOf, it.subOrganizationOf)
-            .safeAddProperty(BR.municipalityNumber, it.municipalityNumber)
+            .safeAddLinkedProperty(ORG.subOrganizationOf, it.subOrganizationOf?.let { parentId -> urls.organizationCatalogue + parentId })
+            .safeAddLinkedProperty(BR.municipality, it.municipalityNumber?.let { number -> urls.municipality + municipalityNumberToId(number) })
+            .safeAddLinkedProperty(BR.norwegianRegistry, it.norwegianRegistry)
+            .safeAddLinkedProperty(BR.internationalRegistry, it.internationalRegistry)
             .safeAddProperty(BR.industryCode, it.industryCode)
             .safeAddProperty(BR.sectorCode, it.sectorCode)
             .addPreferredNames(it.prefLabel)
@@ -95,3 +98,8 @@ enum class JenaType(val value: String){
     NOT_JENA("NOT-JENA"),
     NOT_ACCEPTABLE("")
 }
+
+data class ExternalUrls(
+    val organizationCatalogue: String,
+    val municipality: String
+)

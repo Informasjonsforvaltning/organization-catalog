@@ -9,9 +9,11 @@ class BR {
 
         val uri = "http://data.brreg.no/informasjonsmodeller/enhetsregisteret/"
 
-        val municipalityNumber: Property = m.createProperty(uri + "municipalityNumber")
+        val municipality: Property = m.createProperty(uri + "municipality")
         val orgPath: Property = m.createProperty(uri + "orgPath")
         val industryCode: Property = m.createProperty(uri + "industryCode")
         val sectorCode: Property = m.createProperty(uri + "sectorCode")
+        val norwegianRegistry: Property = m.createProperty(uri + "norwegianRegistry")
+        val internationalRegistry: Property = m.createProperty(uri + "internationalRegistry")
     }
 }

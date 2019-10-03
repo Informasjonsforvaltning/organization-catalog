@@ -131,9 +131,12 @@ components:
         id:
           type: string
           description: system-generated id (GUID)
-        uri:
+        norwegianRegistry:
           type: string
           description: Link to the organization in The Brønnøysund Register Centre
+        internationalRegistry:
+          type: string
+          description: Link to the organization in an international registry
         organizationId:
           type: string
           description: Organization id
