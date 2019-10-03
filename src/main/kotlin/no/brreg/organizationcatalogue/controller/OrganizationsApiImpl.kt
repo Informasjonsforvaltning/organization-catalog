@@ -1,27 +1,28 @@
 package no.brreg.organizationcatalogue.controller
 
+import no.brreg.organizationcatalogue.configuration.ProfileConditionalValues
 import javax.servlet.http.HttpServletRequest
 import no.brreg.organizationcatalogue.generated.model.Organization
+import no.brreg.organizationcatalogue.jena.ExternalUrls
 import no.brreg.organizationcatalogue.jena.JenaType
 import no.brreg.organizationcatalogue.jena.acceptHeaderToJenaType
 import no.brreg.organizationcatalogue.jena.jenaResponse
 import no.brreg.organizationcatalogue.service.OrganizationCatalogueService
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
-import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import javax.validation.ConstraintViolationException
 
 private val LOGGER = LoggerFactory.getLogger(OrganizationsApiImpl::class.java)
 
 @Controller
 open class OrganizationsApiImpl (
-    private val catalogueService: OrganizationCatalogueService
+    private val catalogueService: OrganizationCatalogueService,
+    private val profileConditionalValues: ProfileConditionalValues
 ): no.brreg.organizationcatalogue.generated.api.OrganizationsApi {
 
     @RequestMapping(value = ["/ping"], method = [GET], produces = ["text/plain"])
@@ -50,11 +51,16 @@ open class OrganizationsApiImpl (
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val organization = catalogueService.getByOrgnr(organizationId)
 
+        val urls = ExternalUrls(
+            organizationCatalogue = profileConditionalValues.organizationCatalogueUrl(),
+            municipality = profileConditionalValues.municipalityUrl()
+        )
+
         return when {
             organization == null -> ResponseEntity(HttpStatus.NOT_FOUND)
             jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
             jenaType == JenaType.NOT_JENA -> ResponseEntity(organization, HttpStatus.OK)
-            else -> ResponseEntity(organization.jenaResponse(jenaType), HttpStatus.OK)
+            else -> ResponseEntity(organization.jenaResponse(jenaType, urls), HttpStatus.OK)
         }
     }
 
@@ -62,10 +68,15 @@ open class OrganizationsApiImpl (
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val organizations = catalogueService.getOrganizations(name, organizationId)
 
+        val urls = ExternalUrls(
+            organizationCatalogue = profileConditionalValues.organizationCatalogueUrl(),
+            municipality = profileConditionalValues.municipalityUrl()
+        )
+
         return when {
             jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
             jenaType == JenaType.NOT_JENA -> ResponseEntity(organizations, HttpStatus.OK)
-            else -> ResponseEntity(organizations.jenaResponse(jenaType), HttpStatus.OK)
+            else -> ResponseEntity(organizations.jenaResponse(jenaType, urls), HttpStatus.OK)
         }
     }
 }

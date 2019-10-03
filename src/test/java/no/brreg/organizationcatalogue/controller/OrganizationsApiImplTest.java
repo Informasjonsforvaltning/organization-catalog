@@ -1,6 +1,7 @@
 package no.brreg.organizationcatalogue.controller;
 
 import no.brreg.organizationcatalogue.TestResponseReader;
+import no.brreg.organizationcatalogue.configuration.ProfileConditionalValues;
 import no.brreg.organizationcatalogue.generated.model.Organization;
 import no.brreg.organizationcatalogue.service.OrganizationCatalogueService;
 import org.apache.jena.rdf.model.Model;
@@ -40,6 +41,9 @@ public class OrganizationsApiImplTest {
     @Mock
     private OrganizationCatalogueService catalogueServiceMock;
 
+    @Mock
+    private ProfileConditionalValues valuesMock;
+
     @InjectMocks
     private OrganizationsApiImpl controller;
 
@@ -51,7 +55,7 @@ public class OrganizationsApiImplTest {
 
     @BeforeEach
     public void resetMocks() {
-        Mockito.reset(catalogueServiceMock);
+        Mockito.reset(catalogueServiceMock, valuesMock);
     }
 
     @Test
@@ -70,6 +74,13 @@ public class OrganizationsApiImplTest {
                 .thenReturn(getEMPTY_LIST());
 
             Mockito
+                .when(valuesMock.organizationCatalogueUrl())
+                .thenReturn(ORGANIZATIONS_URL);
+            Mockito
+                .when(valuesMock.municipalityUrl())
+                .thenReturn(MUNICIPALITY_URL);
+
+            Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn(null);
 
@@ -85,6 +96,13 @@ public class OrganizationsApiImplTest {
             Mockito
                 .when(catalogueServiceMock.getOrganizations("Name does not exists", null))
                 .thenReturn(emptyList);
+
+            Mockito
+                .when(valuesMock.organizationCatalogueUrl())
+                .thenReturn(ORGANIZATIONS_URL);
+            Mockito
+                .when(valuesMock.municipalityUrl())
+                .thenReturn(MUNICIPALITY_URL);
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
@@ -107,6 +125,13 @@ public class OrganizationsApiImplTest {
                 .thenReturn(regnskapList);
 
             Mockito
+                .when(valuesMock.organizationCatalogueUrl())
+                .thenReturn(ORGANIZATIONS_URL);
+            Mockito
+                .when(valuesMock.municipalityUrl())
+                .thenReturn(MUNICIPALITY_URL);
+
+            Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
@@ -127,6 +152,13 @@ public class OrganizationsApiImplTest {
                 .thenReturn(regnskapList);
 
             Mockito
+                .when(valuesMock.organizationCatalogueUrl())
+                .thenReturn(ORGANIZATIONS_URL);
+            Mockito
+                .when(valuesMock.municipalityUrl())
+                .thenReturn(MUNICIPALITY_URL);
+
+            Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
@@ -145,6 +177,13 @@ public class OrganizationsApiImplTest {
             Mockito
                 .when(catalogueServiceMock.getOrganizations("Name exists", null))
                 .thenReturn(regnskapList);
+
+            Mockito
+                .when(valuesMock.organizationCatalogueUrl())
+                .thenReturn(ORGANIZATIONS_URL);
+            Mockito
+                .when(valuesMock.municipalityUrl())
+                .thenReturn(MUNICIPALITY_URL);
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
@@ -170,6 +209,13 @@ public class OrganizationsApiImplTest {
                 .when(catalogueServiceMock.getByOrgnr("123Null"))
                 .thenReturn(null);
 
+            Mockito
+                .when(valuesMock.organizationCatalogueUrl())
+                .thenReturn(ORGANIZATIONS_URL);
+            Mockito
+                .when(valuesMock.municipalityUrl())
+                .thenReturn(MUNICIPALITY_URL);
+
             ResponseEntity<Object> response = controller.getOrganizationById(httpServletRequestMock, "123Null");
 
             assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -182,6 +228,13 @@ public class OrganizationsApiImplTest {
             Mockito
                 .when(catalogueServiceMock.getByOrgnr("123NotAccepted"))
                 .thenReturn(publisher);
+
+            Mockito
+                .when(valuesMock.organizationCatalogueUrl())
+                .thenReturn(ORGANIZATIONS_URL);
+            Mockito
+                .when(valuesMock.municipalityUrl())
+                .thenReturn(MUNICIPALITY_URL);
 
             Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
@@ -201,11 +254,20 @@ public class OrganizationsApiImplTest {
                 .thenReturn(publisher);
 
             Mockito
+                .when(valuesMock.organizationCatalogueUrl())
+                .thenReturn(ORGANIZATIONS_URL);
+            Mockito
+                .when(valuesMock.municipalityUrl())
+                .thenReturn(MUNICIPALITY_URL);
+
+            Mockito
                 .when(httpServletRequestMock.getHeader("Accept"))
                 .thenReturn("text/turtle");
 
             ResponseEntity<Object> response = controller.getOrganizationById(httpServletRequestMock, "974760673");
             Model modelFromResponse = responseReader.parseResponse((String) response.getBody(), "text/turtle");
+
+            System.out.println(response.getBody());
 
             Model expectedResponse = responseReader.getExpectedResponse("getOne.ttl", "TURTLE");
 

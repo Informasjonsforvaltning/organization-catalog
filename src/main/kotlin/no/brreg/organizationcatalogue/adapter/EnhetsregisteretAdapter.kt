@@ -2,6 +2,7 @@ package no.brreg.organizationcatalogue.adapter
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import no.brreg.organizationcatalogue.configuration.ProfileConditionalValues
 import no.brreg.organizationcatalogue.model.EnhetsregisteretOrganization
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -10,11 +11,10 @@ import java.io.BufferedReader
 import java.net.HttpURLConnection
 import java.net.URL
 
-const val enhetsregisteretUrl: String = "https://data.brreg.no/enhetsregisteret/api/enheter/"
 private val LOGGER = LoggerFactory.getLogger(EnhetsregisteretAdapter::class.java)
 
 @Component
-class EnhetsregisteretAdapter {
+class EnhetsregisteretAdapter(private val profileConditionalValues: ProfileConditionalValues) {
 
     fun getOrganization(organizationId: String): EnhetsregisteretOrganization? {
         LOGGER.info("Downloading data regarding '$organizationId' from Enhetsregisteret")
@@ -23,7 +23,7 @@ class EnhetsregisteretAdapter {
     }
 
     private fun downloadAndParseOrganization(organizationId: String): EnhetsregisteretOrganization? {
-        val connection = URL(enhetsregisteretUrl + organizationId).openConnection() as HttpURLConnection
+        val connection = URL(profileConditionalValues.enhetsregisteretUrl() + organizationId).openConnection() as HttpURLConnection
 
         if(connection.responseCode != HttpStatus.OK.value()) {
             LOGGER.error("Organization with id '$organizationId' not found in Enhetsregisteret")

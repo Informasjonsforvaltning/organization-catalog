@@ -1,13 +1,13 @@
 package no.brreg.organizationcatalogue.mapping
 
-import no.brreg.organizationcatalogue.adapter.enhetsregisteretUrl
 import no.brreg.organizationcatalogue.generated.model.PrefLabel
 import no.brreg.organizationcatalogue.generated.model.Organization
 import no.brreg.organizationcatalogue.model.EnhetsregisteretOrganization
 import no.brreg.organizationcatalogue.model.OrganizationDB
 import java.time.LocalDate
 
-fun OrganizationDB.mapToGenerated(): Organization {
+fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization {
+
     val mapped = Organization()
 
     mapped.id = id.toHexString()
@@ -63,22 +63,4 @@ private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel {
     en = newValues?.en ?: en
 
     return this
-}
-
-private const val orgUrl = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/organizations/"
-private const val municipalityUrl = "https://data.geonorge.no/administrativeEnheter/kommune/id/"
-
-fun organizationIdUrl(id: String): String? =
-    orgUrl + id
-
-fun organizationUrl(organizationId: String?): String? =
-    if(organizationId == null) null
-    else orgUrl + "orgnr/$organizationId"
-
-fun municipalityUrl(municipalityNumber: String?): String? {
-    if (municipalityNumber == null) return null
-    else {
-        val municipalityId = municipalityNumberToId(municipalityNumber)
-        return municipalityUrl + municipalityId
-    }
 }
