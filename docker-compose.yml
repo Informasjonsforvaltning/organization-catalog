@@ -1,7 +1,7 @@
 version: "3.5"
 
 services:
-  publisher:
+  organization-catalogue:
     image: brreg/organization-catalogue:latest
     depends_on:
       - mongodb
