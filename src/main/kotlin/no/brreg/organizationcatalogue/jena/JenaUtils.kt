@@ -1,5 +1,6 @@
 package no.brreg.organizationcatalogue.jena
 
+import no.brreg.organizationcatalogue.generated.model.Domain
 import no.brreg.organizationcatalogue.generated.model.Organization
 import no.brreg.organizationcatalogue.generated.model.PrefLabel
 import no.brreg.organizationcatalogue.mapping.municipalityNumberToId
@@ -45,9 +46,54 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
             .safeAddProperty(BR.industryCode, it.industryCode)
             .safeAddProperty(BR.sectorCode, it.sectorCode)
             .addPreferredNames(it.prefLabel)
+            .addDomains(it.domains)
     }
 
     return model
+}
+
+fun Organization.domainsJenaResponse(responseType: JenaType, urls: ExternalUrls): String {
+    val model = ModelFactory.createDefaultModel()
+    model.setNsPrefix("br", BR.uri)
+
+    domains.forEach {
+        model.createResource(urls.organizationDomains + it)
+            .addProperty(RDF.type, BR.Domain)
+    }
+
+    return model.createResponseString(responseType)
+}
+
+fun List<Domain>.domainsJenaResponse(jenaType: JenaType, urls: ExternalUrls): String {
+    val model = ModelFactory.createDefaultModel()
+    model.setNsPrefix("br", BR.uri)
+
+    forEach {
+        val domainResource = model.createResource(urls.organizationDomains + it.name)
+        domainResource.addProperty(RDF.type, BR.Domain)
+        domainResource.addProperty(BR.domainName, it.name)
+
+        it.organizations.forEach {org ->
+            domainResource.addProperty(
+                BR.holder,
+                model.createResource(urls.organizationCatalogue + org)
+            )
+        }
+    }
+
+    return model.createResponseString(jenaType)
+}
+
+fun Domain.organizationsJenaResponse(jenaType: JenaType, urls: ExternalUrls): String {
+    val model = ModelFactory.createDefaultModel()
+    model.setNsPrefix("foaf", FOAF.getURI())
+
+    organizations.forEach {
+        model.createResource(urls.organizationCatalogue + it)
+            .addProperty(RDF.type, FOAF.Organization)
+    }
+
+    return model.createResponseString(jenaType)
 }
 
 private fun Resource.addRegistration(org: Organization): Resource =
@@ -72,6 +118,16 @@ private fun Resource.addPreferredNames(preferredNames: PrefLabel?): Resource {
     if (preferredNames?.en != null) addProperty(FOAF.name, preferredNames.en, "en")
     return this
 }
+
+private fun Resource.addDomains(domains: List<String>): Resource {
+
+    domains.forEach {
+        addProperty(BR.domainName, it)
+    }
+
+    return this
+}
+
 private fun Model.createResponseString(responseType: JenaType):String =
     ByteArrayOutputStream().use{ out ->
         write(out, responseType.value)
@@ -100,6 +156,7 @@ enum class JenaType(val value: String){
 }
 
 data class ExternalUrls(
-    val organizationCatalogue: String,
-    val municipality: String
+    val organizationCatalogue: String? = null,
+    val organizationDomains: String? = null,
+    val municipality: String? = null
 )
