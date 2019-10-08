@@ -7,6 +7,7 @@ import no.brreg.organizationcatalogue.mapping.mapForCreation
 import no.brreg.organizationcatalogue.mapping.mapToGenerated
 import no.brreg.organizationcatalogue.mapping.updateValues
 import no.brreg.organizationcatalogue.repository.OrganizationCatalogueRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -18,7 +19,7 @@ class OrganizationCatalogueService (
 
     fun getByOrgnr(orgId: String): Organization? =
         repository
-            .findByOrganizationId(orgId)
+            .findByIdOrNull(orgId)
             ?.mapToGenerated(profileConditionalValues.enhetsregisteretUrl())
             ?: createFromEnhetsregisteret(orgId)
 
@@ -53,7 +54,7 @@ class OrganizationCatalogueService (
 
     fun updateEntry(orgId: String, org: Organization): Organization? =
         repository
-            .findByOrganizationId(orgId)
+            .findByIdOrNull(orgId)
             ?.updateValues(org)
             ?.let { repository.save(it) }
             ?.mapToGenerated(profileConditionalValues.enhetsregisteretUrl())

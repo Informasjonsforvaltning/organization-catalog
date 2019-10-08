@@ -78,7 +78,6 @@ val ORG_2 =  Organization().apply {
 }
 
 val NOT_UPDATED_0 =  Organization().apply {
-    id = "5d5531e45c40450006848170"
     name = "Not updated name"
     norwegianRegistry = "https://invalid.org/enhetsregisteret/api/enheter/44332211"
     organizationId = "44332211"
@@ -96,7 +95,6 @@ val NOT_UPDATED_0 =  Organization().apply {
 }
 
 val NOT_UPDATED_1 =  Organization().apply {
-    id = "5d5531e45c40450006848169"
     name = "Organization Name"
     norwegianRegistry = "https://invalid.org/enhetsregisteret/api/enheter/11223344"
     organizationId = "11223344"
@@ -109,7 +107,6 @@ val NOT_UPDATED_1 =  Organization().apply {
 }
 
 val UPDATED_0 =  Organization().apply {
-    id = "5d5531e45c40450006848170"
     name = "updatedName"
     norwegianRegistry = "https://invalid.org/enhetsregisteret/api/enheter/44332211"
     organizationId = "44332211"
@@ -127,7 +124,6 @@ val UPDATED_0 =  Organization().apply {
 }
 
 val UPDATED_1 =  Organization().apply {
-    id = "5d5531e45c40450006848169"
     name = "Organization Name"
     norwegianRegistry = "https://invalid.org/enhetsregisteret/api/enheter/55667788"
     organizationId = "55667788"
@@ -149,7 +145,6 @@ var ORGS = listOf(ORG_0, ORG_1, ORG_2)
 var EMPTY_LIST = emptyList<Organization>()
 
 var ORG_DB_0 = OrganizationDB().apply {
-    id = ObjectId("5d5531e55c404500068481da")
     name = "REGISTERENHETEN I BRØNNØYSUND"
     organizationId = "974760673"
     orgType = "ORGL"
@@ -165,7 +160,6 @@ var ORG_DB_0 = OrganizationDB().apply {
 }
 
 val ORG_DB_1 =  OrganizationDB().apply {
-    id = ObjectId("5d5531e45c40450006848160")
     name = "ATB AS"
     organizationId = "994686011"
     orgType = "AS"
@@ -180,7 +174,6 @@ val ORG_DB_1 =  OrganizationDB().apply {
 }
 
 val ORG_DB_2 =  OrganizationDB().apply {
-    id = ObjectId("5d5531e45c40450006848159")
     name = "FORSVARET"
     organizationId = "986105174"
     orgType = "ORGL"
@@ -195,7 +188,6 @@ val ORG_DB_2 =  OrganizationDB().apply {
 }
 
 val ORG_DB_3 =  OrganizationDB().apply {
-    id = ObjectId("5d5531e45c40450006848169")
     name = "To Be Updated"
     organizationId = "11223344"
     orgType = "STAT"
@@ -207,7 +199,6 @@ val ORG_DB_3 =  OrganizationDB().apply {
 }
 
 val ORG_DB_4 =  OrganizationDB().apply {
-    id = ObjectId("5d5531e45c40450006848170")
     name = "Not updated name"
     organizationId = "44332211"
     orgType = "FYLK"

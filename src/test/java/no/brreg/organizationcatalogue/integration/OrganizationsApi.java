@@ -184,7 +184,6 @@ class OrganizationsApi {
 
         Organization newNameElseNull = new Organization();
         newNameElseNull.setName("updatedName");
-        newNameElseNull.setId("idInObjectIsIgnored");
 
         Organization updated0 = controller
             .updateOrganization(httpServletRequestMock, getNOT_UPDATED_0().getOrganizationId(), newNameElseNull)

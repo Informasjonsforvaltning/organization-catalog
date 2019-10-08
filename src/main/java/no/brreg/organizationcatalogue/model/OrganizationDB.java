@@ -3,19 +3,16 @@ package no.brreg.organizationcatalogue.model;
 import javax.validation.constraints.NotBlank;
 
 import no.brreg.organizationcatalogue.generated.model.PrefLabel;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
 @Document(collection="organizations")
 public class OrganizationDB {
-    @Id private ObjectId id;
+    @Id private String organizationId;
     @NotBlank private String name;
     private String internationalRegistry;
-    @Indexed(unique = true) @NotBlank private String organizationId;
     private String orgType;
     private String orgPath;
     private String subOrganizationOf;
@@ -25,12 +22,12 @@ public class OrganizationDB {
     private String sectorCode;
     private PrefLabel prefLabel;
 
-    public ObjectId getId() {
-        return id;
+    public String getOrganizationId() {
+        return organizationId;
     }
 
-    public void setId(ObjectId id) {
-        this.id = id;
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
     }
 
     public String getName() {
@@ -47,14 +44,6 @@ public class OrganizationDB {
 
     public void setInternationalRegistry(String internationalRegistry) {
         this.internationalRegistry = internationalRegistry;
-    }
-
-    public String getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
     }
 
     public String getOrgType() {
