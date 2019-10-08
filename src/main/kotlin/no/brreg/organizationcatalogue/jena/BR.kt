@@ -2,6 +2,7 @@ package no.brreg.organizationcatalogue.jena
 
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.Property
+import org.apache.jena.rdf.model.Resource
 
 class BR {
     companion object {
@@ -15,5 +16,9 @@ class BR {
         val sectorCode: Property = m.createProperty(uri + "sectorCode")
         val norwegianRegistry: Property = m.createProperty(uri + "norwegianRegistry")
         val internationalRegistry: Property = m.createProperty(uri + "internationalRegistry")
+
+        val Domain: Resource = m.createResource(uri + "Domain")
+        val domainName: Property = m.createProperty(uri + "domainName")
+        val holder: Property = m.createProperty(uri + "holder")
     }
 }

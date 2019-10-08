@@ -58,4 +58,9 @@ class OrganizationCatalogueService (
             ?.updateValues(org)
             ?.let { repository.save(it) }
             ?.mapToGenerated(profileConditionalValues.enhetsregisteretUrl())
+
+    fun getOrganizationsByIdList(idList: List<String>): List<Organization> =
+        repository
+            .findAllById(idList)
+            .map { it.mapToGenerated(profileConditionalValues.enhetsregisteretUrl()) }
 }
