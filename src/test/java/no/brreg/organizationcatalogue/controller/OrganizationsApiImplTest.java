@@ -267,8 +267,6 @@ public class OrganizationsApiImplTest {
             ResponseEntity<Object> response = controller.getOrganizationById(httpServletRequestMock, "974760673");
             Model modelFromResponse = responseReader.parseResponse((String) response.getBody(), "text/turtle");
 
-            System.out.println(response.getBody());
-
             Model expectedResponse = responseReader.getExpectedResponse("getOne.ttl", "TURTLE");
 
             assertEquals(HttpStatus.OK, response.getStatusCode());
