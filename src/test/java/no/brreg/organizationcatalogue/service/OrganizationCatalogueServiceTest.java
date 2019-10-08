@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static no.brreg.organizationcatalogue.TestDataKt.ENHETSREGISTERET_URL;
 import static no.brreg.organizationcatalogue.TestDataKt.getORG_0;
@@ -50,8 +51,8 @@ public class OrganizationCatalogueServiceTest {
     @Test
     public void getByIdNotFound() {
         Mockito
-            .when(repository.findByOrganizationId("123ID"))
-            .thenReturn(null);
+            .when(repository.findById("123ID"))
+            .thenReturn(Optional.empty());
 
         Organization publisher = catalogueService.getByOrgnr("123ID");
 
@@ -62,15 +63,14 @@ public class OrganizationCatalogueServiceTest {
     public void getById() {
         OrganizationDB persisted = getORG_DB_0();
         Mockito
-            .when(repository.findByOrganizationId("123ID"))
-            .thenReturn(persisted);
+            .when(repository.findById("123ID"))
+            .thenReturn(Optional.of(persisted));
         Mockito
             .when(valuesMock.enhetsregisteretUrl())
             .thenReturn(ENHETSREGISTERET_URL);
 
         Organization publisher = catalogueService.getByOrgnr("123ID");
 
-        assertEquals(persisted.getId().toHexString(), publisher.getId());
         assertEquals(persisted.getName(), publisher.getName());
         assertEquals(persisted.getOrganizationId(), publisher.getOrganizationId());
         assertEquals(persisted.getOrgPath(), publisher.getOrgPath());
@@ -90,7 +90,6 @@ public class OrganizationCatalogueServiceTest {
 
         List<Organization> publisherList = catalogueService.getOrganizations(null, null);
 
-        assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
         assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
         assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
         assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
@@ -110,7 +109,6 @@ public class OrganizationCatalogueServiceTest {
 
         List<Organization> publisherList = catalogueService.getOrganizations("Name", "OrgId");
 
-        assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
         assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
         assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
         assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
@@ -130,7 +128,6 @@ public class OrganizationCatalogueServiceTest {
 
         List<Organization> publisherList = catalogueService.getOrganizations("Name", null);
 
-        assertEquals(persistedList.get(0).getId().toHexString(), publisherList.get(0).getId());
         assertEquals(persistedList.get(0).getName(), publisherList.get(0).getName());
         assertEquals(persistedList.get(0).getOrganizationId(), publisherList.get(0).getOrganizationId());
         assertEquals(persistedList.get(0).getOrgPath(), publisherList.get(0).getOrgPath());
@@ -141,8 +138,8 @@ public class OrganizationCatalogueServiceTest {
     @Test
     public void updateNotFound() {
         Mockito
-            .when(repository.findByOrganizationId("123ID"))
-            .thenReturn(null);
+            .when(repository.findById("123ID"))
+            .thenReturn(Optional.empty());
 
         Organization publisher = catalogueService.updateEntry("123ID", getORG_0());
 

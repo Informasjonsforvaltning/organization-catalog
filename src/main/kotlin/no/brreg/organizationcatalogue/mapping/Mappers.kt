@@ -10,7 +10,6 @@ fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization {
 
     val mapped = Organization()
 
-    mapped.id = id.toHexString()
     mapped.name = name
     mapped.norwegianRegistry = enhetsregisteretUrl + organizationId
     mapped.internationalRegistry = internationalRegistry
