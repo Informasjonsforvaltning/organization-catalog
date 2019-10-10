@@ -7,6 +7,7 @@ interface ProfileConditionalValues {
     fun enhetsregisteretUrl(): String
     fun organizationCatalogueUrl(): String
     fun municipalityUrl(): String
+    fun organizationDomainsUrl(): String
 }
 
 @Service
@@ -15,6 +16,7 @@ class TestValues : ProfileConditionalValues {
     private val ENHETSREGISTERET_URL = "https://invalid.org/enhetsregisteret/api/enheter/"
     private val ORGANIZATION_CATALOGUE_URL = "https://invalid.org/organizations/"
     private val MUNICIPALITY_URL = "https://invalid.org/administrativeEnheter/kommune/id/"
+    private val ORGANIZATION_DOMAINS_URL = "https://invalid.org/domains/"
 
     override fun enhetsregisteretUrl(): String {
         return ENHETSREGISTERET_URL
@@ -26,6 +28,10 @@ class TestValues : ProfileConditionalValues {
 
     override fun municipalityUrl(): String {
         return MUNICIPALITY_URL
+    }
+
+    override fun organizationDomainsUrl(): String {
+        return ORGANIZATION_DOMAINS_URL
     }
 }
 
@@ -35,6 +41,7 @@ class Ut1Values : ProfileConditionalValues {
     private val ENHETSREGISTERET_URL = "https://data.brreg.no/enhetsregisteret/api/enheter/"
     private val ORGANIZATION_CATALOGUE_URL = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/organizations/"
     private val MUNICIPALITY_URL = "https://data.geonorge.no/administrativeEnheter/kommune/id/"
+    private val ORGANIZATION_DOMAINS_URL = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/domains/"
 
     override fun enhetsregisteretUrl(): String {
         return ENHETSREGISTERET_URL
@@ -46,6 +53,10 @@ class Ut1Values : ProfileConditionalValues {
 
     override fun municipalityUrl(): String {
         return MUNICIPALITY_URL
+    }
+
+    override fun organizationDomainsUrl(): String {
+        return ORGANIZATION_DOMAINS_URL
     }
 }
 
@@ -55,6 +66,7 @@ class ProdValues : ProfileConditionalValues {
     private val ENHETSREGISTERET_URL = "https://data.brreg.no/enhetsregisteret/api/enheter/"
     private val ORGANIZATION_CATALOGUE_URL = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/organizations/" // TODO
     private val MUNICIPALITY_URL = "https://data.geonorge.no/administrativeEnheter/kommune/id/"
+    private val ORGANIZATION_DOMAINS_URL = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/domains/"
 
     override fun enhetsregisteretUrl(): String {
         return ENHETSREGISTERET_URL
@@ -66,5 +78,9 @@ class ProdValues : ProfileConditionalValues {
 
     override fun municipalityUrl(): String {
         return MUNICIPALITY_URL
+    }
+
+    override fun organizationDomainsUrl(): String {
+        return ORGANIZATION_DOMAINS_URL
     }
 }

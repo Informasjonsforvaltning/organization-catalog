@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Document(collection="organizations")
 public class OrganizationDB {
@@ -21,6 +22,7 @@ public class OrganizationDB {
     private String industryCode;
     private String sectorCode;
     private PrefLabel prefLabel;
+    private Set<String> domains;
 
     public String getOrganizationId() {
         return organizationId;
@@ -108,5 +110,13 @@ public class OrganizationDB {
 
     public void setPrefLabel(PrefLabel prefLabel) {
         this.prefLabel = prefLabel;
+    }
+
+    public Set<String> getDomains() {
+        return domains;
+    }
+
+    public void setDomains(Set<String> domains) {
+        this.domains = domains;
     }
 }

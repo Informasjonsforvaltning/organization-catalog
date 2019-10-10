@@ -122,6 +122,154 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Organization'
+
+  /organizations/{id}/domains:
+    get:
+      tags:
+        - organization-catalogue
+      description: Get domains held by an organization
+      operationId: getOrganizationDomains
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            application/xml:
+              schema:
+                type: object
+            application/ld+json:
+              schema:
+                type: object
+            application/rdf+json:
+              schema:
+                type: object
+            application/rdf+xml:
+              schema:
+                type: object
+            text/turtle:
+              schema:
+                type: object
+  /domains:
+    get:
+      tags:
+        - domains
+      description: Get all domains
+      operationId: getAllDomains
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            application/xml:
+              schema:
+                type: object
+            application/ld+json:
+              schema:
+                type: object
+            application/rdf+json:
+              schema:
+                type: object
+            application/rdf+xml:
+              schema:
+                type: object
+            text/turtle:
+              schema:
+                type: object
+    post:
+      tags:
+        - domains
+      description: Update organizations as holders of a domain
+      operationId: addDomain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Domain'
+      responses:
+        '200':
+          description: OK
+  /domains/{name}:
+    get:
+      tags:
+        - domains
+      description: Get a domain
+      operationId: getDomain
+      parameters:
+        - name: name
+          in: path
+          description: Domain name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            application/xml:
+              schema:
+                type: object
+            application/ld+json:
+              schema:
+                type: object
+            application/rdf+json:
+              schema:
+                type: object
+            application/rdf+xml:
+              schema:
+                type: object
+            text/turtle:
+              schema:
+                type: object
+  /domains/{name}/organizations:
+    get:
+      tags:
+        - domains
+      description: Get holders a domain
+      operationId: getDomainOrganizations
+      parameters:
+        - name: name
+          in: path
+          description: Domain name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            application/xml:
+              schema:
+                type: object
+            application/ld+json:
+              schema:
+                type: object
+            application/rdf+json:
+              schema:
+                type: object
+            application/rdf+xml:
+              schema:
+                type: object
+            text/turtle:
+              schema:
+                type: object
 components:
   schemas:
     Organization:
@@ -157,6 +305,11 @@ components:
           type: string
         prefLabel:
           $ref: "#/components/schemas/PrefLabel"
+        domains:
+          type: array
+          description: Domains held by the organization
+          items:
+            type: string
     PrefLabel:
       type: object
       description:
@@ -174,3 +327,14 @@ components:
           type: string
           description:
             Preferred label [skosxl:prefLabel] in English
+    Domain:
+      type: object
+      description:
+        Domain
+      properties:
+        name:
+          type: string
+        organizations:
+          type: array
+          items:
+            type: string

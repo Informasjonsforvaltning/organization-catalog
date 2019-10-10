@@ -6,6 +6,7 @@ import no.brreg.organizationcatalogue.generated.model.Organization
 import no.brreg.organizationcatalogue.jena.ExternalUrls
 import no.brreg.organizationcatalogue.jena.JenaType
 import no.brreg.organizationcatalogue.jena.acceptHeaderToJenaType
+import no.brreg.organizationcatalogue.jena.domainsJenaResponse
 import no.brreg.organizationcatalogue.jena.jenaResponse
 import no.brreg.organizationcatalogue.service.OrganizationCatalogueService
 import org.slf4j.LoggerFactory
@@ -61,6 +62,22 @@ open class OrganizationsApiImpl (
             jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
             jenaType == JenaType.NOT_JENA -> ResponseEntity(organization, HttpStatus.OK)
             else -> ResponseEntity(organization.jenaResponse(jenaType, urls), HttpStatus.OK)
+        }
+    }
+
+    override fun getOrganizationDomains(httpServletRequest: HttpServletRequest, organizationId: String): ResponseEntity<Any> {
+        val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
+        val organization = catalogueService.getByOrgnr(organizationId)
+
+        val urls = ExternalUrls(
+            organizationDomains = profileConditionalValues.organizationDomainsUrl()
+        )
+
+        return when {
+            jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+            organization == null -> ResponseEntity(HttpStatus.NOT_FOUND)
+            jenaType == JenaType.NOT_JENA -> ResponseEntity(organization.domains, HttpStatus.OK)
+            else -> ResponseEntity(organization.domainsJenaResponse(jenaType, urls), HttpStatus.OK)
         }
     }
 
