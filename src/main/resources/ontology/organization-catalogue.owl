@@ -1,0 +1,67 @@
+<rdf:RDF
+    xmlns="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+    <owl:Ontology rdf:about="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl"></owl:Ontology>
+
+    <!--
+     https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#municipality
+    -->
+    <owl:ObjectProperty rdf:about="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#municipality">
+        <rdfs:comment xml:lang="en">A norwegian municipality</rdfs:comment>
+        <rdfs:label xml:lang="en">municipality</rdfs:label>
+    </owl:ObjectProperty>
+    <!--
+     https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#orgPath
+    -->
+    <owl:DatatypeProperty rdf:about="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#orgPath">
+        <rdfs:comment xml:lang="en">The structure of parent organizations for the given organization</rdfs:comment>
+        <rdfs:label xml:lang="en">orgPath</rdfs:label>
+    </owl:DatatypeProperty>
+    <!--
+     https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#sectorCode
+    -->
+    <owl:DatatypeProperty rdf:about="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#sectorCode">
+        <rdfs:comment xml:lang="en">The sector group the organization belongs to</rdfs:comment>
+        <rdfs:label xml:lang="en">sectorCode</rdfs:label>
+    </owl:DatatypeProperty>
+    <!--
+     https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#norwegianRegistry
+    -->
+    <owl:ObjectProperty rdf:about="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#norwegianRegistry">
+        <rdfs:comment xml:lang="en">The official registration of the organization as a norwegian legal entity</rdfs:comment>
+        <rdfs:label xml:lang="en">norwegianRegistry</rdfs:label>
+    </owl:ObjectProperty>
+    <!--
+     https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#internationalRegistry
+    -->
+    <owl:ObjectProperty rdf:about="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#internationalRegistry">
+        <rdfs:comment xml:lang="en">The organization as registered in a non norwegian registry</rdfs:comment>
+        <rdfs:label xml:lang="en">internationalRegistry</rdfs:label>
+    </owl:ObjectProperty>
+
+    <!--
+     https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#Domain
+    -->
+    <owl:Class rdf:about="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#Domain">
+        <rdfs:comment xml:lang="en">An internet domain owned by the organization</rdfs:comment>
+        <rdfs:label xml:lang="en">Domain</rdfs:label>
+    </owl:Class>
+    <!--
+     https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#domainHolder
+    -->
+    <owl:ObjectProperty rdf:about="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#domainHolder">
+        <rdfs:comment xml:lang="en">The owner of an internet domain</rdfs:comment>
+        <rdfs:label xml:lang="en">domainHolder</rdfs:label>
+    </owl:ObjectProperty>
+    <!--
+     https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#domainName
+    -->
+    <owl:DatatypeProperty rdf:about="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#domainName">
+        <rdfs:comment xml:lang="en">The name of an internet domain</rdfs:comment>
+        <rdfs:label xml:lang="en">domainName</rdfs:label>
+    </owl:DatatypeProperty>
+</rdf:RDF>
