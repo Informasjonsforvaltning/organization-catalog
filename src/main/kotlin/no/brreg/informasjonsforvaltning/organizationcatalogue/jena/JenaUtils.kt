@@ -34,7 +34,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
 
     forEach {
         model.createResource(urls.organizationCatalogue + it.organizationId)
-            .addProperty(RDF.type, FOAF.Organization)
+            .addProperty(RDF.type, ROV.RegisteredOrganization)
             .safeAddProperty(ROV.legalName, it.name)
             .addRegistration(it)
             .safeAddProperty(ROV.orgType, it.orgType)
@@ -43,7 +43,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
             .safeAddLinkedProperty(BR.municipality, it.municipalityNumber?.let { number -> urls.municipality + municipalityNumberToId(number) })
             .safeAddLinkedProperty(BR.norwegianRegistry, it.norwegianRegistry)
             .safeAddLinkedProperty(BR.internationalRegistry, it.internationalRegistry)
-            .safeAddProperty(BR.industryCode, it.industryCode)
+            .safeAddProperty(ROV.orgActivity, it.industryCode)
             .safeAddProperty(BR.sectorCode, it.sectorCode)
             .addPreferredNames(it.prefLabel)
             .addDomains(it.domains)
@@ -75,7 +75,7 @@ fun List<Domain>.domainsJenaResponse(jenaType: JenaType, urls: ExternalUrls): St
 
         it.organizations.forEach {org ->
             domainResource.addProperty(
-                BR.holder,
+                BR.domainHolder,
                 model.createResource(urls.organizationCatalogue + org)
             )
         }
