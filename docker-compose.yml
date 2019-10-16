@@ -7,8 +7,7 @@ services:
       - mongodb
     restart: always
     environment:
-      - MONGO_USERNAME
-      - MONGO_PASSWORD
-      - MONGO_HOST
+      - PUBAPI_MONGO_USERNAME
+      - PUBAPI_MONGO_PASSWORD
     ports:
       - 8080:8080
