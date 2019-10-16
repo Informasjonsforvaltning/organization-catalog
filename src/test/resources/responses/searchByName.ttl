@@ -8,7 +8,7 @@
 
 <https://invalid.org/organizations/974760673>
         a                      rov:RegisteredOrganization ;
-        rov:orgActivity        "84.110" ;
+        br:nace                "84.110" ;
         br:municipality        <https://invalid.org/administrativeEnheter/kommune/id/172833> ;
         br:norwegianRegistry   <https://invalid.org/enhetsregisteret/api/enheter/974760673> ;
         br:orgPath             "/STAT/912660680/974760673" ;
@@ -25,7 +25,7 @@
 
 <https://invalid.org/organizations/986105174>
         a                      rov:RegisteredOrganization ;
-        rov:orgActivity        "84.220" ;
+        br:nace                "84.220" ;
         br:municipality        <https://invalid.org/administrativeEnheter/kommune/id/173018> ;
         br:norwegianRegistry   <https://invalid.org/enhetsregisteret/api/enheter/986105174> ;
         br:orgPath             "/STAT/972417823/986105174" ;

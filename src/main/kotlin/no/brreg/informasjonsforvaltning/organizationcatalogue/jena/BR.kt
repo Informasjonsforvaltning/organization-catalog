@@ -12,6 +12,7 @@ class BR {
 
         val municipality: Property = m.createProperty(uri + "municipality")
         val orgPath: Property = m.createProperty(uri + "orgPath")
+        val nace: Property = m.createProperty(uri + "nace")
         val sectorCode: Property = m.createProperty(uri + "sectorCode")
         val norwegianRegistry: Property = m.createProperty(uri + "norwegianRegistry")
         val internationalRegistry: Property = m.createProperty(uri + "internationalRegistry")
