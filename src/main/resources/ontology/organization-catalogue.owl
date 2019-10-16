@@ -29,6 +29,13 @@
         <rdfs:label xml:lang="en">sectorCode</rdfs:label>
     </owl:DatatypeProperty>
     <!--
+     https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#nace
+    -->
+    <owl:DatatypeProperty rdf:about="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#nace">
+        <rdfs:comment xml:lang="en">Statistical classification of economic activities in the European Community</rdfs:comment>
+        <rdfs:label xml:lang="en">nace</rdfs:label>
+    </owl:DatatypeProperty>
+    <!--
      https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#norwegianRegistry
     -->
     <owl:ObjectProperty rdf:about="https://github.com/Informasjonsforvaltning/organization-catalogue/blob/develop/src/main/resources/ontology/organization-catalogue.owl#norwegianRegistry">

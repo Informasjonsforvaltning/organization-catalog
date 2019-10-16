@@ -43,7 +43,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
             .safeAddLinkedProperty(BR.municipality, it.municipalityNumber?.let { number -> urls.municipality + municipalityNumberToId(number) })
             .safeAddLinkedProperty(BR.norwegianRegistry, it.norwegianRegistry)
             .safeAddLinkedProperty(BR.internationalRegistry, it.internationalRegistry)
-            .safeAddProperty(ROV.orgActivity, it.industryCode)
+            .safeAddProperty(BR.nace, it.industryCode)
             .safeAddProperty(BR.sectorCode, it.sectorCode)
             .addPreferredNames(it.prefLabel)
             .addDomains(it.domains)
