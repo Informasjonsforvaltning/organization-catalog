@@ -86,11 +86,11 @@ fun List<Domain>.domainsJenaResponse(jenaType: JenaType, urls: ExternalUrls): St
 
 fun Domain.organizationsJenaResponse(jenaType: JenaType, urls: ExternalUrls): String {
     val model = ModelFactory.createDefaultModel()
-    model.setNsPrefix("foaf", FOAF.getURI())
+    model.setNsPrefix("rov", ROV.getURI())
 
     organizations.forEach {
         model.createResource(urls.organizationCatalogue + it)
-            .addProperty(RDF.type, FOAF.Organization)
+            .addProperty(RDF.type, ROV.RegisteredOrganization)
     }
 
     return model.createResponseString(jenaType)
