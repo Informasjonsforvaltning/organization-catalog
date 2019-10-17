@@ -1,5 +1,6 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.controller
 
+import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.api.DomainsApi
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Domain
@@ -18,17 +19,20 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 open class DomainsApiImpl (
     private val domainsService: DomainsService,
-    private val profileConditionalValues: ProfileConditionalValues
+    private val profileConditionalValues: ProfileConditionalValues,
+    private val endpointPermissions: EndpointPermissions
 ) : DomainsApi {
 
     override fun addDomain(httpServletRequest: HttpServletRequest, domain: Domain): ResponseEntity<Void> =
-        try {
-            domainsService.addDomain(domain)
-            ResponseEntity(HttpStatus.OK)
-        } catch (e: Exception) {
-            if (e is MissingOrganizationException) ResponseEntity(HttpStatus.BAD_REQUEST)
-            else ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
-        }
+        if (endpointPermissions.hasAdminPermission()) {
+            try {
+                domainsService.addDomain(domain)
+                ResponseEntity<Void>(HttpStatus.OK)
+            } catch (e: Exception) {
+                if (e is MissingOrganizationException) ResponseEntity<Void>(HttpStatus.BAD_REQUEST)
+                else ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+            }
+        } else ResponseEntity(HttpStatus.FORBIDDEN)
 
     override fun getDomain(httpServletRequest: HttpServletRequest, name: String): ResponseEntity<Any> {
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
