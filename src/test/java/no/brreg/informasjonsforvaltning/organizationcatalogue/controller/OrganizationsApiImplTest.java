@@ -280,8 +280,9 @@ public class OrganizationsApiImplTest {
 
     @Nested
     class UpdateOrganization {
+
         @Test
-        public void unauthorizedWhenNotAdmin() {
+        public void forbiddenWhenNotAdmin() {
             Mockito
                 .when(endpointPermissions.hasAdminPermission())
                 .thenReturn(false);
