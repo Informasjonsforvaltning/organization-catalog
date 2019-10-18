@@ -1,5 +1,6 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.controller;
 
+import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.TestResponseReader;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization;
@@ -42,6 +43,9 @@ public class OrganizationsApiImplTest {
 
     @Mock
     private ProfileConditionalValues valuesMock;
+
+    @Mock
+    private EndpointPermissions endpointPermissions;
 
     @InjectMocks
     private OrganizationsApiImpl controller;
@@ -276,11 +280,27 @@ public class OrganizationsApiImplTest {
 
     @Nested
     class UpdateOrganization {
+
+        @Test
+        public void forbiddenWhenNotAdmin() {
+            Mockito
+                .when(endpointPermissions.hasAdminPermission())
+                .thenReturn(false);
+
+            ResponseEntity<Organization> response = controller.updateOrganization(httpServletRequestMock, "id", no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_0());
+
+            assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+        }
+
         @Test
         public void okWhenImplemented() {
             Mockito
                 .when(catalogueServiceMock.updateEntry("id", no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_0()))
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_0());
+
+            Mockito
+                .when(endpointPermissions.hasAdminPermission())
+                .thenReturn(true);
 
             ResponseEntity<Organization> response = controller.updateOrganization(httpServletRequestMock, "id", no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_0());
 
@@ -292,6 +312,10 @@ public class OrganizationsApiImplTest {
             Mockito
                 .when(catalogueServiceMock.updateEntry("id", no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_0()))
                 .thenReturn(null);
+
+            Mockito
+                .when(endpointPermissions.hasAdminPermission())
+                .thenReturn(true);
 
             ResponseEntity<Organization> response = controller.updateOrganization(httpServletRequestMock, "id", no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_0());
 
@@ -306,6 +330,10 @@ public class OrganizationsApiImplTest {
                     throw new DuplicateKeyException("Duplicate organizationId");
                 });
 
+            Mockito
+                .when(endpointPermissions.hasAdminPermission())
+                .thenReturn(true);
+
             ResponseEntity<Organization> response = controller.updateOrganization(httpServletRequestMock, "id", no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_0());
 
             assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
@@ -319,6 +347,10 @@ public class OrganizationsApiImplTest {
                     throw new ConstraintViolationException(new HashSet<>());
                 });
 
+            Mockito
+                .when(endpointPermissions.hasAdminPermission())
+                .thenReturn(true);
+
             ResponseEntity<Organization> response = controller.updateOrganization(httpServletRequestMock, "id", no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_0());
 
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -331,6 +363,10 @@ public class OrganizationsApiImplTest {
                 .thenAnswer(invocation -> {
                     throw new Exception("Unexpected exception");
                 });
+
+            Mockito
+                .when(endpointPermissions.hasAdminPermission())
+                .thenReturn(true);
 
             ResponseEntity<Organization> response = controller.updateOrganization(httpServletRequestMock, "id", no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_0());
 

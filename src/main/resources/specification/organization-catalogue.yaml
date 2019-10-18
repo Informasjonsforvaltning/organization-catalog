@@ -98,6 +98,8 @@ paths:
               schema:
                 type: object
     put:
+      security:
+        - bearerAuth: []
       tags:
         - organization-catalogue
       description: Update a specific organization by id
@@ -187,6 +189,8 @@ paths:
               schema:
                 type: object
     post:
+      security:
+        - bearerAuth: []
       tags:
         - domains
       description: Update organizations as holders of a domain
@@ -338,3 +342,10 @@ components:
           type: array
           items:
             type: string
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+security:
+  - bearerAuth: []

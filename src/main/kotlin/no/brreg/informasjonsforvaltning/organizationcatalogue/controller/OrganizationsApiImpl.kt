@@ -1,5 +1,6 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.controller
 
+import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.api.OrganizationsApi
 import javax.servlet.http.HttpServletRequest
@@ -24,7 +25,8 @@ private val LOGGER = LoggerFactory.getLogger(OrganizationsApiImpl::class.java)
 @Controller
 open class OrganizationsApiImpl (
     private val catalogueService: OrganizationCatalogueService,
-    private val profileConditionalValues: ProfileConditionalValues
+    private val profileConditionalValues: ProfileConditionalValues,
+    private val endpointPermissions: EndpointPermissions
 ): OrganizationsApi {
 
     @RequestMapping(value = ["/ping"], method = [GET], produces = ["text/plain"])
@@ -36,18 +38,20 @@ open class OrganizationsApiImpl (
         ResponseEntity.ok().build()
 
     override fun updateOrganization(httpServletRequest: HttpServletRequest?, organizationId: String, organization: Organization): ResponseEntity<Organization> =
-        try {
-            catalogueService
-                .updateEntry(organizationId, organization)
-                ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
-                ?: ResponseEntity(HttpStatus.NOT_FOUND)
-        } catch (exception: Exception) {
-            when(exception) {
-                is ConstraintViolationException -> ResponseEntity(HttpStatus.BAD_REQUEST)
-                is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
-                else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+        if (endpointPermissions.hasAdminPermission()) {
+            try {
+                catalogueService
+                    .updateEntry(organizationId, organization)
+                    ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
+                    ?: ResponseEntity(HttpStatus.NOT_FOUND)
+            } catch (exception: Exception) {
+                when (exception) {
+                    is ConstraintViolationException -> ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
+                    is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
+                    else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+                }
             }
-        }
+        } else ResponseEntity(HttpStatus.FORBIDDEN)
 
     override fun getOrganizationById(httpServletRequest: HttpServletRequest, organizationId: String): ResponseEntity<Any> {
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
