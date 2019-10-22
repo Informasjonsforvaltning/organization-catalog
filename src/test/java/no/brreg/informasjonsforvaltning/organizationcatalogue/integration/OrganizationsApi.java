@@ -177,7 +177,7 @@ class OrganizationsApi {
     }
 
     @Test
-    @WithMockUser(authorities = {"admin"})
+    @WithMockUser(authorities = {"system:root:admin"})
     void updateOrganization() {
         Mockito
             .when(httpServletRequestMock.getHeader("Accept"))
