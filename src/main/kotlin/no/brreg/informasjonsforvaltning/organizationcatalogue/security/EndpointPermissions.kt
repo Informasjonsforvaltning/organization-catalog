@@ -12,7 +12,7 @@ class EndpointPermissions{
     }
 
     fun hasAdminPermission(): Boolean {
-        val requiredAuthority = SimpleGrantedAuthority("admin")
+        val requiredAuthority = SimpleGrantedAuthority("system:root:admin")
 
         return authentication().authorities.contains(requiredAuthority)
     }
