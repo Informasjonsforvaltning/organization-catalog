@@ -79,3 +79,29 @@ docker-compose up -d
 "/src/main/resources/specification/examples/PublishersAPI.postman_collection.json"
 
 Import this collection in Postman to test the api locally.
+
+
+## Helpful commands
+
+Populate organizations cache, just run get
+
+```
+curl localhost:8140/organizations/974760673 -H "accept:application/json"
+```
+
+Get all cached organizations
+```
+curl localhost:8140/organizations -H "accept:application/json"
+```
+
+Add a domain to organization
+
+```
+curl localhost:8140/domains -d '{"name":"brreg.no", "organizations":["974760673"]}' -H 'content-type:application/json' -H 'Authorization: Bearer <token>' 
+```
+
+Get organizations for domain
+
+```
+curl localhost:8140/domains/brreg.no/organizations -H "accept:application/json"
+```
