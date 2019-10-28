@@ -3,7 +3,7 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 
-interface ProfileConditionalValues {
+interface AppProperties {
     fun enhetsregisteretUrl(): String
     fun organizationCatalogueUrl(): String
     fun municipalityUrl(): String
@@ -12,7 +12,7 @@ interface ProfileConditionalValues {
 
 @Service
 @Profile("test")
-class TestValues : ProfileConditionalValues {
+class TestValues : AppProperties {
     private val ENHETSREGISTERET_URL = "https://invalid.org/enhetsregisteret/api/enheter/"
     private val ORGANIZATION_CATALOGUE_URL = "https://invalid.org/organizations/"
     private val MUNICIPALITY_URL = "https://invalid.org/administrativeEnheter/kommune/id/"
@@ -37,7 +37,7 @@ class TestValues : ProfileConditionalValues {
 
 @Service
 @Profile("ut1", "default")
-class Ut1Values : ProfileConditionalValues {
+class Ut1Values : AppProperties {
     private val ENHETSREGISTERET_URL = "https://data.brreg.no/enhetsregisteret/api/enheter/"
     private val ORGANIZATION_CATALOGUE_URL = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/organizations/"
     private val MUNICIPALITY_URL = "https://data.geonorge.no/administrativeEnheter/kommune/id/"
@@ -62,7 +62,7 @@ class Ut1Values : ProfileConditionalValues {
 
 @Service
 @Profile("prod")
-class ProdValues : ProfileConditionalValues {
+class ProdValues : AppProperties {
     private val ENHETSREGISTERET_URL = "https://data.brreg.no/enhetsregisteret/api/enheter/"
     private val ORGANIZATION_CATALOGUE_URL = "https://publishers-api.ut1.fellesdatakatalog.brreg.no/organizations/" // TODO
     private val MUNICIPALITY_URL = "https://data.geonorge.no/administrativeEnheter/kommune/id/"

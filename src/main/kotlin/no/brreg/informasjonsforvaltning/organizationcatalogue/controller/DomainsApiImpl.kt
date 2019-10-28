@@ -1,6 +1,6 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.controller
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues
+import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.api.DomainsApi
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Domain
 import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.*
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 open class DomainsApiImpl(
     private val domainsService: DomainsService,
-    private val profileConditionalValues: ProfileConditionalValues,
+    private val appProperties: AppProperties,
     private val endpointPermissions: EndpointPermissions
 ) : DomainsApi {
 
@@ -35,8 +35,8 @@ open class DomainsApiImpl(
         val domain = domainsService.getDomain(name)
 
         val urls = ExternalUrls(
-            organizationCatalogue = profileConditionalValues.organizationCatalogueUrl(),
-            organizationDomains = profileConditionalValues.organizationDomainsUrl()
+            organizationCatalogue = appProperties.organizationCatalogueUrl(),
+            organizationDomains = appProperties.organizationDomainsUrl()
         )
 
         return when {
@@ -52,7 +52,7 @@ open class DomainsApiImpl(
         val domain = domainsService.getDomain(name)
 
         val urls = ExternalUrls(
-            organizationCatalogue = profileConditionalValues.organizationCatalogueUrl()
+            organizationCatalogue = appProperties.organizationCatalogueUrl()
         )
 
         return when {
@@ -68,8 +68,8 @@ open class DomainsApiImpl(
         val domains = domainsService.getAllDomains()
 
         val urls = ExternalUrls(
-            organizationCatalogue = profileConditionalValues.organizationCatalogueUrl(),
-            organizationDomains = profileConditionalValues.organizationDomainsUrl()
+            organizationCatalogue = appProperties.organizationCatalogueUrl(),
+            organizationDomains = appProperties.organizationDomainsUrl()
         )
 
         return when (jenaType) {
