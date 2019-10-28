@@ -1,6 +1,6 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.controller
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues
+import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.api.OrganizationsApi
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.*
@@ -21,7 +21,7 @@ private val LOGGER = LoggerFactory.getLogger(OrganizationsApiImpl::class.java)
 @Controller
 open class OrganizationsApiImpl(
     private val catalogueService: OrganizationCatalogueService,
-    private val profileConditionalValues: ProfileConditionalValues,
+    private val appProperties: AppProperties,
     private val endpointPermissions: EndpointPermissions
 ) : OrganizationsApi {
 
@@ -54,8 +54,8 @@ open class OrganizationsApiImpl(
         val organization = catalogueService.getByOrgnr(organizationId)
 
         val urls = ExternalUrls(
-            organizationCatalogue = profileConditionalValues.organizationCatalogueUrl(),
-            municipality = profileConditionalValues.municipalityUrl()
+            organizationCatalogue = appProperties.organizationCatalogueUrl(),
+            municipality = appProperties.municipalityUrl()
         )
 
         return when {
@@ -71,7 +71,7 @@ open class OrganizationsApiImpl(
         val organization = catalogueService.getByOrgnr(organizationId)
 
         val urls = ExternalUrls(
-            organizationDomains = profileConditionalValues.organizationDomainsUrl()
+            organizationDomains = appProperties.organizationDomainsUrl()
         )
 
         return when {
@@ -87,8 +87,8 @@ open class OrganizationsApiImpl(
         val organizations = catalogueService.getOrganizations(name, organizationId)
 
         val urls = ExternalUrls(
-            organizationCatalogue = profileConditionalValues.organizationCatalogueUrl(),
-            municipality = profileConditionalValues.municipalityUrl()
+            organizationCatalogue = appProperties.organizationCatalogueUrl(),
+            municipality = appProperties.municipalityUrl()
         )
 
         return when {

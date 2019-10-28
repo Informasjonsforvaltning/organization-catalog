@@ -1,7 +1,7 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.service
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.adapter.EnhetsregisteretAdapter
-import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues
+import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.mapForCreation
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.mapToGenerated
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service
 class OrganizationCatalogueService(
     private val repository: OrganizationCatalogueRepository,
     private val enhetsregisteretAdapter: EnhetsregisteretAdapter,
-    private val profileConditionalValues: ProfileConditionalValues
+    private val appProperties: AppProperties
 ) {
 
     fun getByOrgnr(orgId: String): Organization? =
         repository
             .findByIdOrNull(orgId)
-            ?.mapToGenerated(profileConditionalValues.enhetsregisteretUrl())
+            ?.mapToGenerated(appProperties.enhetsregisteretUrl())
             ?: createFromEnhetsregisteret(orgId)
 
     fun getOrganizations(name: String?, organizationId: String?): List<Organization> =
@@ -33,34 +33,34 @@ class OrganizationCatalogueService(
     private fun getCatalogue() =
         repository
             .findAll()
-            .map { it.mapToGenerated(profileConditionalValues.enhetsregisteretUrl()) }
+            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl()) }
 
     private fun searchForOrganizationsByOrgId(organizationId: String) =
         repository
             .findByOrganizationIdLike(organizationId)
-            .map { it.mapToGenerated(profileConditionalValues.enhetsregisteretUrl()) }
+            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl()) }
 
     private fun searchForOrganizationsByName(name: String) =
         repository
             .findByNameLike(name)
-            .map { it.mapToGenerated(profileConditionalValues.enhetsregisteretUrl()) }
+            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl()) }
 
     private fun createFromEnhetsregisteret(orgId: String): Organization? =
         enhetsregisteretAdapter
             .getOrganization(orgId)
             ?.mapForCreation()
             ?.let { repository.save(it) }
-            ?.mapToGenerated(profileConditionalValues.enhetsregisteretUrl())
+            ?.mapToGenerated(appProperties.enhetsregisteretUrl())
 
     fun updateEntry(orgId: String, org: Organization): Organization? =
         repository
             .findByIdOrNull(orgId)
             ?.updateValues(org)
             ?.let { repository.save(it) }
-            ?.mapToGenerated(profileConditionalValues.enhetsregisteretUrl())
+            ?.mapToGenerated(appProperties.enhetsregisteretUrl())
 
     fun getOrganizationsByIdList(idList: List<String>): List<Organization> =
         repository
             .findAllById(idList)
-            .map { it.mapToGenerated(profileConditionalValues.enhetsregisteretUrl()) }
+            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl()) }
 }
