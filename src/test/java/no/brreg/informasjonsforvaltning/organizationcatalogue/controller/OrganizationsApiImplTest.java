@@ -1,7 +1,7 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.controller;
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.TestResponseReader;
-import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues;
+import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.service.OrganizationCatalogueService;
@@ -42,7 +42,7 @@ public class OrganizationsApiImplTest {
     private OrganizationCatalogueService catalogueServiceMock;
 
     @Mock
-    private ProfileConditionalValues valuesMock;
+    private AppProperties valuesMock;
 
     @Mock
     private EndpointPermissions endpointPermissions;

@@ -1,7 +1,7 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.service;
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.adapter.EnhetsregisteretAdapter;
-import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues;
+import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrganizationDB;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.repository.OrganizationCatalogueRepository;
@@ -37,7 +37,7 @@ public class OrganizationCatalogueServiceTest {
     private EnhetsregisteretAdapter adapter;
 
     @Mock
-    private ProfileConditionalValues valuesMock;
+    private AppProperties valuesMock;
 
     @InjectMocks
     private OrganizationCatalogueService catalogueService;
