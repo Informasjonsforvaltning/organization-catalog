@@ -38,7 +38,7 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB {
     mapped.orgPath = orgPath
     mapped.subOrganizationOf = overordnetEnhet
     mapped.municipalityNumber = forretningsadresse?.kommunenummer ?: postadresse?.kommunenummer
-    mapped.issued = LocalDate.parse(registreringsdatoEnhetsregisteret)
+    mapped.issued = registreringsdatoEnhetsregisteret?.let { LocalDate.parse(it) }
     mapped.industryCode = naeringskode1?.kode
     mapped.sectorCode = institusjonellSektorkode?.kode
 
