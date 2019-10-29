@@ -23,7 +23,7 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
     }
 
     private fun downloadAndParseOrganization(organizationId: String): EnhetsregisteretOrganization? {
-        val connection = URL(appProperties.enhetsregisteretUrl() + organizationId).openConnection() as HttpURLConnection
+        val connection = URL(appProperties.enhetsregisteretUrl + organizationId).openConnection() as HttpURLConnection
 
         if (connection.responseCode != HttpStatus.OK.value()) {
             LOGGER.error("Organization with id '$organizationId' not found in Enhetsregisteret")

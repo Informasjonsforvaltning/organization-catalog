@@ -65,7 +65,7 @@ public class OrganizationCatalogueServiceTest {
             .when(repository.findById("123ID"))
             .thenReturn(Optional.of(persisted));
         Mockito
-            .when(valuesMock.enhetsregisteretUrl())
+            .when(valuesMock.getEnhetsregisteretUrl())
             .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ENHETSREGISTERET_URL);
 
         Organization publisher = catalogueService.getByOrgnr("123ID");
@@ -84,7 +84,7 @@ public class OrganizationCatalogueServiceTest {
             .when(repository.findAll())
             .thenReturn(persistedList);
         Mockito
-            .when(valuesMock.enhetsregisteretUrl())
+            .when(valuesMock.getEnhetsregisteretUrl())
             .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ENHETSREGISTERET_URL);
 
         List<Organization> publisherList = catalogueService.getOrganizations(null, null);
@@ -103,7 +103,7 @@ public class OrganizationCatalogueServiceTest {
             .when(repository.findByOrganizationIdLike("OrgId"))
             .thenReturn(persistedList);
         Mockito
-            .when(valuesMock.enhetsregisteretUrl())
+            .when(valuesMock.getEnhetsregisteretUrl())
             .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ENHETSREGISTERET_URL);
 
         List<Organization> publisherList = catalogueService.getOrganizations("Name", "OrgId");
@@ -122,7 +122,7 @@ public class OrganizationCatalogueServiceTest {
             .when(repository.findByNameLike("Name"))
             .thenReturn(persistedList);
         Mockito
-            .when(valuesMock.enhetsregisteretUrl())
+            .when(valuesMock.getEnhetsregisteretUrl())
             .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ENHETSREGISTERET_URL);
 
         List<Organization> publisherList = catalogueService.getOrganizations("Name", null);

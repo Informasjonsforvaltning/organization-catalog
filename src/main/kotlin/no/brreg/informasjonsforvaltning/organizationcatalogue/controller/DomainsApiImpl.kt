@@ -35,8 +35,8 @@ open class DomainsApiImpl(
         val domain = domainsService.getDomain(name)
 
         val urls = ExternalUrls(
-            organizationCatalogue = appProperties.organizationCatalogueUrl(),
-            organizationDomains = appProperties.organizationDomainsUrl()
+            organizationCatalogue = appProperties.organizationCatalogueUrl,
+            organizationDomains = appProperties.organizationDomainsUrl
         )
 
         return when {
@@ -52,7 +52,7 @@ open class DomainsApiImpl(
         val domain = domainsService.getDomain(name)
 
         val urls = ExternalUrls(
-            organizationCatalogue = appProperties.organizationCatalogueUrl()
+            organizationCatalogue = appProperties.organizationCatalogueUrl
         )
 
         return when {
@@ -68,8 +68,8 @@ open class DomainsApiImpl(
         val domains = domainsService.getAllDomains()
 
         val urls = ExternalUrls(
-            organizationCatalogue = appProperties.organizationCatalogueUrl(),
-            organizationDomains = appProperties.organizationDomainsUrl()
+            organizationCatalogue = appProperties.organizationCatalogueUrl,
+            organizationDomains = appProperties.organizationDomainsUrl
         )
 
         return when (jenaType) {
