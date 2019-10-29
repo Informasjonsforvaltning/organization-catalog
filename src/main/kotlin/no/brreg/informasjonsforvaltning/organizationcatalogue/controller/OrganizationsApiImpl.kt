@@ -1,15 +1,10 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.controller
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.api.OrganizationsApi
-import javax.servlet.http.HttpServletRequest
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
-import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.ExternalUrls
-import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.JenaType
-import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.acceptHeaderToJenaType
-import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.domainsJenaResponse
-import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.jenaResponse
+import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.*
+import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions
 import no.brreg.informasjonsforvaltning.organizationcatalogue.service.OrganizationCatalogueService
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
@@ -18,16 +13,17 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
+import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolationException
 
 private val LOGGER = LoggerFactory.getLogger(OrganizationsApiImpl::class.java)
 
 @Controller
-open class OrganizationsApiImpl (
+open class OrganizationsApiImpl(
     private val catalogueService: OrganizationCatalogueService,
     private val profileConditionalValues: ProfileConditionalValues,
     private val endpointPermissions: EndpointPermissions
-): OrganizationsApi {
+) : OrganizationsApi {
 
     @RequestMapping(value = ["/ping"], method = [GET], produces = ["text/plain"])
     fun ping(): ResponseEntity<String> =

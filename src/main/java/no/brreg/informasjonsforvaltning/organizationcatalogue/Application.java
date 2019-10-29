@@ -17,6 +17,11 @@ public class Application {
 
     private static Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
+    public static void main(String[] args) {
+        RIOT.init();
+        SpringApplication.run(Application.class, args);
+    }
+
     @Bean(name = DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_BEAN_NAME)
     public DispatcherServlet dispatcherServlet() {
         return new CachableDispatcherServlet();
@@ -30,10 +35,5 @@ public class Application {
     @Bean
     public LocalValidatorFactoryBean validator() {
         return new LocalValidatorFactoryBean();
-    }
-
-    public static void main(String[] args) {
-        RIOT.init();
-        SpringApplication.run(Application.class, args);
     }
 }

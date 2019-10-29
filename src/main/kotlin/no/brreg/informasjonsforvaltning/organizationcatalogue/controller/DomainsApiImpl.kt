@@ -1,14 +1,10 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.controller
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.api.DomainsApi
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Domain
-import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.ExternalUrls
-import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.JenaType
-import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.acceptHeaderToJenaType
-import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.domainsJenaResponse
-import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.organizationsJenaResponse
+import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.*
+import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions
 import no.brreg.informasjonsforvaltning.organizationcatalogue.service.DomainsService
 import no.brreg.informasjonsforvaltning.organizationcatalogue.service.MissingOrganizationException
 import org.springframework.http.HttpStatus
@@ -17,7 +13,7 @@ import org.springframework.stereotype.Controller
 import javax.servlet.http.HttpServletRequest
 
 @Controller
-open class DomainsApiImpl (
+open class DomainsApiImpl(
     private val domainsService: DomainsService,
     private val profileConditionalValues: ProfileConditionalValues,
     private val endpointPermissions: EndpointPermissions

@@ -1,9 +1,9 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.controller;
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.TestResponseReader;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization;
+import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.service.OrganizationCatalogueService;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RIOT;
@@ -112,7 +112,7 @@ public class OrganizationsApiImplTest {
                 .thenReturn("text/turtle");
 
             ResponseEntity<Object> response = controller.getOrganizations(httpServletRequestMock, "Name does not exists", null);
-            Model modelFromResponse = responseReader.parseResponse((String)response.getBody(), "text/turtle");
+            Model modelFromResponse = responseReader.parseResponse((String) response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("emptyList.ttl", "TURTLE");
 
@@ -139,7 +139,7 @@ public class OrganizationsApiImplTest {
                 .thenReturn("text/turtle");
 
             ResponseEntity<Object> response = controller.getOrganizations(httpServletRequestMock, null, null);
-            Model modelFromResponse = responseReader.parseResponse((String)response.getBody(), "text/turtle");
+            Model modelFromResponse = responseReader.parseResponse((String) response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
 
@@ -166,7 +166,7 @@ public class OrganizationsApiImplTest {
                 .thenReturn("text/turtle");
 
             ResponseEntity<Object> response = controller.getOrganizations(httpServletRequestMock, null, "OrgId");
-            Model modelFromResponse = responseReader.parseResponse((String)response.getBody(), "text/turtle");
+            Model modelFromResponse = responseReader.parseResponse((String) response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
 
@@ -193,7 +193,7 @@ public class OrganizationsApiImplTest {
                 .thenReturn("text/turtle");
 
             ResponseEntity<Object> response = controller.getOrganizations(httpServletRequestMock, "Name exists", null);
-            Model modelFromResponse = responseReader.parseResponse((String)response.getBody(), "text/turtle");
+            Model modelFromResponse = responseReader.parseResponse((String) response.getBody(), "text/turtle");
 
             Model expectedResponse = responseReader.getExpectedResponse("getList.ttl", "TURTLE");
 
