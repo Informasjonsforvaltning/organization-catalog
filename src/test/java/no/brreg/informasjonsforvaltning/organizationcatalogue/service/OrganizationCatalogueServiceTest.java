@@ -2,8 +2,8 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.service;
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.adapter.EnhetsregisteretAdapter;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.ProfileConditionalValues;
-import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrganizationDB;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization;
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrganizationDB;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.repository.OrganizationCatalogueRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_0;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_DB_0;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)

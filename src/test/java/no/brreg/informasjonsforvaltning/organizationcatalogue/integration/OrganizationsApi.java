@@ -2,8 +2,8 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.integration;
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.TestResponseReader;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.controller.OrganizationsApiImpl;
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization;
+import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.repository.OrganizationCatalogueRepository;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RIOT;
@@ -39,30 +39,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class OrganizationsApi {
     private final static Logger logger = LoggerFactory.getLogger(OrganizationsApi.class);
     private static Slf4jLogConsumer mongoLog = new Slf4jLogConsumer(logger).withPrefix("mongo-container");
-    private TestResponseReader responseReader = new TestResponseReader();
-
-    @Mock
-    private static HttpServletRequest httpServletRequestMock;
-
-    @Autowired
-    private OrganizationsApiImpl controller;
-
     @Container
     private static final GenericContainer mongoContainer = new GenericContainer("mongo:latest")
         .withEnv(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getMONGO_ENV_VALUES())
         .withLogConsumer(mongoLog)
         .withExposedPorts(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MONGO_PORT)
         .waitingFor(Wait.forListeningPort());
-
-    static class Initializer
-        implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                "spring.data.mongodb.database=" + no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.DATABASE_NAME,
-                "spring.data.mongodb.uri=" + no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.buildMongoURI(mongoContainer.getContainerIpAddress(), mongoContainer.getMappedPort(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MONGO_PORT), false)
-            ).applyTo(configurableApplicationContext.getEnvironment());
-        }
-    }
+    @Mock
+    private static HttpServletRequest httpServletRequestMock;
+    private TestResponseReader responseReader = new TestResponseReader();
+    @Autowired
+    private OrganizationsApiImpl controller;
 
     @BeforeAll
     static void setup(@Autowired OrganizationCatalogueRepository repository) {
@@ -98,13 +85,13 @@ class OrganizationsApi {
             .getOrganizationById(httpServletRequestMock, no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getORG_2().getOrganizationId())
             .getBody();
 
-        Model modelFromResponse0 = responseReader.parseResponse((String)response0, "text/turtle");
+        Model modelFromResponse0 = responseReader.parseResponse((String) response0, "text/turtle");
         Model expectedResponse0 = responseReader.getExpectedResponse("getOne.ttl", "TURTLE");
 
-        Model modelFromResponse1 = responseReader.parseResponse((String)response1, "text/turtle");
+        Model modelFromResponse1 = responseReader.parseResponse((String) response1, "text/turtle");
         Model expectedResponse1 = responseReader.getExpectedResponse("getOne1.ttl", "TURTLE");
 
-        Model modelFromResponse2 = responseReader.parseResponse((String)response2, "text/turtle");
+        Model modelFromResponse2 = responseReader.parseResponse((String) response2, "text/turtle");
         Model expectedResponse2 = responseReader.getExpectedResponse("getOne2.ttl", "TURTLE");
 
         assertTrue(expectedResponse0.isIsomorphicWith(modelFromResponse0));
@@ -122,7 +109,7 @@ class OrganizationsApi {
             .getOrganizations(httpServletRequestMock, "ET", null)
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse((String)response, "TURTLE");
+        Model modelFromResponse = responseReader.parseResponse((String) response, "TURTLE");
         Model expectedResponse = responseReader.getExpectedResponse("searchByName.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -138,7 +125,7 @@ class OrganizationsApi {
             .getOrganizations(httpServletRequestMock, "FORSVARET", null)
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse((String)response, "JSONLD");
+        Model modelFromResponse = responseReader.parseResponse((String) response, "JSONLD");
         Model expectedResponse = responseReader.getExpectedResponse("getOne2.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -154,7 +141,7 @@ class OrganizationsApi {
             .getOrganizations(httpServletRequestMock, null, "60")
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse((String)response, "text/turtle");
+        Model modelFromResponse = responseReader.parseResponse((String) response, "text/turtle");
         Model expectedResponse = responseReader.getExpectedResponse("searchByOrgId.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -170,7 +157,7 @@ class OrganizationsApi {
             .getOrganizations(httpServletRequestMock, null, "994686011")
             .getBody();
 
-        Model modelFromResponse = responseReader.parseResponse((String)response, "RDFXML");
+        Model modelFromResponse = responseReader.parseResponse((String) response, "RDFXML");
         Model expectedResponse = responseReader.getExpectedResponse("getOne1.ttl", "TURTLE");
 
         assertTrue(expectedResponse.isIsomorphicWith(modelFromResponse));
@@ -213,5 +200,15 @@ class OrganizationsApi {
 
         // No values changed
         assertEquals(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getUPDATED_1(), updated2);
+    }
+
+    static class Initializer
+        implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                "spring.data.mongodb.database=" + no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.DATABASE_NAME,
+                "spring.data.mongodb.uri=" + no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.buildMongoURI(mongoContainer.getContainerIpAddress(), mongoContainer.getMappedPort(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MONGO_PORT), false)
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
     }
 }
