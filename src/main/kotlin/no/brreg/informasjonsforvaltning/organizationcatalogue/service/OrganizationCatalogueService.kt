@@ -20,7 +20,7 @@ class OrganizationCatalogueService(
     fun getByOrgnr(orgId: String): Organization? =
         repository
             .findByIdOrNull(orgId)
-            ?.mapToGenerated(appProperties.enhetsregisteretUrl())
+            ?.mapToGenerated(appProperties.enhetsregisteretUrl)
             ?: createFromEnhetsregisteret(orgId)
 
     fun getOrganizations(name: String?, organizationId: String?): List<Organization> =
@@ -33,34 +33,34 @@ class OrganizationCatalogueService(
     private fun getCatalogue() =
         repository
             .findAll()
-            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl()) }
+            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
     private fun searchForOrganizationsByOrgId(organizationId: String) =
         repository
             .findByOrganizationIdLike(organizationId)
-            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl()) }
+            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
     private fun searchForOrganizationsByName(name: String) =
         repository
             .findByNameLike(name)
-            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl()) }
+            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
     private fun createFromEnhetsregisteret(orgId: String): Organization? =
         enhetsregisteretAdapter
             .getOrganization(orgId)
             ?.mapForCreation()
             ?.let { repository.save(it) }
-            ?.mapToGenerated(appProperties.enhetsregisteretUrl())
+            ?.mapToGenerated(appProperties.enhetsregisteretUrl)
 
     fun updateEntry(orgId: String, org: Organization): Organization? =
         repository
             .findByIdOrNull(orgId)
             ?.updateValues(org)
             ?.let { repository.save(it) }
-            ?.mapToGenerated(appProperties.enhetsregisteretUrl())
+            ?.mapToGenerated(appProperties.enhetsregisteretUrl)
 
     fun getOrganizationsByIdList(idList: List<String>): List<Organization> =
         repository
             .findAllById(idList)
-            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl()) }
+            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 }

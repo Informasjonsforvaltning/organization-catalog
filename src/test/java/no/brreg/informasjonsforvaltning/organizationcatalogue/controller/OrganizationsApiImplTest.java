@@ -77,10 +77,10 @@ public class OrganizationsApiImplTest {
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.getEMPTY_LIST());
 
             Mockito
-                .when(valuesMock.organizationCatalogueUrl())
+                .when(valuesMock.getOrganizationCatalogueUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ORGANIZATIONS_URL);
             Mockito
-                .when(valuesMock.municipalityUrl())
+                .when(valuesMock.getMunicipalityUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MUNICIPALITY_URL);
 
             Mockito
@@ -101,10 +101,10 @@ public class OrganizationsApiImplTest {
                 .thenReturn(emptyList);
 
             Mockito
-                .when(valuesMock.organizationCatalogueUrl())
+                .when(valuesMock.getOrganizationCatalogueUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ORGANIZATIONS_URL);
             Mockito
-                .when(valuesMock.municipalityUrl())
+                .when(valuesMock.getMunicipalityUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MUNICIPALITY_URL);
 
             Mockito
@@ -128,10 +128,10 @@ public class OrganizationsApiImplTest {
                 .thenReturn(regnskapList);
 
             Mockito
-                .when(valuesMock.organizationCatalogueUrl())
+                .when(valuesMock.getOrganizationCatalogueUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ORGANIZATIONS_URL);
             Mockito
-                .when(valuesMock.municipalityUrl())
+                .when(valuesMock.getMunicipalityUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MUNICIPALITY_URL);
 
             Mockito
@@ -155,10 +155,10 @@ public class OrganizationsApiImplTest {
                 .thenReturn(regnskapList);
 
             Mockito
-                .when(valuesMock.organizationCatalogueUrl())
+                .when(valuesMock.getOrganizationCatalogueUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ORGANIZATIONS_URL);
             Mockito
-                .when(valuesMock.municipalityUrl())
+                .when(valuesMock.getMunicipalityUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MUNICIPALITY_URL);
 
             Mockito
@@ -182,10 +182,10 @@ public class OrganizationsApiImplTest {
                 .thenReturn(regnskapList);
 
             Mockito
-                .when(valuesMock.organizationCatalogueUrl())
+                .when(valuesMock.getOrganizationCatalogueUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ORGANIZATIONS_URL);
             Mockito
-                .when(valuesMock.municipalityUrl())
+                .when(valuesMock.getMunicipalityUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MUNICIPALITY_URL);
 
             Mockito
@@ -213,10 +213,10 @@ public class OrganizationsApiImplTest {
                 .thenReturn(null);
 
             Mockito
-                .when(valuesMock.organizationCatalogueUrl())
+                .when(valuesMock.getOrganizationCatalogueUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ORGANIZATIONS_URL);
             Mockito
-                .when(valuesMock.municipalityUrl())
+                .when(valuesMock.getMunicipalityUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MUNICIPALITY_URL);
 
             ResponseEntity<Object> response = controller.getOrganizationById(httpServletRequestMock, "123Null");
@@ -233,10 +233,10 @@ public class OrganizationsApiImplTest {
                 .thenReturn(publisher);
 
             Mockito
-                .when(valuesMock.organizationCatalogueUrl())
+                .when(valuesMock.getOrganizationCatalogueUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ORGANIZATIONS_URL);
             Mockito
-                .when(valuesMock.municipalityUrl())
+                .when(valuesMock.getMunicipalityUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MUNICIPALITY_URL);
 
             Mockito
@@ -257,10 +257,10 @@ public class OrganizationsApiImplTest {
                 .thenReturn(publisher);
 
             Mockito
-                .when(valuesMock.organizationCatalogueUrl())
+                .when(valuesMock.getOrganizationCatalogueUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.ORGANIZATIONS_URL);
             Mockito
-                .when(valuesMock.municipalityUrl())
+                .when(valuesMock.getMunicipalityUrl())
                 .thenReturn(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MUNICIPALITY_URL);
 
             Mockito

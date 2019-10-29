@@ -54,8 +54,8 @@ open class OrganizationsApiImpl(
         val organization = catalogueService.getByOrgnr(organizationId)
 
         val urls = ExternalUrls(
-            organizationCatalogue = appProperties.organizationCatalogueUrl(),
-            municipality = appProperties.municipalityUrl()
+            organizationCatalogue = appProperties.organizationCatalogueUrl,
+            municipality = appProperties.municipalityUrl
         )
 
         return when {
@@ -71,7 +71,7 @@ open class OrganizationsApiImpl(
         val organization = catalogueService.getByOrgnr(organizationId)
 
         val urls = ExternalUrls(
-            organizationDomains = appProperties.organizationDomainsUrl()
+            organizationDomains = appProperties.organizationDomainsUrl
         )
 
         return when {
@@ -87,8 +87,8 @@ open class OrganizationsApiImpl(
         val organizations = catalogueService.getOrganizations(name, organizationId)
 
         val urls = ExternalUrls(
-            organizationCatalogue = appProperties.organizationCatalogueUrl(),
-            municipality = appProperties.municipalityUrl()
+            organizationCatalogue = appProperties.organizationCatalogueUrl,
+            municipality = appProperties.municipalityUrl
         )
 
         return when {
