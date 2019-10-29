@@ -25,7 +25,7 @@ class EnhetsregisteretAdapter(private val profileConditionalValues: ProfileCondi
     private fun downloadAndParseOrganization(organizationId: String): EnhetsregisteretOrganization? {
         val connection = URL(profileConditionalValues.enhetsregisteretUrl() + organizationId).openConnection() as HttpURLConnection
 
-        if(connection.responseCode != HttpStatus.OK.value()) {
+        if (connection.responseCode != HttpStatus.OK.value()) {
             LOGGER.error("Organization with id '$organizationId' not found in Enhetsregisteret")
             return null
         } else {
@@ -62,7 +62,7 @@ class EnhetsregisteretAdapter(private val profileConditionalValues: ProfileCondi
             .reversed()
             .joinToString("/")
 
-        return copy( orgPath = "$orgPathBase/$idString" )
+        return copy(orgPath = "$orgPathBase/$idString")
     }
 
     private fun getOrgPathBase(topOrgForm: String?): String =

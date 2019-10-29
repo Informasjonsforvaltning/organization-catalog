@@ -11,7 +11,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
-class OrganizationCatalogueService (
+class OrganizationCatalogueService(
     private val repository: OrganizationCatalogueRepository,
     private val enhetsregisteretAdapter: EnhetsregisteretAdapter,
     private val profileConditionalValues: ProfileConditionalValues
