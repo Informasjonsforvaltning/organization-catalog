@@ -207,7 +207,11 @@ class OrganizationsApi {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
                 "spring.data.mongodb.database=" + no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.DATABASE_NAME,
-                "spring.data.mongodb.uri=" + no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.buildMongoURI(mongoContainer.getContainerIpAddress(), mongoContainer.getMappedPort(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MONGO_PORT), false)
+                "spring.data.mongodb.uri=" + no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.buildMongoURI(mongoContainer.getContainerIpAddress(), mongoContainer.getMappedPort(no.brreg.informasjonsforvaltning.organizationcatalogue.TestDataKt.MONGO_PORT), false),
+                "application.enhetsregisteretUrl=https://invalid.org/enhetsregisteret/api/enheter/",
+                "application.organizationCatalogueUrl=https://invalid.org/organizations/",
+                "application.municipalityUrl=https://invalid.org/administrativeEnheter/kommune/id/",
+                "application.organizationDomainsUrl=https://invalid.org/domains/"
             ).applyTo(configurableApplicationContext.getEnvironment());
         }
     }
