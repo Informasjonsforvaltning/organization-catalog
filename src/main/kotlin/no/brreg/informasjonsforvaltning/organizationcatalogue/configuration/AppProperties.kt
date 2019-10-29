@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConfigurationProperties("application")
 data class AppProperties(
     val enhetsregisteretUrl: String,
+    val enhetsregisteretProxyUrl: String,
     val organizationCatalogueHost: String,
     val municipalityUrl: String,
     val organizationCatalogueUrl: String = organizationCatalogueHost + "/organizations/",
