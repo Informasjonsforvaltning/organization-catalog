@@ -1,8 +1,8 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.mapping
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Domain
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
+import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.DomainDB
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.EnhetsregisteretOrganization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrganizationDB
