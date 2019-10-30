@@ -7,10 +7,13 @@ import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.*
 import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions
 import no.brreg.informasjonsforvaltning.organizationcatalogue.service.DomainsService
 import no.brreg.informasjonsforvaltning.organizationcatalogue.service.MissingOrganizationException
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import javax.servlet.http.HttpServletRequest
+
+private val LOGGER = LoggerFactory.getLogger(DomainsApiImpl::class.java)
 
 @Controller
 open class DomainsApiImpl(
@@ -22,6 +25,7 @@ open class DomainsApiImpl(
     override fun addDomain(httpServletRequest: HttpServletRequest, domain: Domain): ResponseEntity<Void> =
         if (endpointPermissions.hasAdminPermission()) {
             try {
+                LOGGER.debug("add domain ${domain.name}")
                 domainsService.addDomain(domain)
                 ResponseEntity<Void>(HttpStatus.OK)
             } catch (e: Exception) {
@@ -31,6 +35,7 @@ open class DomainsApiImpl(
         } else ResponseEntity(HttpStatus.FORBIDDEN)
 
     override fun getDomain(httpServletRequest: HttpServletRequest, name: String): ResponseEntity<Any> {
+        LOGGER.debug("get domain $name")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val domain = domainsService.getDomain(name)
 
@@ -48,6 +53,7 @@ open class DomainsApiImpl(
     }
 
     override fun getDomainOrganizations(httpServletRequest: HttpServletRequest, name: String): ResponseEntity<Any> {
+        LOGGER.debug("get organizations for domain $name")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val domain = domainsService.getDomain(name)
 
@@ -64,6 +70,7 @@ open class DomainsApiImpl(
     }
 
     override fun getAllDomains(httpServletRequest: HttpServletRequest): ResponseEntity<Any> {
+        LOGGER.debug("get all domains")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val domains = domainsService.getAllDomains()
 
