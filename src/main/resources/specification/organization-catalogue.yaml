@@ -314,6 +314,8 @@ components:
           description: Domains held by the organization
           items:
             type: string
+        allowDelegatedRegistration:
+          type: boolean
     PrefLabel:
       type: object
       description:

@@ -23,6 +23,7 @@ public class OrganizationDB {
     private String sectorCode;
     private PrefLabel prefLabel;
     private Set<String> domains;
+    private Boolean allowDelegatedRegistration;
 
     public String getOrganizationId() {
         return organizationId;
@@ -118,5 +119,13 @@ public class OrganizationDB {
 
     public void setDomains(Set<String> domains) {
         this.domains = domains;
+    }
+
+    public Boolean getAllowDelegatedRegistration() {
+        return allowDelegatedRegistration;
+    }
+
+    public void setAllowDelegatedRegistration(Boolean allowDelegatedRegistration) {
+        this.allowDelegatedRegistration = allowDelegatedRegistration;
     }
 }
