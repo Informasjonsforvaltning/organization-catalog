@@ -25,6 +25,7 @@ fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization {
     mapped.sectorCode = sectorCode
     mapped.prefLabel = prefLabel
     mapped.domains = domains?.toList() ?: emptyList()
+    mapped.allowDelegatedRegistration = allowDelegatedRegistration
 
     return mapped
 }
@@ -57,6 +58,7 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         industryCode = org.industryCode ?: industryCode
         sectorCode = org.sectorCode ?: sectorCode
         prefLabel = prefLabel?.update(org.prefLabel) ?: PrefLabel().update(org.prefLabel)
+        allowDelegatedRegistration = org.allowDelegatedRegistration ?: allowDelegatedRegistration
     }
 
 private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel {
