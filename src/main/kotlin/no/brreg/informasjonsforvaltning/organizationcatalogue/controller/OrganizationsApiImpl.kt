@@ -69,6 +69,24 @@ open class OrganizationsApiImpl(
         }
     }
 
+    override fun getDelegatedOrganizations(httpServletRequest: HttpServletRequest): ResponseEntity<Any> {
+        LOGGER.debug("get organizations with delegation permissions")
+        val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
+        val organizations = catalogueService.getOrganizationsWithDelegationPermissions()
+
+        val urls = ExternalUrls(
+            organizationCatalogue = appProperties.organizationCatalogueUrl,
+            municipality = appProperties.municipalityUrl
+        )
+
+        return when {
+            organizations.isEmpty() -> ResponseEntity(HttpStatus.NOT_FOUND)
+            jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+            jenaType == JenaType.NOT_JENA -> ResponseEntity(organizations, HttpStatus.OK)
+            else -> ResponseEntity(organizations.jenaResponse(jenaType, urls), HttpStatus.OK)
+        }
+    }
+
     override fun getOrganizationDomains(httpServletRequest: HttpServletRequest, organizationId: String): ResponseEntity<Any> {
         LOGGER.debug("get domains for organization $organizationId")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
