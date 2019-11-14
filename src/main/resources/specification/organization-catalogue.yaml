@@ -125,6 +125,35 @@ paths:
             schema:
               $ref: '#/components/schemas/Organization'
 
+  /organizations/delegated:
+    get:
+      tags:
+        - organization-catalogue
+      description: Get a list of organizations that have delegation permissions
+      operationId: getDelegatedOrganizations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            application/xml:
+              schema:
+                type: object
+            application/ld+json:
+              schema:
+                type: object
+            application/rdf+json:
+              schema:
+                type: object
+            application/rdf+xml:
+              schema:
+                type: object
+            text/turtle:
+              schema:
+                type: object
+
   /organizations/{id}/domains:
     get:
       tags:

@@ -30,6 +30,11 @@ class OrganizationCatalogueService(
             else -> getCatalogue()
         }
 
+    fun getOrganizationsWithDelegationPermissions(): List<Organization> =
+        repository
+            .findByAllowDelegatedRegistration(true)
+            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
+
     private fun getCatalogue() =
         repository
             .findAll()
