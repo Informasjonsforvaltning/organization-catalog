@@ -44,7 +44,7 @@ public class SecurityConfigurer extends ResourceServerConfigurerAdapter {
         http.cors().configurationSource(request -> {
             CorsConfiguration config = new CorsConfiguration();
             config.applyPermitDefaultValues();
-            config.addAllowedMethod(HttpMethod.PATCH);
+            config.addAllowedMethod(HttpMethod.PUT);
             config.addAllowedMethod(HttpMethod.DELETE);
             return config;
         });
