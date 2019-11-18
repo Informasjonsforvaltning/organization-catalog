@@ -6,14 +6,14 @@
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 
-<https://invalid.org/organizations/974760673>
+<http://host.testcontainers.internal:5000/organizations/974760673>
         a                      rov:RegisteredOrganization ;
         br:nace                "84.110" ;
-        br:municipality        <https://invalid.org/administrativeEnheter/kommune/id/172833> ;
-        br:norwegianRegistry   <https://invalid.org/enhetsregisteret/api/enheter/974760673> ;
+        br:municipality        <http://host.testcontainers.internal:5000/administrativeEnheter/kommune/id/172833> ;
+        br:norwegianRegistry   <http://host.testcontainers.internal:5000/enhetsregisteret/api/enheter/974760673> ;
         br:orgPath             "/STAT/912660680/974760673" ;
         br:sectorCode          "6100" ;
-        org:subOrganizationOf  <https://invalid.org/organizations/912660680> ;
+        org:subOrganizationOf  <http://host.testcontainers.internal:5000/organizations/912660680> ;
         rov:legalName          "REGISTERENHETEN I BRØNNØYSUND" ;
         rov:orgType            "ORGL" ;
         rov:registration       [ a                  adms:Identifier ;
@@ -23,11 +23,11 @@
                                ] ;
         foaf:name              "Brønnøysundregistrene"@nb .
 
-<https://invalid.org/organizations/994686011>
+<http://host.testcontainers.internal:5000/organizations/994686011>
         a                      rov:RegisteredOrganization ;
         br:nace                "84.130" ;
-        br:municipality        <https://invalid.org/administrativeEnheter/kommune/id/173068> ;
-        br:norwegianRegistry   <https://invalid.org/enhetsregisteret/api/enheter/994686011> ;
+        br:municipality        <http://host.testcontainers.internal:5000/administrativeEnheter/kommune/id/173068> ;
+        br:norwegianRegistry   <http://host.testcontainers.internal:5000/enhetsregisteret/api/enheter/994686011> ;
         br:orgPath             "/PRIVAT/994686011" ;
         br:sectorCode          "6500" ;
         rov:legalName          "ATB AS" ;

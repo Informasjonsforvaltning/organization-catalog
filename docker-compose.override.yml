@@ -2,7 +2,7 @@ version: "3"
 
 services:
   organization-catalogue:
-    image: brreg/organization-catalogue:latest
+    image: eu.gcr.io/fdk-infra/organization-catalogue:env_ut1_latest
     depends_on:
       - mongodb
     restart: always

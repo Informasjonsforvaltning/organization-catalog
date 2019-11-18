@@ -34,7 +34,7 @@
         <kotlin.version>1.3.41</kotlin.version>
         <jupiter.version>5.3.2</jupiter.version>
         <mockito.version>3.0.0</mockito.version>
-        <testcontainers.version>1.11.4</testcontainers.version>
+        <testcontainers.version>1.12.1</testcontainers.version>
         <jena.version>3.9.0</jena.version>
 
         <start-class>no.brreg.informasjonsforvaltning.organizationcatalogue.Application</start-class>
@@ -113,6 +113,30 @@
             <artifactId>testcontainers</artifactId>
             <version>${testcontainers.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.nhaarman.mockitokotlin2</groupId>
+            <artifactId>mockito-kotlin</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <!-- Mocking http server -->
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>2.25.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Mock Auth Server-->
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8</artifactId>
+            <version>2.25.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>8.2</version>
         </dependency>
 
         <!-- TEST JUnit5 -->
@@ -347,7 +371,6 @@
                             <sourceDirs>
                                 <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
                                 <sourceDir>${project.basedir}/src/test/java</sourceDir>
-                                <sourceDir>${project.basedir}/target/generated-sources/openapi/src/main/java/gen</sourceDir>
                             </sourceDirs>
                         </configuration>
                     </execution>

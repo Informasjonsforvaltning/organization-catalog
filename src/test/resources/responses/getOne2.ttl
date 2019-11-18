@@ -6,14 +6,14 @@
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 
-<https://invalid.org/organizations/986105174>
+<http://host.testcontainers.internal:5000/organizations/986105174>
         a                      rov:RegisteredOrganization ;
         br:nace                "84.220" ;
-        br:municipality        <https://invalid.org/administrativeEnheter/kommune/id/173018> ;
-        br:norwegianRegistry   <https://invalid.org/enhetsregisteret/api/enheter/986105174> ;
+        br:municipality        <http://host.testcontainers.internal:5000/administrativeEnheter/kommune/id/173018> ;
+        br:norwegianRegistry   <http://host.testcontainers.internal:5000/enhetsregisteret/api/enheter/986105174> ;
         br:orgPath             "/STAT/972417823/986105174" ;
         br:sectorCode          "6100" ;
-        org:subOrganizationOf  <https://invalid.org/organizations/972417823> ;
+        org:subOrganizationOf  <http://host.testcontainers.internal:5000/organizations/972417823> ;
         rov:legalName          "FORSVARET" ;
         rov:orgType            "ORGL" ;
         rov:registration       [ a                  adms:Identifier ;
