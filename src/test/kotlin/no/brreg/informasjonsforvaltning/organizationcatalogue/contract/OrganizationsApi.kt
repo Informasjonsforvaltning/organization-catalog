@@ -33,7 +33,7 @@ private val rdfxml = JenaAndHeader("application/rdf+xml", "RDFXML")
 private val mapper = jacksonObjectMapper().findAndRegisterModules()
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Tag("service")
+@Tag("contract")
 internal class OrganizationsApi : ApiTestContainer() {
 
     @Test
