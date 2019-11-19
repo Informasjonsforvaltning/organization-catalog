@@ -2,6 +2,7 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.utils
 
 import org.slf4j.LoggerFactory
 import org.testcontainers.Testcontainers
+import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.Network
 import org.testcontainers.containers.output.Slf4jLogConsumer
@@ -41,6 +42,12 @@ abstract class ApiTestContainer {
                 .withEnv(API_ENV_VALUES)
                 .waitingFor(Wait.forHttp("/ready").forStatusCode(200))
                 .withNetwork(apiNetwork)
+                .withFileSystemBind("./target/jacoco-agent", "/jacoco-agent", BindMode.READ_WRITE)
+                .withFileSystemBind("./target/jacoco-report", "/jacoco-report",BindMode.READ_WRITE)
+                .withCommand("java",
+                    "-javaagent:/jacoco-agent/org.jacoco.agent-runtime.jar=destfile=/jacoco-report/jacoco-it.exec",
+                    "-jar",
+                    "/app.jar")
 
             TEST_API.start()
 
