@@ -1,7 +1,7 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.controller
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.api.OrganizationsApi
+import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.api.OrganizationCatalogueApi
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.*
 import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions
@@ -23,7 +23,7 @@ open class OrganizationsApiImpl(
     private val catalogueService: OrganizationCatalogueService,
     private val appProperties: AppProperties,
     private val endpointPermissions: EndpointPermissions
-) : OrganizationsApi {
+) : OrganizationCatalogueApi {
 
     @RequestMapping(value = ["/ping"], method = [GET], produces = ["text/plain"])
     fun ping(): ResponseEntity<String> =
