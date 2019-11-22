@@ -463,7 +463,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <dockerfile>dockerfile</dockerfile>
+                    <dockerfile>Dockerfile</dockerfile>
                     <repository>${docker.image.name}</repository>
                     <tag>${docker.image.tag}</tag>
                     <buildArgs>
