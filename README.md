@@ -40,15 +40,15 @@ Check that they have been added with "id -nG", force the update with a reboot or
 ## Environment variables
 These are needed to connect to the local database
 ```
-PUBAPI_MONGO_USERNAME="pub_db"
-PUBAPI_MONGO_PASSWORD="Passw0rd"
+MONGO_USERNAME="pub_db"
+MONGO_PASSWORD="Passw0rd"
 ```
 
 ##### Linux
 Open ~/.bashrc and add the lines
 ```
-export PUBAPI_MONGO_USERNAME="pub_db"
-export PUBAPI_MONGO_PASSWORD="Passw0rd"
+export MONGO_USERNAME="pub_db"
+export MONGO_PASSWORD="Passw0rd"
 ```
 Update from ~/.bashrc with
 ```
