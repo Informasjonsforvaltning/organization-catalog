@@ -9,6 +9,7 @@ services:
     environment:
       - PUBAPI_MONGO_USERNAME=admin
       - PUBAPI_MONGO_PASSWORD=admin
+      - ENHETSREGISTERET_PROXY_URL=http://nginx-enhetsregisteret-proxy-mock:8080/enhetsregisteret/api/enheter/
     ports:
       - 8080:8080
 
@@ -19,3 +20,8 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=admin
     ports:
       - 27017:27017
+
+  nginx-enhetsregisteret-proxy-mock:
+    image: eu.gcr.io/fdk-infra/nginx-enhetsregisteret-proxy-mock:env_ut1_latest
+    ports:
+      - "8081:8080"
