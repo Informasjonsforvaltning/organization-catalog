@@ -13,7 +13,7 @@ jobs:
       - name: Package with Maven
         run: mvn clean package -B -T 2C
       - name: Build Docker image
-        run: docker build . --tag dcatno/organization-catalogue:latest --tag eu.gcr.io/fdk-infra/organization-catalogue:latest --tag eu.gcr.io/fdk-infra/organization-catalogue:staging_latest --tag eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA
+        run: docker build . --build-arg JAR_FILE=organization-catalogue-1.0.0-SNAPSHOT.jar -t dcatno/organization-catalogue:latest -t eu.gcr.io/fdk-infra/organization-catalogue:latest -t eu.gcr.io/fdk-infra/organization-catalogue:staging_latest -t eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA
       - name: Connect to Google Cloud
         uses: actions-hub/gcloud@master
         env:
