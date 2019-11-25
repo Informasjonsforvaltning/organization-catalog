@@ -1,0 +1,7 @@
+name: Deploy to demo
+
+on:
+  - push
+
+jobs:
+  build:
