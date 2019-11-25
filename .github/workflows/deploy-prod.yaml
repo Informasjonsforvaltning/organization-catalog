@@ -1,7 +1,9 @@
-name: Deploy to it1
+name: Deploy to production
 
 on:
-  - push
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -13,7 +15,7 @@ jobs:
       - name: Package with Maven
         run: mvn clean package -B -T 2C
       - name: Build Docker image
-        run: docker build . --build-arg JAR_FILE=organization-catalogue-1.0.0-SNAPSHOT.jar -t dcatno/organization-catalogue:latest -t eu.gcr.io/fdk-infra/organization-catalogue:latest -t eu.gcr.io/fdk-infra/organization-catalogue:it1_latest -t eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA
+        run: docker build . --build-arg JAR_FILE=organization-catalogue-1.0.0-SNAPSHOT.jar -t dcatno/organization-catalogue:latest -t eu.gcr.io/fdk-infra/organization-catalogue:latest -t eu.gcr.io/fdk-infra/organization-catalogue:production_latest -t eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA
       - name: Connect to Google Cloud
         uses: actions-hub/gcloud@master
         env:
@@ -37,18 +39,18 @@ jobs:
             helm init --client-only
             helm repo add fdk https://informasjonsforvaltning.github.io/helm-chart/
             helm fetch --untar --untardir ./helm fdk/organization-catalogue
-            helm template --set DOCKER_IMAGE_NAME="eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA" -f ./helm/organization-catalogue/values/it1.yaml ./helm/organization-catalogue/ > ./kubectlapply.yaml
+            helm template --set DOCKER_IMAGE_NAME="eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA" -f ./helm/organization-catalogue/values/production.yaml ./helm/organization-catalogue/ > ./kubectlapply.yaml
             cat ./kubectlapply.yaml
             chmod o+w ./kubectlapply.yaml
             cat kubectlapply.yaml
       - name: Get kubeconfig file from GKE
         uses: machine-learning-apps/gke-kubeconfig@master
         with:
-          application_credentials: ${{ secrets.FDK_DEV_AUTODEPLOY }}
-          project_id: fdk-dev
+          application_credentials: ${{ secrets.FDK_PROD_AUTODEPLOY }}
+          project_id: fdk-prod
           location_zone: europe-north1-a
-          cluster_name: fdk-dev
-      - name: Deploy to it1
+          cluster_name: fdk-prod
+      - name: Deploy to production
         uses: docker://bitnami/kubectl:latest
         env:
           KUBECONFIG: '/github/workspace/.kube/config'
@@ -59,4 +61,4 @@ jobs:
 #          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 #        uses: pullreminders/slack-action@master
 #        with:
-#          args: '{\"channel\":\"C7NTH118T\",\"text\":\"Application: organization-catalogue deployed to staging\"}'
+#          args: '{\"channel\":\"C7NTH118T\",\"text\":\"Application: organization-catalogue deployed to production\"}'
