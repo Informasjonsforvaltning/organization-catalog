@@ -7,8 +7,8 @@ services:
       - mongodb
     restart: always
     environment:
-      - PUBAPI_MONGO_USERNAME=admin
-      - PUBAPI_MONGO_PASSWORD=admin
+      - MONGO_USERNAME=admin
+      - MONGO_PASSWORD=admin
       - ENHETSREGISTERET_PROXY_URL=http://nginx-enhetsregisteret-proxy-mock:8080/enhetsregisteret/api/enheter/
     ports:
       - 8080:8080
