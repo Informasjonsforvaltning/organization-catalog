@@ -25,7 +25,7 @@ open class DomainsApiImpl(
     override fun addDomain(httpServletRequest: HttpServletRequest, domain: Domain): ResponseEntity<Void> =
         if (endpointPermissions.hasAdminPermission()) {
             try {
-                LOGGER.debug("add domain ${domain.name}")
+                LOGGER.info("add domain ${domain.name}")
                 domainsService.addDomain(domain)
                 ResponseEntity<Void>(HttpStatus.OK)
             } catch (e: Exception) {
@@ -35,7 +35,7 @@ open class DomainsApiImpl(
         } else ResponseEntity(HttpStatus.FORBIDDEN)
 
     override fun getDomain(httpServletRequest: HttpServletRequest, name: String): ResponseEntity<Any> {
-        LOGGER.debug("get domain $name")
+        LOGGER.info("get domain $name")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val domain = domainsService.getDomain(name)
 
@@ -53,7 +53,7 @@ open class DomainsApiImpl(
     }
 
     override fun getDomainOrganizations(httpServletRequest: HttpServletRequest, name: String): ResponseEntity<Any> {
-        LOGGER.debug("get organizations for domain $name")
+        LOGGER.info("get organizations for domain $name")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val domain = domainsService.getDomain(name)
 
@@ -70,7 +70,7 @@ open class DomainsApiImpl(
     }
 
     override fun getAllDomains(httpServletRequest: HttpServletRequest): ResponseEntity<Any> {
-        LOGGER.debug("get all domains")
+        LOGGER.info("get all domains")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val domains = domainsService.getAllDomains()
 

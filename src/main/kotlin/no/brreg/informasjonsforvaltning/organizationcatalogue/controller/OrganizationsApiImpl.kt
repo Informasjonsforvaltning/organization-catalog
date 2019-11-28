@@ -36,13 +36,13 @@ open class OrganizationsApiImpl(
     override fun updateOrganization(httpServletRequest: HttpServletRequest?, organizationId: String, organization: Organization): ResponseEntity<Organization> =
         if (endpointPermissions.hasAdminPermission()) {
             try {
-                LOGGER.debug("update organization $organizationId")
+                LOGGER.info("update organization $organizationId")
                 catalogueService
                     .updateEntry(organizationId, organization)
                     ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
                     ?: ResponseEntity(HttpStatus.NOT_FOUND)
             } catch (exception: Exception) {
-                LOGGER.debug("error updating organization $organizationId")
+                LOGGER.info("error updating organization $organizationId")
                 when (exception) {
                     is ConstraintViolationException -> ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
                     is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
@@ -52,7 +52,7 @@ open class OrganizationsApiImpl(
         } else ResponseEntity(HttpStatus.FORBIDDEN)
 
     override fun getOrganizationById(httpServletRequest: HttpServletRequest, organizationId: String): ResponseEntity<Any> {
-        LOGGER.debug("get organization $organizationId")
+        LOGGER.info("get organization $organizationId")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val organization = catalogueService.getByOrgnr(organizationId)
 
@@ -70,7 +70,7 @@ open class OrganizationsApiImpl(
     }
 
     override fun getDelegatedOrganizations(httpServletRequest: HttpServletRequest): ResponseEntity<Any> {
-        LOGGER.debug("get organizations with delegation permissions")
+        LOGGER.info("get organizations with delegation permissions")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val organizations = catalogueService.getOrganizationsWithDelegationPermissions()
 
@@ -88,7 +88,7 @@ open class OrganizationsApiImpl(
     }
 
     override fun getOrganizationDomains(httpServletRequest: HttpServletRequest, organizationId: String): ResponseEntity<Any> {
-        LOGGER.debug("get domains for organization $organizationId")
+        LOGGER.info("get domains for organization $organizationId")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val organization = catalogueService.getByOrgnr(organizationId)
 
@@ -105,7 +105,7 @@ open class OrganizationsApiImpl(
     }
 
     override fun getOrganizations(httpServletRequest: HttpServletRequest, name: String?, organizationId: String?): ResponseEntity<Any> {
-        LOGGER.debug("get organizations id: $organizationId and name: $name")
+        LOGGER.info("get organizations id: $organizationId and name: $name")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val organizations = catalogueService.getOrganizations(name, organizationId)
 
