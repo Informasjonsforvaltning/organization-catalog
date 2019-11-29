@@ -25,6 +25,7 @@ class OrganizationCatalogueService(
 
     fun getOrganizations(name: String?, organizationId: String?): List<Organization> =
         when {
+            name != null && organizationId != null  -> searchForOrganizationsByNameAndOrgId(name, organizationId)
             organizationId != null -> searchForOrganizationsByOrgId(organizationId)
             name != null -> searchForOrganizationsByName(name)
             else -> getCatalogue()
@@ -48,6 +49,11 @@ class OrganizationCatalogueService(
     private fun searchForOrganizationsByName(name: String) =
         repository
             .findByNameLike(name)
+            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
+
+    private fun searchForOrganizationsByNameAndOrgId(name: String, organizationId: String) =
+        repository
+            .findByNameLikeAndOrganizationIdLike(name, organizationId)
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
     private fun createFromEnhetsregisteret(orgId: String): Organization? =
