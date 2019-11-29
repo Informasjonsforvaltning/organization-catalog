@@ -71,9 +71,9 @@ class OrganizationCatalogueServiceTest {
     }
 
     @Test
-    fun getByOrgIdIsPrioritized() {
+    fun getByOrgIdAndName() {
         val persistedList = listOf(ORG_DB_0)
-        whenever(repository.findByOrganizationIdLike("OrgId"))
+        whenever(repository.findByNameLikeAndOrganizationIdLike("Name", "OrgId"))
             .thenReturn(persistedList)
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)

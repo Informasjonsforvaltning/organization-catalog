@@ -63,9 +63,9 @@ internal class OrganizationsApi : ApiTestContainer() {
             val response1 = apiGet("/organizations/${ORG_1.organizationId}", turtle.acceptHeader)["body"]
             val response2 = apiGet("/organizations/${ORG_2.organizationId}", turtle.acceptHeader)["body"]
 
-            Expect(response0).isomorphic_with_response_in_file("getOne.ttl", turtle.jenaType)
-            Expect(response1).isomorphic_with_response_in_file("getOne1.ttl", turtle.jenaType)
-            Expect(response2).isomorphic_with_response_in_file("getOne2.ttl", turtle.jenaType)
+            Expect(response0).isomorphic_with_response_in_file("getBrreg.ttl", turtle.jenaType)
+            Expect(response1).isomorphic_with_response_in_file("getATB.ttl", turtle.jenaType)
+            Expect(response2).isomorphic_with_response_in_file("getForsvaret.ttl", turtle.jenaType)
         }
     }
 
@@ -82,7 +82,7 @@ internal class OrganizationsApi : ApiTestContainer() {
         fun getDelegated() {
             val response0 = apiGet("/organizations/delegated", rdfjson.acceptHeader)["body"]
 
-            Expect(response0).isomorphic_with_response_in_file("getOne.ttl", rdfjson.jenaType)
+            Expect(response0).isomorphic_with_response_in_file("getBrreg.ttl", rdfjson.jenaType)
         }
     }
 
@@ -119,7 +119,7 @@ internal class OrganizationsApi : ApiTestContainer() {
         @Test
         fun getByNameSingle() {
             val response = apiGet("/organizations/?name=FORSVARET", ldjson.acceptHeader)["body"]
-            Expect(response).isomorphic_with_response_in_file("getOne2.ttl", ldjson.jenaType)
+            Expect(response).isomorphic_with_response_in_file("getForsvaret.ttl", ldjson.jenaType)
         }
 
         @Test
@@ -131,7 +131,13 @@ internal class OrganizationsApi : ApiTestContainer() {
         @Test
         fun getByOrgidSingle() {
             val response = apiGet("/organizations/?organizationId=994686011", rdfxml.acceptHeader)["body"]
-            Expect(response).isomorphic_with_response_in_file("getOne1.ttl", rdfxml.jenaType)
+            Expect(response).isomorphic_with_response_in_file("getATB.ttl", rdfxml.jenaType)
+        }
+
+        @Test
+        fun getByOrgidAndName() {
+            val response = apiGet("/organizations/?name=ET&organizationId=60", rdfxml.acceptHeader)["body"]
+            Expect(response).isomorphic_with_response_in_file("getBrreg.ttl", rdfxml.jenaType)
         }
     }
 
