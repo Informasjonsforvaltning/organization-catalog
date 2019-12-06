@@ -38,8 +38,6 @@
         <jena.version>3.12.0</jena.version>
 
         <start-class>no.brreg.informasjonsforvaltning.organizationcatalogue.Application</start-class>
-        <docker.image.name>brreg/organization-catalogue</docker.image.name>
-        <docker.image.tag>latest</docker.image.tag>
 
         <!-- Sonar properties -->
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -307,6 +305,12 @@
         </resources>
 
         <plugins>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -488,39 +492,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.12</version>
-                <executions>
-                    <execution>
-                        <id>default</id>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>push</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>tag</id>
-                        <goals>
-                            <goal>tag</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <dockerfile>Dockerfile</dockerfile>
-                    <repository>${docker.image.name}</repository>
-                    <tag>${docker.image.tag}</tag>
-                    <buildArgs>
-                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-                    </buildArgs>
-                </configuration>
             </plugin>
 
             <plugin>

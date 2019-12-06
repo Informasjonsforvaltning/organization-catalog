@@ -12,8 +12,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Package with Maven
-        run: mvn clean package -B -T 2C
       - name: Build Docker image
         run: docker build . --build-arg JAR_FILE=organization-catalogue-1.0.0-SNAPSHOT.jar -t eu.gcr.io/fdk-infra/organization-catalogue:latest -t eu.gcr.io/fdk-infra/organization-catalogue:demo_latest -t eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA
       - name: Connect to Google Cloud
