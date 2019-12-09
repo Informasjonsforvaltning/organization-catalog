@@ -1,7 +1,9 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.utils
 
+import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Domain
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.DomainDB
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrganizationDB
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ApiTestContainer.Companion.TEST_API
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap
@@ -47,6 +49,7 @@ val ORG_0 = Organization().apply {
     municipalityNumber = "1813"
     industryCode = "84.110"
     sectorCode = "6100"
+    domains = emptyList()
     allowDelegatedRegistration = true
     prefLabel = PrefLabel().apply {
         nb = "Brønnøysundregistrene"
@@ -63,6 +66,7 @@ val ORG_1 =  Organization().apply {
     municipalityNumber = "5001"
     industryCode = "84.130"
     sectorCode = "6500"
+    domains = emptyList()
     prefLabel = PrefLabel().apply {
         nn = "AtB AS"
     }
@@ -78,6 +82,7 @@ val ORG_2 =  Organization().apply {
     municipalityNumber = "0301"
     industryCode = "84.220"
     sectorCode = "6100"
+    domains = emptyList()
     allowDelegatedRegistration = false
     prefLabel = PrefLabel().apply {
         en = "Forsvaret"
@@ -94,6 +99,7 @@ val NOT_UPDATED_0 =  Organization().apply {
     municipalityNumber = "0301"
     industryCode = "84.220"
     sectorCode = "6100"
+    domains = emptyList()
     prefLabel = PrefLabel().apply {
         nb = "nbNotUpdated"
         nn = "nnNotUpdated"
@@ -111,6 +117,7 @@ val NOT_UPDATED_1 =  Organization().apply {
     municipalityNumber = "0301"
     industryCode = "84.220"
     sectorCode = "6100"
+    domains = emptyList()
 }
 
 val UPDATE_VALUES =  Organization().apply {
@@ -125,6 +132,7 @@ val UPDATE_VALUES =  Organization().apply {
     industryCode = "industryUriUpdated"
     sectorCode = "sectorUriUpdated"
     allowDelegatedRegistration = true
+    domains = emptyList()
     prefLabel = PrefLabel().apply {
         nb = "nbLabelUpdated"
         nn = "nnLabelUpdated"
@@ -142,6 +150,7 @@ val UPDATED_0 =  Organization().apply {
     municipalityNumber = "0301"
     industryCode = "84.220"
     sectorCode = "6100"
+    domains = emptyList()
     prefLabel = PrefLabel().apply {
         nb = "nbNotUpdated"
         nn = "nnNotUpdated"
@@ -160,6 +169,7 @@ val UPDATED_1 =  Organization().apply {
     municipalityNumber = "6548"
     industryCode = "industryUriUpdated"
     sectorCode = "sectorUriUpdated"
+    domains = emptyList()
     allowDelegatedRegistration = true
     prefLabel = PrefLabel().apply {
         nb = "nbLabelUpdated"
@@ -168,9 +178,32 @@ val UPDATED_1 =  Organization().apply {
     }
 }
 
-var ORGS = listOf(ORG_0, ORG_1, ORG_2)
+val ORG_WITH_DOMAIN =  Organization().apply {
+    name = "Organization With Domain"
+    norwegianRegistry = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/55667788"
+    organizationId = "55667788"
+    orgType = "STAT"
+    orgPath = "/STAT/972417823/55667788"
+    subOrganizationOf = "$WIREMOCK_TEST_HOST/972417823"
+    municipalityNumber = "0301"
+    industryCode = "84.220"
+    sectorCode = "6100"
+    domains = listOf("invalid.com")
+}
 
-var ORG_DB_0 = OrganizationDB().apply {
+val ORG_WITHOUT_DOMAIN =  Organization().apply {
+    name = "Organization Without Domain"
+    norwegianRegistry = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/98987676"
+    organizationId = "98987676"
+    orgType = "STAT"
+    orgPath = "/STAT/972417823/98987676"
+    subOrganizationOf = "$WIREMOCK_TEST_HOST/972417823"
+    municipalityNumber = "0301"
+    industryCode = "84.220"
+    sectorCode = "6100"
+}
+
+fun orgDB0() = OrganizationDB().apply {
     name = "REGISTERENHETEN I BRØNNØYSUND"
     organizationId = "974760673"
     orgType = "ORGL"
@@ -180,17 +213,37 @@ var ORG_DB_0 = OrganizationDB().apply {
     municipalityNumber = "1813"
     industryCode = "84.110"
     sectorCode = "6100"
+    domains = emptySet()
     allowDelegatedRegistration = true
     prefLabel = PrefLabel().apply {
         nb = "Brønnøysundregistrene"
     }
 }
 
-fun dataForDBPopulation(): List<org.bson.Document> =
-    listOf(ORG_0, ORG_1, ORG_2, NOT_UPDATED_0, NOT_UPDATED_1)
-        .map { it.mapOrgToDBO() }
+fun orgDB1() = OrganizationDB().apply {
+    name = "ATB AS"
+    organizationId = "994686011"
+    orgType = "AS"
+    orgPath = "/PRIVAT/994686011"
+    issued = LocalDate.of(1999, 2, 3)
+    municipalityNumber = "5001"
+    industryCode = "84.130"
+    sectorCode = "6500"
+    domains = emptySet()
+    prefLabel = PrefLabel().apply {
+        nn = "AtB AS"
+    }
+}
 
-private fun Organization.mapOrgToDBO(): org.bson.Document =
+fun organizationsDBPopulation(): List<org.bson.Document> =
+    listOf(ORG_0, ORG_1, ORG_2, NOT_UPDATED_0, NOT_UPDATED_1, ORG_WITH_DOMAIN, ORG_WITHOUT_DOMAIN)
+        .map { it.mapDBO() }
+
+fun domainsDBPopulation(): List<org.bson.Document> =
+    listOf(DOMAIN)
+        .map { it.mapDBO() }
+
+private fun Organization.mapDBO(): org.bson.Document =
     org.bson.Document()
         .append("_id", organizationId)
         .append("name", name)
@@ -205,3 +258,34 @@ private fun Organization.mapOrgToDBO(): org.bson.Document =
         .append("prefLabel", prefLabel)
         .append("sectorCode", sectorCode)
         .append("allowDelegatedRegistration", allowDelegatedRegistration)
+        .append("domains", domains.toSet())
+
+private fun Domain.mapDBO(): org.bson.Document =
+    org.bson.Document()
+        .append("_id", name)
+        .append("organizations", organizations.toSet())
+
+val DOMAIN = Domain().apply {
+    name = "invalid.com"
+    organizations = listOf(ORG_WITH_DOMAIN.organizationId)
+}
+
+val DOMAIN_0 = Domain().apply {
+    name = "brreg.no"
+    organizations = listOf(ORG_0.organizationId)
+}
+
+val DOMAIN_TWO_ORGS = Domain().apply {
+    name = "brreg.no"
+    organizations = listOf(ORG_0.organizationId, ORG_1.organizationId)
+}
+
+val DB_DOMAIN_0 = DomainDB().apply {
+    name = "brreg.no"
+    organizations = setOf(ORG_0.organizationId)
+}
+
+val DB_DOMAIN_1 = DomainDB().apply {
+    name = "brreg.no"
+    organizations = setOf(ORG_1.organizationId)
+}

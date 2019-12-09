@@ -43,9 +43,9 @@ fun apiGet(endpoint: String, acceptHeader: String?): Map<String,Any> {
     }
 }
 
-fun apiPut(endpoint : String, body: String?, token: String?): Map<String, Any> {
+fun apiAuthorizedRequest(endpoint : String, body: String?, token: String?, method: String): Map<String, Any> {
     val connection  = URL(getApiAddress(endpoint)).openConnection() as HttpURLConnection
-    connection.requestMethod = "PUT"
+    connection.requestMethod = method
     connection.setRequestProperty("Content-type", "application/json")
     connection.setRequestProperty("Accept", "application/json")
 
@@ -91,12 +91,14 @@ fun populateDB(){
     val uri= "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:${mongoContainer.getMappedPort(MONGO_PORT)}/organization-catalogue?authSource=admin&authMechanism=SCRAM-SHA-1"
     val pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(), fromProviders(PojoCodecProvider.builder().automatic(true).build()))
 
-    val mongoClient = MongoClient(
-        MongoClientURI(uri)
-    )
+    val mongoClient = MongoClient(MongoClientURI(uri))
     val mongoDatabase = mongoClient.getDatabase("organization-catalogue").withCodecRegistry(pojoCodecRegistry)
-    val mongoCollection = mongoDatabase.getCollection("organizations")
-    mongoCollection.insertMany(dataForDBPopulation())
+
+    val orgCollection = mongoDatabase.getCollection("organizations")
+    orgCollection.insertMany(organizationsDBPopulation())
+
+    val domainCollection = mongoDatabase.getCollection("domains")
+    domainCollection.insertMany(domainsDBPopulation())
 
     mongoClient.close()
 }

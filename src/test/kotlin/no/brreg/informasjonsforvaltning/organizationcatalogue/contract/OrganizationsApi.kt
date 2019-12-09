@@ -12,11 +12,12 @@ import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.Expect
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.JenaAndHeader
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.NOT_UPDATED_0
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.NOT_UPDATED_1
+import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_WITH_DOMAIN
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.UPDATED_0
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.UPDATED_1
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.UPDATE_VALUES
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.apiGet
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.apiPut
+import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.apiAuthorizedRequest
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.jwk.Access
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.jwk.JwtToken
 import org.junit.jupiter.api.Nested
@@ -79,7 +80,7 @@ internal class OrganizationsApi : ApiTestContainer() {
         }
 
         @Test
-        fun getDelegated() {
+        fun listOfDelegatedOrganizationsFromSupportedRequest() {
             val response0 = apiGet("/organizations/delegated", rdfjson.acceptHeader)["body"]
 
             Expect(response0).isomorphic_with_response_in_file("getBrreg.ttl", rdfjson.jenaType)
@@ -107,7 +108,7 @@ internal class OrganizationsApi : ApiTestContainer() {
             val response = apiGet("/organizations", "application/json")
             val body: List<Organization> = mapper.readValue(response["body"] as String)
             Expect(response["status"]).to_equal(HttpStatus.OK.value())
-            Expect(body.size).to_equal(5)
+            Expect(body.size).to_equal(7)
         }
 
         @Test
@@ -146,26 +147,26 @@ internal class OrganizationsApi : ApiTestContainer() {
 
         @Test
         fun unauthorizedWhenNotLoggedIn() {
-            val response = apiPut("/organizations/994686011", "{}", null)
+            val response = apiAuthorizedRequest("/organizations/994686011", "{}", null, "PUT")
             Expect(response["status"]).to_equal(HttpStatus.UNAUTHORIZED.value())
         }
 
         @Test
         fun forbiddenWhenNotAdmin() {
-            val response = apiPut("/organizations/994686011", "{}", JwtToken(Access.ORG_READ).toString())
+            val response = apiAuthorizedRequest("/organizations/994686011", "{}", JwtToken(Access.ORG_READ).toString(), "PUT")
             Expect(response["status"]).to_equal(HttpStatus.FORBIDDEN.value())
         }
 
         @Test
         fun notFoundWhenIdNotAvailableInDB() {
-            val response = apiPut("/organizations/123NotFound", "{}", JwtToken(Access.ROOT).toString())
+            val response = apiAuthorizedRequest("/organizations/123NotFound", "{}", JwtToken(Access.ROOT).toString(), "PUT")
             Expect(response["status"]).to_equal(HttpStatus.NOT_FOUND.value())
         }
 
         @Test
         fun badRequestOnBlankName() {
             val blankName = Organization().apply { name = "  " }
-            val response = apiPut("/organizations/${ORG_0.organizationId}", mapper.writeValueAsString(blankName), JwtToken(Access.ROOT).toString())
+            val response = apiAuthorizedRequest("/organizations/${ORG_0.organizationId}", mapper.writeValueAsString(blankName), JwtToken(Access.ROOT).toString(), "PUT")
             Expect(response["status"]).to_equal(HttpStatus.BAD_REQUEST.value())
         }
 
@@ -176,7 +177,7 @@ internal class OrganizationsApi : ApiTestContainer() {
 
             val preValues: Organization = mapper.readValue(apiGet("/organizations/$orgId", "application/json")["body"] as String)
 
-            val response = apiPut("/organizations/$orgId", mapper.writeValueAsString(nullValues), JwtToken(Access.ROOT).toString())
+            val response = apiAuthorizedRequest("/organizations/$orgId", mapper.writeValueAsString(nullValues), JwtToken(Access.ROOT).toString(), "PUT")
             Expect(response["status"]).to_equal(HttpStatus.OK.value())
             val updated: Organization = mapper.readValue(response["body"] as String)
             Expect(updated).to_equal(preValues)
@@ -190,7 +191,7 @@ internal class OrganizationsApi : ApiTestContainer() {
             val preValues: Organization = mapper.readValue(apiGet("/organizations/$orgId", "application/json")["body"] as String)
             Expect(preValues).to_equal(NOT_UPDATED_0)
 
-            val updated: Organization = mapper.readValue(apiPut("/organizations/$orgId", mapper.writeValueAsString(newName), JwtToken(Access.ROOT).toString())["body"] as String)
+            val updated: Organization = mapper.readValue(apiAuthorizedRequest("/organizations/$orgId", mapper.writeValueAsString(newName), JwtToken(Access.ROOT).toString(), "PUT")["body"] as String)
             Expect(updated).to_equal(UPDATED_0)
         }
 
@@ -200,8 +201,31 @@ internal class OrganizationsApi : ApiTestContainer() {
             val oldValues: Organization = mapper.readValue(apiGet("/organizations/$orgId", "application/json")["body"] as String)
             Expect(oldValues).to_equal(NOT_UPDATED_1)
 
-            val updated: Organization = mapper.readValue(apiPut("/organizations/$orgId", mapper.writeValueAsString(UPDATE_VALUES), JwtToken(Access.ROOT).toString())["body"] as String)
+            val updated: Organization = mapper.readValue(apiAuthorizedRequest("/organizations/$orgId", mapper.writeValueAsString(UPDATE_VALUES), JwtToken(Access.ROOT).toString(), "PUT")["body"] as String)
             Expect(updated).to_equal(UPDATED_1)
+        }
+    }
+
+    @Nested
+    internal inner class GetOrganizationDomains {
+
+        @Test
+        fun whenEmptyResult404() {
+            val status = apiGet("/organizations/123Null/domains", "application/json")["status"]
+            Expect(status).to_equal(HttpStatus.NOT_FOUND.value())
+        }
+
+        @Test
+        fun wrongAcceptHeader() {
+            val status = apiGet("/organizations/123/domains", "text/plain")["status"]
+            Expect(status).to_equal(HttpStatus.NOT_ACCEPTABLE.value())
+        }
+
+        @Test
+        fun listOfDomainsFromSupportedRequest() {
+            val response: List<String> = mapper.readValue(apiGet("/organizations/${ORG_WITH_DOMAIN.organizationId}/domains", "application/json")["body"] as String)
+
+            Expect(response).to_equal(listOf("invalid.com"))
         }
     }
 }

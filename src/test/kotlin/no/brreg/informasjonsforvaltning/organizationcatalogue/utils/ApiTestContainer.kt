@@ -33,6 +33,7 @@ abstract class ApiTestContainer {
                 .withNetworkAliases("mongodb")
                 .waitingFor(Wait.forListeningPort())
             mongoContainer.start()
+
             populateDB()
 
             TEST_API = KGenericContainer("eu.gcr.io/fdk-infra/organization-catalogue:latest")
