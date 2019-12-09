@@ -1,11 +1,14 @@
-name: Build and deploy to staging from feature branch on pull request
+name: Deploy to staging when pull request is created
 
 on:
-  - pull_request
+  pull_request:
+    branches:
+      - master
+
 
 jobs:
-  build-and-deploy-staging:
-    name: Build, publish and deploy to staging environment
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -22,10 +25,10 @@ jobs:
       - run: gcloud auth configure-docker
 
       - name: Build Docker image with GitHub commit sha tag
-        run: docker build --build-arg JAR_FILE=organization-catalogue-1.0.0-SNAPSHOT.jar -t eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA .
+        run: docker build --build-arg JAR_FILE=organization-catalogue-1.0.0-SNAPSHOT.jar -t eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA -t eu.gcr.io/fdk-infra/organization-catalogue:staging_latest .
 
       - name: Publish docker image to Google Cloud
-        run: docker -- push eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA
+        run: docker -- push eu.gcr.io/fdk-infra/organization-catalogue
 
       - name: Apply Helm template
         uses: stefanprodan/kube-tools@v1
@@ -35,7 +38,7 @@ jobs:
             helm init --client-only
             helm repo add fdk https://informasjonsforvaltning.github.io/helm-chart/
             helm fetch --untar --untardir ./helm fdk/organization-catalogue
-            helm template --set DOCKER_IMAGE_NAME="eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA" -f ./helm/organization-catalogue/values/staging.yaml ./helm/organization-catalogue/ > ./kubectlapply.yaml
+            helm template --set DOCKER_IMAGE_NAME="eu.gcr.io/fdk-infra/organization-catalogue:$GITHUB_SHA" -f ./helm/organization-catalogue/values/it1.yaml ./helm/organization-catalogue/ > ./kubectlapply.yaml
             cat ./kubectlapply.yaml
             chmod o+w ./kubectlapply.yaml
             cat kubectlapply.yaml
@@ -48,7 +51,7 @@ jobs:
           location_zone: europe-north1-a
           cluster_name: fdk-dev
 
-      - name: Deploy to staging
+      - name: Deploy to it1
         uses: docker://bitnami/kubectl:latest
         env:
           KUBECONFIG: '/github/workspace/.kube/config'

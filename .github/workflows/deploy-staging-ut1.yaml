@@ -1,13 +1,13 @@
-name: Deploy to demo
+name: Build and deploy to ut1 from feature branch on pull request
 
 on:
-  push:
-    branches:
-      - master
+  check_suite:
+    types:
+      - completed
 
 jobs:
-  deploy-demo:
-    name: Pull and deploy production image to demo environment
+  build-and-deploy-staging:
+    name: Deploy to ut1 environment
     runs-on: ubuntu-latest
 
     steps:
@@ -21,10 +21,11 @@ jobs:
             helm init --client-only
             helm repo add fdk https://informasjonsforvaltning.github.io/helm-chart/
             helm fetch --untar --untardir ./helm fdk/organization-catalogue
-            helm template --set DOCKER_IMAGE_NAME="eu.gcr.io/fdk-infra/organization-catalogue:latest" -f ./helm/organization-catalogue/values/demo.yaml ./helm/organization-catalogue/ > ./kubectlapply.yaml
+            helm template --set DOCKER_IMAGE_NAME="eu.gcr.io/fdk-infra/organization-catalogue:staging_latest" -f ./helm/organization-catalogue/values/staging.yaml ./helm/organization-catalogue/ > ./kubectlapply.yaml
             cat ./kubectlapply.yaml
             chmod o+w ./kubectlapply.yaml
             cat kubectlapply.yaml
+
       - name: Get kubeconfig file from GKE
         uses: machine-learning-apps/gke-kubeconfig@master
         with:
@@ -32,7 +33,8 @@ jobs:
           project_id: fdk-dev
           location_zone: europe-north1-a
           cluster_name: fdk-dev
-      - name: Deploy to demo
+
+      - name: Deploy to staging
         uses: docker://bitnami/kubectl:latest
         env:
           KUBECONFIG: '/github/workspace/.kube/config'
