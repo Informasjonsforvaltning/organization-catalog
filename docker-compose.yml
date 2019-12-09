@@ -2,16 +2,16 @@ version: "3"
 
 services:
   organization-catalogue:
-    image: brreg/organization-catalogue:latest
+    image: eu.gcr.io/fdk-infra/organization-catalogue:latest
     depends_on:
       - mongodb
     restart: always
     environment:
-      - MONGO_USERNAME=admin
-      - MONGO_PASSWORD=admin
-      - ENHETSREGISTERET_PROXY_URL=http://nginx-enhetsregisteret-proxy-mock:8080/enhetsregisteret/api/enheter/
+      - MONGO_USERNAME
+      - MONGO_PASSWORD
+      - ENHETSREGISTERET_PROXY_URL
     ports:
-      - 8080:8080
+      - 8140:8080
 
   mongodb:
     image: mongo:latest
@@ -24,4 +24,4 @@ services:
   nginx-enhetsregisteret-proxy-mock:
     image: eu.gcr.io/fdk-infra/nginx-enhetsregisteret-proxy-mock:env_ut1_latest
     ports:
-      - "8081:8080"
+      - "8080:8080"

@@ -35,7 +35,7 @@ abstract class ApiTestContainer {
             mongoContainer.start()
             populateDB()
 
-            TEST_API = KGenericContainer("brreg/organization-catalogue:latest")
+            TEST_API = KGenericContainer("eu.gcr.io/fdk-infra/organization-catalogue:latest")
                 .withExposedPorts(API_PORT)
                 .withLogConsumer(apiLog)
                 .dependsOn(mongoContainer)
