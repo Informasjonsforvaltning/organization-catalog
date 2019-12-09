@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      # Setup gcloud CLI
+      # Setup gcloud CLI ###test
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '270.0.0'
