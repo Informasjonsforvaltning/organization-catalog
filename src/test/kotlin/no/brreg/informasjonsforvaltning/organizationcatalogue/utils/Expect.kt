@@ -15,10 +15,10 @@ class Expect(_result: Any?){
         Assertions.assertEquals(expected,result)
     }
 
-    fun to_contain(expected: String) {
+    fun to_contain(expected: Any) {
         when(result) {
-           is String -> Assertions.assertTrue(result.contains(expected))
-           is LinkedHashMap<*, *> -> Assertions.assertTrue(result.contains(expected))
+           is String -> Assertions.assertTrue(result.contains(expected as String))
+           is List<*> -> Assertions.assertTrue(result.contains(expected))
            else -> throw AssertionError("Unexpected datatype in result");
         }
     }

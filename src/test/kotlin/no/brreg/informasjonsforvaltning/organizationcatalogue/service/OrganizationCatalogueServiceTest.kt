@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 import java.util.Optional
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_0
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_DB_0
+import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.orgDB0
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.springframework.test.context.ActiveProfiles
@@ -38,7 +38,7 @@ class OrganizationCatalogueServiceTest {
 
     @Test
     fun getById() {
-        val persisted = ORG_DB_0
+        val persisted = orgDB0()
         whenever(repository.findById("123ID"))
             .thenReturn(Optional.of(persisted))
         whenever(valuesMock.enhetsregisteretUrl)
@@ -55,7 +55,7 @@ class OrganizationCatalogueServiceTest {
 
     @Test
     fun getAll() {
-        val persistedList = listOf(ORG_DB_0)
+        val persistedList = listOf(orgDB0())
         whenever(repository.findAll())
             .thenReturn(persistedList)
         whenever(valuesMock.enhetsregisteretUrl)
@@ -71,8 +71,8 @@ class OrganizationCatalogueServiceTest {
     }
 
     @Test
-    fun getByOrgIdAndName() {
-        val persistedList = listOf(ORG_DB_0)
+    fun getByOrgIdIsPrioritized() {
+        val persistedList = listOf(orgDB0())
         whenever(repository.findByNameLikeAndOrganizationIdLike("Name", "OrgId"))
             .thenReturn(persistedList)
         whenever(valuesMock.enhetsregisteretUrl)
@@ -89,7 +89,7 @@ class OrganizationCatalogueServiceTest {
 
     @Test
     fun getByName() {
-        val persistedList = listOf(ORG_DB_0)
+        val persistedList = listOf(orgDB0())
         whenever(repository.findByNameLike("Name"))
             .thenReturn(persistedList)
         whenever(valuesMock.enhetsregisteretUrl)
@@ -117,7 +117,7 @@ class OrganizationCatalogueServiceTest {
     @Test
     fun getOrganizationsWithDelegationPermissions() {
         whenever(repository.findByAllowDelegatedRegistration(true))
-            .thenReturn(listOf(ORG_DB_0))
+            .thenReturn(listOf(orgDB0()))
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
 
