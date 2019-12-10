@@ -1,9 +1,8 @@
 name: Deploy to demo
 
 on:
-  deployment:
-    environment:
-      - demo
+  repository_dispatch:
+    types: [deploy-demo]
 
 jobs:
   deploy-demo:
