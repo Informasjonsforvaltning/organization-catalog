@@ -1,9 +1,8 @@
 name: Deploy to ut1
 
 on:
-  deployment:
-    environment:
-      - ut1
+  repository_dispatch:
+    types: [deploy-ut1]
 
 jobs:
   deploy-ut1:
