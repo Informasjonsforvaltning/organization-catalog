@@ -50,14 +50,14 @@ jobs:
           location_zone: europe-north1-a
           cluster_name: fdk-dev
 
-      - name: Deploy to it1
+      - name: Deploy to staging
         uses: docker://bitnami/kubectl:latest
         env:
           KUBECONFIG: '/github/workspace/.kube/config'
         with:
           args: "apply -f ./kubectlapply.yaml --force"
 
-      - name: Trigger deploy to ut1
+      - name: Trigger deploy to staging-ut1
         uses: peter-evans/repository-dispatch@master
         with:
           token: ${{ secrets.DISPATCH_TOKEN }}
