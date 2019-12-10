@@ -64,5 +64,4 @@ jobs:
         uses: peter-evans/repository-dispatch@master
         with:
           token: ${{ secrets.DISPATCH_TOKEN }}
-          repository: Informasjonsforvaltning/organization-catalogue
           event-type: deploy-demo
