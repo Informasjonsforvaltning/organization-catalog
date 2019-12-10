@@ -60,6 +60,6 @@ jobs:
       - name: Trigger deploy to ut1
         uses: peter-evans/repository-dispatch@master
         with:
-          token: ${{ secrets.TOKEN }}
+          token: ${{ secrets.DISPATCH_TOKEN }}
           repository: Informasjonsforvaltning/organization-catalogue
           event-type: deploy-ut1

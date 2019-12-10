@@ -63,6 +63,6 @@ jobs:
       - name: Trigger deploy to demo
         uses: peter-evans/repository-dispatch@master
         with:
-          token: ${{ secrets.TOKEN }}
+          token: ${{ secrets.DISPATCH_TOKEN }}
           repository: Informasjonsforvaltning/organization-catalogue
           event-type: deploy-demo
