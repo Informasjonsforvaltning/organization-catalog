@@ -2,10 +2,7 @@ version: "3"
 
 services:
   organization-catalogue:
-    build:
-      context: .
-      args:
-        JAR_FILE: organization-catalogue-1.0.0-SNAPSHOT.jar
+    build: ../organization-catalogue
     depends_on:
       - mongodb
     restart: always
