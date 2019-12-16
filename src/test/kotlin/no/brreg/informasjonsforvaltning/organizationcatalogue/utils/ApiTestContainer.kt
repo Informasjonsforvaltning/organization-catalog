@@ -13,8 +13,6 @@ abstract class ApiTestContainer {
     companion object {
 
         private val logger = LoggerFactory.getLogger(ApiTestContainer::class.java)
-        private val mongoLog = Slf4jLogConsumer(logger).withPrefix("mongo-container")
-        private val apiLog = Slf4jLogConsumer(logger).withPrefix("api-container")
         var mongoContainer: KGenericContainer
         var TEST_API: KGenericContainer
 
@@ -27,7 +25,6 @@ abstract class ApiTestContainer {
 
             mongoContainer = KGenericContainer("mongo:latest")
                 .withEnv(MONGO_ENV_VALUES)
-                .withLogConsumer(mongoLog)
                 .withExposedPorts(MONGO_PORT)
                 .withNetwork(apiNetwork)
                 .withNetworkAliases("mongodb")
@@ -38,7 +35,6 @@ abstract class ApiTestContainer {
 
             TEST_API = KGenericContainer("eu.gcr.io/fdk-infra/organization-catalogue:latest")
                 .withExposedPorts(API_PORT)
-                .withLogConsumer(apiLog)
                 .dependsOn(mongoContainer)
                 .withEnv(API_ENV_VALUES)
                 .waitingFor(Wait.forHttp("/ready").forStatusCode(200))
