@@ -9,6 +9,6 @@ services:
     environment:
       - MONGO_USERNAME=admin
       - MONGO_PASSWORD=admin
-      - ENHETSREGISTERET_PROXY_URL=http://nginx-enhetsregisteret-proxy-mock:8080/enhetsregisteret/api/enheter/
+      - ENHETSREGISTERET_PROXY_URL=http://fdk-nginx-enhetsregisteret-proxy-mock:8080/enhetsregisteret/api/enheter/
     ports:
       - 8140:8080
