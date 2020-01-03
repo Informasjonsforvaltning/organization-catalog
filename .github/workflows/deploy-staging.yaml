@@ -65,4 +65,4 @@ jobs:
         with:
           token: ${{ secrets.DISPATCH_TOKEN }}
           event-type: deploy-ut1
-          client-payload: '{"ref": "$GITHUB_REF", "sha": "$GITHUB_SHA"}'
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
