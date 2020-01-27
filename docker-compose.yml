@@ -1,17 +1,6 @@
 version: "3"
 
 services:
-  organization-catalogue:
-    image: eu.gcr.io/fdk-infra/organization-catalogue:latest
-    depends_on:
-      - mongodb
-    restart: always
-    environment:
-      - MONGO_USERNAME
-      - MONGO_PASSWORD
-      - ENHETSREGISTERET_PROXY_URL
-    ports:
-      - 8140:8080
 
   mongodb:
     image: mongo:latest
@@ -24,4 +13,9 @@ services:
   fdk-nginx-enhetsregisteret-proxy-mock:
     image: eu.gcr.io/fdk-infra/fdk-nginx-enhetsregisteret-proxy-mock:latest
     ports:
-      - "8080:8080"
+      - 8132:8080
+
+  sso:
+    image: docker.pkg.github.com/informasjonsforvaltning/auth-utils-java/auth-utils-java:latest
+    ports:
+      - 8084:8084
