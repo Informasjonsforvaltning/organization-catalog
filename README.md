@@ -67,26 +67,33 @@ https://www.getpostman.com/
 #### MongoDB
 https://docs.mongodb.com/manual/installation
 
-## Clone and run
+## Run locally in IDEA
+Start local instances of SSO, MongoDB and enhetsregisteret-proxy-mock
 ```
-git clone {repo}
-mvn clean install
-docker-compose up -d
+% docker-compose up -d
 ```
 -d enables "detached mode"
+
+Add `-Dspring.profiles.active=develop` as a VM option in the Run/Debug Configuration
+
+Run (Shift+F10) or debug (Shift+F9) the application
 
 ## Test that everything is running
 "/src/main/resources/specification/examples/PublishersAPI.postman_collection.json"
 
 Import this collection in Postman to test the api locally.
 
+## Get an admin jwt:
+```
+% curl localhost:8084/jwt/admin -o jwt.txt
+```
 
 ## Helpful commands
 
 Populate organizations cache, just run get
 
 ```
-curl localhost:8140/organizations/974760673 -H "accept:application/json"
+curl localhost:8140/organizations/910244132 -H "accept:application/json"
 ```
 
 Get all cached organizations
@@ -94,10 +101,10 @@ Get all cached organizations
 curl localhost:8140/organizations -H "accept:application/json"
 ```
 
-Add a domain to organization
+Add a domain to organization, replace <token> with generated jwt
 
 ```
-curl localhost:8140/domains -d '{"name":"brreg.no", "organizations":["974760673"]}' -H 'content-type:application/json' -H 'Authorization: Bearer <token>' 
+curl localhost:8140/domains -d '{"name":"ramrog.no", "organizations":["910244132"]}' -H 'content-type:application/json' -H 'Authorization: Bearer <token>' 
 ```
 
 Get organizations for domain
