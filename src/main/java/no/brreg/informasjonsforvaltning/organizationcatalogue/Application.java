@@ -1,5 +1,6 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue;
 
+import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties;
 import no.brreg.informasjonsforvaltning.organizationcatalogue.spring.CachableDispatcherServlet;
 import org.apache.jena.riot.RIOT;
 import org.slf4j.Logger;
@@ -14,7 +15,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.DispatcherServlet;
 
 @SpringBootApplication
-@EnableConfigurationProperties
+@EnableConfigurationProperties({ AppProperties.class })
 public class Application {
 
     private static Logger LOGGER = LoggerFactory.getLogger(Application.class);

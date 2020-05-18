@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
@@ -33,8 +35,8 @@ open class OrganizationsApiImpl(
     fun ready(): ResponseEntity<Void> =
         ResponseEntity.ok().build()
 
-    override fun updateOrganization(httpServletRequest: HttpServletRequest?, organizationId: String, organization: Organization): ResponseEntity<Organization> =
-        if (endpointPermissions.hasAdminPermission()) {
+    override fun updateOrganization(httpServletRequest: HttpServletRequest?, jwt: Jwt?, organizationId: String, organization: Organization): ResponseEntity<Organization> =
+        if (endpointPermissions.hasAdminPermission(jwt)) {
             try {
                 LOGGER.info("update organization $organizationId")
                 catalogueService
@@ -51,7 +53,7 @@ open class OrganizationsApiImpl(
             }
         } else ResponseEntity(HttpStatus.FORBIDDEN)
 
-    override fun getOrganizationById(httpServletRequest: HttpServletRequest, organizationId: String): ResponseEntity<Any> {
+    override fun getOrganizationById(httpServletRequest: HttpServletRequest, jwt: Jwt?, organizationId: String): ResponseEntity<Any> {
         LOGGER.info("get organization $organizationId")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val organization = catalogueService.getByOrgnr(organizationId)
@@ -69,7 +71,7 @@ open class OrganizationsApiImpl(
         }
     }
 
-    override fun getDelegatedOrganizations(httpServletRequest: HttpServletRequest): ResponseEntity<Any> {
+    override fun getDelegatedOrganizations(httpServletRequest: HttpServletRequest, jwt: Jwt?): ResponseEntity<Any> {
         LOGGER.info("get organizations with delegation permissions")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val organizations = catalogueService.getOrganizationsWithDelegationPermissions()
@@ -87,7 +89,7 @@ open class OrganizationsApiImpl(
         }
     }
 
-    override fun getOrganizations(httpServletRequest: HttpServletRequest, name: String?, organizationId: String?): ResponseEntity<Any> {
+    override fun getOrganizations(httpServletRequest: HttpServletRequest, jwt: Jwt?, name: String?, organizationId: String?): ResponseEntity<Any> {
         LOGGER.info("get organizations id: $organizationId and name: $name")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val organizations = catalogueService.getOrganizations(name, organizationId)

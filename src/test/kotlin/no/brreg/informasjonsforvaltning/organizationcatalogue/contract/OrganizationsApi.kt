@@ -205,20 +205,4 @@ internal class OrganizationsApi : ApiTestContainer() {
             Expect(updated).to_equal(UPDATED_1)
         }
     }
-
-    @Nested
-    internal inner class GetOrganizationDomains {
-
-        @Test
-        fun whenEmptyResult404() {
-            val status = apiGet("/organizations/123Null/domains", "application/json")["status"]
-            Expect(status).to_equal(HttpStatus.NOT_FOUND.value())
-        }
-
-        @Test
-        fun wrongAcceptHeader() {
-            val status = apiGet("/organizations/123/domains", "text/plain")["status"]
-            Expect(status).to_equal(HttpStatus.NOT_ACCEPTABLE.value())
-        }
-    }
 }
