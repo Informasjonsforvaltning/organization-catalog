@@ -33,7 +33,7 @@ abstract class ApiTestContainer {
 
             populateDB()
 
-            TEST_API = KGenericContainer(System.getProperty("testImageName") ?: "eu.gcr.io/fdk-infra/organization-catalogue:latest")
+            TEST_API = KGenericContainer(System.getProperty("testImageName") ?: "eu.gcr.io/digdir-fdk-infra/organization-catalogue:latest")
                 .withExposedPorts(API_PORT)
                 .dependsOn(mongoContainer)
                 .withEnv(API_ENV_VALUES)

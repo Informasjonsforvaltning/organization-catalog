@@ -220,12 +220,5 @@ internal class OrganizationsApi : ApiTestContainer() {
             val status = apiGet("/organizations/123/domains", "text/plain")["status"]
             Expect(status).to_equal(HttpStatus.NOT_ACCEPTABLE.value())
         }
-
-        @Test
-        fun listOfDomainsFromSupportedRequest() {
-            val response: List<String> = mapper.readValue(apiGet("/organizations/${ORG_WITH_DOMAIN.organizationId}/domains", "application/json")["body"] as String)
-
-            Expect(response).to_equal(listOf("invalid.com"))
-        }
     }
 }

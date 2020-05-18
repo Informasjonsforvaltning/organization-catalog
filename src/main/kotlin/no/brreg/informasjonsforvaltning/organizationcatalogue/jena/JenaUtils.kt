@@ -1,6 +1,5 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.jena
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Domain
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.municipalityNumberToId
@@ -46,54 +45,9 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
             .safeAddProperty(BR.nace, it.industryCode)
             .safeAddProperty(BR.sectorCode, it.sectorCode)
             .addPreferredNames(it.prefLabel)
-            .addDomains(it.domains)
     }
 
     return model
-}
-
-fun Organization.domainsJenaResponse(responseType: JenaType, urls: ExternalUrls): String {
-    val model = ModelFactory.createDefaultModel()
-    model.setNsPrefix("br", BR.uri)
-
-    domains.forEach {
-        model.createResource(urls.organizationDomains + it)
-            .addProperty(RDF.type, BR.Domain)
-    }
-
-    return model.createResponseString(responseType)
-}
-
-fun List<Domain>.domainsJenaResponse(jenaType: JenaType, urls: ExternalUrls): String {
-    val model = ModelFactory.createDefaultModel()
-    model.setNsPrefix("br", BR.uri)
-
-    forEach {
-        val domainResource = model.createResource(urls.organizationDomains + it.name)
-        domainResource.addProperty(RDF.type, BR.Domain)
-        domainResource.addProperty(BR.domainName, it.name)
-
-        it.organizations.forEach {org ->
-            domainResource.addProperty(
-                BR.domainHolder,
-                model.createResource(urls.organizationCatalogue + org)
-            )
-        }
-    }
-
-    return model.createResponseString(jenaType)
-}
-
-fun Domain.organizationsJenaResponse(jenaType: JenaType, urls: ExternalUrls): String {
-    val model = ModelFactory.createDefaultModel()
-    model.setNsPrefix("rov", ROV.getURI())
-
-    organizations.forEach {
-        model.createResource(urls.organizationCatalogue + it)
-            .addProperty(RDF.type, ROV.RegisteredOrganization)
-    }
-
-    return model.createResponseString(jenaType)
 }
 
 private fun Resource.addRegistration(org: Organization): Resource =
@@ -116,15 +70,6 @@ private fun Resource.addPreferredNames(preferredNames: PrefLabel?): Resource {
     if (preferredNames?.nb != null) addProperty(FOAF.name, preferredNames.nb, "nb")
     if (preferredNames?.nn != null) addProperty(FOAF.name, preferredNames.nn, "nn")
     if (preferredNames?.en != null) addProperty(FOAF.name, preferredNames.en, "en")
-    return this
-}
-
-private fun Resource.addDomains(domains: List<String>): Resource {
-
-    domains.forEach {
-        addProperty(BR.domainName, it)
-    }
-
     return this
 }
 

@@ -16,9 +16,5 @@ class BR {
         val sectorCode: Property = m.createProperty(uri + "sectorCode")
         val norwegianRegistry: Property = m.createProperty(uri + "norwegianRegistry")
         val internationalRegistry: Property = m.createProperty(uri + "internationalRegistry")
-
-        val Domain: Resource = m.createResource(uri + "Domain")
-        val domainName: Property = m.createProperty(uri + "domainName")
-        val domainHolder: Property = m.createProperty(uri + "domainHolder")
     }
 }

@@ -3,22 +3,22 @@ info:
   title: National Data Directory Organization Catalogue
   description: Exposes a basic service which provides information related to the organization catalogue in the National Data Directory
   version: '1.0'
-  termsOfService: 'https://fellesdatakatalog.brreg.no/about'
+  termsOfService: 'https://fellesdatakatalog.digdir.no/about'
   contact:
     name: Brønnøysundregistrene
-    url: 'https://fellesdatakatalog.brreg.no'
-    email: fellesdatakatalog@brreg.no
+    url: 'https://fellesdatakatalog.digdir.no'
+    email: fellesdatakatalog@digdir.no
   license:
     name: License of API
     url: 'http://data.norge.no/nlod/no/2.0'
 externalDocs:
   description: Dokumentasjon på Informasjonsforvaltning GitHub
-  url: https://informasjonsforvaltning.github.io/felles-datakatalog/datasett-katalog/api/
+  url: https://informasjonsforvaltning.github.io/
 tags:
   - name: organization-catalogue
     description: Organization Catalogue
 servers:
-  - url: 'https://fellesdatakatalog.brreg.no'
+  - url: 'https://organization-catalogue.fellesdatakatalog.digdir.no'
 paths:
   /organizations:
     get:
@@ -154,155 +154,6 @@ paths:
               schema:
                 type: object
 
-  /organizations/{id}/domains:
-    get:
-      tags:
-        - organization-catalogue
-      description: Get domains held by an organization
-      operationId: getOrganizationDomains
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-            application/xml:
-              schema:
-                type: object
-            application/ld+json:
-              schema:
-                type: object
-            application/rdf+json:
-              schema:
-                type: object
-            application/rdf+xml:
-              schema:
-                type: object
-            text/turtle:
-              schema:
-                type: object
-  /domains:
-    get:
-      tags:
-        - domains
-      description: Get all domains
-      operationId: getAllDomains
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-            application/xml:
-              schema:
-                type: object
-            application/ld+json:
-              schema:
-                type: object
-            application/rdf+json:
-              schema:
-                type: object
-            application/rdf+xml:
-              schema:
-                type: object
-            text/turtle:
-              schema:
-                type: object
-    post:
-      security:
-        - bearerAuth: []
-      tags:
-        - domains
-      description: Update organizations as holders of a domain
-      operationId: addDomain
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Domain'
-      responses:
-        '200':
-          description: OK
-  /domains/{name}:
-    get:
-      tags:
-        - domains
-      description: Get a domain
-      operationId: getDomain
-      parameters:
-        - name: name
-          in: path
-          description: Domain name
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-            application/xml:
-              schema:
-                type: object
-            application/ld+json:
-              schema:
-                type: object
-            application/rdf+json:
-              schema:
-                type: object
-            application/rdf+xml:
-              schema:
-                type: object
-            text/turtle:
-              schema:
-                type: object
-  /domains/{name}/organizations:
-    get:
-      tags:
-        - domains
-      description: Get holders a domain
-      operationId: getDomainOrganizations
-      parameters:
-        - name: name
-          in: path
-          description: Domain name
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-            application/xml:
-              schema:
-                type: object
-            application/ld+json:
-              schema:
-                type: object
-            application/rdf+json:
-              schema:
-                type: object
-            application/rdf+xml:
-              schema:
-                type: object
-            text/turtle:
-              schema:
-                type: object
 components:
   schemas:
     Organization:
@@ -338,11 +189,6 @@ components:
           type: string
         prefLabel:
           $ref: "#/components/schemas/PrefLabel"
-        domains:
-          type: array
-          description: Domains held by the organization
-          items:
-            type: string
         allowDelegatedRegistration:
           type: boolean
     PrefLabel:
@@ -362,17 +208,6 @@ components:
           type: string
           description:
             Preferred label [skosxl:prefLabel] in English
-    Domain:
-      type: object
-      description:
-        Domain
-      properties:
-        name:
-          type: string
-        organizations:
-          type: array
-          items:
-            type: string
   securitySchemes:
     bearerAuth:            # arbitrary name for the security scheme
       type: http
