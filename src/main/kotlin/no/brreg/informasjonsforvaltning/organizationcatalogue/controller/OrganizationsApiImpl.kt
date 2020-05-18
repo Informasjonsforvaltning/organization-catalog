@@ -87,23 +87,6 @@ open class OrganizationsApiImpl(
         }
     }
 
-    override fun getOrganizationDomains(httpServletRequest: HttpServletRequest, organizationId: String): ResponseEntity<Any> {
-        LOGGER.info("get domains for organization $organizationId")
-        val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
-        val organization = catalogueService.getByOrgnr(organizationId)
-
-        val urls = ExternalUrls(
-            organizationDomains = appProperties.organizationDomainsUrl
-        )
-
-        return when {
-            jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
-            organization == null -> ResponseEntity(HttpStatus.NOT_FOUND)
-            jenaType == JenaType.NOT_JENA -> ResponseEntity(organization.domains, HttpStatus.OK)
-            else -> ResponseEntity(organization.domainsJenaResponse(jenaType, urls), HttpStatus.OK)
-        }
-    }
-
     override fun getOrganizations(httpServletRequest: HttpServletRequest, name: String?, organizationId: String?): ResponseEntity<Any> {
         LOGGER.info("get organizations id: $organizationId and name: $name")
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))

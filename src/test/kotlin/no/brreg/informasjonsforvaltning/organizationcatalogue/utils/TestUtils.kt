@@ -97,9 +97,6 @@ fun populateDB(){
     val orgCollection = mongoDatabase.getCollection("organizations")
     orgCollection.insertMany(organizationsDBPopulation())
 
-    val domainCollection = mongoDatabase.getCollection("domains")
-    domainCollection.insertMany(domainsDBPopulation())
-
     mongoClient.close()
 }
 

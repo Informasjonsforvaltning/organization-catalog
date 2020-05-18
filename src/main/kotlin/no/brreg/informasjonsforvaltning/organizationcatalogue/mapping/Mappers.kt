@@ -1,9 +1,7 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.mapping
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Domain
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
-import no.brreg.informasjonsforvaltning.organizationcatalogue.model.DomainDB
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.EnhetsregisteretOrganization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrganizationDB
 import java.time.LocalDate
@@ -24,7 +22,6 @@ fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization {
     mapped.industryCode = industryCode
     mapped.sectorCode = sectorCode
     mapped.prefLabel = prefLabel
-    mapped.domains = domains?.toList() ?: emptyList()
     mapped.allowDelegatedRegistration = allowDelegatedRegistration
 
     return mapped
@@ -67,13 +64,4 @@ private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel {
     en = newValues?.en ?: en
 
     return this
-}
-
-fun DomainDB.mapToGenerated(): Domain {
-    val mapped = Domain()
-
-    mapped.name = name
-    mapped.organizations = organizations.toList()
-
-    return mapped
 }
