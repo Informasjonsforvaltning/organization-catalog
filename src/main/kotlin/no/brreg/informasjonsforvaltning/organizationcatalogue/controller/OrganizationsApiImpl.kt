@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
 import javax.servlet.http.HttpServletRequest
@@ -20,6 +21,7 @@ import javax.validation.ConstraintViolationException
 
 private val LOGGER = LoggerFactory.getLogger(OrganizationsApiImpl::class.java)
 
+@CrossOrigin
 @Controller
 open class OrganizationsApiImpl(
     private val catalogueService: OrganizationCatalogueService,
