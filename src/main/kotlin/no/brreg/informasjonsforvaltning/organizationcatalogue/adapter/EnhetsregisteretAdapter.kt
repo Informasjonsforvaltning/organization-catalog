@@ -45,6 +45,7 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
 
     private fun EnhetsregisteretOrganization.withOrgPath(): EnhetsregisteretOrganization {
         val idSet: MutableSet<String> = mutableSetOf(organisasjonsnummer)
+        val isTestOrganization = isTestEnvironment() && appProperties.testOrganizations.contains(organisasjonsnummer)
 
         var topParentOrgForm: String? = organisasjonsform?.kode
         var parentOrganizationId: String? = overordnetEnhet
@@ -56,7 +57,7 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
             parentOrganizationId = parent?.overordnetEnhet
         }
 
-        val orgPathBase = getOrgPathBase(topParentOrgForm)
+        val orgPathBase = if (isTestOrganization) "ANNET" else getOrgPathBase(topParentOrgForm)
 
         val idString = idSet
             .reversed()
@@ -73,4 +74,8 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
             "IKS" -> "ANNET"
             else -> "PRIVAT"
         }
+
+    private fun isTestEnvironment(): Boolean =
+        setOf("localhost", "staging", "demo")
+            .any { it in appProperties.organizationCatalogueHost }
 }
