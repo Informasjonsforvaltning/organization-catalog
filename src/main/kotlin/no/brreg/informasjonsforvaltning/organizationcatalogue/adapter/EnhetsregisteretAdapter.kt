@@ -57,7 +57,7 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
             parentOrganizationId = parent?.overordnetEnhet
         }
 
-        val orgPathBase = if (isTestOrganization) "ANNET" else getOrgPathBase(topParentOrgForm)
+        val orgPathBase = if (isTestOrganization) "/ANNET" else "${getOrgPathBase(topParentOrgForm)}"
 
         val idString = idSet
             .reversed()
@@ -68,11 +68,11 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
 
     private fun getOrgPathBase(topOrgForm: String?): String =
         when (topOrgForm) {
-            "STAT" -> "STAT"
-            "FYLK" -> "FYLKE"
-            "KOMM" -> "KOMMUNE"
-            "IKS" -> "ANNET"
-            else -> "PRIVAT"
+            "STAT" -> "/STAT"
+            "FYLK" -> "/FYLKE"
+            "KOMM" -> "/KOMMUNE"
+            "IKS" -> "/ANNET"
+            else -> "/PRIVAT"
         }
 
     private fun isTestEnvironment(): Boolean =
