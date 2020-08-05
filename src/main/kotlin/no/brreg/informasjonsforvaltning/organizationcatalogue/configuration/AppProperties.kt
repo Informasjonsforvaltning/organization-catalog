@@ -12,5 +12,6 @@ data class AppProperties(
     val municipalityUrl: String,
     val organizationCatalogueUrl: String = organizationCatalogueHost + "/organizations/",
     val organizationDomainsUrl: String = organizationCatalogueHost + "/domains/",
-    val testOrganizations: Set<String> = emptySet()) {
+    val testOrganizations: Set<String> = emptySet(),
+    val defaultOrgPath: String) {
 }

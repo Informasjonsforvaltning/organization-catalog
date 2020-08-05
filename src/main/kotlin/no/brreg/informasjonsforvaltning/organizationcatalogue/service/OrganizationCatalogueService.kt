@@ -74,4 +74,10 @@ class OrganizationCatalogueService(
         repository
             .findAllById(idList)
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
+
+    fun getOrgPath(orgId: String): String =
+        repository
+            .findByIdOrNull(orgId)
+            ?.orgPath
+            ?: "${appProperties.defaultOrgPath}$orgId"
 }
