@@ -3,7 +3,10 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.controller
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.api.OrganizationCatalogueApi
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
-import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.*
+import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.ExternalUrls
+import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.JenaType
+import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.acceptHeaderToJenaType
+import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.jenaResponse
 import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointPermissions
 import no.brreg.informasjonsforvaltning.organizationcatalogue.service.OrganizationCatalogueService
 import org.slf4j.LoggerFactory
@@ -106,5 +109,10 @@ open class OrganizationsApiImpl(
             jenaType == JenaType.NOT_JENA -> ResponseEntity(organizations, HttpStatus.OK)
             else -> ResponseEntity(organizations.jenaResponse(jenaType, urls), HttpStatus.OK)
         }
+    }
+
+    override fun getOrgPath(httpServletRequest: HttpServletRequest, jwt: Jwt?, org: String): ResponseEntity<String> {
+        LOGGER.info("get orgPath for $org")
+        return ResponseEntity(catalogueService.getOrgPath(org), HttpStatus.OK)
     }
 }

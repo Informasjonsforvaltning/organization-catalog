@@ -154,6 +154,27 @@ paths:
               schema:
                 type: object
 
+  /organizations/orgpath/{org}:
+    get:
+      tags:
+        - organization-catalogue
+      description: Get organization path for id
+      operationId: getOrgPath
+      parameters:
+          - name: org
+            in: path
+            description: org
+            required: true
+            schema:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+
 components:
   schemas:
     Organization:

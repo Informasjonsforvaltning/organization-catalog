@@ -205,4 +205,21 @@ internal class OrganizationsApi : ApiTestContainer() {
             Expect(updated).to_equal(UPDATED_1)
         }
     }
+
+    @Nested
+    internal inner class GetOrgPath {
+
+        @Test
+        fun returnsOrgPathForOrganization() {
+            val orgPath = apiGet("/organizations/orgpath/${ORG_0.organizationId}", "text/plain")["body"] as String
+            Expect(orgPath).to_equal(ORG_0.orgPath)
+        }
+
+        @Test
+        fun createsDefaultOrgPathWhenNotFound() {
+            val orgPath = apiGet("/organizations/orgpath/123", "text/plain")["body"] as String
+            Expect(orgPath).to_equal("/ANNET/123")
+        }
+
+    }
 }
