@@ -2,13 +2,13 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.utils
 
 import java.io.BufferedReader
 import java.net.URL
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.mongodb.MongoClient
+import com.mongodb.ConnectionString
+import com.mongodb.MongoClientSettings
+import com.mongodb.client.MongoClient
+import com.mongodb.client.MongoClients
 import org.springframework.http.HttpStatus
 import java.io.OutputStreamWriter
-import com.mongodb.MongoClientURI
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ApiTestContainer.Companion.mongoContainer
+import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ApiTestContext.Companion.mongoContainer
 import org.bson.codecs.configuration.CodecRegistries.fromProviders
 import org.bson.codecs.configuration.CodecRegistries.fromRegistries
 import org.bson.codecs.pojo.PojoCodecProvider
@@ -88,16 +88,16 @@ private fun isOK(response: Int?): Boolean =
     else HttpStatus.resolve(response)?.is2xxSuccessful == true
 
 fun populateDB(){
-    val uri= "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:${mongoContainer.getMappedPort(MONGO_PORT)}/organization-catalogue?authSource=admin&authMechanism=SCRAM-SHA-1"
-    val pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(), fromProviders(PojoCodecProvider.builder().automatic(true).build()))
+    val connectionString = ConnectionString("mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:${mongoContainer.getMappedPort(MONGO_PORT)}/organization-catalogue?authSource=admin&authMechanism=SCRAM-SHA-1")
+    val pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), fromProviders(PojoCodecProvider.builder().automatic(true).build()))
 
-    val mongoClient = MongoClient(MongoClientURI(uri))
-    val mongoDatabase = mongoClient.getDatabase("organization-catalogue").withCodecRegistry(pojoCodecRegistry)
+    val client: MongoClient = MongoClients.create(connectionString)
+    val mongoDatabase = client.getDatabase("organization-catalogue").withCodecRegistry(pojoCodecRegistry)
 
     val orgCollection = mongoDatabase.getCollection("organizations")
     orgCollection.insertMany(organizationsDBPopulation())
 
-    mongoClient.close()
+    client.close()
 }
 
 data class JenaAndHeader(
