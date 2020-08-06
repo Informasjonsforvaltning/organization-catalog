@@ -4,15 +4,14 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ApiTestContext
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_0
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_1
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_2
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ApiTestContainer
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.Expect
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.JenaAndHeader
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.NOT_UPDATED_0
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.NOT_UPDATED_1
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_WITH_DOMAIN
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.UPDATED_0
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.UPDATED_1
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.UPDATE_VALUES
@@ -25,7 +24,9 @@ import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.TestInstance
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
+import org.springframework.test.context.ContextConfiguration
 
 private val turtle = JenaAndHeader("text/turtle", "TURTLE")
 private val ldjson = JenaAndHeader("application/ld+json", "JSONLD")
@@ -34,8 +35,12 @@ private val rdfxml = JenaAndHeader("application/rdf+xml", "RDFXML")
 private val mapper = jacksonObjectMapper().findAndRegisterModules()
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringBootTest(
+    properties = ["spring.profiles.active=test"],
+    webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ContextConfiguration(initializers = [ApiTestContext.Initializer::class])
 @Tag("contract")
-internal class OrganizationsApi : ApiTestContainer() {
+internal class OrganizationsApi : ApiTestContext() {
 
     @Test
     fun pingTest() {

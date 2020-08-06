@@ -3,20 +3,17 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.utils
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrganizationDB
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ApiTestContainer.Companion.TEST_API
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap
 import java.time.LocalDate
 
-const val API_PORT = 8080
+const val API_TEST_PORT = 5050
 const val LOCAL_SERVER_PORT = 5000
 
-const val MONGO_SERVICE_NAME = "mongodb"
 const val MONGO_USER = "testuser"
 const val MONGO_PASSWORD = "testpassword"
-const val MONGO_AUTH = "?authSource=admin&authMechanism=SCRAM-SHA-1"
 const val MONGO_PORT = 27017
 
-const val WIREMOCK_TEST_HOST = "http://host.testcontainers.internal:$LOCAL_SERVER_PORT"
+const val WIREMOCK_TEST_HOST = "http://localhost:5000"
 
 const val ENHETSREGISTERET_URL = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/"
 
@@ -25,15 +22,8 @@ val MONGO_ENV_VALUES: Map<String, String> = ImmutableMap.of(
     "MONGO_INITDB_ROOT_PASSWORD", MONGO_PASSWORD
 )
 
-val API_ENV_VALUES : Map<String,String> = ImmutableMap.of(
-    "MONGO_USERNAME", MONGO_USER,
-    "MONGO_PASSWORD", MONGO_PASSWORD,
-    "SPRING_PROFILES_ACTIVE" , "test",
-    "WIREMOCK_TEST_HOST" , WIREMOCK_TEST_HOST
-)
-
 fun getApiAddress( endpoint: String ): String{
-    return "http://${TEST_API.getContainerIpAddress()}:${TEST_API.getMappedPort(API_PORT)}$endpoint"
+    return "http://localhost:$API_TEST_PORT$endpoint"
 }
 
 val ORG_0 = Organization().apply {
