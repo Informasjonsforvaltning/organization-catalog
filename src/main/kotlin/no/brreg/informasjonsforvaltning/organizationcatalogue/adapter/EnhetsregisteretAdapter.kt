@@ -3,8 +3,11 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.adapter
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties
+import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.createOrgPath
+import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.cutOrgPathForParents
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.EnhetsregisteretOrganization
 import org.slf4j.LoggerFactory
+import org.springframework.data.mongodb.core.aggregation.VariableOperators
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import java.io.BufferedReader
@@ -16,10 +19,11 @@ private val LOGGER = LoggerFactory.getLogger(EnhetsregisteretAdapter::class.java
 @Component
 class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
 
-    fun getOrganization(organizationId: String): EnhetsregisteretOrganization? {
+    fun getOrganizationAndParents(organizationId: String): List<EnhetsregisteretOrganization> {
         LOGGER.info("Downloading data regarding '$organizationId' from Enhetsregisteret")
         return downloadAndParseOrganization(organizationId)
-            ?.withOrgPath()
+            ?.downloadParentOrgsAndCreateOrgPath()
+            ?: emptyList()
     }
 
     private fun downloadAndParseOrganization(organizationId: String): EnhetsregisteretOrganization? {
@@ -43,7 +47,8 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
         }
     }
 
-    private fun EnhetsregisteretOrganization.withOrgPath(): EnhetsregisteretOrganization {
+    private fun EnhetsregisteretOrganization.downloadParentOrgsAndCreateOrgPath(): List<EnhetsregisteretOrganization> {
+        val orgList: MutableList<EnhetsregisteretOrganization> = mutableListOf(this)
         val idSet: MutableSet<String> = mutableSetOf(organisasjonsnummer)
         val isTestOrganization = isTestEnvironment() && appProperties.testOrganizations.contains(organisasjonsnummer)
 
@@ -53,27 +58,19 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
         while (parentOrganizationId != null) {
             idSet.add(parentOrganizationId)
             val parent = downloadAndParseOrganization(parentOrganizationId)
-            topParentOrgForm = parent?.organisasjonsform?.kode
-            parentOrganizationId = parent?.overordnetEnhet
+            if (parent != null) {
+                topParentOrgForm = parent.organisasjonsform?.kode
+                parentOrganizationId = parent.overordnetEnhet
+                orgList.add(parent)
+            } else parentOrganizationId = null
         }
 
-        val orgPathBase = if (isTestOrganization) "/ANNET" else "${getOrgPathBase(topParentOrgForm)}"
+        val completeOrgPath = createOrgPath(isTestOrganization, idSet, topParentOrgForm)
 
-        val idString = idSet
-            .reversed()
-            .joinToString("/")
-
-        return copy(orgPath = "$orgPathBase/$idString")
+        return orgList.map {
+            it.copy(orgPath = cutOrgPathForParents(completeOrgPath, it.organisasjonsnummer))
+        }
     }
-
-    private fun getOrgPathBase(topOrgForm: String?): String =
-        when (topOrgForm) {
-            "STAT" -> "/STAT"
-            "FYLK" -> "/FYLKE"
-            "KOMM" -> "/KOMMUNE"
-            "IKS" -> "/ANNET"
-            else -> "/PRIVAT"
-        }
 
     private fun isTestEnvironment(): Boolean =
         setOf("localhost", "staging", "demo")
