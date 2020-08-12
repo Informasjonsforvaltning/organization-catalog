@@ -56,12 +56,14 @@ class OrganizationCatalogueService(
             .findByNameLikeAndOrganizationIdLike(name, organizationId)
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
-    private fun createFromEnhetsregisteret(orgId: String): Organization? =
-        enhetsregisteretAdapter
-            .getOrganization(orgId)
-            ?.mapForCreation()
-            ?.let { repository.save(it) }
+    private fun createFromEnhetsregisteret(orgId: String): Organization? {
+        enhetsregisteretAdapter.getOrganizationAndParents(orgId)
+            .map { it.mapForCreation() }
+            .run { repository.saveAll(this) }
+
+        return repository.findByIdOrNull(orgId)
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
+    }
 
     fun updateEntry(orgId: String, org: Organization): Organization? =
         repository
