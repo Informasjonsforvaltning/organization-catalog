@@ -1,4 +1,4 @@
-name: Build, test and deploy to production on merge to master branch
+name: Deploy to production
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-test-and-deploy-production:
-    name: Build, test, publish and deploy to production environment
+    name: Build, test, publish and deploy to production environment on merge to master branch
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +16,6 @@ jobs:
       # Setup gcloud CLI
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          version: '270.0.0'
           service_account_email: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_KEY }}
 
