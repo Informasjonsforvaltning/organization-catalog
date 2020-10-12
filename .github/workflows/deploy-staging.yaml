@@ -1,4 +1,4 @@
-name: Build and deploy to staging when pull request is created
+name: Deploy to staging
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-
+    name: Build and deploy organization-catalogue to staging environment when pull request is created
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +16,6 @@ jobs:
       # Setup gcloud CLI
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          version: '270.0.0'
           service_account_email: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_KEY }}
 
