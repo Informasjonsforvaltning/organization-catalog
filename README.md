@@ -37,33 +37,7 @@ sudo adduser ${USER} mvn
 
 Check that they have been added with "id -nG", force the update with a reboot or with "su - ${USER}"
 
-## Environment variables
-These are needed to connect to the local database
-```
-MONGO_USERNAME="pub_db"
-MONGO_PASSWORD="Passw0rd"
-```
-
-##### Linux
-Open ~/.bashrc and add the lines
-```
-export MONGO_USERNAME="pub_db"
-export MONGO_PASSWORD="Passw0rd"
-```
-Update from ~/.bashrc with
-```
-source ~/.bashrc
-```
-
-Check that they have been added with "printenv"
-
-##### Windows
-“Advanced system settings” → “Environment Variables”
-
 ## Nice to have
-#### Postman
-https://www.getpostman.com/
-
 #### MongoDB
 https://docs.mongodb.com/manual/installation
 
@@ -74,16 +48,20 @@ Start local instances of SSO, MongoDB and enhetsregisteret-proxy-mock
 ```
 -d enables "detached mode"
 
-Add `-Dspring.profiles.active=develop` as a VM option in the Run/Debug Configuration
+### Login for https://docker.pkg.github.com
+The image for auth-utils-java is downloaded from github, where you need to log in.
+First you need an access token from Github. Go to settings for your user in github.com -> Developer settings -> Personal access tokens where you generate a token with access to read packages.
+Then you run docker login and paste the access token when it prompts you for a password.
+```
+% docker login https://docker.pkg.github.com -u {USERNAME}
+```
 
-Run (Shift+F10) or debug (Shift+F9) the application
+### Run the application
+```
+mvn spring-boot:run -Dspring-boot.run.profiles=develop
+```
 
-## Test that everything is running
-"/src/main/resources/specification/examples/PublishersAPI.postman_collection.json"
-
-Import this collection in Postman to test the api locally.
-
-## Get an admin jwt:
+## Get an admin jwt from auth-utils-java:
 ```
 % curl localhost:8084/jwt/admin -o jwt.txt
 ```
@@ -99,16 +77,4 @@ curl localhost:8140/organizations/910244132 -H "accept:application/json"
 Get all cached organizations
 ```
 curl localhost:8140/organizations -H "accept:application/json"
-```
-
-Add a domain to organization, replace <token> with generated jwt
-
-```
-curl localhost:8140/domains -d '{"name":"ramrog.no", "organizations":["910244132"]}' -H 'content-type:application/json' -H 'Authorization: Bearer <token>' 
-```
-
-Get organizations for domain
-
-```
-curl localhost:8140/domains/brreg.no/organizations -H "accept:application/json"
 ```
