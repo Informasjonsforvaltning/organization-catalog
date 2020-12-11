@@ -14,10 +14,10 @@ import org.bson.codecs.configuration.CodecRegistries.fromRegistries
 import org.bson.codecs.pojo.PojoCodecProvider
 import java.net.HttpURLConnection
 
-fun apiGet(endpoint: String, acceptHeader: String?): Map<String,Any> {
+fun apiGet(endpoint: String, port: Int, acceptHeader: String?): Map<String,Any> {
 
     return try{
-        val connection = URL(getApiAddress(endpoint)).openConnection() as HttpURLConnection
+        val connection = URL(getApiAddress(port, endpoint)).openConnection() as HttpURLConnection
         if(acceptHeader != null) connection.setRequestProperty("Accept", acceptHeader)
         connection.connect()
 
@@ -43,8 +43,8 @@ fun apiGet(endpoint: String, acceptHeader: String?): Map<String,Any> {
     }
 }
 
-fun apiAuthorizedRequest(endpoint : String, body: String?, token: String?, method: String): Map<String, Any> {
-    val connection  = URL(getApiAddress(endpoint)).openConnection() as HttpURLConnection
+fun apiAuthorizedRequest(endpoint : String, port: Int, body: String?, token: String?, method: String): Map<String, Any> {
+    val connection  = URL(getApiAddress(port, endpoint)).openConnection() as HttpURLConnection
     connection.requestMethod = method
     connection.setRequestProperty("Content-type", "application/json")
     connection.setRequestProperty("Accept", "application/json")
