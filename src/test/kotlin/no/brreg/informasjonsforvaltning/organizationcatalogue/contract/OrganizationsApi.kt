@@ -102,7 +102,7 @@ internal class OrganizationsApi : ApiTestContext() {
         @Test
         fun missingAcceptHeader() {
             val status = apiGet("/organizations", port, null)["status"]
-            Expect(status).to_equal(HttpStatus.NOT_ACCEPTABLE.value())
+            Expect(status).to_equal(HttpStatus.OK.value())
         }
 
         @Test
