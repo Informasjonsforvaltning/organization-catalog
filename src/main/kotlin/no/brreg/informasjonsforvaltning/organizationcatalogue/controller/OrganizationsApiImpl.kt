@@ -95,7 +95,12 @@ open class OrganizationsApiImpl(
     }
 
     override fun getOrganizations(httpServletRequest: HttpServletRequest, jwt: Jwt?, name: String?, organizationId: String?): ResponseEntity<Any> {
-        LOGGER.info("get organizations id: $organizationId and name: $name")
+        when {
+            organizationId == null && name == null -> LOGGER.info("get all organizations")
+            organizationId == null -> LOGGER.info("get organizations filtered by name: $name")
+            name == null -> LOGGER.info("get organizations filtered by id: $organizationId")
+            else -> LOGGER.info("get organizations filtered by id: $organizationId and name: $name")
+        }
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
         val organizations = catalogueService.getOrganizations(name, organizationId)
 
@@ -104,9 +109,9 @@ open class OrganizationsApiImpl(
             municipality = appProperties.municipalityUrl
         )
 
-        return when {
-            jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
-            jenaType == JenaType.NOT_JENA -> ResponseEntity(organizations, HttpStatus.OK)
+        return when (jenaType) {
+            JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+            JenaType.NOT_JENA -> ResponseEntity(organizations, HttpStatus.OK)
             else -> ResponseEntity(organizations.jenaResponse(jenaType, urls), HttpStatus.OK)
         }
     }
