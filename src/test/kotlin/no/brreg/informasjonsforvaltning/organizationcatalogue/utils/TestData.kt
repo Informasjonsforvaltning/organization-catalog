@@ -6,7 +6,6 @@ import no.brreg.informasjonsforvaltning.organizationcatalogue.model.Organization
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap
 import java.time.LocalDate
 
-const val API_TEST_PORT = 5050
 const val LOCAL_SERVER_PORT = 5000
 
 const val MONGO_USER = "testuser"
@@ -22,8 +21,8 @@ val MONGO_ENV_VALUES: Map<String, String> = ImmutableMap.of(
     "MONGO_INITDB_ROOT_PASSWORD", MONGO_PASSWORD
 )
 
-fun getApiAddress( endpoint: String ): String{
-    return "http://localhost:$API_TEST_PORT$endpoint"
+fun getApiAddress( port: Int, endpoint: String ): String{
+    return "http://localhost:$port$endpoint"
 }
 
 val ORG_0 = Organization().apply {
