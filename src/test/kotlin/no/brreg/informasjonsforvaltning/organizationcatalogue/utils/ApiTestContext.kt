@@ -5,10 +5,7 @@ import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.Testcontainers
-import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.GenericContainer
-import org.testcontainers.containers.Network
-import org.testcontainers.containers.output.Slf4jLogConsumer
 import org.testcontainers.containers.wait.strategy.Wait
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -34,12 +31,10 @@ abstract class ApiTestContext {
             startMockServer()
 
             Testcontainers.exposeHostPorts(LOCAL_SERVER_PORT)
-            val apiNetwork = Network.newNetwork()
 
             mongoContainer = KGenericContainer("mongo:latest")
                 .withEnv(MONGO_ENV_VALUES)
                 .withExposedPorts(MONGO_PORT)
-                .withNetwork(apiNetwork)
                 .withNetworkAliases("mongodb")
                 .waitingFor(Wait.forListeningPort())
             mongoContainer.start()

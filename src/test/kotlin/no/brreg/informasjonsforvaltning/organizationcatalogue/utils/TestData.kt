@@ -199,23 +199,48 @@ fun orgDB0() = OrganizationDB().apply {
     }
 }
 
-fun orgDB1() = OrganizationDB().apply {
-    name = "ATB AS"
-    organizationId = "994686011"
-    orgType = "AS"
-    orgPath = "/PRIVAT/994686011"
-    issued = LocalDate.of(1999, 2, 3)
-    municipalityNumber = "5001"
-    industryCode = "84.130"
-    sectorCode = "6500"
-    domains = emptySet()
+val NOT_UPDATED_2 = Organization().apply {
+    name = "TEST"
+    organizationId = "123456789"
+    norwegianRegistry = "http://localhost:5000/enhetsregisteret/api/enheter/123456789"
+    orgType = "STAT"
+    orgPath = "/STAT/123456789"
+    issued = LocalDate.of(1990, 10, 31)
+    municipalityNumber = "0301"
+    industryCode = "84.110"
+    sectorCode = "6100"
+}
+
+val UPDATED_2 = Organization().apply {
+    name = "TESTENHETEN I TESTSUND"
+    organizationId = "123456789"
+    orgType = "ORGL"
+    norwegianRegistry = "http://localhost:5000/enhetsregisteret/api/enheter/123456789"
+    orgPath = "/STAT/987654321/123456789"
+    subOrganizationOf = "987654321"
+    issued = LocalDate.of(1995, 8, 9)
+    municipalityNumber = "1813"
+    industryCode = "84.110"
+    sectorCode = "6100"
     prefLabel = PrefLabel().apply {
-        nn = "AtB AS"
+        nb = "Testenheten i testsund"
     }
 }
 
+val PARENT_ORG = Organization().apply {
+    name = "TESTSTATEN"
+    organizationId = "987654321"
+    orgType = "STAT"
+    norwegianRegistry = "http://localhost:5000/enhetsregisteret/api/enheter/987654321"
+    orgPath = "/STAT/987654321"
+    issued = LocalDate.of(2013, 10, 31)
+    municipalityNumber = "0301"
+    industryCode = "84.110"
+    sectorCode = "6100"
+}
+
 fun organizationsDBPopulation(): List<org.bson.Document> =
-    listOf(ORG_0, ORG_1, ORG_2, NOT_UPDATED_0, NOT_UPDATED_1, ORG_WITH_DOMAIN, ORG_WITHOUT_DOMAIN)
+    listOf(ORG_0, ORG_1, ORG_2, NOT_UPDATED_0, NOT_UPDATED_1, ORG_WITH_DOMAIN, ORG_WITHOUT_DOMAIN, NOT_UPDATED_2, PARENT_ORG, )
         .map { it.mapDBO() }
 
 private fun Organization.mapDBO(): org.bson.Document =

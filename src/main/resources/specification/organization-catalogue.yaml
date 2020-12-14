@@ -124,6 +124,27 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Organization'
+    post:
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - organization-catalogue
+      description: Update specified organization and its parent organizations with data from the National Data Directory
+      operationId: updateFromEnhetsregisteret
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
 
   /organizations/delegated:
     get:

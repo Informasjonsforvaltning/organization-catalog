@@ -39,6 +39,7 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB {
     mapped.issued = registreringsdatoEnhetsregisteret?.let { LocalDate.parse(it) }
     mapped.industryCode = naeringskode1?.kode
     mapped.sectorCode = institusjonellSektorkode?.kode
+    mapped.prefLabel = prefLabelFromName()
 
     return mapped
 }
@@ -56,6 +57,33 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         sectorCode = org.sectorCode ?: sectorCode
         prefLabel = prefLabel?.update(org.prefLabel) ?: PrefLabel().update(org.prefLabel)
         allowDelegatedRegistration = org.allowDelegatedRegistration ?: allowDelegatedRegistration
+    }
+
+fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganization): OrganizationDB =
+    apply {
+        name = org.navn ?: name
+        orgType = org.organisasjonsform?.kode
+        orgPath = org.orgPath
+        subOrganizationOf = org.overordnetEnhet
+        municipalityNumber = org.forretningsadresse?.kommunenummer ?: org.postadresse?.kommunenummer
+        issued = org.registreringsdatoEnhetsregisteret?.let { LocalDate.parse(it) }
+        industryCode = org.naeringskode1?.kode
+        sectorCode = org.institusjonellSektorkode?.kode
+        prefLabel = if (prefLabel.isNullOrEmpty()) org.prefLabelFromName() else prefLabel
+    }
+
+private fun EnhetsregisteretOrganization.prefLabelFromName(): PrefLabel =
+    PrefLabel().apply {
+        nb = navn?.toLowerCase()?.capitalize()
+    }
+
+private fun PrefLabel?.isNullOrEmpty(): Boolean =
+    when {
+        this == null -> true
+        en != null && en.isNotBlank() -> false
+        nb != null && nb.isNotBlank() -> false
+        nn != null && nn.isNotBlank() -> false
+        else -> true
     }
 
 private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel {
