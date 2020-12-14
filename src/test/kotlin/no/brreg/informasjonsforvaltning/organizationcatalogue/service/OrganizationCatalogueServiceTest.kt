@@ -90,7 +90,7 @@ class OrganizationCatalogueServiceTest {
     @Test
     fun getByName() {
         val persistedList = listOf(orgDB0())
-        whenever(repository.findByNameLike("Name"))
+        whenever(repository.findByNameLike("NAME"))
             .thenReturn(persistedList)
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
