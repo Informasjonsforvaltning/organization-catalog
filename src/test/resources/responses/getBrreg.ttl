@@ -15,6 +15,7 @@
         br:sectorCode          "6100" ;
         org:subOrganizationOf  <http://localhost:5000/organizations/912660680> ;
         rov:legalName          "REGISTERENHETEN I BRØNNØYSUND" ;
+        dct:identifier         "974760673" ;
         rov:orgType            "ORGL" ;
         rov:registration       [ a                  adms:Identifier ;
                                  dct:issued         "1999-02-03" ;

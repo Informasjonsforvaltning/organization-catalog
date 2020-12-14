@@ -14,6 +14,7 @@
         br:orgPath             "/PRIVAT/994686011" ;
         br:sectorCode          "6500" ;
         rov:legalName          "ATB AS" ;
+        dct:identifier         "994686011" ;
         rov:orgType            "AS" ;
         rov:registration       [ a                  adms:Identifier ;
                                  dct:issued         "1999-02-03" ;

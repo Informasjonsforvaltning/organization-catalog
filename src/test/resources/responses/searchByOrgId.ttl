@@ -9,6 +9,7 @@
 <http://localhost:5000/organizations/974760673>
         a                      rov:RegisteredOrganization ;
         br:nace                "84.110" ;
+        dct:identifier         "974760673" ;
         br:municipality        <http://localhost:5000/administrativeEnheter/kommune/id/172833> ;
         br:norwegianRegistry   <http://localhost:5000/enhetsregisteret/api/enheter/974760673> ;
         br:orgPath             "/STAT/912660680/974760673" ;
@@ -30,6 +31,7 @@
         br:norwegianRegistry   <http://localhost:5000/enhetsregisteret/api/enheter/994686011> ;
         br:orgPath             "/PRIVAT/994686011" ;
         br:sectorCode          "6500" ;
+        dct:identifier         "994686011" ;
         rov:legalName          "ATB AS" ;
         rov:orgType            "AS" ;
         rov:registration       [ a                  adms:Identifier ;

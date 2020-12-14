@@ -36,6 +36,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
             .addProperty(RDF.type, ROV.RegisteredOrganization)
             .safeAddProperty(ROV.legalName, it.name)
             .addRegistration(it)
+            .safeAddProperty(DCTerms.identifier, it.organizationId)
             .safeAddProperty(ROV.orgType, it.orgType)
             .safeAddProperty(BR.orgPath, it.orgPath)
             .safeAddLinkedProperty(ORG.subOrganizationOf, it.subOrganizationOf?.let { parentId -> urls.organizationCatalogue + parentId })
