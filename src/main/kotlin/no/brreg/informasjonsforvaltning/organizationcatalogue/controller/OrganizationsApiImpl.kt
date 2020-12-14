@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -115,6 +114,14 @@ open class OrganizationsApiImpl(
             else -> ResponseEntity(organizations.jenaResponse(jenaType, urls), HttpStatus.OK)
         }
     }
+
+    override fun updateFromEnhetsregisteret(httpServletRequest: HttpServletRequest?, jwt: Jwt, id: String): ResponseEntity<Organization> =
+        if (endpointPermissions.hasAdminPermission(jwt)) {
+            LOGGER.info("update organization with id $id with data from Enhetsregisteret")
+            catalogueService.updateEntryFromEnhetsregisteret(id)
+                ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
+                ?: ResponseEntity(HttpStatus.NOT_FOUND)
+        } else ResponseEntity(HttpStatus.FORBIDDEN)
 
     override fun getOrgPath(httpServletRequest: HttpServletRequest, jwt: Jwt?, org: String): ResponseEntity<String> {
         LOGGER.info("get orgPath for $org")

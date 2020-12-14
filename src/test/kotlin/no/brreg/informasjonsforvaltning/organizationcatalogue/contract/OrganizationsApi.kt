@@ -4,19 +4,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ApiTestContext
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_0
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_1
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_2
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.Expect
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.JenaAndHeader
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.NOT_UPDATED_0
+import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.*
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.NOT_UPDATED_1
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.UPDATED_0
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.UPDATED_1
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.UPDATE_VALUES
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.apiGet
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.apiAuthorizedRequest
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.jwk.Access
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.jwk.JwtToken
 import org.junit.jupiter.api.Nested
@@ -117,7 +106,7 @@ internal class OrganizationsApi : ApiTestContext() {
             val response = apiGet("/organizations", port, "application/json")
             val body: List<Organization> = mapper.readValue(response["body"] as String)
             Expect(response["status"]).to_equal(HttpStatus.OK.value())
-            Expect(body.size).to_equal(7)
+            Expect(body.size).to_equal(9)
         }
 
         @Test
@@ -228,6 +217,46 @@ internal class OrganizationsApi : ApiTestContext() {
         fun createsDefaultOrgPathWhenNotFound() {
             val orgPath = apiGet("/organizations/orgpath/123", port, "text/plain")["body"] as String
             Expect(orgPath).to_equal("/ANNET/123")
+        }
+
+    }
+
+    @Nested
+    internal inner class UpdateFromEnhetsregisteret {
+
+        @Test
+        fun unauthorizedWhenNotLoggedIn() {
+            val response = apiAuthorizedRequest("/organizations/123456789", null, null, "POST")
+            Expect(response["status"]).to_equal(HttpStatus.UNAUTHORIZED.value())
+        }
+
+        @Test
+        fun forbiddenWhenNotAdmin() {
+            val response = apiAuthorizedRequest("/organizations/123456789", null, JwtToken(Access.ORG_READ).toString(), "POST")
+            Expect(response["status"]).to_equal(HttpStatus.FORBIDDEN.value())
+        }
+
+        @Test
+        fun notFoundWhenIdNotAvailableInDB() {
+            val response = apiAuthorizedRequest("/organizations/123NotFound", null, JwtToken(Access.ROOT).toString(), "POST")
+            Expect(response["status"]).to_equal(HttpStatus.NOT_FOUND.value())
+        }
+
+        @Test
+        fun updateFromEnhetsregisteret() {
+            val orgId = NOT_UPDATED_2.organizationId
+            val oldValues: Organization = mapper.readValue(apiGet("/organizations/$orgId", "application/json")["body"] as String)
+            Expect(oldValues).to_equal(NOT_UPDATED_2)
+
+            val parentId = PARENT_ORG.organizationId
+            val parentValues: Organization = mapper.readValue(apiGet("/organizations/$parentId", "application/json")["body"] as String)
+            Expect(parentValues).to_equal(PARENT_ORG)
+
+            val updated: Organization = mapper.readValue(apiAuthorizedRequest("/organizations/$orgId", null, JwtToken(Access.ROOT).toString(), "POST")["body"] as String)
+            Expect(updated).to_equal(UPDATED_2)
+
+            val updatedParent: Organization = mapper.readValue(apiGet("/organizations/$parentId", "application/json")["body"] as String)
+            Expect(updatedParent).to_equal(PARENT_ORG.apply { prefLabel = PrefLabel().apply { nb = "Teststaten" } })
         }
 
     }

@@ -6,6 +6,7 @@ import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Or
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.mapForCreation
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.mapToGenerated
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.updateValues
+import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.updateWithEnhetsregisteretValues
 import no.brreg.informasjonsforvaltning.organizationcatalogue.repository.OrganizationCatalogueRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -21,7 +22,7 @@ class OrganizationCatalogueService(
         repository
             .findByIdOrNull(orgId)
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
-            ?: createFromEnhetsregisteret(orgId)
+            ?: updateEntryFromEnhetsregisteret(orgId)
 
     fun getOrganizations(name: String?, organizationId: String?): List<Organization> =
         when {
@@ -56,9 +57,12 @@ class OrganizationCatalogueService(
             .findByNameLikeAndOrganizationIdLike(name, organizationId)
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
-    private fun createFromEnhetsregisteret(orgId: String): Organization? {
+    fun updateEntryFromEnhetsregisteret(orgId: String): Organization? {
         enhetsregisteretAdapter.getOrganizationAndParents(orgId)
-            .map { it.mapForCreation() }
+            .map { updated ->
+                repository.findByIdOrNull(updated.organisasjonsnummer)
+                    ?.updateWithEnhetsregisteretValues(updated)
+                    ?: updated.mapForCreation() }
             .run { repository.saveAll(this) }
 
         return repository.findByIdOrNull(orgId)
@@ -71,11 +75,6 @@ class OrganizationCatalogueService(
             ?.updateValues(org)
             ?.let { repository.save(it) }
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
-
-    fun getOrganizationsByIdList(idList: List<String>): List<Organization> =
-        repository
-            .findAllById(idList)
-            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
     fun getOrgPath(orgId: String): String =
         repository
