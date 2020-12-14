@@ -124,7 +124,7 @@ internal class OrganizationsApi : ApiTestContext() {
 
         @Test
         fun getByNameSingle() {
-            val response = apiGet("/organizations/?name=FORSVARET", ldjson.acceptHeader)["body"]
+            val response = apiGet("/organizations/?name=forsvaret", ldjson.acceptHeader)["body"]
             Expect(response).isomorphic_with_response_in_file("getForsvaret.ttl", ldjson.jenaType)
         }
 
