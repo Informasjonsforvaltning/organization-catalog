@@ -226,36 +226,36 @@ internal class OrganizationsApi : ApiTestContext() {
 
         @Test
         fun unauthorizedWhenNotLoggedIn() {
-            val response = apiAuthorizedRequest("/organizations/123456789", null, null, "POST")
+            val response = apiAuthorizedRequest("/organizations/123456789", port, null, null, "POST")
             Expect(response["status"]).to_equal(HttpStatus.UNAUTHORIZED.value())
         }
 
         @Test
         fun forbiddenWhenNotAdmin() {
-            val response = apiAuthorizedRequest("/organizations/123456789", null, JwtToken(Access.ORG_READ).toString(), "POST")
+            val response = apiAuthorizedRequest("/organizations/123456789", port, null, JwtToken(Access.ORG_READ).toString(), "POST")
             Expect(response["status"]).to_equal(HttpStatus.FORBIDDEN.value())
         }
 
         @Test
         fun notFoundWhenIdNotAvailableInDB() {
-            val response = apiAuthorizedRequest("/organizations/123NotFound", null, JwtToken(Access.ROOT).toString(), "POST")
+            val response = apiAuthorizedRequest("/organizations/123NotFound", port, null, JwtToken(Access.ROOT).toString(), "POST")
             Expect(response["status"]).to_equal(HttpStatus.NOT_FOUND.value())
         }
 
         @Test
         fun updateFromEnhetsregisteret() {
             val orgId = NOT_UPDATED_2.organizationId
-            val oldValues: Organization = mapper.readValue(apiGet("/organizations/$orgId", "application/json")["body"] as String)
+            val oldValues: Organization = mapper.readValue(apiGet("/organizations/$orgId", port, "application/json")["body"] as String)
             Expect(oldValues).to_equal(NOT_UPDATED_2)
 
             val parentId = PARENT_ORG.organizationId
-            val parentValues: Organization = mapper.readValue(apiGet("/organizations/$parentId", "application/json")["body"] as String)
+            val parentValues: Organization = mapper.readValue(apiGet("/organizations/$parentId", port, "application/json")["body"] as String)
             Expect(parentValues).to_equal(PARENT_ORG)
 
-            val updated: Organization = mapper.readValue(apiAuthorizedRequest("/organizations/$orgId", null, JwtToken(Access.ROOT).toString(), "POST")["body"] as String)
+            val updated: Organization = mapper.readValue(apiAuthorizedRequest("/organizations/$orgId", port, null, JwtToken(Access.ROOT).toString(), "POST")["body"] as String)
             Expect(updated).to_equal(UPDATED_2)
 
-            val updatedParent: Organization = mapper.readValue(apiGet("/organizations/$parentId", "application/json")["body"] as String)
+            val updatedParent: Organization = mapper.readValue(apiGet("/organizations/$parentId", port, "application/json")["body"] as String)
             Expect(updatedParent).to_equal(PARENT_ORG.apply { prefLabel = PrefLabel().apply { nb = "Teststaten" } })
         }
 
