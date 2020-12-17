@@ -66,7 +66,7 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
                 this as HttpURLConnection
 
                 if (responseCode != HttpStatus.OK.value()) {
-                    LOGGER.error("Organization (${if (isSubordinate) "underenhet" else "enhet"}) with id '$organizationId' not found in Enhetsregisteret")
+                    LOGGER.warn("Organization (${if (isSubordinate) "underenhet" else "enhet"}) with id '$organizationId' not found in Enhetsregisteret")
                     return null
                 }
 
@@ -75,7 +75,7 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
                 return try {
                     jacksonObjectMapper().readValue(jsonBody)
                 } catch (t: Throwable) {
-                    LOGGER.error("Unable to parse response from Enhetsregisteret for '$organizationId'")
+                    LOGGER.warn("Unable to parse response from Enhetsregisteret for '$organizationId'")
                     null
                 }
             }
