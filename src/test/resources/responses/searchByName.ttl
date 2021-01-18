@@ -16,7 +16,9 @@
         org:subOrganizationOf  <http://localhost:5000/organizations/912660680> ;
         rov:legalName          "REGISTERENHETEN I BRØNNØYSUND" ;
         dct:identifier         "974760673" ;
-        rov:orgType            "ORGL" ;
+        rov:orgType            [ a               skos:Concept ;
+                                 skos:prefLabel  "ORGL"
+                               ] ;
         rov:registration       [ a                  adms:Identifier ;
                                  dct:issued         "1999-02-03" ;
                                  skos:notation      "974760673" ;
@@ -34,7 +36,9 @@
         org:subOrganizationOf  <http://localhost:5000/organizations/972417823> ;
         rov:legalName          "FORSVARET" ;
         dct:identifier         "986105174" ;
-        rov:orgType            "ORGL" ;
+        rov:orgType            [ a               skos:Concept ;
+                                 skos:prefLabel  "ORGL"
+                               ] ;
         rov:registration       [ a                  adms:Identifier ;
                                  skos:notation      "986105174" ;
                                  adms:schemaAgency  "Brønnøysundregistrene"
