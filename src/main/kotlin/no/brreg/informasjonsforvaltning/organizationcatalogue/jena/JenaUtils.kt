@@ -37,7 +37,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
             .safeAddProperty(ROV.legalName, it.name)
             .addRegistration(it)
             .safeAddProperty(DCTerms.identifier, it.organizationId)
-            .safeAddProperty(ROV.orgType, it.orgType)
+            .addOrgType(it.orgType)
             .safeAddProperty(BR.orgPath, it.orgPath)
             .safeAddLinkedProperty(ORG.subOrganizationOf, it.subOrganizationOf?.let { parentId -> urls.organizationCatalogue + parentId })
             .safeAddLinkedProperty(BR.municipality, it.municipalityNumber?.let { number -> urls.municipality + municipalityNumberToId(number) })
@@ -59,8 +59,15 @@ private fun Resource.addRegistration(org: Organization): Resource =
             .addProperty(SKOS.notation, org.organizationId)
             .addProperty(ADMS.schemaAgency, "Brønnøysundregistrene"))
 
+private fun Resource.addOrgType(orgType: String?): Resource =
+    if (orgType == null) this
+    else addProperty(ROV.orgType,
+        model.createResource(SKOS.Concept)
+            .addProperty(SKOS.prefLabel, orgType)
+    )
+
 private fun Resource.safeAddProperty(property: Property, value: String?): Resource =
-    if(value == null) this
+    if (value == null) this
     else addProperty(property, value)
 
 private fun Resource.safeAddLinkedProperty(property: Property, value: String?): Resource =

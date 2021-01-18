@@ -16,7 +16,9 @@
         org:subOrganizationOf  <http://localhost:5000/organizations/972417823> ;
         rov:legalName          "FORSVARET" ;
         dct:identifier         "986105174" ;
-        rov:orgType            "ORGL" ;
+        rov:orgType            [ a               skos:Concept ;
+                                 skos:prefLabel  "ORGL"
+                               ] ;
         rov:registration       [ a                  adms:Identifier ;
                                  skos:notation      "986105174" ;
                                  adms:schemaAgency  "Brønnøysundregistrene"
