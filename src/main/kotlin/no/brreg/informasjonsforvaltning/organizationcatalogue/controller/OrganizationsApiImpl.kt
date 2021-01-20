@@ -93,15 +93,15 @@ open class OrganizationsApiImpl(
         }
     }
 
-    override fun getOrganizations(httpServletRequest: HttpServletRequest, jwt: Jwt?, name: String?, orgs: List<String>?): ResponseEntity<Any> {
+    override fun getOrganizations(httpServletRequest: HttpServletRequest, jwt: Jwt?, name: String?, organizationId: List<String>?): ResponseEntity<Any> {
         when {
-            orgs == null && name == null -> LOGGER.info("get all organizations")
-            orgs == null -> LOGGER.info("get organizations filtered by name: $name")
-            name == null -> LOGGER.info("get organizations filtered by ids: $orgs")
-            else -> LOGGER.info("get organizations filtered by ids: $orgs and name: $name")
+            organizationId == null && name == null -> LOGGER.info("get all organizations")
+            organizationId == null -> LOGGER.info("get organizations filtered by name: $name")
+            name == null -> LOGGER.info("get organizations filtered by ids: $organizationId")
+            else -> LOGGER.info("get organizations filtered by ids: $organizationId and name: $name")
         }
         val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
-        val organizations = catalogueService.getOrganizations(name, orgs)
+        val organizations = catalogueService.getOrganizations(name, organizationId)
 
         val urls = ExternalUrls(
             organizationCatalogue = appProperties.organizationCatalogueUrl,

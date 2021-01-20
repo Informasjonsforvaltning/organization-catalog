@@ -34,7 +34,7 @@ paths:
           required: false
           schema:
             type: string
-        - name: orgs
+        - name: organizationId
           in: query
           description: Filter by organization numbers
           required: false
