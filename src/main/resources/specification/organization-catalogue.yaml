@@ -34,12 +34,14 @@ paths:
           required: false
           schema:
             type: string
-        - name: organizationId
+        - name: orgs
           in: query
-          description: If you want to filter by organizationId
+          description: Filter by organization numbers
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: OK
