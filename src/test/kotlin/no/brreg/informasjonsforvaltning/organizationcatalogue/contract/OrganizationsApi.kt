@@ -123,7 +123,7 @@ internal class OrganizationsApi : ApiTestContext() {
 
         @Test
         fun getByOrgidSeveralPossibilities() {
-            val response = apiGet("/organizations/?organizationId=60", port, turtle.acceptHeader)["body"]
+            val response = apiGet("/organizations/?organizationId=974760673,994686011", port, turtle.acceptHeader)["body"]
             Expect(response).isomorphic_with_response_in_file("searchByOrgId.ttl", turtle.jenaType)
         }
 
@@ -135,7 +135,7 @@ internal class OrganizationsApi : ApiTestContext() {
 
         @Test
         fun getByOrgidAndName() {
-            val response = apiGet("/organizations/?name=ET&organizationId=60", port, rdfxml.acceptHeader)["body"]
+            val response = apiGet("/organizations/?name=ET&organizationId=974760673,994686011", port, rdfxml.acceptHeader)["body"]
             Expect(response).isomorphic_with_response_in_file("getBrreg.ttl", rdfxml.jenaType)
         }
     }

@@ -13,6 +13,7 @@ import java.util.Optional
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_0
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.orgDB0
+import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.orgDB1
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.springframework.test.context.ActiveProfiles
@@ -72,13 +73,13 @@ class OrganizationCatalogueServiceTest {
 
     @Test
     fun getByOrgIdIsPrioritized() {
-        val persistedList = listOf(orgDB0())
-        whenever(repository.findByNameLikeAndOrganizationIdLike("Name", "OrgId"))
+        val persistedList = listOf(orgDB0(), orgDB1())
+        whenever(repository.findByNameLike("Name"))
             .thenReturn(persistedList)
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
 
-        val publisherList = catalogueService.getOrganizations("Name", "OrgId")
+        val publisherList = catalogueService.getOrganizations("Name", listOf("974760673"))
 
         assertEquals(persistedList[0].name, publisherList[0].name)
         assertEquals(persistedList[0].organizationId, publisherList[0].organizationId)

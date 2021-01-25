@@ -24,10 +24,10 @@ class OrganizationCatalogueService(
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
             ?: updateEntryFromEnhetsregisteret(orgId)
 
-    fun getOrganizations(name: String?, organizationId: String?): List<Organization> =
+    fun getOrganizations(name: String?, orgs: List<String>?): List<Organization> =
         when {
-            name != null && organizationId != null  -> searchForOrganizationsByNameAndOrgId(name, organizationId)
-            organizationId != null -> searchForOrganizationsByOrgId(organizationId)
+            name != null && orgs != null  -> searchForOrganizationsByNameAndIds(name, orgs)
+            orgs != null -> searchForOrganizationsByIds(orgs)
             name != null -> searchForOrganizationsByName(name)
             else -> getCatalogue()
         }
@@ -42,9 +42,9 @@ class OrganizationCatalogueService(
             .findAll()
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
-    private fun searchForOrganizationsByOrgId(organizationId: String) =
+    private fun searchForOrganizationsByIds(orgs: List<String>) =
         repository
-            .findByOrganizationIdLike(organizationId)
+            .findAllById(orgs)
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
     private fun searchForOrganizationsByName(name: String) =
@@ -52,9 +52,10 @@ class OrganizationCatalogueService(
             .findByNameLike(name.toUpperCase())
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
-    private fun searchForOrganizationsByNameAndOrgId(name: String, organizationId: String) =
+    private fun searchForOrganizationsByNameAndIds(name: String, orgs: List<String>) =
         repository
-            .findByNameLikeAndOrganizationIdLike(name, organizationId)
+            .findByNameLike(name)
+            .filter { orgs.contains(it.organizationId) }
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
     fun updateEntryFromEnhetsregisteret(orgId: String): Organization? {

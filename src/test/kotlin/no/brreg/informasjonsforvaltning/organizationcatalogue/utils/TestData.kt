@@ -198,6 +198,20 @@ fun orgDB0() = OrganizationDB().apply {
     }
 }
 
+fun orgDB1() = OrganizationDB().apply {
+    name = "FORSVARET"
+    organizationId = "986105174"
+    orgType = "ORGL"
+    orgPath = "/STAT/972417823/986105174"
+    subOrganizationOf = "972417823"
+    issued = LocalDate.of(1999, 2, 3)
+    domains = emptySet()
+    allowDelegatedRegistration = true
+    prefLabel = PrefLabel().apply {
+        nb = "Forsvaret"
+    }
+}
+
 val NOT_UPDATED_2 = Organization().apply {
     name = "TEST"
     organizationId = "123456789"
