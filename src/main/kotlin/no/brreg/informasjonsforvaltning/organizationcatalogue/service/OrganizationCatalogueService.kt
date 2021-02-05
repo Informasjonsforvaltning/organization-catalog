@@ -9,6 +9,7 @@ import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.updateValu
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.updateWithEnhetsregisteretValues
 import no.brreg.informasjonsforvaltning.organizationcatalogue.repository.OrganizationCatalogueRepository
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
@@ -82,4 +83,11 @@ class OrganizationCatalogueService(
             .findByIdOrNull(orgId)
             ?.orgPath
             ?: "${appProperties.defaultOrgPath}$orgId"
+
+    @Scheduled(cron = "0 30 20 5 * ?")
+    fun updateAllEntriesFromEnhetsregisteret() {
+        repository.findAll()
+            .forEach { updateEntryFromEnhetsregisteret(it.organizationId) }
+    }
+
 }
