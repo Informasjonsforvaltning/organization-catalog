@@ -2,6 +2,9 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.utils
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.EnhetsregisteretAddress
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.EnhetsregisteretCode
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.EnhetsregisteretOrganization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrganizationDB
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap
 import java.time.LocalDate
@@ -21,7 +24,7 @@ val MONGO_ENV_VALUES: Map<String, String> = ImmutableMap.of(
     "MONGO_INITDB_ROOT_PASSWORD", MONGO_PASSWORD
 )
 
-fun getApiAddress( port: Int, endpoint: String ): String{
+fun getApiAddress(port: Int, endpoint: String): String {
     return "http://localhost:$port$endpoint"
 }
 
@@ -42,7 +45,7 @@ val ORG_0 = Organization().apply {
     }
 }
 
-val ORG_1 =  Organization().apply {
+val ORG_1 = Organization().apply {
     name = "ATB AS"
     norwegianRegistry = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/994686011"
     organizationId = "994686011"
@@ -57,7 +60,7 @@ val ORG_1 =  Organization().apply {
     }
 }
 
-val ORG_2 =  Organization().apply {
+val ORG_2 = Organization().apply {
     name = "FORSVARET"
     norwegianRegistry = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/986105174"
     organizationId = "986105174"
@@ -73,7 +76,7 @@ val ORG_2 =  Organization().apply {
     }
 }
 
-val NOT_UPDATED_0 =  Organization().apply {
+val NOT_UPDATED_0 = Organization().apply {
     name = "Not updated name"
     norwegianRegistry = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/44332211"
     organizationId = "44332211"
@@ -90,7 +93,7 @@ val NOT_UPDATED_0 =  Organization().apply {
     }
 }
 
-val NOT_UPDATED_1 =  Organization().apply {
+val NOT_UPDATED_1 = Organization().apply {
     name = "Organization Name"
     norwegianRegistry = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/11223344"
     organizationId = "11223344"
@@ -102,7 +105,7 @@ val NOT_UPDATED_1 =  Organization().apply {
     sectorCode = "6100"
 }
 
-val UPDATE_VALUES =  Organization().apply {
+val UPDATE_VALUES = Organization().apply {
     name = "Organization Name"
     norwegianRegistry = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/55667788"
     organizationId = "55667788"
@@ -121,7 +124,7 @@ val UPDATE_VALUES =  Organization().apply {
     }
 }
 
-val UPDATED_0 =  Organization().apply {
+val UPDATED_0 = Organization().apply {
     name = "updatedName"
     norwegianRegistry = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/44332211"
     organizationId = "44332211"
@@ -138,7 +141,7 @@ val UPDATED_0 =  Organization().apply {
     }
 }
 
-val UPDATED_1 =  Organization().apply {
+val UPDATED_1 = Organization().apply {
     name = "Organization Name"
     norwegianRegistry = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/11223344"
     organizationId = "11223344"
@@ -157,7 +160,7 @@ val UPDATED_1 =  Organization().apply {
     }
 }
 
-val ORG_WITH_DOMAIN =  Organization().apply {
+val ORG_WITH_DOMAIN = Organization().apply {
     name = "Organization With Domain"
     norwegianRegistry = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/55667788"
     organizationId = "55667788"
@@ -169,7 +172,7 @@ val ORG_WITH_DOMAIN =  Organization().apply {
     sectorCode = "6100"
 }
 
-val ORG_WITHOUT_DOMAIN =  Organization().apply {
+val ORG_WITHOUT_DOMAIN = Organization().apply {
     name = "Organization Without Domain"
     norwegianRegistry = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/98987676"
     organizationId = "98987676"
@@ -252,8 +255,27 @@ val PARENT_ORG = Organization().apply {
     sectorCode = "6100"
 }
 
+val BRREG_ORG = EnhetsregisteretOrganization(
+    navn = "FORSVARET",
+    organisasjonsnummer = "986105174",
+    overordnetEnhet = "972417823",
+    organisasjonsform = EnhetsregisteretCode(kode = "ORGL"),
+    orgPath = "/STAT/972417823/986105174",
+    registreringsdatoEnhetsregisteret = "1999-02-03"
+)
+
 fun organizationsDBPopulation(): List<org.bson.Document> =
-    listOf(ORG_0, ORG_1, ORG_2, NOT_UPDATED_0, NOT_UPDATED_1, ORG_WITH_DOMAIN, ORG_WITHOUT_DOMAIN, NOT_UPDATED_2, PARENT_ORG, )
+    listOf(
+        ORG_0,
+        ORG_1,
+        ORG_2,
+        NOT_UPDATED_0,
+        NOT_UPDATED_1,
+        ORG_WITH_DOMAIN,
+        ORG_WITHOUT_DOMAIN,
+        NOT_UPDATED_2,
+        PARENT_ORG,
+    )
         .map { it.mapDBO() }
 
 private fun Organization.mapDBO(): org.bson.Document =
