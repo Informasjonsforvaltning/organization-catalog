@@ -59,8 +59,15 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         allowDelegatedRegistration = org.allowDelegatedRegistration ?: allowDelegatedRegistration
     }
 
-fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganization): OrganizationDB =
-    apply {
+fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganization): OrganizationDB {
+    val prefLabelShouldBeUpdated = when {
+        org.navn.isNullOrBlank() -> false
+        prefLabel.isNullOrEmpty() -> true
+        name != org.navn -> true
+        else -> false
+    }
+
+    return apply {
         name = org.navn ?: name
         orgType = org.organisasjonsform?.kode
         orgPath = org.orgPath
@@ -69,8 +76,9 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganiz
         issued = org.registreringsdatoEnhetsregisteret?.let { LocalDate.parse(it) }
         industryCode = org.naeringskode1?.kode
         sectorCode = org.institusjonellSektorkode?.kode
-        prefLabel = if (prefLabel.isNullOrEmpty()) org.prefLabelFromName() else prefLabel
+        prefLabel = if (prefLabelShouldBeUpdated) org.prefLabelFromName() else prefLabel
     }
+}
 
 private fun EnhetsregisteretOrganization.prefLabelFromName(): PrefLabel =
     PrefLabel().apply {
