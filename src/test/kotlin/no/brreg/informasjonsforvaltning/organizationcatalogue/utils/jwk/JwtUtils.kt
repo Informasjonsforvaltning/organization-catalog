@@ -14,56 +14,50 @@ import java.util.UUID
 object JwkStore{
     private val jwk = createJwk()
 
-    private fun createJwk(): RSAKey{
-        val  created = RSAKeyGenerator(2048)
-                .algorithm(JWSAlgorithm.RS256)
-                .keyUse(KeyUse.SIGNATURE)
-                .keyID(UUID.randomUUID().toString())
-                .generate()
-
-        return created
-    }
+    private fun createJwk(): RSAKey =
+        RSAKeyGenerator(2048)
+            .algorithm(JWSAlgorithm.RS256)
+            .keyUse(KeyUse.SIGNATURE)
+            .keyID(UUID.randomUUID().toString())
+            .generate()
 
     fun get(): String {
         val token : JwkToken = jacksonObjectMapper()
-                .readValue(jwk.toJSONString())
+            .readValue(jwk.toJSONString())
         return token.toString()
     }
 
-    fun jwtHeader() = (
-            JWSHeader.Builder(JWSAlgorithm.RS256)
-                    .keyID(jwk.keyID)
-                    .build()
-            )
+    fun jwtHeader() =
+        JWSHeader.Builder(JWSAlgorithm.RS256)
+            .keyID(jwk.keyID)
+            .build()
 
-    fun signer() = (
-            RSASSASigner(jwk)
-            )
+    fun signer() =
+        RSASSASigner(jwk)
 
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class JwkToken(
-        private val kid : String,
-        private val kty :String,
-        private val use : String,
-        private val n : String,
-        private val e : String
+    private val kid : String,
+    private val kty :String,
+    private val use : String,
+    private val n : String,
+    private val e : String
 ){
 
-    override fun toString(): String {
-        return  "{\n"+
-                " \"keys\": [\n" +
-                "   {\n" +
-                "     \"kid\": \"$kid\",\n" +
-                "     \"kty\": \"$kty\",\n" +
-                "     \"alg\": \"RS256\",\n" +
-                "     \"use\": \"$use\",\n" +
-                "     \"n\": \"$n\",\n" +
-                "     \"e\": \"$e\"\n" +
-                "   }\n" +
-                " ]\n" +
-                "}"
+    override fun toString(): String =
+        """{
+            "keys": [
+                {
+                    "kid": "$kid",
+                    "kty": "$kty",
+                    "alg": "RS256",
+                    "use": "$use",
+                    "n": "$n",
+                    "e": "$e"
+                }
+            ]
+        }""".trimIndent()
 
-    }
 }

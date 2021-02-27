@@ -6,9 +6,7 @@ import org.springframework.stereotype.Component
 @Component
 class EndpointPermissions{
 
-    fun hasAdminPermission(jwt: Jwt?): Boolean {
-        if (jwt == null) return false
-
+    fun hasAdminPermission(jwt: Jwt): Boolean {
         val authorities: String? = jwt.claims["authorities"] as? String
 
         return authorities?.contains("system:root:admin") ?: false

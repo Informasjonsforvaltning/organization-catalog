@@ -11,44 +11,44 @@ import no.brreg.informasjonsforvaltning.organizationcatalogue.security.EndpointP
 import no.brreg.informasjonsforvaltning.organizationcatalogue.service.OrganizationCatalogueService
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.annotation.RequestMethod.GET
 import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolationException
 
-private val LOGGER = LoggerFactory.getLogger(OrganizationsApiImpl::class.java)
+private val LOGGER = LoggerFactory.getLogger(OrganizationsController::class.java)
 
 @CrossOrigin
-@Controller
-open class OrganizationsApiImpl(
+@RestController
+@RequestMapping("/organizations")
+open class OrganizationsController(
     private val catalogueService: OrganizationCatalogueService,
     private val appProperties: AppProperties,
     private val endpointPermissions: EndpointPermissions
-) : OrganizationCatalogueApi {
+) {
 
-    @RequestMapping(value = ["/ping"], method = [GET], produces = ["text/plain"])
-    fun ping(): ResponseEntity<String> =
-        ResponseEntity.ok("pong")
-
-    @RequestMapping(value = ["/ready"], method = [GET])
-    fun ready(): ResponseEntity<Void> =
-        ResponseEntity.ok().build()
-
-    override fun updateOrganization(httpServletRequest: HttpServletRequest?, jwt: Jwt?, organizationId: String, organization: Organization): ResponseEntity<Organization> =
+    @PutMapping("/{id}", produces = [MediaType.APPLICATION_JSON_VALUE], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    fun updateOrganization(
+        @AuthenticationPrincipal jwt: Jwt,
+        @PathVariable id: String,
+        @RequestBody organization: Organization
+    ): ResponseEntity<Organization> =
         if (endpointPermissions.hasAdminPermission(jwt)) {
             try {
-                LOGGER.info("update organization $organizationId")
+                LOGGER.info("update organization $id")
                 catalogueService
-                    .updateEntry(organizationId, organization)
+                    .updateEntry(id, organization)
                     ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
                     ?: ResponseEntity(HttpStatus.NOT_FOUND)
             } catch (exception: Exception) {
-                LOGGER.info("error updating organization $organizationId")
+                LOGGER.info("error updating organization $id")
                 when (exception) {
                     is ConstraintViolationException -> ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
                     is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
@@ -57,10 +57,17 @@ open class OrganizationsApiImpl(
             }
         } else ResponseEntity(HttpStatus.FORBIDDEN)
 
-    override fun getOrganizationById(httpServletRequest: HttpServletRequest, jwt: Jwt?, organizationId: String): ResponseEntity<Any> {
-        LOGGER.info("get organization $organizationId")
-        val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
-        val organization = catalogueService.getByOrgnr(organizationId)
+    @GetMapping(
+        "/{id}",
+        produces = ["application/json", "application/xml", "application/ld+json", "application/rdf+json", "application/rdf+xml", "text/turtle"]
+    )
+    fun getOrganizationById(
+        @RequestHeader(HttpHeaders.ACCEPT) accept: String?,
+        @PathVariable id: String
+    ): ResponseEntity<Any> {
+        LOGGER.info("get organization $id")
+        val jenaType = acceptHeaderToJenaType(accept)
+        val organization = catalogueService.getByOrgnr(id)
 
         val urls = ExternalUrls(
             organizationCatalogue = appProperties.organizationCatalogueUrl,
@@ -75,9 +82,13 @@ open class OrganizationsApiImpl(
         }
     }
 
-    override fun getDelegatedOrganizations(httpServletRequest: HttpServletRequest, jwt: Jwt?): ResponseEntity<Any> {
+    @GetMapping(
+        "/delegated",
+        produces = ["application/json", "application/xml", "application/ld+json", "application/rdf+json", "application/rdf+xml", "text/turtle"]
+    )
+    fun getDelegatedOrganizations(@RequestHeader(HttpHeaders.ACCEPT) accept: String?): ResponseEntity<Any> {
         LOGGER.info("get organizations with delegation permissions")
-        val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
+        val jenaType = acceptHeaderToJenaType(accept)
         val organizations = catalogueService.getOrganizationsWithDelegationPermissions()
 
         val urls = ExternalUrls(
@@ -93,14 +104,19 @@ open class OrganizationsApiImpl(
         }
     }
 
-    override fun getOrganizations(httpServletRequest: HttpServletRequest, jwt: Jwt?, name: String?, organizationId: List<String>?): ResponseEntity<Any> {
+    @GetMapping(produces = ["application/json", "application/xml", "application/ld+json", "application/rdf+json", "application/rdf+xml", "text/turtle"])
+    fun getOrganizations(
+        @RequestHeader(HttpHeaders.ACCEPT) accept: String?,
+        @RequestParam name: String?,
+        @RequestParam organizationId: List<String>?
+    ): ResponseEntity<Any> {
         when {
             organizationId == null && name == null -> LOGGER.info("get all organizations")
             organizationId == null -> LOGGER.info("get organizations filtered by name: $name")
             name == null -> LOGGER.info("get organizations filtered by ids: $organizationId")
             else -> LOGGER.info("get organizations filtered by ids: $organizationId and name: $name")
         }
-        val jenaType = acceptHeaderToJenaType(httpServletRequest.getHeader("Accept"))
+        val jenaType = acceptHeaderToJenaType(accept)
         val organizations = catalogueService.getOrganizations(name, organizationId)
 
         val urls = ExternalUrls(
@@ -115,7 +131,11 @@ open class OrganizationsApiImpl(
         }
     }
 
-    override fun updateFromEnhetsregisteret(httpServletRequest: HttpServletRequest?, jwt: Jwt, id: String): ResponseEntity<Organization> =
+    @PostMapping("/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun updateFromEnhetsregisteret(
+        @AuthenticationPrincipal jwt: Jwt,
+        @PathVariable id: String
+    ): ResponseEntity<Organization> =
         if (endpointPermissions.hasAdminPermission(jwt)) {
             LOGGER.info("update organization with id $id with data from Enhetsregisteret")
             catalogueService.updateEntryFromEnhetsregisteret(id)
@@ -123,7 +143,9 @@ open class OrganizationsApiImpl(
                 ?: ResponseEntity(HttpStatus.NOT_FOUND)
         } else ResponseEntity(HttpStatus.FORBIDDEN)
 
-    override fun getOrgPath(httpServletRequest: HttpServletRequest, jwt: Jwt?, org: String): ResponseEntity<String> {
+
+    @GetMapping("/orgpath/{org}", produces = [MediaType.TEXT_PLAIN_VALUE])
+    fun getOrgPath(@PathVariable org: String): ResponseEntity<String> {
         LOGGER.info("get orgPath for $org")
         return ResponseEntity(catalogueService.getOrgPath(org), HttpStatus.OK)
     }
