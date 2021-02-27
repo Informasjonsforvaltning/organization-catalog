@@ -5,15 +5,12 @@ import com.nhaarman.mockitokotlin2.whenever
 import no.brreg.informasjonsforvaltning.organizationcatalogue.adapter.EnhetsregisteretAdapter
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties
 import no.brreg.informasjonsforvaltning.organizationcatalogue.repository.OrganizationCatalogueRepository
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ENHETSREGISTERET_URL
+import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.*
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 
 import java.util.Optional
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.ORG_0
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.orgDB0
-import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.orgDB1
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.springframework.test.context.ActiveProfiles
@@ -39,7 +36,7 @@ class OrganizationCatalogueServiceTest {
 
     @Test
     fun getById() {
-        val persisted = orgDB0()
+        val persisted = ORG_DB0
         whenever(repository.findById("123ID"))
             .thenReturn(Optional.of(persisted))
         whenever(valuesMock.enhetsregisteretUrl)
@@ -56,7 +53,7 @@ class OrganizationCatalogueServiceTest {
 
     @Test
     fun getAll() {
-        val persistedList = listOf(orgDB0())
+        val persistedList = listOf(ORG_DB0)
         whenever(repository.findAll())
             .thenReturn(persistedList)
         whenever(valuesMock.enhetsregisteretUrl)
@@ -73,7 +70,7 @@ class OrganizationCatalogueServiceTest {
 
     @Test
     fun getByOrgIdIsPrioritized() {
-        val persistedList = listOf(orgDB0(), orgDB1())
+        val persistedList = listOf(ORG_DB0, ORG_DB1)
         whenever(repository.findByNameLike("Name"))
             .thenReturn(persistedList)
         whenever(valuesMock.enhetsregisteretUrl)
@@ -90,7 +87,7 @@ class OrganizationCatalogueServiceTest {
 
     @Test
     fun getByName() {
-        val persistedList = listOf(orgDB0())
+        val persistedList = listOf(ORG_DB0)
         whenever(repository.findByNameLike("NAME"))
             .thenReturn(persistedList)
         whenever(valuesMock.enhetsregisteretUrl)
@@ -118,7 +115,7 @@ class OrganizationCatalogueServiceTest {
     @Test
     fun getOrganizationsWithDelegationPermissions() {
         whenever(repository.findByAllowDelegatedRegistration(true))
-            .thenReturn(listOf(orgDB0()))
+            .thenReturn(listOf(ORG_DB0))
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
 

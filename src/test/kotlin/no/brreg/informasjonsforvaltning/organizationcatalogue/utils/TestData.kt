@@ -179,32 +179,32 @@ val ORG_WITHOUT_DOMAIN = Organization(
     sectorCode = "6100"
 )
 
-fun orgDB0() = OrganizationDB().apply {
-    name = "REGISTERENHETEN I BRØNNØYSUND"
-    organizationId = "974760673"
-    orgType = "ORGL"
-    orgPath = "/STAT/912660680/974760673"
-    subOrganizationOf = "912660680"
-    issued = LocalDate.of(1999, 2, 3)
-    municipalityNumber = "1813"
-    industryCode = "84.110"
-    sectorCode = "6100"
-    domains = emptySet()
-    allowDelegatedRegistration = true
+val ORG_DB0 = OrganizationDB(
+    name = "REGISTERENHETEN I BRØNNØYSUND",
+    organizationId = "974760673",
+    orgType = "ORGL",
+    orgPath = "/STAT/912660680/974760673",
+    subOrganizationOf = "912660680",
+    issued = LocalDate.of(1999, 2, 3),
+    municipalityNumber = "1813",
+    industryCode = "84.110",
+    sectorCode = "6100",
+    domains = emptySet(),
+    allowDelegatedRegistration = true,
     prefLabel = PrefLabel(nb = "Brønnøysundregistrene")
-}
+    )
 
-fun orgDB1() = OrganizationDB().apply {
-    name = "FORSVARET"
-    organizationId = "986105174"
-    orgType = "ORGL"
-    orgPath = "/STAT/972417823/986105174"
-    subOrganizationOf = "972417823"
-    issued = LocalDate.of(1999, 2, 3)
-    domains = emptySet()
-    allowDelegatedRegistration = true
+val ORG_DB1 = OrganizationDB(
+    name = "FORSVARET",
+    organizationId = "986105174",
+    orgType = "ORGL",
+    orgPath = "/STAT/972417823/986105174",
+    subOrganizationOf = "972417823",
+    issued = LocalDate.of(1999, 2, 3),
+    domains = emptySet(),
+    allowDelegatedRegistration = true,
     prefLabel = PrefLabel(nb = "Forsvaret")
-}
+)
 
 val NOT_UPDATED_2 = Organization(
     name = "TEST",
