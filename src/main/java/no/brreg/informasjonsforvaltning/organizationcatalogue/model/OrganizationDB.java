@@ -2,7 +2,6 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.model;
 
 import javax.validation.constraints.NotBlank;
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

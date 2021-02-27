@@ -1,31 +1,27 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.mapping
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.Organization
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.PrefLabel
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.EnhetsregisteretOrganization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrganizationDB
 import java.time.LocalDate
 
-fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization {
-
-    val mapped = Organization()
-
-    mapped.name = name
-    mapped.norwegianRegistry = enhetsregisteretUrl + organizationId
-    mapped.internationalRegistry = internationalRegistry
-    mapped.organizationId = organizationId
-    mapped.orgType = orgType
-    mapped.orgPath = orgPath
-    mapped.subOrganizationOf = subOrganizationOf
-    mapped.issued = issued
-    mapped.municipalityNumber = municipalityNumber
-    mapped.industryCode = industryCode
-    mapped.sectorCode = sectorCode
-    mapped.prefLabel = prefLabel
-    mapped.allowDelegatedRegistration = allowDelegatedRegistration
-
-    return mapped
-}
+fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
+    Organization(
+        name = name,
+        norwegianRegistry = enhetsregisteretUrl + organizationId,
+        internationalRegistry = internationalRegistry,
+        organizationId = organizationId,
+        orgType = orgType,
+        orgPath = orgPath,
+        subOrganizationOf = subOrganizationOf,
+        issued = issued,
+        municipalityNumber = municipalityNumber,
+        industryCode = industryCode,
+        sectorCode = sectorCode,
+        prefLabel = prefLabel,
+        allowDelegatedRegistration = allowDelegatedRegistration,
+    )
 
 fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB {
     val mapped = OrganizationDB()
@@ -81,9 +77,7 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganiz
 }
 
 private fun EnhetsregisteretOrganization.prefLabelFromName(): PrefLabel =
-    PrefLabel().apply {
-        nb = navn?.toLowerCase()?.capitalize()
-    }
+    PrefLabel(nb = navn?.toLowerCase()?.capitalize())
 
 private fun PrefLabel?.isNullOrEmpty(): Boolean =
     when {
@@ -94,10 +88,9 @@ private fun PrefLabel?.isNullOrEmpty(): Boolean =
         else -> true
     }
 
-private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel {
-    nb = newValues?.nb ?: nb
-    nn = newValues?.nn ?: nn
-    en = newValues?.en ?: en
-
-    return this
-}
+private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel =
+    copy(
+        nb = newValues?.nb ?: nb,
+        nn = newValues?.nn ?: nn,
+        en = newValues?.en ?: en
+    )
