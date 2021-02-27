@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class EnhetsregisteretOrganization (
     val organisasjonsnummer: String,
-    val navn: String? = null,
+    val navn: String,
     val overordnetEnhet: String? = null,
     val registreringsdatoEnhetsregisteret: String? = null,
     val orgPath: String? = null,
