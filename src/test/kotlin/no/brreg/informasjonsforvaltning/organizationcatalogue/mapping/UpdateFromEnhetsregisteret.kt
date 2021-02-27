@@ -1,6 +1,6 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.mapping
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.PrefLabel
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.BRREG_ORG
 import no.brreg.informasjonsforvaltning.organizationcatalogue.utils.orgDB1
 import org.junit.jupiter.api.Assertions
@@ -15,10 +15,10 @@ class UpdateFromEnhetsregisteret {
     @Test
     fun prefLabelNotUpdatedWhenNameIsUnchanged() {
         val orgWithNN = orgDB1().apply {
-            prefLabel = PrefLabel().apply {
-                nb = "Forsvaret på bokmål"
+            prefLabel = PrefLabel(
+                nb = "Forsvaret på bokmål",
                 nn = "Forsvaret på nynorsk"
-            }
+            )
         }
 
         val expectedNb = "Forsvaret på bokmål"
@@ -34,10 +34,10 @@ class UpdateFromEnhetsregisteret {
     @Test
     fun prefLabelNotUpdatedWhenNameIsBlank() {
         val orgWithNN = orgDB1().apply {
-            prefLabel = PrefLabel().apply {
-                nb = "Forsvaret på bokmål"
+            prefLabel = PrefLabel(
+                nb = "Forsvaret på bokmål",
                 nn = "Forsvaret på nynorsk"
-            }
+            )
         }
 
         val expectedNb = "Forsvaret på bokmål"
@@ -54,10 +54,10 @@ class UpdateFromEnhetsregisteret {
     fun prefLabelUpdatedWhenNameIsChanged() {
         val orgDBWithTypo = orgDB1().apply {
             name = "FØRSVARET"
-            prefLabel = PrefLabel().apply {
-                nb = "Førsvaret"
+            prefLabel = PrefLabel(
+                nb = "Førsvaret",
                 nn = "Føresvaret"
-            }
+            )
         }
 
         val expectedNb = "Forsvaret"

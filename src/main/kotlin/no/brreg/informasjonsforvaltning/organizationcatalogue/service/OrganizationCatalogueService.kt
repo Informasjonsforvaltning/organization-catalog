@@ -2,7 +2,7 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.service
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.adapter.EnhetsregisteretAdapter
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.mapForCreation
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.mapToGenerated
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.updateValues

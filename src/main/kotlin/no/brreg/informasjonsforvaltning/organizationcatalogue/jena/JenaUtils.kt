@@ -1,7 +1,7 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.jena
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.PrefLabel
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.Organization
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.PrefLabel
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.municipalityNumberToId
 import org.apache.jena.rdf.model.Model
 import org.apache.jena.rdf.model.ModelFactory

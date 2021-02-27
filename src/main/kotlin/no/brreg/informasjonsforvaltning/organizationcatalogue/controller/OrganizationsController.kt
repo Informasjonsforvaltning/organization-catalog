@@ -1,8 +1,7 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.controller
 
 import no.brreg.informasjonsforvaltning.organizationcatalogue.configuration.AppProperties
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.api.OrganizationCatalogueApi
-import no.brreg.informasjonsforvaltning.organizationcatalogue.generated.model.Organization
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.ExternalUrls
 import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.JenaType
 import no.brreg.informasjonsforvaltning.organizationcatalogue.jena.acceptHeaderToJenaType
@@ -17,10 +16,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.jwt.Jwt
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.bind.annotation.RequestMethod.GET
-import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolationException
 
 private val LOGGER = LoggerFactory.getLogger(OrganizationsController::class.java)
