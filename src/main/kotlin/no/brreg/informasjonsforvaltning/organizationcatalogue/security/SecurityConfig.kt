@@ -34,11 +34,9 @@ open class SecurityConfig : WebSecurityConfigurerAdapter() {
         val jwtDecoder = NimbusJwtDecoder.withJwkSetUri(properties.jwt.jwkSetUri).build()
         jwtDecoder.setJwtValidator(
             DelegatingOAuth2TokenValidator(
-                listOf(
-                    JwtTimestampValidator(),
-                    JwtValidators.createDefaultWithIssuer(properties.jwt.issuerUri),
-                    JwtClaimValidator(AUD) { aud: List<String> -> aud.contains("organization-catalogue") }
-                )
+                JwtTimestampValidator(),
+                JwtIssuerValidator(properties.jwt.issuerUri),
+                JwtClaimValidator(AUD) { aud: List<String> -> aud.contains("organization-catalogue") }
             )
         )
         return jwtDecoder

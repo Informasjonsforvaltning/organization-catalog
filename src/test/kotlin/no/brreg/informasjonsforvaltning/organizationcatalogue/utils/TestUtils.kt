@@ -43,15 +43,14 @@ fun apiGet(endpoint: String, port: Int, acceptHeader: String?): Map<String,Any> 
     }
 }
 
-fun apiAuthorizedRequest(endpoint : String, port: Int, body: String?, token: String?, method: String): Map<String, Any> {
-    val connection  = URL(getApiAddress(port, endpoint)).openConnection() as HttpURLConnection
-    connection.requestMethod = method
-    connection.setRequestProperty("Content-type", "application/json")
-    connection.setRequestProperty("Accept", "application/json")
+fun apiAuthorizedRequest(endpoint : String, port: Int, body: String?, token: String?, method: String): Map<String, Any> =
+    try {
+        val connection = URL("http://localhost:$port$endpoint").openConnection() as HttpURLConnection
+        connection.requestMethod = method
+        connection.setRequestProperty("Content-type", "application/json")
+        connection.setRequestProperty("Accept", "application/json")
+        if(!token.isNullOrEmpty()) connection.setRequestProperty("Authorization", "Bearer $token")
 
-    if(!token.isNullOrEmpty()) {connection.setRequestProperty("Authorization", "Bearer $token")}
-
-    return try {
         connection.doOutput = true
         connection.connect();
 
@@ -61,17 +60,17 @@ fun apiAuthorizedRequest(endpoint : String, port: Int, body: String?, token: Str
             writer.close()
         }
 
-        if(isOK(connection.responseCode)){
+        if(isOK(connection.responseCode)) {
+            val responseBody = connection.inputStream.bufferedReader().use(BufferedReader::readText)
             mapOf(
-                "body"   to connection.inputStream.bufferedReader().use(BufferedReader :: readText),
+                "body"   to responseBody,
                 "header" to connection.headerFields.toString(),
-                "status" to connection.responseCode
-            )
+                "status" to connection.responseCode)
         } else {
             mapOf(
                 "status" to connection.responseCode,
                 "header" to " ",
-                "body" to " "
+                "body"   to " "
             )
         }
     } catch (e: Exception) {
@@ -81,7 +80,6 @@ fun apiAuthorizedRequest(endpoint : String, port: Int, body: String?, token: Str
             "body"   to " "
         )
     }
-}
 
 private fun isOK(response: Int?): Boolean =
     if(response == null) false
