@@ -1,10 +1,8 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.mapping
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.model.Organization
-import no.brreg.informasjonsforvaltning.organizationcatalogue.model.PrefLabel
-import no.brreg.informasjonsforvaltning.organizationcatalogue.model.EnhetsregisteretOrganization
-import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrganizationDB
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.*
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
     Organization(
@@ -20,6 +18,7 @@ fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
         industryCode = industryCode,
         sectorCode = sectorCode,
         prefLabel = prefLabel,
+        orgStatus = orgStatus,
         allowDelegatedRegistration = allowDelegatedRegistration,
     )
 
@@ -34,6 +33,7 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB =
         issued = registreringsdatoEnhetsregisteret?.let { LocalDate.parse(it) },
         industryCode = naeringskode1?.kode,
         sectorCode = institusjonellSektorkode?.kode,
+        orgStatus = orgStatusFromDeleteDate(),
         prefLabel = prefLabelFromName()
     )
 
@@ -48,6 +48,7 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         issued = org.issued ?: issued,
         industryCode = org.industryCode ?: industryCode,
         sectorCode = org.sectorCode ?: sectorCode,
+        orgStatus = orgStatus?.update(org.orgStatus) ?: PrefLabel().update(org.orgStatus),
         prefLabel = prefLabel?.update(org.prefLabel) ?: PrefLabel().update(org.prefLabel),
         allowDelegatedRegistration = org.allowDelegatedRegistration ?: allowDelegatedRegistration
     )
@@ -69,6 +70,7 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganiz
         issued = org.registreringsdatoEnhetsregisteret?.let { LocalDate.parse(it) },
         industryCode = org.naeringskode1?.kode,
         sectorCode = org.institusjonellSektorkode?.kode,
+        orgStatus = org.orgStatusFromDeleteDate(),
         prefLabel = if (prefLabelShouldBeUpdated) org.prefLabelFromName() else prefLabel
     )
 }
@@ -91,3 +93,16 @@ private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel =
         nn = newValues?.nn ?: nn,
         en = newValues?.en ?: en
     )
+
+private fun EnhetsregisteretOrganization.orgStatusFromDeleteDate(): PrefLabel {
+    val today = LocalDate.now()
+    val deleteData: LocalDate? = slettedato?.let {
+        LocalDate.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    }
+
+    return when {
+        deleteData == null -> OrgStatus.NORMAL.label
+        deleteData.isAfter(today) -> OrgStatus.NORMAL.label
+        else -> OrgStatus.LIQUIDATED.label
+    }
+}

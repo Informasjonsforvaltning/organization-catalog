@@ -1,10 +1,6 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.utils
 
-import no.brreg.informasjonsforvaltning.organizationcatalogue.model.Organization
-import no.brreg.informasjonsforvaltning.organizationcatalogue.model.PrefLabel
-import no.brreg.informasjonsforvaltning.organizationcatalogue.model.EnhetsregisteretCode
-import no.brreg.informasjonsforvaltning.organizationcatalogue.model.EnhetsregisteretOrganization
-import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrganizationDB
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.*
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap
 import java.time.LocalDate
 
@@ -41,7 +37,8 @@ val ORG_0 = Organization(
     allowDelegatedRegistration = true,
     prefLabel = PrefLabel(
         nb = "Brønnøysundregistrene"
-    )
+    ),
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val ORG_1 = Organization(
@@ -54,7 +51,8 @@ val ORG_1 = Organization(
     municipalityNumber = "5001",
     industryCode = "84.130",
     sectorCode = "6500",
-    prefLabel = PrefLabel(nn = "AtB AS")
+    prefLabel = PrefLabel(nn = "AtB AS"),
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val ORG_2 = Organization(
@@ -68,7 +66,8 @@ val ORG_2 = Organization(
     industryCode = "84.220",
     sectorCode = "6100",
     allowDelegatedRegistration = false,
-    prefLabel = PrefLabel(en = "Forsvaret")
+    prefLabel = PrefLabel(en = "Forsvaret"),
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val NOT_UPDATED_0 = Organization(
@@ -85,7 +84,8 @@ val NOT_UPDATED_0 = Organization(
         nb = "nbNotUpdated",
         nn = "nnNotUpdated",
         en = "enNotUpdated"
-    )
+    ),
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val NOT_UPDATED_1 = Organization(
@@ -97,7 +97,8 @@ val NOT_UPDATED_1 = Organization(
     subOrganizationOf = "$WIREMOCK_TEST_HOST/972417823",
     municipalityNumber = "0301",
     industryCode = "84.220",
-    sectorCode = "6100"
+    sectorCode = "6100",
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val UPDATE_VALUES = Organization(
@@ -116,7 +117,8 @@ val UPDATE_VALUES = Organization(
         nb = "nbLabelUpdated",
         nn = "nnLabelUpdated",
         en = "enLabelUpdated"
-    )
+    ),
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val UPDATED_0 = Organization(
@@ -133,7 +135,8 @@ val UPDATED_0 = Organization(
         nb = "nbNotUpdated",
         nn = "nnNotUpdated",
         en = "enNotUpdated"
-    )
+    ),
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val UPDATED_1 = Organization(
@@ -152,7 +155,8 @@ val UPDATED_1 = Organization(
         nb = "nbLabelUpdated",
         nn = "nnLabelUpdated",
         en = "enLabelUpdated"
-    )
+    ),
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val ORG_WITH_DOMAIN = Organization(
@@ -164,7 +168,8 @@ val ORG_WITH_DOMAIN = Organization(
     subOrganizationOf = "$WIREMOCK_TEST_HOST/972417823",
     municipalityNumber = "0301",
     industryCode = "84.220",
-    sectorCode = "6100"
+    sectorCode = "6100",
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val ORG_WITHOUT_DOMAIN = Organization(
@@ -176,7 +181,8 @@ val ORG_WITHOUT_DOMAIN = Organization(
     subOrganizationOf = "$WIREMOCK_TEST_HOST/972417823",
     municipalityNumber = "0301",
     industryCode = "84.220",
-    sectorCode = "6100"
+    sectorCode = "6100",
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val ORG_DB0 = OrganizationDB(
@@ -191,8 +197,9 @@ val ORG_DB0 = OrganizationDB(
     sectorCode = "6100",
     domains = emptySet(),
     allowDelegatedRegistration = true,
-    prefLabel = PrefLabel(nb = "Brønnøysundregistrene")
-    )
+    prefLabel = PrefLabel(nb = "Brønnøysundregistrene"),
+    orgStatus = OrgStatus.NORMAL.label
+)
 
 val ORG_DB1 = OrganizationDB(
     name = "FORSVARET",
@@ -203,7 +210,8 @@ val ORG_DB1 = OrganizationDB(
     issued = LocalDate.of(1999, 2, 3),
     domains = emptySet(),
     allowDelegatedRegistration = true,
-    prefLabel = PrefLabel(nb = "Forsvaret")
+    prefLabel = PrefLabel(nb = "Forsvaret"),
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val NOT_UPDATED_2 = Organization(
@@ -215,7 +223,8 @@ val NOT_UPDATED_2 = Organization(
     issued = LocalDate.of(1990, 10, 31),
     municipalityNumber = "0301",
     industryCode = "84.110",
-    sectorCode = "6100"
+    sectorCode = "6100",
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val UPDATED_2 = Organization(
@@ -229,7 +238,8 @@ val UPDATED_2 = Organization(
     municipalityNumber = "1813",
     industryCode = "84.110",
     sectorCode = "6100",
-    prefLabel = PrefLabel(nb = "Testenheten i testsund")
+    prefLabel = PrefLabel(nb = "Testenheten i testsund"),
+    orgStatus = OrgStatus.LIQUIDATED.label
 )
 
 val PARENT_ORG = Organization(
@@ -241,7 +251,8 @@ val PARENT_ORG = Organization(
     issued = LocalDate.of(2013, 10, 31),
     municipalityNumber = "0301",
     industryCode = "84.110",
-    sectorCode = "6100"
+    sectorCode = "6100",
+    orgStatus = OrgStatus.NORMAL.label
 )
 
 val BRREG_ORG = EnhetsregisteretOrganization(
@@ -280,5 +291,6 @@ private fun Organization.mapDBO(): org.bson.Document =
         .append("municipalityNumber", municipalityNumber)
         .append("industryCode", industryCode)
         .append("prefLabel", prefLabel)
+        .append("orgStatus", orgStatus)
         .append("sectorCode", sectorCode)
         .append("allowDelegatedRegistration", allowDelegatedRegistration)

@@ -20,5 +20,6 @@ data class OrganizationDB (
     val sectorCode: String? = null,
     val prefLabel: PrefLabel? = null,
     val domains: Set<String>? = null,
+    val orgStatus: PrefLabel? = null,
     val allowDelegatedRegistration: Boolean? = null
 )

@@ -46,6 +46,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
             .safeAddProperty(BR.nace, it.industryCode)
             .safeAddProperty(BR.sectorCode, it.sectorCode)
             .addPreferredNames(it.prefLabel)
+            .addOrgStatus(it.orgStatus)
     }
 
     return model
@@ -80,6 +81,15 @@ private fun Resource.addPreferredNames(preferredNames: PrefLabel?): Resource {
     if (preferredNames?.en != null) addProperty(FOAF.name, preferredNames.en, "en")
     return this
 }
+
+private fun Resource.addOrgStatus(orgStatus: PrefLabel?): Resource =
+    if (orgStatus == null) this
+    else addProperty(ROV.orgStatus,
+        model.createResource(SKOS.Concept)
+            .addProperty(SKOS.prefLabel, orgStatus.nb, "nb")
+            .addProperty(SKOS.prefLabel, orgStatus.nn, "nn")
+            .addProperty(SKOS.prefLabel, orgStatus.en, "en")
+    )
 
 private fun Model.createResponseString(responseType: JenaType):String =
     ByteArrayOutputStream().use{ out ->

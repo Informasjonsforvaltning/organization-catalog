@@ -19,6 +19,9 @@
         rov:orgType            [ a               skos:Concept ;
                                  skos:prefLabel  "ORGL"
                                ] ;
+        rov:orgStatus          [ a               skos:Concept ;
+                                 skos:prefLabel  "Normal aktivitet"@nb , "Normal aktivitet"@nn , "Normal activity"@en
+                               ] ;
         rov:registration       [ a                  adms:Identifier ;
                                  dct:issued         "1999-02-03" ;
                                  skos:notation      "974760673" ;
@@ -39,6 +42,9 @@
         rov:orgType            [ a               skos:Concept ;
                                  skos:prefLabel  "ORGL"
                                ] ;
+        rov:orgStatus          [ a               skos:Concept ;
+                                 skos:prefLabel  "Normal aktivitet"@nb , "Normal aktivitet"@nn , "Normal activity"@en
+                               ] ;
         rov:registration       [ a                  adms:Identifier ;
                                  skos:notation      "986105174" ;
                                  adms:schemaAgency  "Brønnøysundregistrene"
@@ -56,6 +62,9 @@
         rov:legalName          "ATB AS" ;
         rov:orgType            [ a               skos:Concept ;
                                  skos:prefLabel  "AS"
+                               ] ;
+        rov:orgStatus          [ a               skos:Concept ;
+                                 skos:prefLabel  "Normal aktivitet"@nb , "Normal aktivitet"@nn , "Normal activity"@en
                                ] ;
         rov:registration       [ a                  adms:Identifier ;
                                  dct:issued         "1999-02-03" ;
