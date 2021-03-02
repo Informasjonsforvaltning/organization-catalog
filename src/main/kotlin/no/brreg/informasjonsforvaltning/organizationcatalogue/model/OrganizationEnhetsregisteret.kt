@@ -9,6 +9,7 @@ data class EnhetsregisteretOrganization (
     val overordnetEnhet: String? = null,
     val registreringsdatoEnhetsregisteret: String? = null,
     val orgPath: String? = null,
+    val slettedato: String? = null,
     val postadresse: EnhetsregisteretAddress? = null,
     val forretningsadresse: EnhetsregisteretAddress? = null,
     val organisasjonsform: EnhetsregisteretCode? = null,

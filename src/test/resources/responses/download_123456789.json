@@ -49,6 +49,7 @@
     "registrertIStiftelsesregisteret": false,
     "registrertIFrivillighetsregisteret": false,
     "konkurs": false,
+    "slettedato": "2015-08-09",
     "underAvvikling": false,
     "underTvangsavviklingEllerTvangsopplosning": false,
     "maalform": "Bokmål",
