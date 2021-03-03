@@ -38,7 +38,7 @@ val ORG_0 = Organization(
     prefLabel = PrefLabel(
         nb = "Brønnøysundregistrene"
     ),
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val ORG_1 = Organization(
@@ -52,7 +52,7 @@ val ORG_1 = Organization(
     industryCode = "84.130",
     sectorCode = "6500",
     prefLabel = PrefLabel(nn = "AtB AS"),
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val ORG_2 = Organization(
@@ -67,7 +67,7 @@ val ORG_2 = Organization(
     sectorCode = "6100",
     allowDelegatedRegistration = false,
     prefLabel = PrefLabel(en = "Forsvaret"),
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val NOT_UPDATED_0 = Organization(
@@ -85,7 +85,7 @@ val NOT_UPDATED_0 = Organization(
         nn = "nnNotUpdated",
         en = "enNotUpdated"
     ),
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val NOT_UPDATED_1 = Organization(
@@ -98,7 +98,7 @@ val NOT_UPDATED_1 = Organization(
     municipalityNumber = "0301",
     industryCode = "84.220",
     sectorCode = "6100",
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val UPDATE_VALUES = Organization(
@@ -118,7 +118,7 @@ val UPDATE_VALUES = Organization(
         nn = "nnLabelUpdated",
         en = "enLabelUpdated"
     ),
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val UPDATED_0 = Organization(
@@ -136,7 +136,7 @@ val UPDATED_0 = Organization(
         nn = "nnNotUpdated",
         en = "enNotUpdated"
     ),
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val UPDATED_1 = Organization(
@@ -156,7 +156,7 @@ val UPDATED_1 = Organization(
         nn = "nnLabelUpdated",
         en = "enLabelUpdated"
     ),
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val ORG_WITH_DOMAIN = Organization(
@@ -169,7 +169,7 @@ val ORG_WITH_DOMAIN = Organization(
     municipalityNumber = "0301",
     industryCode = "84.220",
     sectorCode = "6100",
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val ORG_WITHOUT_DOMAIN = Organization(
@@ -182,7 +182,7 @@ val ORG_WITHOUT_DOMAIN = Organization(
     municipalityNumber = "0301",
     industryCode = "84.220",
     sectorCode = "6100",
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val ORG_DB0 = OrganizationDB(
@@ -198,7 +198,7 @@ val ORG_DB0 = OrganizationDB(
     domains = emptySet(),
     allowDelegatedRegistration = true,
     prefLabel = PrefLabel(nb = "Brønnøysundregistrene"),
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val ORG_DB1 = OrganizationDB(
@@ -211,7 +211,7 @@ val ORG_DB1 = OrganizationDB(
     domains = emptySet(),
     allowDelegatedRegistration = true,
     prefLabel = PrefLabel(nb = "Forsvaret"),
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val NOT_UPDATED_2 = Organization(
@@ -224,7 +224,7 @@ val NOT_UPDATED_2 = Organization(
     municipalityNumber = "0301",
     industryCode = "84.110",
     sectorCode = "6100",
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val UPDATED_2 = Organization(
@@ -239,7 +239,7 @@ val UPDATED_2 = Organization(
     industryCode = "84.110",
     sectorCode = "6100",
     prefLabel = PrefLabel(nb = "Testenheten i testsund"),
-    orgStatus = OrgStatus.LIQUIDATED.label
+    orgStatus = OrgStatus.LIQUIDATED
 )
 
 val PARENT_ORG = Organization(
@@ -252,7 +252,7 @@ val PARENT_ORG = Organization(
     municipalityNumber = "0301",
     industryCode = "84.110",
     sectorCode = "6100",
-    orgStatus = OrgStatus.NORMAL.label
+    orgStatus = OrgStatus.NORMAL
 )
 
 val BRREG_ORG = EnhetsregisteretOrganization(
@@ -291,6 +291,6 @@ private fun Organization.mapDBO(): org.bson.Document =
         .append("municipalityNumber", municipalityNumber)
         .append("industryCode", industryCode)
         .append("prefLabel", prefLabel)
-        .append("orgStatus", orgStatus)
+        .append("orgStatus", orgStatus?.name)
         .append("sectorCode", sectorCode)
         .append("allowDelegatedRegistration", allowDelegatedRegistration)

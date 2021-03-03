@@ -48,7 +48,6 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         issued = org.issued ?: issued,
         industryCode = org.industryCode ?: industryCode,
         sectorCode = org.sectorCode ?: sectorCode,
-        orgStatus = orgStatus?.update(org.orgStatus) ?: PrefLabel().update(org.orgStatus),
         prefLabel = prefLabel?.update(org.prefLabel) ?: PrefLabel().update(org.prefLabel),
         allowDelegatedRegistration = org.allowDelegatedRegistration ?: allowDelegatedRegistration
     )
@@ -94,15 +93,15 @@ private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel =
         en = newValues?.en ?: en
     )
 
-private fun EnhetsregisteretOrganization.orgStatusFromDeleteDate(): PrefLabel {
+private fun EnhetsregisteretOrganization.orgStatusFromDeleteDate(): OrgStatus {
     val today = LocalDate.now()
     val deleteData: LocalDate? = slettedato?.let {
         LocalDate.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     }
 
     return when {
-        deleteData == null -> OrgStatus.NORMAL.label
-        deleteData.isAfter(today) -> OrgStatus.NORMAL.label
-        else -> OrgStatus.LIQUIDATED.label
+        deleteData == null -> OrgStatus.NORMAL
+        deleteData.isAfter(today) -> OrgStatus.NORMAL
+        else -> OrgStatus.LIQUIDATED
     }
 }
