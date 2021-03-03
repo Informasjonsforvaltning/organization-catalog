@@ -3,6 +3,7 @@ package no.brreg.informasjonsforvaltning.organizationcatalogue.jena
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.Organization
 import no.brreg.informasjonsforvaltning.organizationcatalogue.model.PrefLabel
 import no.brreg.informasjonsforvaltning.organizationcatalogue.mapping.municipalityNumberToId
+import no.brreg.informasjonsforvaltning.organizationcatalogue.model.OrgStatus
 import org.apache.jena.rdf.model.Model
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.Property
@@ -30,6 +31,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
     model.setNsPrefix("rov", ROV.getURI())
     model.setNsPrefix("adms", ADMS.uri)
     model.setNsPrefix("br", BR.uri)
+    model.setNsPrefix("brskos", BRSKOS.uri)
 
     forEach {
         model.createResource(urls.organizationCatalogue + it.organizationId)
@@ -82,14 +84,14 @@ private fun Resource.addPreferredNames(preferredNames: PrefLabel?): Resource {
     return this
 }
 
-private fun Resource.addOrgStatus(orgStatus: PrefLabel?): Resource =
-    if (orgStatus == null) this
-    else addProperty(ROV.orgStatus,
-        model.createResource(SKOS.Concept)
-            .addProperty(SKOS.prefLabel, orgStatus.nb, "nb")
-            .addProperty(SKOS.prefLabel, orgStatus.nn, "nn")
-            .addProperty(SKOS.prefLabel, orgStatus.en, "en")
-    )
+private fun Resource.addOrgStatus(orgStatus: PrefLabel?): Resource {
+    when (orgStatus) {
+        null -> addProperty(ROV.orgStatus, BRSKOS.NormalAktivitet)
+        OrgStatus.NORMAL.label -> addProperty(ROV.orgStatus, BRSKOS.NormalAktivitet)
+        else -> addProperty(ROV.orgStatus, BRSKOS.Avviklet)
+    }
+    return this
+}
 
 private fun Model.createResponseString(responseType: JenaType):String =
     ByteArrayOutputStream().use{ out ->
