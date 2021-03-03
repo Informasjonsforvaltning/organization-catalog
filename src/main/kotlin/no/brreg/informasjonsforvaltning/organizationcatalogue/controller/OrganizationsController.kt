@@ -38,13 +38,13 @@ open class OrganizationsController(
     ): ResponseEntity<Organization> =
         if (endpointPermissions.hasAdminPermission(jwt)) {
             try {
-                LOGGER.info("update organization $id")
+                LOGGER.debug("update organization $id")
                 catalogueService
                     .updateEntry(id, organization)
                     ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
                     ?: ResponseEntity(HttpStatus.NOT_FOUND)
             } catch (exception: Exception) {
-                LOGGER.info("error updating organization $id")
+                LOGGER.error("error updating organization $id")
                 when (exception) {
                     is ConstraintViolationException -> ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
                     is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
@@ -61,7 +61,7 @@ open class OrganizationsController(
         @RequestHeader(HttpHeaders.ACCEPT) accept: String?,
         @PathVariable id: String
     ): ResponseEntity<Any> {
-        LOGGER.info("get organization $id")
+        LOGGER.debug("get organization $id")
         val jenaType = acceptHeaderToJenaType(accept)
         val organization = catalogueService.getByOrgnr(id)
 
@@ -83,7 +83,7 @@ open class OrganizationsController(
         produces = ["application/json", "application/xml", "application/ld+json", "application/rdf+json", "application/rdf+xml", "text/turtle"]
     )
     fun getDelegatedOrganizations(@RequestHeader(HttpHeaders.ACCEPT) accept: String?): ResponseEntity<Any> {
-        LOGGER.info("get organizations with delegation permissions")
+        LOGGER.debug("get organizations with delegation permissions")
         val jenaType = acceptHeaderToJenaType(accept)
         val organizations = catalogueService.getOrganizationsWithDelegationPermissions()
 
@@ -107,10 +107,10 @@ open class OrganizationsController(
         @RequestParam organizationId: List<String>?
     ): ResponseEntity<Any> {
         when {
-            organizationId == null && name == null -> LOGGER.info("get all organizations")
-            organizationId == null -> LOGGER.info("get organizations filtered by name: $name")
-            name == null -> LOGGER.info("get organizations filtered by ids: $organizationId")
-            else -> LOGGER.info("get organizations filtered by ids: $organizationId and name: $name")
+            organizationId == null && name == null -> LOGGER.debug("get all organizations")
+            organizationId == null -> LOGGER.debug("get organizations filtered by name: $name")
+            name == null -> LOGGER.debug("get organizations filtered by ids: $organizationId")
+            else -> LOGGER.debug("get organizations filtered by ids: $organizationId and name: $name")
         }
         val jenaType = acceptHeaderToJenaType(accept)
         val organizations = catalogueService.getOrganizations(name, organizationId)
@@ -133,7 +133,7 @@ open class OrganizationsController(
         @PathVariable id: String
     ): ResponseEntity<Organization> =
         if (endpointPermissions.hasAdminPermission(jwt)) {
-            LOGGER.info("update organization with id $id with data from Enhetsregisteret")
+            LOGGER.debug("update organization with id $id with data from Enhetsregisteret")
             catalogueService.updateEntryFromEnhetsregisteret(id)
                 ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
                 ?: ResponseEntity(HttpStatus.NOT_FOUND)
@@ -142,7 +142,7 @@ open class OrganizationsController(
 
     @GetMapping("/orgpath/{org}", produces = [MediaType.TEXT_PLAIN_VALUE])
     fun getOrgPath(@PathVariable org: String): ResponseEntity<String> {
-        LOGGER.info("get orgPath for $org")
+        LOGGER.debug("get orgPath for $org")
         return ResponseEntity(catalogueService.getOrgPath(org), HttpStatus.OK)
     }
 }
