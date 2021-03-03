@@ -84,10 +84,10 @@ private fun Resource.addPreferredNames(preferredNames: PrefLabel?): Resource {
     return this
 }
 
-private fun Resource.addOrgStatus(orgStatus: PrefLabel?): Resource {
+private fun Resource.addOrgStatus(orgStatus: OrgStatus?): Resource {
     when (orgStatus) {
         null -> addProperty(ROV.orgStatus, BRSKOS.NormalAktivitet)
-        OrgStatus.NORMAL.label -> addProperty(ROV.orgStatus, BRSKOS.NormalAktivitet)
+        OrgStatus.NORMAL -> addProperty(ROV.orgStatus, BRSKOS.NormalAktivitet)
         else -> addProperty(ROV.orgStatus, BRSKOS.Avviklet)
     }
     return this
