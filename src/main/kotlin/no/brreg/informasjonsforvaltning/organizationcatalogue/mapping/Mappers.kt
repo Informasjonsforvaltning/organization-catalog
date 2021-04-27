@@ -19,6 +19,7 @@ fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
         sectorCode = sectorCode,
         prefLabel = prefLabel,
         orgStatus = orgStatus,
+        homepage = homepage,
         allowDelegatedRegistration = allowDelegatedRegistration,
     )
 
@@ -33,6 +34,7 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB =
         issued = registreringsdatoEnhetsregisteret?.let { LocalDate.parse(it) },
         industryCode = naeringskode1?.kode,
         sectorCode = institusjonellSektorkode?.kode,
+        homepage = hjemmeside,
         orgStatus = orgStatusFromDeleteDate(),
         prefLabel = prefLabelFromName()
     )
@@ -48,6 +50,7 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         issued = org.issued ?: issued,
         industryCode = org.industryCode ?: industryCode,
         sectorCode = org.sectorCode ?: sectorCode,
+        homepage = org.homepage ?: homepage,
         prefLabel = prefLabel?.update(org.prefLabel) ?: PrefLabel().update(org.prefLabel),
         allowDelegatedRegistration = org.allowDelegatedRegistration ?: allowDelegatedRegistration
     )
@@ -70,6 +73,7 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganiz
         industryCode = org.naeringskode1?.kode,
         sectorCode = org.institusjonellSektorkode?.kode,
         orgStatus = org.orgStatusFromDeleteDate(),
+        homepage = org.hjemmeside,
         prefLabel = if (prefLabelShouldBeUpdated) org.prefLabelFromName() else prefLabel
     )
 }

@@ -47,6 +47,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
             .safeAddLinkedProperty(BR.internationalRegistry, it.internationalRegistry)
             .safeAddProperty(BR.nace, it.industryCode)
             .safeAddProperty(BR.sectorCode, it.sectorCode)
+            .safeAddProperty(FOAF.homepage, it.homepage)
             .addPreferredNames(it.prefLabel)
             .addOrgStatus(it.orgStatus)
     }

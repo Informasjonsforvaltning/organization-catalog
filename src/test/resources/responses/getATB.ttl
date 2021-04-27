@@ -25,4 +25,5 @@
                                  skos:notation      "994686011" ;
                                  adms:schemaAgency  "Brønnøysundregistrene"
                                ] ;
+        foaf:homepage          "www.atb.no" ;
         foaf:name              "AtB AS"@nn .

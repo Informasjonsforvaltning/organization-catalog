@@ -20,5 +20,6 @@ data class Organization (
     val sectorCode: String? = null,
     val prefLabel: PrefLabel? = null,
     val orgStatus: OrgStatus? = null,
+    val homepage: String? = null,
     val allowDelegatedRegistration: Boolean? = null
 )
