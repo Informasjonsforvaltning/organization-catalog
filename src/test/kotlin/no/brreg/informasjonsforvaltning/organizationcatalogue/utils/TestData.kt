@@ -52,7 +52,7 @@ val ORG_1 = Organization(
     municipalityNumber = "5001",
     industryCode = "84.130",
     sectorCode = "6500",
-    homepage = "www.atb.no",
+    homepage = "https://www.atb.no",
     prefLabel = PrefLabel(nn = "AtB AS"),
     orgStatus = OrgStatus.NORMAL
 )
@@ -67,7 +67,7 @@ val ORG_2 = Organization(
     municipalityNumber = "0301",
     industryCode = "84.220",
     sectorCode = "6100",
-    homepage = "www.forsvaret.no",
+    homepage = "www.fors varet.no",
     allowDelegatedRegistration = false,
     prefLabel = PrefLabel(en = "Forsvaret"),
     orgStatus = OrgStatus.NORMAL
@@ -213,7 +213,7 @@ val ORG_DB1 = OrganizationDB(
     subOrganizationOf = "972417823",
     issued = LocalDate.of(1999, 2, 3),
     domains = emptySet(),
-    homepage = "www.forsvaret.no",
+    homepage = "www.fors varet.no",
     allowDelegatedRegistration = true,
     prefLabel = PrefLabel(nb = "Forsvaret"),
     orgStatus = OrgStatus.NORMAL
@@ -266,7 +266,7 @@ val BRREG_ORG = EnhetsregisteretOrganization(
     navn = "FORSVARET",
     organisasjonsnummer = "986105174",
     overordnetEnhet = "972417823",
-    hjemmeside = "www.forsvaret.no",
+    hjemmeside = "www.fors varet.no",
     organisasjonsform = EnhetsregisteretCode(kode = "ORGL"),
     orgPath = "/STAT/972417823/986105174",
     registreringsdatoEnhetsregisteret = "1999-02-03"

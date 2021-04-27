@@ -15,6 +15,7 @@ import org.apache.jena.vocabulary.RDF
 import org.apache.jena.vocabulary.ROV
 import org.apache.jena.vocabulary.SKOS
 import java.io.ByteArrayOutputStream
+import java.net.URI
 
 fun Organization.jenaResponse(responseType: JenaType, urls: ExternalUrls): String =
     listOf(this).jenaResponse(responseType, urls)
@@ -47,7 +48,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
             .safeAddLinkedProperty(BR.internationalRegistry, it.internationalRegistry)
             .safeAddProperty(BR.nace, it.industryCode)
             .safeAddProperty(BR.sectorCode, it.sectorCode)
-            .safeAddProperty(FOAF.homepage, it.homepage)
+            .safeAddHomepage(it.homepage)
             .addPreferredNames(it.prefLabel)
             .addOrgStatus(it.orgStatus)
     }
@@ -77,6 +78,21 @@ private fun Resource.safeAddProperty(property: Property, value: String?): Resour
 private fun Resource.safeAddLinkedProperty(property: Property, value: String?): Resource =
     if(value == null) this
     else addProperty(property, model.createResource(value))
+
+private fun String.isWellFormedIRI(): Boolean =
+    try {
+        URI.create(this).isAbsolute
+    } catch (ex: Exception) {
+        false
+    }
+
+private fun Resource.safeAddHomepage(value: String?): Resource =
+    when {
+        value == null -> this
+        value.isWellFormedIRI() -> addProperty(FOAF.homepage, model.createResource(value))
+        "http://$value".isWellFormedIRI() -> addProperty(FOAF.homepage, model.createResource("http://$value"))
+        else -> this
+    }
 
 private fun Resource.addPreferredNames(preferredNames: PrefLabel?): Resource {
     if (preferredNames?.nb != null) addProperty(FOAF.name, preferredNames.nb, "nb")

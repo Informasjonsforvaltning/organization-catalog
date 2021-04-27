@@ -25,5 +25,4 @@
                                  skos:notation      "986105174" ;
                                  adms:schemaAgency  "Brønnøysundregistrene"
                                ] ;
-        foaf:homepage          "www.forsvaret.no" ;
         foaf:name              "Forsvaret"@en .

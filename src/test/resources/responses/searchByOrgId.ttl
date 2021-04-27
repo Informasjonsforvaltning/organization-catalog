@@ -26,7 +26,7 @@
                                  skos:notation      "974760673" ;
                                  adms:schemaAgency  "Brønnøysundregistrene"
                                ] ;
-        foaf:homepage          "www.brreg.no" ;
+        foaf:homepage          <http://www.brreg.no> ;
         foaf:name              "Brønnøysundregistrene"@nb .
 
 <http://localhost:5000/organizations/994686011>
@@ -47,5 +47,5 @@
                                  skos:notation      "994686011" ;
                                  adms:schemaAgency  "Brønnøysundregistrene"
                                ] ;
-        foaf:homepage          "www.atb.no" ;
+        foaf:homepage          <https://www.atb.no> ;
         foaf:name              "AtB AS"@nn .
