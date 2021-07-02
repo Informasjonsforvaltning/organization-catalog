@@ -44,7 +44,7 @@ open class OrganizationsController(
                     ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
                     ?: ResponseEntity(HttpStatus.NOT_FOUND)
             } catch (exception: Exception) {
-                LOGGER.error("error updating organization $id")
+                LOGGER.error("error updating organization $id", exception)
                 when (exception) {
                     is ConstraintViolationException -> ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
                     is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
