@@ -4,7 +4,7 @@ import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.Property
 import org.apache.jena.rdf.model.Resource
 
-class BRSKOS {
+class ORGSTATUS {
     companion object {
         private val m = ModelFactory.createDefaultModel()
 
