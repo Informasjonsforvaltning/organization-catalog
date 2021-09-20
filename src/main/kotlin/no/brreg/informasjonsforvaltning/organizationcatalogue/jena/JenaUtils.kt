@@ -29,6 +29,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
     model.setNsPrefix("adms", ADMS.uri)
     model.setNsPrefix("br", BR.uri)
     model.setNsPrefix("orgstatus", ORGSTATUS.uri)
+    model.setNsPrefix("orgtype", ORGTYPE.uri)
 
     forEach {
         model.createResource(urls.organizationCatalogue + it.organizationId)
@@ -62,10 +63,7 @@ private fun Resource.addRegistration(org: Organization): Resource =
 
 private fun Resource.addOrgType(orgType: String?): Resource =
     if (orgType == null) this
-    else addProperty(ROV.orgType,
-        model.createResource(SKOS.Concept)
-            .addProperty(SKOS.prefLabel, orgType)
-    )
+    else safeAddLinkedProperty(ROV.orgType, "${ORGTYPE.uri}$orgType")
 
 private fun Resource.safeAddProperty(property: Property, value: String?): Resource =
     if (value == null) this
