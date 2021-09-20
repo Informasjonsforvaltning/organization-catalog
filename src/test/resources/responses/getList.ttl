@@ -1,5 +1,6 @@
 @prefix br:    <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalogue/master/src/main/resources/ontology/organization-catalogue.owl#> .
 @prefix orgstatus:     <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalogue/master/src/main/resources/ontology/org-status.ttl#> .
+@prefix orgtype:     <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalogue/master/src/main/resources/ontology/org-type.ttl#> .
 @prefix adms:  <http://www.w3.org/ns/adms#> .
 @prefix dct:   <http://purl.org/dc/terms/> .
 @prefix org:   <http://www.w3.org/ns/org#> .
@@ -17,9 +18,7 @@
         br:sectorCode          "6100" ;
         org:subOrganizationOf  <http://localhost:5000/organizations/912660680> ;
         rov:legalName          "REGISTERENHETEN I BRØNNØYSUND" ;
-        rov:orgType            [ a               skos:Concept ;
-                                 skos:prefLabel  "ORGL"
-                               ] ;
+        rov:orgType            orgtype:ORGL ;
         rov:orgStatus          orgstatus:NormalAktivitet ;
         rov:registration       [ a                  adms:Identifier ;
                                  dct:issued         "1999-02-03" ;
@@ -39,9 +38,7 @@
         br:sectorCode          "6100" ;
         org:subOrganizationOf  <http://localhost:5000/organizations/972417823> ;
         rov:legalName          "FORSVARET" ;
-        rov:orgType            [ a               skos:Concept ;
-                                 skos:prefLabel  "ORGL"
-                               ] ;
+        rov:orgType            orgtype:ORGL ;
         rov:orgStatus          orgstatus:NormalAktivitet ;
         rov:registration       [ a                  adms:Identifier ;
                                  skos:notation      "986105174" ;
@@ -58,9 +55,7 @@
         br:orgPath             "/PRIVAT/994686011" ;
         br:sectorCode          "6500" ;
         rov:legalName          "ATB AS" ;
-        rov:orgType            [ a               skos:Concept ;
-                                 skos:prefLabel  "AS"
-                               ] ;
+        rov:orgType            orgtype:AS ;
         rov:orgStatus          orgstatus:NormalAktivitet ;
         rov:registration       [ a                  adms:Identifier ;
                                  dct:issued         "1999-02-03" ;

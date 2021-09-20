@@ -1,0 +1,522 @@
+@prefix :           <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalogue/master/src/main/resources/ontology/org-type.ttl#> .
+@prefix skos:       <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosno:     <https://data.norge.no/vocabulary/skosno#> .
+@prefix dct:        <http://purl.org/dc/terms/> .
+@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skosxl:     <http://www.w3.org/2008/05/skos-xl#> .
+
+:AAFY
+    a                   skos:Concept ;
+    dct:identifier      :AAFY ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "AAFY"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Ikke næringsdrivende virksomhet."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:ADOS
+    a                   skos:Concept ;
+    dct:identifier      :ADOS ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "ADOS"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Administrativ enhet -offentlig sektor."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:ANNA
+    a                   skos:Concept ;
+    dct:identifier      :ANNA ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "ANNA"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Annen juridisk person."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:ANS
+    a                   skos:Concept ;
+    dct:identifier      :ANS ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "ANS"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Ansvarlig selskap med solidarisk ansvar."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:AS
+    a                   skos:Concept ;
+    dct:identifier      :AS ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "AS"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Aksjeselskap."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:ASA
+    a                   skos:Concept ;
+    dct:identifier      :ASA ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "ASA"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Allmennaksjeselskap."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:BA
+    a                   skos:Concept ;
+    dct:identifier      :BA ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "BA"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Selskap med begrenset ansvar."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:BBL
+    a                   skos:Concept ;
+    dct:identifier      :BBL ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "BBL"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Boligbyggelag."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:BEDR
+    a                   skos:Concept ;
+    dct:identifier      :BEDR ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "BEDR"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Bedrift."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:BO
+    a                   skos:Concept ;
+    dct:identifier      :BO ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "BO"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Andre bo."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:BRL
+    a                   skos:Concept ;
+    dct:identifier      :BRL ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "BRL"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Borettslag."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:DA
+    a                   skos:Concept ;
+    dct:identifier      :DA ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "DA"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Ansvarlig selskap med delt ansvar."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:ENK
+    a                   skos:Concept ;
+    dct:identifier      :ENK ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "ENK"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Enkeltpersonforetak."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:EØFG
+    a                   skos:Concept ;
+    dct:identifier      :EØFG ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "EØFG"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Europeisk økonomisk foretaksgruppe."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:ESEK
+    a                   skos:Concept ;
+    dct:identifier      :ESEK ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "ESEK"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Eierseksjonssameie."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:FKF
+    a                   skos:Concept ;
+    dct:identifier      :FKF ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "FKF"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Fylkeskommunalt foretak."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:FLI
+    a                   skos:Concept ;
+    dct:identifier      :FLI ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "FLI"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Forening/lag/innretning."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:FYLK
+    a                   skos:Concept ;
+    dct:identifier      :FYLK ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "FYLK"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Fylkeskommune."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:GFS
+    a                   skos:Concept ;
+    dct:identifier      :GFS ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "GFS"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Gjensidig forsikringsselskap."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:IKJP
+    a                   skos:Concept ;
+    dct:identifier      :IKJP ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "IKJP"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Andre ikke-juridiske personer."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:IKS
+    a                   skos:Concept ;
+    dct:identifier      :IKS ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "IKS"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Interkommunalt selskap."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:KBO
+    a                   skos:Concept ;
+    dct:identifier      :KBO ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "KBO"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Konkursbo."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:KF
+    a                   skos:Concept ;
+    dct:identifier      :KF ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "KF"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Kommunalt foretak."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:KIRK
+    a                   skos:Concept ;
+    dct:identifier      :KIRK ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "KIRK"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Den norske kirke."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:KOMM
+    a                   skos:Concept ;
+    dct:identifier      :KOMM ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "KOMM"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Kommune."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:KS
+    a                   skos:Concept ;
+    dct:identifier      :KS ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "KS"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Kommandittselskap."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:KTRF
+    a                   skos:Concept ;
+    dct:identifier      :KTRF ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "KTRF"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Kontorfellesskap."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:NUF
+    a                   skos:Concept ;
+    dct:identifier      :NUF ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "NUF"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Norskregistrert utenlandsk foretak."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:OPMV
+    a                   skos:Concept ;
+    dct:identifier      :OPMV ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "OPMV"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Særskilt oppdelt enhet, jf. mval. § 2-2."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:ORGL
+    a                   skos:Concept ;
+    dct:identifier      :ORGL ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "ORGL"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Organisasjonsledd."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:PERS
+    a                   skos:Concept ;
+    dct:identifier      :PERS ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "PERS"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Andre enkeltpersoner som registreres i tilknyttet register."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:PK
+    a                   skos:Concept ;
+    dct:identifier      :PK ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "PK"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Pensjonskasse."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:PRE
+    a                   skos:Concept ;
+    dct:identifier      :PRE ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "PRE"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Partrederi."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:SA
+    a                   skos:Concept ;
+    dct:identifier      :SA ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "SA"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Samvirkeforetak."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:SAM
+    a                   skos:Concept ;
+    dct:identifier      :SAM ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "SAM"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Tingsrettslig sameie."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:SE
+    a                   skos:Concept ;
+    dct:identifier      :SE ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "SE"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Europeisk selskap."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:SF
+    a                   skos:Concept ;
+    dct:identifier      :SF ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "SF"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Statsforetak."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:SPA
+    a                   skos:Concept ;
+    dct:identifier      :SPA ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "SPA"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Sparebank."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:STI
+    a                   skos:Concept ;
+    dct:identifier      :STI ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "STI"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Stiftelse."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:STAT
+    a                   skos:Concept ;
+    dct:identifier      :STAT ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "STAT"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Staten."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:SÆR
+    a                   skos:Concept ;
+    dct:identifier      :SÆR ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "SÆR"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Annet foretak ifølge særskilt lov."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:TVAM
+    a                   skos:Concept ;
+    dct:identifier      :TVAM ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "TVAM"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Tvangsregistrert for MVA."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
+
+:VPFO
+    a                   skos:Concept ;
+    dct:identifier      :VPFO ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "VPFO"
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Verdipapirfond."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
