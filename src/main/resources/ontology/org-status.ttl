@@ -1,10 +1,30 @@
-@prefix brskos:     <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalogue/master/src/main/resources/ontology/org-status.ttl#> .
+@prefix :     <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalogue/master/src/main/resources/ontology/org-status.ttl#> .
 @prefix skos:       <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosno:     <https://data.norge.no/vocabulary/skosno#> .
+@prefix dct:        <http://purl.org/dc/terms/> .
+@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skosxl:     <http://www.w3.org/2008/05/skos-xl#> .
 
-brskos:NormalAktivitet
-    a               skos:Concept ;
-    skos:prefLabel  "Normal aktivitet"@nb , "Normal aktivitet"@nn , "Normal activity"@en .
+:NormalAktivitet
+    a                   skos:Concept ;
+    dct:identifier      :NormalAktivitet ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "Normal aktivitet"@nb , "Normal aktivitet"@nn , "Normal activity"@en
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Normal aktivitet."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .
 
-brskos:Avviklet
-    a               skos:Concept ;
-    skos:prefLabel  "Avviklet"@nb , "Avvikla"@nn , "Liquidated"@en .
+:Avviklet
+    a                   skos:Concept ;
+    dct:identifier      :Avviklet ;
+    skosxl:prefLabel    [ a                   skosxl:Label ;
+                          skosxl:literalForm  "Avviklet"@nb , "Avvikla"@nn , "Liquidated"@en
+                        ] ;
+    dct:publisher       <https://organization-catalogue.fellesdatakatalog.digdir.no/organizations/974760673> ;
+    skosno:definisjon   [ a                       skosno:Definisjon ;
+                          rdfs:label              "Avviklet."@nb ;
+                          skosno:forholdTilKilde  skosno:egendefinert
+                        ] .

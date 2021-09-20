@@ -9,11 +9,7 @@ import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.Property
 import org.apache.jena.rdf.model.Resource
 import org.apache.jena.sparql.vocabulary.FOAF
-import org.apache.jena.vocabulary.DCTerms
-import org.apache.jena.vocabulary.ORG
-import org.apache.jena.vocabulary.RDF
-import org.apache.jena.vocabulary.ROV
-import org.apache.jena.vocabulary.SKOS
+import org.apache.jena.vocabulary.*
 import java.io.ByteArrayOutputStream
 import java.net.URI
 
@@ -32,7 +28,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
     model.setNsPrefix("rov", ROV.getURI())
     model.setNsPrefix("adms", ADMS.uri)
     model.setNsPrefix("br", BR.uri)
-    model.setNsPrefix("brskos", BRSKOS.uri)
+    model.setNsPrefix("orgstatus", ORGSTATUS.uri)
 
     forEach {
         model.createResource(urls.organizationCatalogue + it.organizationId)
@@ -103,9 +99,9 @@ private fun Resource.addPreferredNames(preferredNames: PrefLabel?): Resource {
 
 private fun Resource.addOrgStatus(orgStatus: OrgStatus?): Resource {
     when (orgStatus) {
-        null -> addProperty(ROV.orgStatus, BRSKOS.NormalAktivitet)
-        OrgStatus.NORMAL -> addProperty(ROV.orgStatus, BRSKOS.NormalAktivitet)
-        else -> addProperty(ROV.orgStatus, BRSKOS.Avviklet)
+        null -> addProperty(ROV.orgStatus, ORGSTATUS.NormalAktivitet)
+        OrgStatus.NORMAL -> addProperty(ROV.orgStatus, ORGSTATUS.NormalAktivitet)
+        else -> addProperty(ROV.orgStatus, ORGSTATUS.Avviklet)
     }
     return this
 }
