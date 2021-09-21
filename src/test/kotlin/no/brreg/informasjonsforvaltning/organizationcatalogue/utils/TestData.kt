@@ -53,8 +53,7 @@ val ORG_1 = Organization(
     industryCode = "84.130",
     sectorCode = "6500",
     homepage = "https://www.atb.no",
-    prefLabel = PrefLabel(nn = "AtB AS"),
-    orgStatus = OrgStatus.NORMAL
+    prefLabel = PrefLabel(nn = "AtB AS")
 )
 
 val ORG_2 = Organization(

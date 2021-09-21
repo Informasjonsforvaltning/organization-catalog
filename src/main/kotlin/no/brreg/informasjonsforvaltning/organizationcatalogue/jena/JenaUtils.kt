@@ -97,8 +97,7 @@ private fun Resource.addPreferredNames(preferredNames: PrefLabel?): Resource {
 
 private fun Resource.addOrgStatus(orgStatus: OrgStatus?): Resource {
     when (orgStatus) {
-        null -> addProperty(ROV.orgStatus, ORGSTATUS.NormalAktivitet)
-        OrgStatus.NORMAL -> addProperty(ROV.orgStatus, ORGSTATUS.NormalAktivitet)
+        null, OrgStatus.NORMAL -> addProperty(ROV.orgStatus, ORGSTATUS.NormalAktivitet)
         else -> addProperty(ROV.orgStatus, ORGSTATUS.Avviklet)
     }
     return this
