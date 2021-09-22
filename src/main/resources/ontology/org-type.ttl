@@ -8,6 +8,7 @@
 :AAFY
     a                   skos:Concept ;
     dct:identifier      :AAFY ;
+    skos:prefLabel      "AAFY" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "AAFY"
                         ] ;
@@ -20,6 +21,7 @@
 :ADOS
     a                   skos:Concept ;
     dct:identifier      :ADOS ;
+    skos:prefLabel      "ADOS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ADOS"
                         ] ;
@@ -32,6 +34,7 @@
 :ANNA
     a                   skos:Concept ;
     dct:identifier      :ANNA ;
+    skos:prefLabel      "ANNA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ANNA"
                         ] ;
@@ -44,6 +47,7 @@
 :ANS
     a                   skos:Concept ;
     dct:identifier      :ANS ;
+    skos:prefLabel      "ANS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ANS"
                         ] ;
@@ -56,6 +60,7 @@
 :AS
     a                   skos:Concept ;
     dct:identifier      :AS ;
+    skos:prefLabel      "AS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "AS"
                         ] ;
@@ -68,6 +73,7 @@
 :ASA
     a                   skos:Concept ;
     dct:identifier      :ASA ;
+    skos:prefLabel      "ASA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ASA"
                         ] ;
@@ -80,6 +86,7 @@
 :BA
     a                   skos:Concept ;
     dct:identifier      :BA ;
+    skos:prefLabel      "BA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "BA"
                         ] ;
@@ -92,6 +99,7 @@
 :BBL
     a                   skos:Concept ;
     dct:identifier      :BBL ;
+    skos:prefLabel      "BBL" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "BBL"
                         ] ;
@@ -104,6 +112,7 @@
 :BEDR
     a                   skos:Concept ;
     dct:identifier      :BEDR ;
+    skos:prefLabel      "BEDR" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "BEDR"
                         ] ;
@@ -116,6 +125,7 @@
 :BO
     a                   skos:Concept ;
     dct:identifier      :BO ;
+    skos:prefLabel      "BO" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "BO"
                         ] ;
@@ -128,6 +138,7 @@
 :BRL
     a                   skos:Concept ;
     dct:identifier      :BRL ;
+    skos:prefLabel      "BRL" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "BRL"
                         ] ;
@@ -140,6 +151,7 @@
 :DA
     a                   skos:Concept ;
     dct:identifier      :DA ;
+    skos:prefLabel      "DA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "DA"
                         ] ;
@@ -152,6 +164,7 @@
 :ENK
     a                   skos:Concept ;
     dct:identifier      :ENK ;
+    skos:prefLabel      "ENK" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ENK"
                         ] ;
@@ -164,6 +177,7 @@
 :EØFG
     a                   skos:Concept ;
     dct:identifier      :EØFG ;
+    skos:prefLabel      "EØFG" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "EØFG"
                         ] ;
@@ -176,6 +190,7 @@
 :ESEK
     a                   skos:Concept ;
     dct:identifier      :ESEK ;
+    skos:prefLabel      "ESEK" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ESEK"
                         ] ;
@@ -188,6 +203,7 @@
 :FKF
     a                   skos:Concept ;
     dct:identifier      :FKF ;
+    skos:prefLabel      "FKF" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "FKF"
                         ] ;
@@ -200,6 +216,7 @@
 :FLI
     a                   skos:Concept ;
     dct:identifier      :FLI ;
+    skos:prefLabel      "FLI" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "FLI"
                         ] ;
@@ -212,6 +229,7 @@
 :FYLK
     a                   skos:Concept ;
     dct:identifier      :FYLK ;
+    skos:prefLabel      "FYLK" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "FYLK"
                         ] ;
@@ -224,6 +242,7 @@
 :GFS
     a                   skos:Concept ;
     dct:identifier      :GFS ;
+    skos:prefLabel      "GFS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "GFS"
                         ] ;
@@ -236,6 +255,7 @@
 :IKJP
     a                   skos:Concept ;
     dct:identifier      :IKJP ;
+    skos:prefLabel      "IKJP" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "IKJP"
                         ] ;
@@ -248,6 +268,7 @@
 :IKS
     a                   skos:Concept ;
     dct:identifier      :IKS ;
+    skos:prefLabel      "IKS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "IKS"
                         ] ;
@@ -260,6 +281,7 @@
 :KBO
     a                   skos:Concept ;
     dct:identifier      :KBO ;
+    skos:prefLabel      "KBO" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KBO"
                         ] ;
@@ -272,6 +294,7 @@
 :KF
     a                   skos:Concept ;
     dct:identifier      :KF ;
+    skos:prefLabel      "KF" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KF"
                         ] ;
@@ -284,6 +307,7 @@
 :KIRK
     a                   skos:Concept ;
     dct:identifier      :KIRK ;
+    skos:prefLabel      "KIRK" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KIRK"
                         ] ;
@@ -296,6 +320,7 @@
 :KOMM
     a                   skos:Concept ;
     dct:identifier      :KOMM ;
+    skos:prefLabel      "KOMM" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KOMM"
                         ] ;
@@ -308,6 +333,7 @@
 :KS
     a                   skos:Concept ;
     dct:identifier      :KS ;
+    skos:prefLabel      "KS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KS"
                         ] ;
@@ -320,6 +346,7 @@
 :KTRF
     a                   skos:Concept ;
     dct:identifier      :KTRF ;
+    skos:prefLabel      "KTRF" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KTRF"
                         ] ;
@@ -332,6 +359,7 @@
 :NUF
     a                   skos:Concept ;
     dct:identifier      :NUF ;
+    skos:prefLabel      "NUF" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "NUF"
                         ] ;
@@ -344,6 +372,7 @@
 :OPMV
     a                   skos:Concept ;
     dct:identifier      :OPMV ;
+    skos:prefLabel      "OPMV" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "OPMV"
                         ] ;
@@ -356,6 +385,7 @@
 :ORGL
     a                   skos:Concept ;
     dct:identifier      :ORGL ;
+    skos:prefLabel      "ORGL" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ORGL"
                         ] ;
@@ -368,6 +398,7 @@
 :PERS
     a                   skos:Concept ;
     dct:identifier      :PERS ;
+    skos:prefLabel      "PERS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "PERS"
                         ] ;
@@ -380,6 +411,7 @@
 :PK
     a                   skos:Concept ;
     dct:identifier      :PK ;
+    skos:prefLabel      "PK" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "PK"
                         ] ;
@@ -392,6 +424,7 @@
 :PRE
     a                   skos:Concept ;
     dct:identifier      :PRE ;
+    skos:prefLabel      "PRE" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "PRE"
                         ] ;
@@ -404,6 +437,7 @@
 :SA
     a                   skos:Concept ;
     dct:identifier      :SA ;
+    skos:prefLabel      "SA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SA"
                         ] ;
@@ -416,6 +450,7 @@
 :SAM
     a                   skos:Concept ;
     dct:identifier      :SAM ;
+    skos:prefLabel      "SAM" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SAM"
                         ] ;
@@ -428,6 +463,7 @@
 :SE
     a                   skos:Concept ;
     dct:identifier      :SE ;
+    skos:prefLabel      "SE" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SE"
                         ] ;
@@ -440,6 +476,7 @@
 :SF
     a                   skos:Concept ;
     dct:identifier      :SF ;
+    skos:prefLabel      "SF" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SF"
                         ] ;
@@ -452,6 +489,7 @@
 :SPA
     a                   skos:Concept ;
     dct:identifier      :SPA ;
+    skos:prefLabel      "SPA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SPA"
                         ] ;
@@ -464,6 +502,7 @@
 :STI
     a                   skos:Concept ;
     dct:identifier      :STI ;
+    skos:prefLabel      "STI" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "STI"
                         ] ;
@@ -476,6 +515,7 @@
 :STAT
     a                   skos:Concept ;
     dct:identifier      :STAT ;
+    skos:prefLabel      "STAT" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "STAT"
                         ] ;
@@ -488,6 +528,7 @@
 :SÆR
     a                   skos:Concept ;
     dct:identifier      :SÆR ;
+    skos:prefLabel      "SÆR" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SÆR"
                         ] ;
@@ -500,6 +541,7 @@
 :TVAM
     a                   skos:Concept ;
     dct:identifier      :TVAM ;
+    skos:prefLabel      "TVAM" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "TVAM"
                         ] ;
@@ -512,6 +554,7 @@
 :VPFO
     a                   skos:Concept ;
     dct:identifier      :VPFO ;
+    skos:prefLabel      "VPFO" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "VPFO"
                         ] ;
