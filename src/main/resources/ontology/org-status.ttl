@@ -8,6 +8,7 @@
 :NormalAktivitet
     a                   skos:Concept ;
     dct:identifier      :NormalAktivitet ;
+    skos:prefLabel      "Normal aktivitet"@nb , "Normal aktivitet"@nn , "Normal activity"@en ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "Normal aktivitet"@nb , "Normal aktivitet"@nn , "Normal activity"@en
                         ] ;
@@ -20,6 +21,7 @@
 :Avviklet
     a                   skos:Concept ;
     dct:identifier      :Avviklet ;
+    skos:prefLabel      "Avviklet"@nb , "Avvikla"@nn , "Liquidated"@en ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "Avviklet"@nb , "Avvikla"@nn , "Liquidated"@en
                         ] ;
