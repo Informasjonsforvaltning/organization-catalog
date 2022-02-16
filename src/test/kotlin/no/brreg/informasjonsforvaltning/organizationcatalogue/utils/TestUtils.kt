@@ -18,7 +18,7 @@ fun apiGet(endpoint: String, port: Int, acceptHeader: String?): Map<String,Any> 
 
     return try{
         val connection = URL(getApiAddress(port, endpoint)).openConnection() as HttpURLConnection
-        if(acceptHeader != null) connection.setRequestProperty("Accept", acceptHeader)
+        connection.setRequestProperty("Accept", acceptHeader)
         connection.connect()
 
         if(isOK(connection.responseCode)) {
