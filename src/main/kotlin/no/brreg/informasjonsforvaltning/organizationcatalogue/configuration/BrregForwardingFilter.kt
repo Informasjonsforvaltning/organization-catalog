@@ -26,7 +26,7 @@ class BrregForwardingFilter(private val appProperties: AppProperties) : Filter {
 
                 if (acceptContainsHtml && httpRequest.servletPath.contains("organizations")) {
                     val orgId = httpRequest.servletPath.substringAfter("organizations/", "")
-                    httpResponse.setHeader("Location", "${appProperties.enhetsregisteretUrl}$orgId")
+                    httpResponse.setHeader("Location", "${appProperties.enhetsregisteretHtmlUrl}$orgId")
                     httpResponse.status = 303
                     return
                 }
