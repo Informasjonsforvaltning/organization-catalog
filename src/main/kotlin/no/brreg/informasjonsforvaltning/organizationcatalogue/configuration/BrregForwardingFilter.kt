@@ -1,6 +1,7 @@
 package no.brreg.informasjonsforvaltning.organizationcatalogue.configuration
 
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import javax.servlet.Filter
 import javax.servlet.FilterChain
@@ -27,7 +28,7 @@ class BrregForwardingFilter(private val appProperties: AppProperties) : Filter {
                 if (acceptContainsHtml && httpRequest.servletPath.contains("organizations")) {
                     val orgId = httpRequest.servletPath.substringAfter("organizations/", "")
                     httpResponse.setHeader("Location", "${appProperties.enhetsregisteretHtmlUrl}$orgId")
-                    httpResponse.status = 303
+                    httpResponse.status = HttpStatus.SEE_OTHER.value()
                     return
                 }
             } catch (ex: Exception) {
