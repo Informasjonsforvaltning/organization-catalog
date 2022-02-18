@@ -25,8 +25,10 @@ class BrregForwardingFilter(private val appProperties: AppProperties) : Filter {
                     ?.contains("text/html")
                     ?: false
 
-                if (acceptContainsHtml && httpRequest.servletPath.contains("organizations")) {
-                    val orgId = httpRequest.servletPath.substringAfter("organizations/", "")
+                val orgId = httpRequest.servletPath
+                    .substringAfter("organizations/", "")
+
+                if (acceptContainsHtml && orgId.isOrganizationNumber()) {
                     httpResponse.setHeader("Location", "${appProperties.enhetsregisteretHtmlUrl}$orgId")
                     httpResponse.status = HttpStatus.SEE_OTHER.value()
                     return
@@ -39,4 +41,9 @@ class BrregForwardingFilter(private val appProperties: AppProperties) : Filter {
         chain?.doFilter(request, response)
     }
 
+}
+
+private fun String.isOrganizationNumber(): Boolean {
+    val regex = Regex("""^[0-9]{9}$""")
+    return regex.containsMatchIn(this)
 }
