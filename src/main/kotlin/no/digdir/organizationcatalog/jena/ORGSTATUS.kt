@@ -8,7 +8,7 @@ class ORGSTATUS {
     companion object {
         private val m = ModelFactory.createDefaultModel()
 
-        val uri = "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalogue/master/src/main/resources/ontology/org-status.ttl#"
+        val uri = "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/master/src/main/resources/ontology/org-status.ttl#"
 
         val NormalAktivitet: Resource = m.createResource(uri + "NormalAktivitet")
         val Avviklet: Resource = m.createResource(uri + "Avviklet")

@@ -86,11 +86,11 @@ private fun isOK(response: Int?): Boolean =
     else HttpStatus.resolve(response)?.is2xxSuccessful == true
 
 fun populateDB(){
-    val connectionString = ConnectionString("mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:${mongoContainer.getMappedPort(MONGO_PORT)}/organization-catalogue?authSource=admin&authMechanism=SCRAM-SHA-1")
+    val connectionString = ConnectionString("mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:${mongoContainer.getMappedPort(MONGO_PORT)}/organization-catalog?authSource=admin&authMechanism=SCRAM-SHA-1")
     val pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), fromProviders(PojoCodecProvider.builder().automatic(true).build()))
 
     val client: MongoClient = MongoClients.create(connectionString)
-    val mongoDatabase = client.getDatabase("organization-catalogue").withCodecRegistry(pojoCodecRegistry)
+    val mongoDatabase = client.getDatabase("organization-catalog").withCodecRegistry(pojoCodecRegistry)
 
     val orgCollection = mongoDatabase.getCollection("organizations")
     orgCollection.insertMany(organizationsDBPopulation())

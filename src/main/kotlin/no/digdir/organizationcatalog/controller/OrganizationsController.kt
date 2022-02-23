@@ -7,7 +7,7 @@ import no.digdir.organizationcatalog.jena.JenaType
 import no.digdir.organizationcatalog.jena.acceptHeaderToJenaType
 import no.digdir.organizationcatalog.jena.jenaResponse
 import no.digdir.organizationcatalog.security.EndpointPermissions
-import no.digdir.organizationcatalog.service.OrganizationCatalogueService
+import no.digdir.organizationcatalog.service.OrganizationCatalogService
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpHeaders
@@ -25,7 +25,7 @@ private val LOGGER = LoggerFactory.getLogger(OrganizationsController::class.java
 @RestController
 @RequestMapping("/organizations")
 open class OrganizationsController(
-    private val catalogueService: OrganizationCatalogueService,
+    private val catalogService: OrganizationCatalogService,
     private val appProperties: AppProperties,
     private val endpointPermissions: EndpointPermissions
 ) {
@@ -39,7 +39,7 @@ open class OrganizationsController(
         if (endpointPermissions.hasAdminPermission(jwt)) {
             try {
                 LOGGER.debug("update organization $id")
-                catalogueService
+                catalogService
                     .updateEntry(id, organization)
                     ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
                     ?: ResponseEntity(HttpStatus.NOT_FOUND)
@@ -63,10 +63,10 @@ open class OrganizationsController(
     ): ResponseEntity<Any> {
         LOGGER.debug("get organization $id")
         val jenaType = acceptHeaderToJenaType(accept)
-        val organization = catalogueService.getByOrgnr(id)
+        val organization = catalogService.getByOrgnr(id)
 
         val urls = ExternalUrls(
-            organizationCatalogue = appProperties.organizationCatalogueUrl,
+            organizationCatalog = appProperties.organizationCatalogUrl,
             municipality = appProperties.municipalityUrl
         )
 
@@ -85,10 +85,10 @@ open class OrganizationsController(
     fun getDelegatedOrganizations(@RequestHeader(HttpHeaders.ACCEPT) accept: String?): ResponseEntity<Any> {
         LOGGER.debug("get organizations with delegation permissions")
         val jenaType = acceptHeaderToJenaType(accept)
-        val organizations = catalogueService.getOrganizationsWithDelegationPermissions()
+        val organizations = catalogService.getOrganizationsWithDelegationPermissions()
 
         val urls = ExternalUrls(
-            organizationCatalogue = appProperties.organizationCatalogueUrl,
+            organizationCatalog = appProperties.organizationCatalogUrl,
             municipality = appProperties.municipalityUrl
         )
 
@@ -113,10 +113,10 @@ open class OrganizationsController(
             else -> LOGGER.debug("get organizations filtered by ids: $organizationId and name: $name")
         }
         val jenaType = acceptHeaderToJenaType(accept)
-        val organizations = catalogueService.getOrganizations(name, organizationId)
+        val organizations = catalogService.getOrganizations(name, organizationId)
 
         val urls = ExternalUrls(
-            organizationCatalogue = appProperties.organizationCatalogueUrl,
+            organizationCatalog = appProperties.organizationCatalogUrl,
             municipality = appProperties.municipalityUrl
         )
 
@@ -134,7 +134,7 @@ open class OrganizationsController(
     ): ResponseEntity<Organization> =
         if (endpointPermissions.hasAdminPermission(jwt)) {
             LOGGER.debug("update organization with id $id with data from Enhetsregisteret")
-            catalogueService.updateEntryFromEnhetsregisteret(id)
+            catalogService.updateEntryFromEnhetsregisteret(id)
                 ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
                 ?: ResponseEntity(HttpStatus.NOT_FOUND)
         } else ResponseEntity(HttpStatus.FORBIDDEN)
@@ -143,6 +143,6 @@ open class OrganizationsController(
     @GetMapping("/orgpath/{org}", produces = [MediaType.TEXT_PLAIN_VALUE])
     fun getOrgPath(@PathVariable org: String): ResponseEntity<String> {
         LOGGER.debug("get orgPath for $org")
-        return ResponseEntity(catalogueService.getOrgPath(org), HttpStatus.OK)
+        return ResponseEntity(catalogService.getOrgPath(org), HttpStatus.OK)
     }
 }

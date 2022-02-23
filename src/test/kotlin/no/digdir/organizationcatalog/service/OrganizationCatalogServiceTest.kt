@@ -4,7 +4,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
-import no.digdir.organizationcatalog.repository.OrganizationCatalogueRepository
+import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
 import no.digdir.organizationcatalog.utils.*
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
@@ -17,19 +17,19 @@ import org.springframework.test.context.ActiveProfiles
 
 @Tag("unit")
 @ActiveProfiles("test")
-class OrganizationCatalogueServiceTest {
+class OrganizationCatalogServiceTest {
 
-    private val repository: OrganizationCatalogueRepository = mock()
+    private val repository: OrganizationCatalogRepository = mock()
     private val adapter: EnhetsregisteretAdapter = mock()
     private val valuesMock: AppProperties = mock()
-    private val catalogueService: OrganizationCatalogueService = OrganizationCatalogueService(repository, adapter, valuesMock)
+    private val catalogService: OrganizationCatalogService = OrganizationCatalogService(repository, adapter, valuesMock)
 
     @Test
     fun getByIdNotFound() {
         whenever(repository.findById("123ID"))
             .thenReturn(Optional.empty())
 
-        val publisher = catalogueService.getByOrgnr("123ID")
+        val publisher = catalogService.getByOrgnr("123ID")
 
         assertNull(publisher)
     }
@@ -42,7 +42,7 @@ class OrganizationCatalogueServiceTest {
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
 
-        val publisher = catalogueService.getByOrgnr("123ID")
+        val publisher = catalogService.getByOrgnr("123ID")
 
         assertEquals(persisted.name, publisher!!.name)
         assertEquals(persisted.organizationId, publisher.organizationId)
@@ -59,7 +59,7 @@ class OrganizationCatalogueServiceTest {
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
 
-        val publisherList = catalogueService.getOrganizations(null, null)
+        val publisherList = catalogService.getOrganizations(null, null)
 
         assertEquals(persistedList[0].name, publisherList[0].name)
         assertEquals(persistedList[0].organizationId, publisherList[0].organizationId)
@@ -76,7 +76,7 @@ class OrganizationCatalogueServiceTest {
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
 
-        val publisherList = catalogueService.getOrganizations("Name", listOf("974760673"))
+        val publisherList = catalogService.getOrganizations("Name", listOf("974760673"))
 
         assertEquals(persistedList[0].name, publisherList[0].name)
         assertEquals(persistedList[0].organizationId, publisherList[0].organizationId)
@@ -93,7 +93,7 @@ class OrganizationCatalogueServiceTest {
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
 
-        val publisherList = catalogueService.getOrganizations("Name", null)
+        val publisherList = catalogService.getOrganizations("Name", null)
 
         assertEquals(persistedList[0].name, publisherList[0].name)
         assertEquals(persistedList[0].organizationId, publisherList[0].organizationId)
@@ -107,7 +107,7 @@ class OrganizationCatalogueServiceTest {
         whenever(repository.findById("123ID"))
             .thenReturn(Optional.empty())
 
-        val publisher = catalogueService.updateEntry("123ID", ORG_0)
+        val publisher = catalogService.updateEntry("123ID", ORG_0)
 
         assertNull(publisher)
     }
@@ -119,7 +119,7 @@ class OrganizationCatalogueServiceTest {
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
 
-        val publishers = catalogueService.getOrganizationsWithDelegationPermissions()
+        val publishers = catalogService.getOrganizationsWithDelegationPermissions()
 
         assertEquals(listOf(ORG_0), publishers)
     }

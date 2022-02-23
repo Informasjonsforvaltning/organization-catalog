@@ -9,10 +9,10 @@ data class AppProperties(
     val enhetsregisteretUrl: String,
     val enhetsregisteretHtmlUrl: String,
     val enhetsregisteretProxyUrl: String,
-    val organizationCatalogueHost: String,
+    val organizationCatalogHost: String,
     val municipalityUrl: String,
-    val organizationCatalogueUrl: String = organizationCatalogueHost + "/organizations/",
-    val organizationDomainsUrl: String = organizationCatalogueHost + "/domains/",
+    val organizationCatalogUrl: String = organizationCatalogHost + "/organizations/",
+    val organizationDomainsUrl: String = organizationCatalogHost + "/domains/",
     val testOrganizations: Set<String> = emptySet(),
     val defaultOrgPath: String) {
 }
