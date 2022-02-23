@@ -1,7 +1,7 @@
 openapi: 3.0.2
 info:
-  title: National Data Directory Organization Catalogue
-  description: Exposes a basic service which provides information related to the organization catalogue in the National Data Directory
+  title: National Data Directory Organization Catalog
+  description: Exposes a basic service which provides information related to the organization catalog in the National Data Directory
   version: '1.0'
   termsOfService: 'https://fellesdatakatalog.digdir.no/about'
   contact:
@@ -15,15 +15,15 @@ externalDocs:
   description: Dokumentasjon på Informasjonsforvaltning GitHub
   url: https://informasjonsforvaltning.github.io/
 tags:
-  - name: organization-catalogue
-    description: Organization Catalogue
+  - name: organization-catalog
+    description: Organization Catalog
 servers:
-  - url: 'https://organization-catalogue.fellesdatakatalog.digdir.no'
+  - url: 'https://organization-catalog.fellesdatakatalog.digdir.no'
 paths:
   /organizations:
     get:
       tags:
-        - organization-catalogue
+        - organization-catalog
       summary: Query for organizations.
       description: Returns a collection of matching organizations
       operationId: getOrganizations
@@ -67,7 +67,7 @@ paths:
   /organizations/{id}:
     get:
       tags:
-        - organization-catalogue
+        - organization-catalog
       description: Get a specific organization by id
       operationId: getOrganizationById
       parameters:
@@ -103,7 +103,7 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - organization-catalogue
+        - organization-catalog
       description: Update a specific organization by id
       operationId: updateOrganization
       parameters:
@@ -130,7 +130,7 @@ paths:
       security:
         - bearerAuth: [ ]
       tags:
-        - organization-catalogue
+        - organization-catalog
       description: Update specified organization and its parent organizations with data from the National Data Directory
       operationId: updateFromEnhetsregisteret
       parameters:
@@ -151,7 +151,7 @@ paths:
   /organizations/delegated:
     get:
       tags:
-        - organization-catalogue
+        - organization-catalog
       description: Get a list of organizations that have delegation permissions
       operationId: getDelegatedOrganizations
       responses:
@@ -180,7 +180,7 @@ paths:
   /organizations/orgpath/{org}:
     get:
       tags:
-        - organization-catalogue
+        - organization-catalog
       description: Get organization path for id
       operationId: getOrgPath
       parameters:
@@ -202,7 +202,7 @@ components:
   schemas:
     Organization:
       type: object
-      description: An organization in the catalogue
+      description: An organization in the catalog
       properties:
         organizationId:
           type: string

@@ -32,14 +32,14 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
     model.setNsPrefix("orgtype", ORGTYPE.uri)
 
     forEach {
-        model.createResource(urls.organizationCatalogue + it.organizationId)
+        model.createResource(urls.organizationCatalog + it.organizationId)
             .addProperty(RDF.type, ROV.RegisteredOrganization)
             .safeAddProperty(ROV.legalName, it.name)
             .addRegistration(it)
             .safeAddProperty(DCTerms.identifier, it.organizationId)
             .addOrgType(it.orgType)
             .safeAddProperty(BR.orgPath, it.orgPath)
-            .safeAddLinkedProperty(ORG.subOrganizationOf, it.subOrganizationOf?.let { parentId -> urls.organizationCatalogue + parentId })
+            .safeAddLinkedProperty(ORG.subOrganizationOf, it.subOrganizationOf?.let { parentId -> urls.organizationCatalog + parentId })
             .safeAddLinkedProperty(BR.municipality, it.municipalityNumber?.let { number -> urls.municipality + municipalityNumberToId(number) })
             .safeAddLinkedProperty(BR.norwegianRegistry, it.norwegianRegistry)
             .safeAddLinkedProperty(BR.internationalRegistry, it.internationalRegistry)
@@ -133,7 +133,7 @@ enum class JenaType(val value: String){
 }
 
 data class ExternalUrls(
-    val organizationCatalogue: String? = null,
+    val organizationCatalog: String? = null,
     val organizationDomains: String? = null,
     val municipality: String? = null
 )

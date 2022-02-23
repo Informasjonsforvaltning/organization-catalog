@@ -36,7 +36,7 @@ open class SecurityConfig : WebSecurityConfigurerAdapter() {
             DelegatingOAuth2TokenValidator(
                 JwtTimestampValidator(),
                 JwtIssuerValidator(properties.jwt.issuerUri),
-                JwtClaimValidator(AUD) { aud: List<String> -> aud.contains("organization-catalogue") }
+                JwtClaimValidator(AUD) { aud: List<String> -> aud.contains("organization-catalog") }
             )
         )
         return jwtDecoder

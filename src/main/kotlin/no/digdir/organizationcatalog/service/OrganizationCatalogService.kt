@@ -7,14 +7,14 @@ import no.digdir.organizationcatalog.mapping.mapForCreation
 import no.digdir.organizationcatalog.mapping.mapToGenerated
 import no.digdir.organizationcatalog.mapping.updateValues
 import no.digdir.organizationcatalog.mapping.updateWithEnhetsregisteretValues
-import no.digdir.organizationcatalog.repository.OrganizationCatalogueRepository
+import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
-class OrganizationCatalogueService(
-    private val repository: OrganizationCatalogueRepository,
+class OrganizationCatalogService(
+    private val repository: OrganizationCatalogRepository,
     private val enhetsregisteretAdapter: EnhetsregisteretAdapter,
     private val appProperties: AppProperties
 ) {
@@ -30,7 +30,7 @@ class OrganizationCatalogueService(
             name != null && orgs != null  -> searchForOrganizationsByNameAndIds(name, orgs)
             orgs != null -> searchForOrganizationsByIds(orgs)
             name != null -> searchForOrganizationsByName(name)
-            else -> getCatalogue()
+            else -> getCatalog()
         }
 
     fun getOrganizationsWithDelegationPermissions(): List<Organization> =
@@ -38,7 +38,7 @@ class OrganizationCatalogueService(
             .findByAllowDelegatedRegistration(true)
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
-    private fun getCatalogue() =
+    private fun getCatalog() =
         repository
             .findAll()
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }

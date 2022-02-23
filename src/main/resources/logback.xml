@@ -23,7 +23,7 @@
                     <fieldName>shortMessage</fieldName>
                 </message>
                 <pattern>
-                    <pattern>{ "message": "%exception%message", "serviceContext": { "service": "organization-catalogue" } }</pattern>
+                    <pattern>{ "message": "%exception%message", "serviceContext": { "service": "organization-catalog" } }</pattern>
                 </pattern>
             </providers>
         </encoder>
