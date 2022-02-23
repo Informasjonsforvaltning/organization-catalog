@@ -1,6 +1,6 @@
-# Organization Catalogue
+# Organization Catalog
 
-Provides search and edit functionality for the current organization catalogue in the National Data Catalog
+Provides search and edit functionality for the current organization catalog in the National Data Catalog
 
 # Local development
 
