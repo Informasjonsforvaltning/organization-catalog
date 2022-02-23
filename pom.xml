@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>no.brreg.informasjonsforvaltning</groupId>
-    <artifactId>organization-catalogue</artifactId>
-    <name>Organization Catalogue</name>
+    <artifactId>organization-catalog</artifactId>
+    <name>Organization Catalog</name>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
