@@ -1,5 +1,6 @@
 package no.digdir.organizationcatalog.configuration
 
+import no.digdir.organizationcatalog.utils.isOrganizationNumber
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
@@ -41,9 +42,4 @@ class BrregForwardingFilter(private val appProperties: AppProperties) : Filter {
         chain?.doFilter(request, response)
     }
 
-}
-
-private fun String.isOrganizationNumber(): Boolean {
-    val regex = Regex("""^[0-9]{9}$""")
-    return regex.containsMatchIn(this)
 }

@@ -8,6 +8,7 @@ import no.digdir.organizationcatalog.mapping.mapToGenerated
 import no.digdir.organizationcatalog.mapping.updateValues
 import no.digdir.organizationcatalog.mapping.updateWithEnhetsregisteretValues
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
+import no.digdir.organizationcatalog.utils.isOrganizationNumber
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
@@ -79,10 +80,11 @@ class OrganizationCatalogService(
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
 
     fun getOrgPath(orgId: String): String =
-        repository
-            .findByIdOrNull(orgId)
-            ?.orgPath
-            ?: "${appProperties.defaultOrgPath}$orgId"
+        if (orgId.isOrganizationNumber()) {
+            getByOrgnr(orgId)
+                ?.orgPath
+                ?: "${appProperties.defaultOrgPath}$orgId"
+        } else "${appProperties.defaultOrgPath}$orgId"
 
     @Scheduled(cron = "0 30 20 5 * ?")
     fun updateAllEntriesFromEnhetsregisteret() {
