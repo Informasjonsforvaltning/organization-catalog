@@ -7,7 +7,7 @@
 
 :NormalAktivitet
     a                   skos:Concept ;
-    dct:identifier      :NormalAktivitet ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-status.ttl#NormalAktivitet" ;
     skos:prefLabel      "Normal aktivitet"@nb , "Normal aktivitet"@nn , "Normal activity"@en ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "Normal aktivitet"@nb , "Normal aktivitet"@nn , "Normal activity"@en
@@ -20,7 +20,7 @@
 
 :Avviklet
     a                   skos:Concept ;
-    dct:identifier      :Avviklet ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-status.ttl#Avviklet" ;
     skos:prefLabel      "Avviklet"@nb , "Avvikla"@nn , "Liquidated"@en ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "Avviklet"@nb , "Avvikla"@nn , "Liquidated"@en

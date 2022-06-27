@@ -7,7 +7,7 @@
 
 :AAFY
     a                   skos:Concept ;
-    dct:identifier      :AAFY ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#AAFY" ;
     skos:prefLabel      "AAFY" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "AAFY"
@@ -20,7 +20,7 @@
 
 :ADOS
     a                   skos:Concept ;
-    dct:identifier      :ADOS ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#ADOS" ;
     skos:prefLabel      "ADOS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ADOS"
@@ -33,7 +33,7 @@
 
 :ANNA
     a                   skos:Concept ;
-    dct:identifier      :ANNA ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#ANNA" ;
     skos:prefLabel      "ANNA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ANNA"
@@ -46,7 +46,7 @@
 
 :ANS
     a                   skos:Concept ;
-    dct:identifier      :ANS ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#ANS" ;
     skos:prefLabel      "ANS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ANS"
@@ -59,7 +59,7 @@
 
 :AS
     a                   skos:Concept ;
-    dct:identifier      :AS ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#AS" ;
     skos:prefLabel      "AS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "AS"
@@ -72,7 +72,7 @@
 
 :ASA
     a                   skos:Concept ;
-    dct:identifier      :ASA ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#ASA" ;
     skos:prefLabel      "ASA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ASA"
@@ -85,7 +85,7 @@
 
 :BA
     a                   skos:Concept ;
-    dct:identifier      :BA ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#BA" ;
     skos:prefLabel      "BA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "BA"
@@ -98,7 +98,7 @@
 
 :BBL
     a                   skos:Concept ;
-    dct:identifier      :BBL ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#BBL" ;
     skos:prefLabel      "BBL" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "BBL"
@@ -111,7 +111,7 @@
 
 :BEDR
     a                   skos:Concept ;
-    dct:identifier      :BEDR ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#BEDR" ;
     skos:prefLabel      "BEDR" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "BEDR"
@@ -124,7 +124,7 @@
 
 :BO
     a                   skos:Concept ;
-    dct:identifier      :BO ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#BO" ;
     skos:prefLabel      "BO" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "BO"
@@ -137,7 +137,7 @@
 
 :BRL
     a                   skos:Concept ;
-    dct:identifier      :BRL ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#BRL" ;
     skos:prefLabel      "BRL" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "BRL"
@@ -150,7 +150,7 @@
 
 :DA
     a                   skos:Concept ;
-    dct:identifier      :DA ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#DA" ;
     skos:prefLabel      "DA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "DA"
@@ -163,7 +163,7 @@
 
 :ENK
     a                   skos:Concept ;
-    dct:identifier      :ENK ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#ENK" ;
     skos:prefLabel      "ENK" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ENK"
@@ -176,7 +176,7 @@
 
 :EØFG
     a                   skos:Concept ;
-    dct:identifier      :EØFG ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#EØFG" ;
     skos:prefLabel      "EØFG" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "EØFG"
@@ -189,7 +189,7 @@
 
 :ESEK
     a                   skos:Concept ;
-    dct:identifier      :ESEK ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#ESEK" ;
     skos:prefLabel      "ESEK" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ESEK"
@@ -202,7 +202,7 @@
 
 :FKF
     a                   skos:Concept ;
-    dct:identifier      :FKF ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#FKF" ;
     skos:prefLabel      "FKF" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "FKF"
@@ -215,7 +215,7 @@
 
 :FLI
     a                   skos:Concept ;
-    dct:identifier      :FLI ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#FLI" ;
     skos:prefLabel      "FLI" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "FLI"
@@ -228,7 +228,7 @@
 
 :FYLK
     a                   skos:Concept ;
-    dct:identifier      :FYLK ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#FYLK" ;
     skos:prefLabel      "FYLK" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "FYLK"
@@ -241,7 +241,7 @@
 
 :GFS
     a                   skos:Concept ;
-    dct:identifier      :GFS ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#GFS" ;
     skos:prefLabel      "GFS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "GFS"
@@ -254,7 +254,7 @@
 
 :IKJP
     a                   skos:Concept ;
-    dct:identifier      :IKJP ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#IKJP" ;
     skos:prefLabel      "IKJP" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "IKJP"
@@ -267,7 +267,7 @@
 
 :IKS
     a                   skos:Concept ;
-    dct:identifier      :IKS ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#IKS" ;
     skos:prefLabel      "IKS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "IKS"
@@ -280,7 +280,7 @@
 
 :KBO
     a                   skos:Concept ;
-    dct:identifier      :KBO ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#KBO" ;
     skos:prefLabel      "KBO" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KBO"
@@ -293,7 +293,7 @@
 
 :KF
     a                   skos:Concept ;
-    dct:identifier      :KF ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#KF" ;
     skos:prefLabel      "KF" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KF"
@@ -306,7 +306,7 @@
 
 :KIRK
     a                   skos:Concept ;
-    dct:identifier      :KIRK ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#KIRK" ;
     skos:prefLabel      "KIRK" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KIRK"
@@ -319,7 +319,7 @@
 
 :KOMM
     a                   skos:Concept ;
-    dct:identifier      :KOMM ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#KOMM" ;
     skos:prefLabel      "KOMM" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KOMM"
@@ -332,7 +332,7 @@
 
 :KS
     a                   skos:Concept ;
-    dct:identifier      :KS ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#KS" ;
     skos:prefLabel      "KS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KS"
@@ -345,7 +345,7 @@
 
 :KTRF
     a                   skos:Concept ;
-    dct:identifier      :KTRF ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#KTRF" ;
     skos:prefLabel      "KTRF" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "KTRF"
@@ -358,7 +358,7 @@
 
 :NUF
     a                   skos:Concept ;
-    dct:identifier      :NUF ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#NUF" ;
     skos:prefLabel      "NUF" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "NUF"
@@ -371,7 +371,7 @@
 
 :OPMV
     a                   skos:Concept ;
-    dct:identifier      :OPMV ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#OPMV" ;
     skos:prefLabel      "OPMV" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "OPMV"
@@ -384,7 +384,7 @@
 
 :ORGL
     a                   skos:Concept ;
-    dct:identifier      :ORGL ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#ORGL" ;
     skos:prefLabel      "ORGL" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "ORGL"
@@ -397,7 +397,7 @@
 
 :PERS
     a                   skos:Concept ;
-    dct:identifier      :PERS ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#PERS" ;
     skos:prefLabel      "PERS" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "PERS"
@@ -410,7 +410,7 @@
 
 :PK
     a                   skos:Concept ;
-    dct:identifier      :PK ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#PK" ;
     skos:prefLabel      "PK" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "PK"
@@ -423,7 +423,7 @@
 
 :PRE
     a                   skos:Concept ;
-    dct:identifier      :PRE ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#PRE" ;
     skos:prefLabel      "PRE" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "PRE"
@@ -436,7 +436,7 @@
 
 :SA
     a                   skos:Concept ;
-    dct:identifier      :SA ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#SA" ;
     skos:prefLabel      "SA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SA"
@@ -449,7 +449,7 @@
 
 :SAM
     a                   skos:Concept ;
-    dct:identifier      :SAM ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#SAM" ;
     skos:prefLabel      "SAM" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SAM"
@@ -462,7 +462,7 @@
 
 :SE
     a                   skos:Concept ;
-    dct:identifier      :SE ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#SE" ;
     skos:prefLabel      "SE" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SE"
@@ -475,7 +475,7 @@
 
 :SF
     a                   skos:Concept ;
-    dct:identifier      :SF ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#SF" ;
     skos:prefLabel      "SF" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SF"
@@ -488,7 +488,7 @@
 
 :SPA
     a                   skos:Concept ;
-    dct:identifier      :SPA ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#SPA" ;
     skos:prefLabel      "SPA" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SPA"
@@ -501,7 +501,7 @@
 
 :STI
     a                   skos:Concept ;
-    dct:identifier      :STI ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#STI" ;
     skos:prefLabel      "STI" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "STI"
@@ -514,7 +514,7 @@
 
 :STAT
     a                   skos:Concept ;
-    dct:identifier      :STAT ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#STAT" ;
     skos:prefLabel      "STAT" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "STAT"
@@ -527,7 +527,7 @@
 
 :SÆR
     a                   skos:Concept ;
-    dct:identifier      :SÆR ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#SÆR" ;
     skos:prefLabel      "SÆR" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "SÆR"
@@ -540,7 +540,7 @@
 
 :TVAM
     a                   skos:Concept ;
-    dct:identifier      :TVAM ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#TVAM" ;
     skos:prefLabel      "TVAM" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "TVAM"
@@ -553,7 +553,7 @@
 
 :VPFO
     a                   skos:Concept ;
-    dct:identifier      :VPFO ;
+    dct:identifier      "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/org-type.ttl#VPFO" ;
     skos:prefLabel      "VPFO" ;
     skosxl:prefLabel    [ a                   skosxl:Label ;
                           skosxl:literalForm  "VPFO"
