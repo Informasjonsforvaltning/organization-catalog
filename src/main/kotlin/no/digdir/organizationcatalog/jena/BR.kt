@@ -8,7 +8,7 @@ class BR {
     companion object {
         private val m = ModelFactory.createDefaultModel()
 
-        val uri = "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/master/src/main/resources/ontology/organization-catalog.owl#"
+        val uri = "https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/organization-catalog.owl#"
 
         val municipality: Property = m.createProperty(uri + "municipality")
         val orgPath: Property = m.createProperty(uri + "orgPath")
