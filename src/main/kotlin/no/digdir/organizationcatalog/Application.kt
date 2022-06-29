@@ -7,10 +7,11 @@ import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-@EnableConfigurationProperties(AppProperties::class)
+@EnableConfigurationProperties(AppProperties::class, OAuth2ResourceServerProperties::class)
 @EnableScheduling
 open class Application {
     @Bean
