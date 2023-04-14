@@ -1,7 +1,5 @@
 package no.digdir.organizationcatalog.service
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
 import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
@@ -13,6 +11,8 @@ import java.util.Optional
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import org.springframework.test.context.ActiveProfiles
 
 @Tag("unit")
