@@ -39,7 +39,7 @@ abstract class ApiTestContext {
                 .waitingFor(Wait.forListeningPort())
             mongoContainer.start()
 
-            populateDB()
+            resetDB()
 
             try {
                 val con = URL("http://localhost:5000/ping").openConnection() as HttpURLConnection

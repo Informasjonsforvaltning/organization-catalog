@@ -7,6 +7,7 @@ import kotlinx.coroutines.runBlocking
 import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.mapping.createOrgPath
 import no.digdir.organizationcatalog.mapping.cutOrgPathForParents
+import no.digdir.organizationcatalog.model.EnhetsregisteretEmbeddedWrapperDTO
 import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -59,6 +60,27 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
         }
     }
 
+    private fun getOrganizationsFromEnhetsregisteret(path: String): EnhetsregisteretEmbeddedWrapperDTO? =
+        URL("${appProperties.enhetsregisteretProxyUrl}$path")
+            .openConnection()
+            .run {
+                this as HttpURLConnection
+
+                if (responseCode != HttpStatus.OK.value()) {
+                    LOGGER.error("Download of organizations from path $path failed with code $responseCode")
+                    return null
+                }
+
+                val jsonBody = inputStream.bufferedReader().use(BufferedReader::readText)
+
+                return try {
+                    jacksonObjectMapper().readValue(jsonBody)
+                } catch (t: Throwable) {
+                    LOGGER.warn("Unable to parse response from path $path")
+                    null
+                }
+            }
+
     private fun getOrganizationFromEnhetsregisteret(organizationId: String, isSubordinate: Boolean = false): EnhetsregisteretOrganization? =
         URL("${appProperties.enhetsregisteretProxyUrl}/${if (isSubordinate) "underenheter" else "enheter"}/$organizationId")
             .openConnection()
@@ -79,6 +101,19 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
                     null
                 }
             }
+
+    fun getOrganizationsFromEnhetsregisteretByType(orgType: String): List<EnhetsregisteretOrganization> {
+        return getOrganizationsFromEnhetsregisteret("/enheter?organisasjonsform=$orgType&size=10000")
+            ?._embedded
+            ?.enheter
+            ?: emptyList()
+    }
+
+    fun getOrganizationsFromEnhetsregisteretByParent(orgnr: String): List<EnhetsregisteretOrganization> =
+        getOrganizationsFromEnhetsregisteret("/enheter?overordnetEnhet=$orgnr&size=10000")
+            ?._embedded
+            ?.enheter
+            ?: emptyList()
 
     private fun isTestEnvironment(): Boolean =
         setOf("localhost", "staging", "demo")
