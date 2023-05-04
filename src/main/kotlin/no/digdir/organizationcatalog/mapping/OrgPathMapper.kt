@@ -12,7 +12,7 @@ fun createOrgPath(isTest: Boolean, orgIdSet: Set<String>, topOrgForm: String?): 
 fun cutOrgPathForParents(orgPath: String, orgNmbr: String) =
     "${orgPath.split(orgNmbr)[0]}$orgNmbr"
 
-private fun getOrgPathBase(topOrgForm: String?): String =
+fun getOrgPathBase(topOrgForm: String?): String =
     when (topOrgForm) {
         "STAT" -> "/STAT"
         "FYLK" -> "/FYLKE"

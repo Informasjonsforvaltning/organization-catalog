@@ -14,8 +14,3 @@ services:
     image: eu.gcr.io/digdir-fdk-infra/fdk-nginx-enhetsregisteret-proxy-mock:latest
     ports:
       - 8132:8080
-
-  sso:
-    image: docker.pkg.github.com/informasjonsforvaltning/auth-utils-java/auth-utils-java:latest
-    ports:
-      - 8084:8084

@@ -8,6 +8,7 @@ import no.digdir.organizationcatalog.utils.*
 import no.digdir.organizationcatalog.utils.NOT_UPDATED_1
 import no.digdir.organizationcatalog.utils.jwk.Access
 import no.digdir.organizationcatalog.utils.jwk.JwtToken
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
@@ -35,6 +36,11 @@ internal class OrganizationsApi : ApiTestContext() {
 
     @LocalServerPort
     var port: Int = 0
+
+    @BeforeAll
+    fun resetDatabase() {
+        resetDB()
+    }
 
     @Test
     fun pingTest() {

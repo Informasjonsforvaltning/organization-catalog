@@ -1,0 +1,79 @@
+{
+    "_embedded": {
+        "enheter": [
+            {
+                "organisasjonsnummer": "926721720",
+                "navn": "DOMSTOLADMINISTRASJONEN",
+                "organisasjonsform": {
+                    "kode": "ORGL",
+                    "beskrivelse": "Organisasjonsledd",
+                    "_links": {
+                        "self": {
+                            "href": "https://data.brreg.no/enhetsregisteret/api/organisasjonsformer/ORGL"
+                        }
+                    }
+                },
+                "postadresse": {
+                    "land": "Norge",
+                    "landkode": "NO",
+                    "postnummer": "7485",
+                    "poststed": "TRONDHEIM",
+                    "adresse": [
+                        "Postboks 5678 Torgarden"
+                    ],
+                    "kommune": "TRONDHEIM",
+                    "kommunenummer": "5001"
+                },
+                "registreringsdatoEnhetsregisteret": "2021-03-04",
+                "registrertIMvaregisteret": false,
+                "naeringskode1": {
+                    "beskrivelse": "Retts- og fengselsvesen",
+                    "kode": "84.230"
+                },
+                "antallAnsatte": 177,
+                "overordnetEnhet": "984195796",
+                "forretningsadresse": {
+                    "land": "Norge",
+                    "landkode": "NO",
+                    "postnummer": "7011",
+                    "poststed": "TRONDHEIM",
+                    "adresse": [
+                        "Dronningens gate 2"
+                    ],
+                    "kommune": "TRONDHEIM",
+                    "kommunenummer": "5001"
+                },
+                "institusjonellSektorkode": {
+                    "kode": "6100",
+                    "beskrivelse": "Statsforvaltningen"
+                },
+                "registrertIForetaksregisteret": false,
+                "registrertIStiftelsesregisteret": false,
+                "registrertIFrivillighetsregisteret": false,
+                "konkurs": false,
+                "underAvvikling": false,
+                "underTvangsavviklingEllerTvangsopplosning": false,
+                "maalform": "Bokmål",
+                "_links": {
+                    "self": {
+                        "href": "https://data.brreg.no/enhetsregisteret/api/enheter/926721720"
+                    },
+                    "overordnetEnhet": {
+                        "href": "https://data.brreg.no/enhetsregisteret/api/enheter/984195796"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "self": {
+            "href": "https://data.brreg.no/enhetsregisteret/api/enheter/?overordnetEnhet=984195796&size=10000"
+        }
+    },
+    "page": {
+        "size": 10000,
+        "totalElements": 52,
+        "totalPages": 1,
+        "number": 0
+    }
+}

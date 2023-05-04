@@ -1,0 +1,76 @@
+{
+    "_embedded": {
+        "enheter": [
+            {
+                "organisasjonsnummer": "984195796",
+                "navn": "DOMSTOLENE I NORGE",
+                "organisasjonsform": {
+                    "kode": "STAT",
+                    "beskrivelse": "Staten",
+                    "_links": {
+                        "self": {
+                            "href": "https://data.brreg.no/enhetsregisteret/api/organisasjonsformer/STAT"
+                        }
+                    }
+                },
+                "hjemmeside": "www.domstol.no",
+                "postadresse": {
+                    "land": "Norge",
+                    "landkode": "NO",
+                    "postnummer": "7485",
+                    "poststed": "TRONDHEIM",
+                    "adresse": [
+                        "Postboks 5678 Torgarden"
+                    ],
+                    "kommune": "TRONDHEIM",
+                    "kommunenummer": "5001"
+                },
+                "registreringsdatoEnhetsregisteret": "2002-03-22",
+                "registrertIMvaregisteret": true,
+                "naeringskode1": {
+                    "beskrivelse": "Retts- og fengselsvesen",
+                    "kode": "84.230"
+                },
+                "antallAnsatte": 0,
+                "forretningsadresse": {
+                    "land": "Norge",
+                    "landkode": "NO",
+                    "postnummer": "7011",
+                    "poststed": "TRONDHEIM",
+                    "adresse": [
+                        "Dronningens gate 2"
+                    ],
+                    "kommune": "TRONDHEIM",
+                    "kommunenummer": "5001"
+                },
+                "institusjonellSektorkode": {
+                    "kode": "6100",
+                    "beskrivelse": "Statsforvaltningen"
+                },
+                "registrertIForetaksregisteret": false,
+                "registrertIStiftelsesregisteret": false,
+                "registrertIFrivillighetsregisteret": false,
+                "konkurs": false,
+                "underAvvikling": false,
+                "underTvangsavviklingEllerTvangsopplosning": false,
+                "maalform": "Bokmål",
+                "_links": {
+                    "self": {
+                        "href": "https://data.brreg.no/enhetsregisteret/api/enheter/984195796"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "self": {
+            "href": "https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsform=STAT&size=10000"
+        }
+    },
+    "page": {
+        "size": 10000,
+        "totalElements": 1,
+        "totalPages": 1,
+        "number": 0
+    }
+}

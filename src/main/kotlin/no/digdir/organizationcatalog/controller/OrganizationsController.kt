@@ -139,7 +139,6 @@ open class OrganizationsController(
                 ?: ResponseEntity(HttpStatus.NOT_FOUND)
         } else ResponseEntity(HttpStatus.FORBIDDEN)
 
-
     @GetMapping("/orgpath/{org}", produces = [MediaType.TEXT_PLAIN_VALUE])
     fun getOrgPath(@PathVariable org: String): ResponseEntity<String> {
         LOGGER.debug("get orgPath for $org")

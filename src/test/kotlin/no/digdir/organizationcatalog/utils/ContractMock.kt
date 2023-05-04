@@ -27,6 +27,12 @@ fun startMockServer() {
         mockserver.stubFor(get(urlEqualTo("/enhetsregisteret/api/enheter/987654321"))
             .willReturn(ok(File("src/test/resources/responses/download_987654321.json").readText())))
 
+        mockserver.stubFor(get(urlEqualTo("/enhetsregisteret/api/enheter?organisasjonsform=STAT&size=10000"))
+            .willReturn(ok(File("src/test/resources/responses/download_stat.json").readText())))
+
+        mockserver.stubFor(get(urlEqualTo("/enhetsregisteret/api/enheter?overordnetEnhet=984195796&size=10000"))
+            .willReturn(ok(File("src/test/resources/responses/download_stat_sub.json").readText())))
+
         mockserver.start()
     }
 }

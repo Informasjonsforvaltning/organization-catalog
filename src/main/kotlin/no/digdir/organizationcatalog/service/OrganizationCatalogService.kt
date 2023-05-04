@@ -2,11 +2,14 @@ package no.digdir.organizationcatalog.service
 
 import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
+import no.digdir.organizationcatalog.mapping.getOrgPathBase
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.mapping.mapForCreation
 import no.digdir.organizationcatalog.mapping.mapToGenerated
 import no.digdir.organizationcatalog.mapping.updateValues
 import no.digdir.organizationcatalog.mapping.updateWithEnhetsregisteretValues
+import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
+import no.digdir.organizationcatalog.model.OrganizationDB
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
 import no.digdir.organizationcatalog.utils.isOrganizationNumber
 import org.springframework.data.repository.findByIdOrNull
@@ -62,15 +65,17 @@ class OrganizationCatalogService(
 
     fun updateEntryFromEnhetsregisteret(orgId: String): Organization? {
         enhetsregisteretAdapter.getOrganizationAndParents(orgId)
-            .map { updated ->
-                repository.findByIdOrNull(updated.organisasjonsnummer)
-                    ?.updateWithEnhetsregisteretValues(updated)
-                    ?: updated.mapForCreation() }
+            .map { it.updateExistingOrMapForCreation() }
             .run { repository.saveAll(this) }
 
         return repository.findByIdOrNull(orgId)
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
     }
+
+    private fun EnhetsregisteretOrganization.updateExistingOrMapForCreation(): OrganizationDB =
+        repository.findByIdOrNull(organisasjonsnummer)
+            ?.updateWithEnhetsregisteretValues(this)
+            ?: mapForCreation()
 
     fun updateEntry(orgId: String, org: Organization): Organization? =
         repository
@@ -86,10 +91,34 @@ class OrganizationCatalogService(
                 ?: "${appProperties.defaultOrgPath}$orgId"
         } else "${appProperties.defaultOrgPath}$orgId"
 
+    private fun EnhetsregisteretOrganization.addOrgPath(): EnhetsregisteretOrganization {
+        val orgPathBase = if (overordnetEnhet == null) getOrgPathBase(organisasjonsform?.kode)
+            else getByOrgnr(overordnetEnhet)?.orgPath
+
+        return copy(orgPath = "$orgPathBase/$organisasjonsnummer")
+    }
+
     @Scheduled(cron = "0 30 20 5 * ?")
     fun updateAllEntriesFromEnhetsregisteret() {
         repository.findAll()
             .forEach { updateEntryFromEnhetsregisteret(it.organizationId) }
+    }
+
+    @Scheduled(cron = "0 30 2 * * SUN")
+    fun updateSTAT() {
+        val stateOrgs = enhetsregisteretAdapter.getOrganizationsFromEnhetsregisteretByType("STAT")
+            .map { it.addOrgPath() }
+            .map { it.updateExistingOrMapForCreation() }
+
+        stateOrgs.run { repository.saveAll(this) }
+
+        stateOrgs.asSequence()
+            .map { it.organizationId }
+            .map { enhetsregisteretAdapter.getOrganizationsFromEnhetsregisteretByParent(it) }
+            .flatten()
+            .map { it.addOrgPath() }
+            .map { it.updateExistingOrMapForCreation() }.toList()
+            .run { repository.saveAll(this) }
     }
 
 }
