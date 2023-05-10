@@ -37,3 +37,7 @@ data class EnhetsregisteretCode (
 data class EnhetsregisteretAddress (
     val kommunenummer: String?
 )
+
+enum class EnhetsregisteretType {
+    STAT, FYLK, KOMM
+}

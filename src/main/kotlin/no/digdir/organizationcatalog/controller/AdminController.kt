@@ -2,7 +2,6 @@ package no.digdir.organizationcatalog.controller
 
 import no.digdir.organizationcatalog.security.EndpointPermissions
 import no.digdir.organizationcatalog.service.OrganizationCatalogService
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-
-private val LOGGER = LoggerFactory.getLogger(AdminController::class.java)
 
 @CrossOrigin
 @RestController
@@ -28,8 +25,25 @@ open class AdminController(
         @AuthenticationPrincipal jwt: Jwt
     ): ResponseEntity<Any> =
         if (endpointPermissions.hasAdminPermission(jwt)) {
-            LOGGER.debug("updating STAT organizations from Enhetsregisteret")
             catalogService.updateSTAT()
+            ResponseEntity(HttpStatus.OK)
+        } else ResponseEntity(HttpStatus.FORBIDDEN)
+
+    @PostMapping("/update/fylk", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun updateFYLK(
+        @AuthenticationPrincipal jwt: Jwt
+    ): ResponseEntity<Any> =
+        if (endpointPermissions.hasAdminPermission(jwt)) {
+            catalogService.updateFYLK()
+            ResponseEntity(HttpStatus.OK)
+        } else ResponseEntity(HttpStatus.FORBIDDEN)
+
+    @PostMapping("/update/komm", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun updateKOMM(
+        @AuthenticationPrincipal jwt: Jwt
+    ): ResponseEntity<Any> =
+        if (endpointPermissions.hasAdminPermission(jwt)) {
+            catalogService.updateKOMM()
             ResponseEntity(HttpStatus.OK)
         } else ResponseEntity(HttpStatus.FORBIDDEN)
 

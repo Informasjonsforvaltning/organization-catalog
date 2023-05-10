@@ -9,12 +9,16 @@ import no.digdir.organizationcatalog.mapping.mapToGenerated
 import no.digdir.organizationcatalog.mapping.updateValues
 import no.digdir.organizationcatalog.mapping.updateWithEnhetsregisteretValues
 import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
+import no.digdir.organizationcatalog.model.EnhetsregisteretType
 import no.digdir.organizationcatalog.model.OrganizationDB
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
 import no.digdir.organizationcatalog.utils.isOrganizationNumber
+import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
+
+private val LOGGER = LoggerFactory.getLogger(OrganizationCatalogService::class.java)
 
 @Service
 class OrganizationCatalogService(
@@ -106,7 +110,8 @@ class OrganizationCatalogService(
 
     @Scheduled(cron = "0 30 2 * * SUN")
     fun updateSTAT() {
-        val stateOrgs = enhetsregisteretAdapter.getOrganizationsFromEnhetsregisteretByType("STAT")
+        LOGGER.debug("updating STAT organizations from Enhetsregisteret")
+        val stateOrgs = enhetsregisteretAdapter.getOrganizationsFromEnhetsregisteretByType(EnhetsregisteretType.STAT)
             .map { it.addOrgPath() }
             .map { it.updateExistingOrMapForCreation() }
 
@@ -118,6 +123,24 @@ class OrganizationCatalogService(
             .flatten()
             .map { it.addOrgPath() }
             .map { it.updateExistingOrMapForCreation() }.toList()
+            .run { repository.saveAll(this) }
+    }
+
+    @Scheduled(cron = "0 30 3 * * SUN")
+    fun updateFYLK() {
+        LOGGER.debug("updating FYLK organizations from Enhetsregisteret")
+        enhetsregisteretAdapter.getOrganizationsFromEnhetsregisteretByType(EnhetsregisteretType.FYLK)
+            .map { it.addOrgPath() }
+            .map { it.updateExistingOrMapForCreation() }
+            .run { repository.saveAll(this) }
+    }
+
+    @Scheduled(cron = "0 30 4 * * SUN")
+    fun updateKOMM() {
+        LOGGER.debug("updating KOMM organizations from Enhetsregisteret")
+        enhetsregisteretAdapter.getOrganizationsFromEnhetsregisteretByType(EnhetsregisteretType.KOMM)
+            .map { it.addOrgPath() }
+            .map { it.updateExistingOrMapForCreation() }
             .run { repository.saveAll(this) }
     }
 
