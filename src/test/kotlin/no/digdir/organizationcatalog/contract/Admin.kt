@@ -66,5 +66,37 @@ internal class Admin : ApiTestContext() {
             Assertions.assertTrue(updated.map { it.organizationId }.containsAll(statOrgs))
         }
 
+        @Test
+        fun updateFYLK() {
+            val fylkOrg = "971045698"
+            val oldValues: List<Organization> =
+                mapper.readValue(apiGet("/organizations", port, "application/json")["body"] as String)
+            Assertions.assertFalse(oldValues.map { it.organizationId }.contains(fylkOrg))
+
+            val response =
+                apiAuthorizedRequest("/admin/update/fylk", port, null, JwtToken(Access.ROOT).toString(), "POST")
+            Expect(response["status"]).to_equal(HttpStatus.OK.value())
+
+            val updated: List<Organization> =
+                mapper.readValue(apiGet("/organizations", port, "application/json")["body"] as String)
+            Assertions.assertTrue(updated.map { it.organizationId }.contains(fylkOrg))
+        }
+
+        @Test
+        fun updateKOMM() {
+            val kommOrg = "964969590"
+            val oldValues: List<Organization> =
+                mapper.readValue(apiGet("/organizations", port, "application/json")["body"] as String)
+            Assertions.assertFalse(oldValues.map { it.organizationId }.contains(kommOrg))
+
+            val response =
+                apiAuthorizedRequest("/admin/update/komm", port, null, JwtToken(Access.ROOT).toString(), "POST")
+            Expect(response["status"]).to_equal(HttpStatus.OK.value())
+
+            val updated: List<Organization> =
+                mapper.readValue(apiGet("/organizations", port, "application/json")["body"] as String)
+            Assertions.assertTrue(updated.map { it.organizationId }.contains(kommOrg))
+        }
+
     }
 }

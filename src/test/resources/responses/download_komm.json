@@ -1,0 +1,65 @@
+{
+    "_embedded": {
+        "enheter": [
+            {
+                "organisasjonsnummer": "964969590",
+                "navn": "HÅ KOMMUNE",
+                "organisasjonsform": {
+                    "kode": "KOMM",
+                    "beskrivelse": "Kommune",
+                    "_links": {
+                        "self": {
+                            "href": "https://data.brreg.no/enhetsregisteret/api/organisasjonsformer/KOMM"
+                        }
+                    }
+                },
+                "hjemmeside": "www.ha.kommune.no/",
+                "registreringsdatoEnhetsregisteret": "1995-06-07",
+                "registrertIMvaregisteret": true,
+                "naeringskode1": {
+                    "beskrivelse": "Generell offentlig administrasjon",
+                    "kode": "84.110"
+                },
+                "antallAnsatte": 2877,
+                "forretningsadresse": {
+                    "land": "Norge",
+                    "landkode": "NO",
+                    "postnummer": "4360",
+                    "poststed": "VARHAUG",
+                    "adresse": [
+                        "Rådhusgata 8"
+                    ],
+                    "kommune": "HÅ",
+                    "kommunenummer": "1119"
+                },
+                "institusjonellSektorkode": {
+                    "kode": "6500",
+                    "beskrivelse": "Kommuneforvaltningen"
+                },
+                "registrertIForetaksregisteret": false,
+                "registrertIStiftelsesregisteret": false,
+                "registrertIFrivillighetsregisteret": false,
+                "konkurs": false,
+                "underAvvikling": false,
+                "underTvangsavviklingEllerTvangsopplosning": false,
+                "maalform": "Bokmål",
+                "_links": {
+                    "self": {
+                        "href": "https://data.brreg.no/enhetsregisteret/api/enheter/964969590"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "self": {
+            "href": "https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsform=KOMM&size=10000"
+        }
+    },
+    "page": {
+        "size": 10000,
+        "totalElements": 1,
+        "totalPages": 1,
+        "number": 0
+    }
+}

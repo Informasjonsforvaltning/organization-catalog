@@ -1,0 +1,79 @@
+{
+    "_embedded": {
+        "enheter": [
+            {
+                "organisasjonsnummer": "971045698",
+                "navn": "ROGALAND FYLKESKOMMUNE",
+                "organisasjonsform": {
+                    "kode": "FYLK",
+                    "beskrivelse": "Fylkeskommune",
+                    "_links": {
+                        "self": {
+                            "href": "https://data.brreg.no/enhetsregisteret/api/organisasjonsformer/FYLK"
+                        }
+                    }
+                },
+                "hjemmeside": "www.rogfk.no",
+                "postadresse": {
+                    "land": "Norge",
+                    "landkode": "NO",
+                    "postnummer": "4001",
+                    "poststed": "STAVANGER",
+                    "adresse": [
+                        "Postboks 130 Sentrum"
+                    ],
+                    "kommune": "STAVANGER",
+                    "kommunenummer": "1103"
+                },
+                "registreringsdatoEnhetsregisteret": "1995-06-07",
+                "registrertIMvaregisteret": true,
+                "frivilligMvaRegistrertBeskrivelser": [
+                    "Utleier av bygg eller anlegg"
+                ],
+                "naeringskode1": {
+                    "beskrivelse": "Generell offentlig administrasjon",
+                    "kode": "84.110"
+                },
+                "antallAnsatte": 4643,
+                "forretningsadresse": {
+                    "land": "Norge",
+                    "landkode": "NO",
+                    "postnummer": "4010",
+                    "poststed": "STAVANGER",
+                    "adresse": [
+                        "Arkitekt Eckhoffs gate 1"
+                    ],
+                    "kommune": "STAVANGER",
+                    "kommunenummer": "1103"
+                },
+                "institusjonellSektorkode": {
+                    "kode": "6500",
+                    "beskrivelse": "Kommuneforvaltningen"
+                },
+                "registrertIForetaksregisteret": false,
+                "registrertIStiftelsesregisteret": false,
+                "registrertIFrivillighetsregisteret": false,
+                "konkurs": false,
+                "underAvvikling": false,
+                "underTvangsavviklingEllerTvangsopplosning": false,
+                "maalform": "Bokmål",
+                "_links": {
+                    "self": {
+                        "href": "https://data.brreg.no/enhetsregisteret/api/enheter/971045698"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "self": {
+            "href": "https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsform=FYLK&size=10000"
+        }
+    },
+    "page": {
+        "size": 10000,
+        "totalElements": 1,
+        "totalPages": 1,
+        "number": 0
+    }
+}

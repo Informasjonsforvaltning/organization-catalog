@@ -9,6 +9,7 @@ import no.digdir.organizationcatalog.mapping.createOrgPath
 import no.digdir.organizationcatalog.mapping.cutOrgPathForParents
 import no.digdir.organizationcatalog.model.EnhetsregisteretEmbeddedWrapperDTO
 import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
+import no.digdir.organizationcatalog.model.EnhetsregisteretType
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
@@ -76,7 +77,7 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
                 return try {
                     jacksonObjectMapper().readValue(jsonBody)
                 } catch (t: Throwable) {
-                    LOGGER.warn("Unable to parse response from path $path")
+                    LOGGER.warn("Unable to parse response from path ${appProperties.enhetsregisteretProxyUrl}$path")
                     null
                 }
             }
@@ -102,7 +103,7 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
                 }
             }
 
-    fun getOrganizationsFromEnhetsregisteretByType(orgType: String): List<EnhetsregisteretOrganization> {
+    fun getOrganizationsFromEnhetsregisteretByType(orgType: EnhetsregisteretType): List<EnhetsregisteretOrganization> {
         return getOrganizationsFromEnhetsregisteret("/enheter?organisasjonsform=$orgType&size=10000")
             ?._embedded
             ?.enheter
