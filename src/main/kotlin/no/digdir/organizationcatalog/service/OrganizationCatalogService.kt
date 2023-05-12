@@ -63,7 +63,7 @@ class OrganizationCatalogService(
 
     private fun searchForOrganizationsByName(name: String) =
         repository
-            .findByNameLike(name.toUpperCase())
+            .findByNameLike(name.uppercase(Locale.getDefault()))
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
     private fun searchForOrganizationsByNameAndIds(name: String, orgs: List<String>) =

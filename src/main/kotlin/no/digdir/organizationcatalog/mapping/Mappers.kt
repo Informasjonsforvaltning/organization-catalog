@@ -3,6 +3,7 @@ package no.digdir.organizationcatalog.mapping
 import no.digdir.organizationcatalog.model.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
     Organization(
@@ -57,14 +58,14 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
 
 fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganization): OrganizationDB {
     val prefLabelShouldBeUpdated = when {
-        org.navn.isNullOrBlank() -> false
+        org.navn.isBlank() -> false
         prefLabel.isNullOrEmpty() -> true
         name != org.navn -> true
         else -> false
     }
 
     return copy(
-        name = org.navn ?: name,
+        name = org.navn,
         orgType = org.organisasjonsform?.kode,
         orgPath = org.orgPath,
         subOrganizationOf = org.overordnetEnhet,
@@ -79,14 +80,17 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganiz
 }
 
 private fun EnhetsregisteretOrganization.prefLabelFromName(): PrefLabel =
-    PrefLabel(nb = navn?.toLowerCase()?.capitalize())
+    PrefLabel(
+        nb = navn.lowercase(Locale.getDefault())
+            .replaceFirstChar { it.titlecase(Locale.getDefault()) }
+    )
 
 private fun PrefLabel?.isNullOrEmpty(): Boolean =
     when {
         this == null -> true
-        en != null && en.isNotBlank() -> false
-        nb != null && nb.isNotBlank() -> false
-        nn != null && nn.isNotBlank() -> false
+        !en.isNullOrBlank() -> false
+        !nb.isNullOrBlank() -> false
+        !nn.isNullOrBlank() -> false
         else -> true
     }
 
