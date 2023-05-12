@@ -104,16 +104,12 @@ open class OrganizationsController(
     fun getOrganizations(
         @RequestHeader(HttpHeaders.ACCEPT) accept: String?,
         @RequestParam name: String?,
+        @RequestParam orgPath: String?,
         @RequestParam organizationId: List<String>?
     ): ResponseEntity<Any> {
-        when {
-            organizationId == null && name == null -> LOGGER.debug("get all organizations")
-            organizationId == null -> LOGGER.debug("get organizations filtered by name: $name")
-            name == null -> LOGGER.debug("get organizations filtered by ids: $organizationId")
-            else -> LOGGER.debug("get organizations filtered by ids: $organizationId and name: $name")
-        }
+        LOGGER.debug("get organizations")
         val jenaType = acceptHeaderToJenaType(accept)
-        val organizations = catalogService.getOrganizations(name, organizationId)
+        val organizations = catalogService.getOrganizations(name, organizationId, orgPath)
 
         val urls = ExternalUrls(
             organizationCatalog = appProperties.organizationCatalogUrl,

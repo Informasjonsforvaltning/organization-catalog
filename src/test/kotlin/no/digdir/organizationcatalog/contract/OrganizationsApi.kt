@@ -147,6 +147,13 @@ internal class OrganizationsApi : ApiTestContext() {
                 apiGet("/organizations/?name=ET&organizationId=974760673,994686011", port, rdfxml.acceptHeader)["body"]
             Expect(response).isomorphic_with_response_in_file("getBrreg.ttl", rdfxml.jenaType)
         }
+
+        @Test
+        fun getByOrgPath() {
+            val response =
+                apiGet("/organizations/?orgPath=%2FSTAT%2F912660680", port, rdfxml.acceptHeader)["body"]
+            Expect(response).isomorphic_with_response_in_file("getBrreg.ttl", rdfxml.jenaType)
+        }
     }
 
     @Nested
