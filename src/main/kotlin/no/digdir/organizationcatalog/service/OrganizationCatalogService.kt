@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
+import java.util.*
 
 private val LOGGER = LoggerFactory.getLogger(OrganizationCatalogService::class.java)
 
@@ -33,13 +34,17 @@ class OrganizationCatalogService(
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
             ?: updateEntryFromEnhetsregisteret(orgId)
 
-    fun getOrganizations(name: String?, orgs: List<String>?): List<Organization> =
-        when {
-            name != null && orgs != null  -> searchForOrganizationsByNameAndIds(name, orgs)
-            orgs != null -> searchForOrganizationsByIds(orgs)
+    fun getOrganizations(name: String?, orgIds: List<String>?, orgPath: String?): List<Organization> {
+        val organizations = when {
+            name != null && orgIds != null -> searchForOrganizationsByNameAndIds(name, orgIds)
+            orgIds != null -> searchForOrganizationsByIds(orgIds)
             name != null -> searchForOrganizationsByName(name)
             else -> getCatalog()
         }
+
+        return if (orgPath == null) organizations
+            else organizations.filter { it.orgPath?.startsWith(orgPath) ?: false }
+    }
 
     fun getOrganizationsWithDelegationPermissions(): List<Organization> =
         repository
