@@ -2,7 +2,6 @@ package no.digdir.organizationcatalog.utils
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*
-import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
 import no.digdir.organizationcatalog.utils.jwk.JwkStore
 import java.io.File
 

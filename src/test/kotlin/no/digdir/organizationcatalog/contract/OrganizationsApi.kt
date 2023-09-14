@@ -118,40 +118,40 @@ internal class OrganizationsApi : ApiTestContext() {
 
         @Test
         fun getByNameSeveralPossibilities() {
-            val response = apiGet("/organizations/?name=ET", port, turtle.acceptHeader)["body"]
+            val response = apiGet("/organizations?name=ET", port, turtle.acceptHeader)["body"]
             Expect(response).isomorphic_with_response_in_file("searchByName.ttl", turtle.jenaType)
         }
 
         @Test
         fun getByNameSingle() {
-            val response = apiGet("/organizations/?name=forsvaret", port, ldjson.acceptHeader)["body"]
+            val response = apiGet("/organizations?name=forsvaret", port, ldjson.acceptHeader)["body"]
             Expect(response).isomorphic_with_response_in_file("getForsvaret.ttl", ldjson.jenaType)
         }
 
         @Test
         fun getByOrgidSeveralPossibilities() {
             val response =
-                apiGet("/organizations/?organizationId=974760673,994686011", port, turtle.acceptHeader)["body"]
+                apiGet("/organizations?organizationId=974760673,994686011", port, turtle.acceptHeader)["body"]
             Expect(response).isomorphic_with_response_in_file("searchByOrgId.ttl", turtle.jenaType)
         }
 
         @Test
         fun getByOrgidSingle() {
-            val response = apiGet("/organizations/?organizationId=994686011", port, rdfxml.acceptHeader)["body"]
+            val response = apiGet("/organizations?organizationId=994686011", port, rdfxml.acceptHeader)["body"]
             Expect(response).isomorphic_with_response_in_file("getATB.ttl", rdfxml.jenaType)
         }
 
         @Test
         fun getByOrgidAndName() {
             val response =
-                apiGet("/organizations/?name=ET&organizationId=974760673,994686011", port, rdfxml.acceptHeader)["body"]
+                apiGet("/organizations?name=ET&organizationId=974760673,994686011", port, rdfxml.acceptHeader)["body"]
             Expect(response).isomorphic_with_response_in_file("getBrreg.ttl", rdfxml.jenaType)
         }
 
         @Test
         fun getByOrgPath() {
             val response =
-                apiGet("/organizations/?orgPath=%2FSTAT%2F912660680", port, rdfxml.acceptHeader)["body"]
+                apiGet("/organizations?orgPath=%2FSTAT%2F912660680", port, rdfxml.acceptHeader)["body"]
             Expect(response).isomorphic_with_response_in_file("getBrreg.ttl", rdfxml.jenaType)
         }
     }

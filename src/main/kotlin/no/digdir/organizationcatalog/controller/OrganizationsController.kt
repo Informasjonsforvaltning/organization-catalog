@@ -1,5 +1,6 @@
 package no.digdir.organizationcatalog.controller
 
+import jakarta.validation.ConstraintViolationException
 import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.jena.ExternalUrls
@@ -17,7 +18,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.web.bind.annotation.*
-import javax.validation.ConstraintViolationException
 
 private val LOGGER = LoggerFactory.getLogger(OrganizationsController::class.java)
 

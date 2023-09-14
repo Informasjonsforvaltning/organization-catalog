@@ -118,5 +118,5 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
 
     private fun isTestEnvironment(): Boolean =
         setOf("localhost", "staging", "demo")
-            .any { it in appProperties.organizationCatalogHost }
+            .any { it in appProperties.organizationCatalogUrl }
 }
