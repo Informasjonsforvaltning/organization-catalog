@@ -32,7 +32,7 @@ abstract class ApiTestContext {
 
             Testcontainers.exposeHostPorts(LOCAL_SERVER_PORT)
 
-            mongoContainer = KGenericContainer("mongo:latest")
+            mongoContainer = KGenericContainer("mongo:4.4.17")
                 .withEnv(MONGO_ENV_VALUES)
                 .withExposedPorts(MONGO_PORT)
                 .withNetworkAliases("mongodb")
