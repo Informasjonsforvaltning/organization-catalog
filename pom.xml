@@ -225,7 +225,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.10</version>
+                <version>0.8.11</version>
                 <executions>
                     <execution>
                         <id>before-unit-test-execution</id>
@@ -295,7 +295,7 @@
                 <!-- Unit test runner -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.3</version>
                 <configuration>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <argLine>${surefire.jacoco.args}</argLine>
@@ -317,7 +317,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.3</version>
                 <configuration>
                     <argLine>${failsafe.jacoco.args}</argLine>
                     <groups>contract</groups>
