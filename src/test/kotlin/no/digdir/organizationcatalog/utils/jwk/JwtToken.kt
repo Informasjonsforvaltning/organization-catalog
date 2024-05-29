@@ -14,7 +14,7 @@ class JwtToken (private val access: Access) {
                 .audience(aud)
                 .expirationTime(Date(exp))
                 .claim("user_name","1924782563")
-                .claim("iss", "http://localhost:5000/auth/realms/fdk")
+                .claim("iss", "http://localhost:5050/auth/realms/fdk")
                 .claim("name", "TEST USER")
                 .claim("given_name", "TEST")
                 .claim("family_name", "USER")

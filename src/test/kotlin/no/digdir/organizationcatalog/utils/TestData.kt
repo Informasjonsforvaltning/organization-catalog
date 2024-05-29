@@ -4,13 +4,13 @@ import no.digdir.organizationcatalog.model.*
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap
 import java.time.LocalDate
 
-const val LOCAL_SERVER_PORT = 5000
+const val LOCAL_SERVER_PORT = 5050
 
 const val MONGO_USER = "testuser"
 const val MONGO_PASSWORD = "testpassword"
 const val MONGO_PORT = 27017
 
-const val WIREMOCK_TEST_HOST = "http://localhost:5000"
+const val WIREMOCK_TEST_HOST = "http://localhost:5050"
 
 const val ENHETSREGISTERET_URL = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/"
 
@@ -221,7 +221,7 @@ val ORG_DB1 = OrganizationDB(
 val NOT_UPDATED_2 = Organization(
     name = "TEST",
     organizationId = "123456789",
-    norwegianRegistry = "http://localhost:5000/enhetsregisteret/api/enheter/123456789",
+    norwegianRegistry = "http://localhost:5050/enhetsregisteret/api/enheter/123456789",
     orgType = "STAT",
     orgPath = "/STAT/123456789",
     issued = LocalDate.of(1990, 10, 31),
@@ -235,7 +235,7 @@ val UPDATED_2 = Organization(
     name = "TESTENHETEN I TESTSUND",
     organizationId = "123456789",
     orgType = "ORGL",
-    norwegianRegistry = "http://localhost:5000/enhetsregisteret/api/enheter/123456789",
+    norwegianRegistry = "http://localhost:5050/enhetsregisteret/api/enheter/123456789",
     orgPath = "/STAT/987654321/123456789",
     subOrganizationOf = "987654321",
     issued = LocalDate.of(1995, 8, 9),
@@ -251,7 +251,7 @@ val PARENT_ORG = Organization(
     name = "TESTSTATEN",
     organizationId = "987654321",
     orgType = "STAT",
-    norwegianRegistry = "http://localhost:5000/enhetsregisteret/api/enheter/987654321",
+    norwegianRegistry = "http://localhost:5050/enhetsregisteret/api/enheter/987654321",
     orgPath = "/STAT/987654321",
     issued = LocalDate.of(2013, 10, 31),
     municipalityNumber = "0301",
