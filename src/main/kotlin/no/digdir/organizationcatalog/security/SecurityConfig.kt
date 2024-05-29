@@ -9,19 +9,22 @@ import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator
 import org.springframework.security.oauth2.jwt.*
 import org.springframework.security.oauth2.jwt.JwtClaimNames.AUD
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.cors.CorsConfiguration
 
 @Configuration
 open class SecurityConfig {
 
     @Bean
     open fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.csrf().disable()
-            .cors().and()
-            .authorizeHttpRequests{ authorize ->
+        http
+            .cors { }
+            .csrf { it.disable() }
+            .authorizeHttpRequests { authorize ->
                 authorize.requestMatchers(HttpMethod.OPTIONS).permitAll()
                     .requestMatchers(HttpMethod.GET).permitAll()
-                    .anyRequest().authenticated() }
-            .oauth2ResourceServer { resourceServer -> resourceServer.jwt() }
+                    .anyRequest().authenticated()
+            }
+            .oauth2ResourceServer { resourceServer -> resourceServer.jwt { } }
         return http.build()
     }
 

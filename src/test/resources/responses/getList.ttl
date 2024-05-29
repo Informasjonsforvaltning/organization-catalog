@@ -8,15 +8,15 @@
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 
-<http://localhost:5000/organizations/974760673>
+<http://localhost:5050/organizations/974760673>
         a                      rov:RegisteredOrganization ;
         br:nace                "84.110" ;
-        br:municipality        <http://localhost:5000/administrativeEnheter/kommune/id/172833> ;
-        br:norwegianRegistry   <http://localhost:5000/enhetsregisteret/api/enheter/974760673> ;
+        br:municipality        <http://localhost:5050/administrativeEnheter/kommune/id/172833> ;
+        br:norwegianRegistry   <http://localhost:5050/enhetsregisteret/api/enheter/974760673> ;
         br:orgPath             "/STAT/912660680/974760673" ;
         dct:identifier         "974760673" ;
         br:sectorCode          "6100" ;
-        org:subOrganizationOf  <http://localhost:5000/organizations/912660680> ;
+        org:subOrganizationOf  <http://localhost:5050/organizations/912660680> ;
         rov:legalName          "REGISTERENHETEN I BRØNNØYSUND" ;
         rov:orgType            orgtype:ORGL ;
         rov:orgStatus          orgstatus:NormalAktivitet ;
@@ -28,15 +28,15 @@
         foaf:homepage          <http://www.brreg.no> ;
         foaf:name              "Brønnøysundregistrene"@nb .
 
-<http://localhost:5000/organizations/986105174>
+<http://localhost:5050/organizations/986105174>
         a                      rov:RegisteredOrganization ;
         br:nace                "84.220" ;
-        br:municipality        <http://localhost:5000/administrativeEnheter/kommune/id/173018> ;
-        br:norwegianRegistry   <http://localhost:5000/enhetsregisteret/api/enheter/986105174> ;
+        br:municipality        <http://localhost:5050/administrativeEnheter/kommune/id/173018> ;
+        br:norwegianRegistry   <http://localhost:5050/enhetsregisteret/api/enheter/986105174> ;
         br:orgPath             "/STAT/972417823/986105174" ;
         dct:identifier         "986105174" ;
         br:sectorCode          "6100" ;
-        org:subOrganizationOf  <http://localhost:5000/organizations/972417823> ;
+        org:subOrganizationOf  <http://localhost:5050/organizations/972417823> ;
         rov:legalName          "FORSVARET" ;
         rov:orgType            orgtype:ORGL ;
         rov:orgStatus          orgstatus:NormalAktivitet ;
@@ -46,12 +46,12 @@
                                ] ;
         foaf:name              "Forsvaret"@en .
 
-<http://localhost:5000/organizations/994686011>
+<http://localhost:5050/organizations/994686011>
         a                      rov:RegisteredOrganization ;
         br:nace                "84.130" ;
         dct:identifier         "994686011" ;
-        br:municipality        <http://localhost:5000/administrativeEnheter/kommune/id/173068> ;
-        br:norwegianRegistry   <http://localhost:5000/enhetsregisteret/api/enheter/994686011> ;
+        br:municipality        <http://localhost:5050/administrativeEnheter/kommune/id/173068> ;
+        br:norwegianRegistry   <http://localhost:5050/enhetsregisteret/api/enheter/994686011> ;
         br:orgPath             "/PRIVAT/994686011" ;
         br:sectorCode          "6500" ;
         rov:legalName          "ATB AS" ;
