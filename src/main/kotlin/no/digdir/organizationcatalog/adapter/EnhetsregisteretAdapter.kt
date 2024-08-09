@@ -96,7 +96,9 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
                 val jsonBody = inputStream.bufferedReader().use(BufferedReader::readText)
 
                 return try {
-                    jacksonObjectMapper().readValue(jsonBody)
+                    jacksonObjectMapper()
+                        .readValue<EnhetsregisteretOrganization?>(jsonBody)
+                        ?.copy(underenhet = isSubordinate)
                 } catch (t: Throwable) {
                     LOGGER.warn("Unable to parse response from Enhetsregisteret for '$organizationId'")
                     null

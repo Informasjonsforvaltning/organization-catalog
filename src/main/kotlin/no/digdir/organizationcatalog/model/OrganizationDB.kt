@@ -22,5 +22,6 @@ data class OrganizationDB (
     val domains: Set<String>? = null,
     val orgStatus: OrgStatus? = null,
     val homepage: String? = null,
-    val allowDelegatedRegistration: Boolean? = null
+    val allowDelegatedRegistration: Boolean? = null,
+    val subordinate: Boolean = false
 )
