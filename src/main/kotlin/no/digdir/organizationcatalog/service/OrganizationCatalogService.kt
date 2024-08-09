@@ -34,7 +34,7 @@ class OrganizationCatalogService(
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
             ?: updateEntryFromEnhetsregisteret(orgId)
 
-    fun getOrganizations(name: String?, orgIds: List<String>?, orgPath: String?): List<Organization> {
+    fun getOrganizations(name: String?, orgIds: List<String>?, orgPath: String?, includeSubordinate: Boolean): List<Organization> {
         val organizations = when {
             name != null && orgIds != null -> searchForOrganizationsByNameAndIds(name, orgIds)
             orgIds != null -> searchForOrganizationsByIds(orgIds)
@@ -42,8 +42,9 @@ class OrganizationCatalogService(
             else -> getCatalog()
         }
 
-        return if (orgPath == null) organizations
-            else organizations.filter { it.orgPath?.startsWith(orgPath) ?: false }
+        return organizations
+            .filter { if (orgPath != null) it.orgPath?.startsWith(orgPath) ?: false else true }
+            .filter { if (includeSubordinate) true else !it.subordinate }
     }
 
     fun getOrganizationsWithDelegationPermissions(): List<Organization> =

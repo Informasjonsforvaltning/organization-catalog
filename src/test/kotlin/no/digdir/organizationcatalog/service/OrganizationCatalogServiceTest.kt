@@ -59,7 +59,7 @@ class OrganizationCatalogServiceTest {
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
 
-        val publisherList = catalogService.getOrganizations(null, null, null)
+        val publisherList = catalogService.getOrganizations(null, null, null, true)
 
         assertEquals(persistedList[0].name, publisherList[0].name)
         assertEquals(persistedList[0].organizationId, publisherList[0].organizationId)
@@ -76,7 +76,7 @@ class OrganizationCatalogServiceTest {
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
 
-        val publisherList = catalogService.getOrganizations("Name", listOf("974760673"), null)
+        val publisherList = catalogService.getOrganizations("Name", listOf("974760673"), null, true)
 
         assertEquals(persistedList[0].name, publisherList[0].name)
         assertEquals(persistedList[0].organizationId, publisherList[0].organizationId)
@@ -93,7 +93,7 @@ class OrganizationCatalogServiceTest {
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
 
-        val publisherList = catalogService.getOrganizations("Name", null, null)
+        val publisherList = catalogService.getOrganizations("Name", null, null, true)
 
         assertEquals(persistedList[0].name, publisherList[0].name)
         assertEquals(persistedList[0].organizationId, publisherList[0].organizationId)
