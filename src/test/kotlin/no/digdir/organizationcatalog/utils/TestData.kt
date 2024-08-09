@@ -184,7 +184,8 @@ val ORG_WITHOUT_DOMAIN = Organization(
     municipalityNumber = "0301",
     industryCode = "84.220",
     sectorCode = "6100",
-    orgStatus = OrgStatus.NORMAL
+    orgStatus = OrgStatus.NORMAL,
+    subordinate = true
 )
 
 val ORG_DB0 = OrganizationDB(
@@ -302,3 +303,4 @@ private fun Organization.mapDBO(): org.bson.Document =
         .append("sectorCode", sectorCode)
         .append("homepage", homepage)
         .append("allowDelegatedRegistration", allowDelegatedRegistration)
+        .append("subordinate", subordinate)

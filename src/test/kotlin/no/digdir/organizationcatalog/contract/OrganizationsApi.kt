@@ -117,6 +117,14 @@ internal class OrganizationsApi : ApiTestContext() {
         }
 
         @Test
+        fun okGetAllExcludeSubordinateOrganizations() {
+            val response = apiGet("/organizations?includesubordinate=false", port, "application/json")
+            val body: List<Organization> = mapper.readValue(response["body"] as String)
+            Expect(response["status"]).to_equal(HttpStatus.OK.value())
+            Expect(body.size).to_equal(8)
+        }
+
+        @Test
         fun getByNameSeveralPossibilities() {
             val response = apiGet("/organizations?name=ET", port, turtle.acceptHeader)["body"]
             Expect(response).isomorphic_with_response_in_file("searchByName.ttl", turtle.jenaType)

@@ -103,13 +103,14 @@ open class OrganizationsController(
     @GetMapping(produces = ["application/json", "application/xml", "application/ld+json", "application/rdf+json", "application/rdf+xml", "text/turtle"])
     fun getOrganizations(
         @RequestHeader(HttpHeaders.ACCEPT) accept: String?,
-        @RequestParam name: String?,
-        @RequestParam orgPath: String?,
-        @RequestParam organizationId: List<String>?
+        @RequestParam(required = false) name: String?,
+        @RequestParam(required = false) orgPath: String?,
+        @RequestParam(required = false) organizationId: List<String>?,
+        @RequestParam(name = "includesubordinate", required = false) includeSubordinate: Boolean = true
     ): ResponseEntity<Any> {
         LOGGER.debug("get organizations")
         val jenaType = acceptHeaderToJenaType(accept)
-        val organizations = catalogService.getOrganizations(name, organizationId, orgPath)
+        val organizations = catalogService.getOrganizations(name, organizationId, orgPath, includeSubordinate)
 
         val urls = ExternalUrls(
             organizationCatalog = appProperties.organizationCatalogUrl,
