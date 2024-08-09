@@ -15,7 +15,8 @@ data class EnhetsregisteretOrganization (
     val forretningsadresse: EnhetsregisteretAddress? = null,
     val organisasjonsform: EnhetsregisteretCode? = null,
     val naeringskode1: EnhetsregisteretCode? = null,
-    val institusjonellSektorkode: EnhetsregisteretCode? = null
+    val institusjonellSektorkode: EnhetsregisteretCode? = null,
+    val underenhet: Boolean = false
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)

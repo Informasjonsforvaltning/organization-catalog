@@ -21,5 +21,6 @@ data class Organization (
     val prefLabel: PrefLabel? = null,
     val orgStatus: OrgStatus? = null,
     val homepage: String? = null,
-    val allowDelegatedRegistration: Boolean? = null
+    val allowDelegatedRegistration: Boolean? = null,
+    val subordinate: Boolean = false
 )

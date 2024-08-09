@@ -22,6 +22,7 @@ fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
         orgStatus = orgStatus,
         homepage = homepage,
         allowDelegatedRegistration = allowDelegatedRegistration,
+        subordinate = subordinate
     )
 
 fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB =
@@ -37,7 +38,8 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB =
         sectorCode = institusjonellSektorkode?.kode,
         homepage = hjemmeside,
         orgStatus = orgStatusFromDeleteDate(),
-        prefLabel = prefLabelFromName()
+        prefLabel = prefLabelFromName(),
+        subordinate = underenhet
     )
 
 fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
@@ -53,7 +55,8 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         sectorCode = org.sectorCode ?: sectorCode,
         homepage = org.homepage ?: homepage,
         prefLabel = prefLabel?.update(org.prefLabel) ?: PrefLabel().update(org.prefLabel),
-        allowDelegatedRegistration = org.allowDelegatedRegistration ?: allowDelegatedRegistration
+        allowDelegatedRegistration = org.allowDelegatedRegistration ?: allowDelegatedRegistration,
+        subordinate = org.subordinate
     )
 
 fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganization): OrganizationDB {
@@ -75,7 +78,8 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganiz
         sectorCode = org.institusjonellSektorkode?.kode,
         orgStatus = org.orgStatusFromDeleteDate(),
         homepage = org.hjemmeside,
-        prefLabel = if (prefLabelShouldBeUpdated) org.prefLabelFromName() else prefLabel
+        prefLabel = if (prefLabelShouldBeUpdated) org.prefLabelFromName() else prefLabel,
+        subordinate = org.underenhet
     )
 }
 
