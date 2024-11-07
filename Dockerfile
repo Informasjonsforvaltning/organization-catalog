@@ -1,10 +1,19 @@
-FROM eclipse-temurin:17-jre-alpine
+FROM amazoncorretto:21-alpine
+
+ARG USER=default
+ENV HOME=/home/$USER
 
 ENV TZ=Europe/Oslo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-VOLUME /tmp
-COPY /target/organization-catalog.jar app.jar
+# install sudo as root
+RUN apk update && apk add --no-cache sudo
+RUN adduser -D $USER && \
+      echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER && \
+      chmod 0440 /etc/sudoers.d/$USER
 
-RUN sh -c 'touch /app.jar'
-CMD java -jar app.jar
+USER $USER
+WORKDIR $HOME
+
+COPY --chown=$USER:$USER /target/organization-catalog.jar app.jar
+CMD ["sh", "-c", "java -jar $JAVA_OPTS app.jar"]
