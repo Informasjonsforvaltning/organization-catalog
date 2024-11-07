@@ -11,7 +11,7 @@ jobs:
     uses: Informasjonsforvaltning/workflows/.github/workflows/build-push.yaml@main
     with:
       app_name: organization-catalog
-      java_version: '17'
+      java_version: '21'
       coverage_file_path: ./target/site/jacoco/jacoco.xml
       environment: prod
     secrets:
@@ -24,7 +24,7 @@ jobs:
     needs: [ build-organization-catalog ]
     uses: Informasjonsforvaltning/workflows/.github/workflows/kustomize-deploy.yaml@main
     with:
-      app_name: fdk-dataset-harvester
+      app_name: organization-catalog
       environment: prod
       cluster: digdir-fdk-prod
     secrets:
