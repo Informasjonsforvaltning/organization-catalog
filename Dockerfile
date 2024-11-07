@@ -7,6 +7,7 @@ ENV TZ=Europe/Oslo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # install sudo as root
+RUN apk update && apk add --no-cache sudo
 RUN adduser -D $USER && \
       echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER && \
       chmod 0440 /etc/sudoers.d/$USER
