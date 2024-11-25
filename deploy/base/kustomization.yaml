@@ -6,5 +6,5 @@ resources:
   - organization-catalog-service.yaml
 images:
   - name: organization-catalog
-    newName: eu.gcr.io/digdir-fdk-infra/organization-catalog
+    newName: ghcr.io/informasjonsforvaltning/organization-catalog
     newTag: $(GIT_COMMIT_SHA)
