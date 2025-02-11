@@ -37,7 +37,6 @@ open class SecurityConfig(
                     config
                 }
             }
-            .csrf { it.disable() }
             .authorizeHttpRequests { authorize ->
                 authorize.requestMatchers(HttpMethod.OPTIONS).permitAll()
                     .requestMatchers(HttpMethod.GET).permitAll()
