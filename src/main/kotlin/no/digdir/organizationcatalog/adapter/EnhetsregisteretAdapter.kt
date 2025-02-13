@@ -82,7 +82,14 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
                 }
             }
 
-    private fun getOrganizationFromEnhetsregisteret(organizationId: String, isSubordinate: Boolean = false): EnhetsregisteretOrganization? =
+    private fun getOrganizationFromEnhetsregisteret(organizationId: String, isSubordinate: Boolean = false): EnhetsregisteretOrganization? {
+        try {
+            Integer.parseInt(organizationId)
+        } catch (e: NumberFormatException) {
+            LOGGER.warn("Invalid organization identifier for Enhetsregisteret '$organizationId'")
+            return null
+        }
+
         URL("${appProperties.enhetsregisteretProxyUrl}/${if (isSubordinate) "underenheter" else "enheter"}/$organizationId")
             .openConnection()
             .run {
@@ -104,6 +111,7 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
                     null
                 }
             }
+    }
 
     fun getOrganizationsFromEnhetsregisteretByType(orgType: EnhetsregisteretType): List<EnhetsregisteretOrganization> {
         return getOrganizationsFromEnhetsregisteret("/enheter?organisasjonsform=$orgType&size=10000")
