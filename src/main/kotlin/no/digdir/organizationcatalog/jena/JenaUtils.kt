@@ -112,14 +112,14 @@ private fun Model.createResponseString(responseType: JenaType):String =
 
 fun acceptHeaderToJenaType(accept: String?): JenaType =
     when {
-        accept == null -> JenaType.NOT_JENA
+        accept == null -> JenaType.TURTLE
         accept.contains("text/turtle") -> JenaType.TURTLE
         accept.contains("application/rdf+xml") -> JenaType.RDF_XML
         accept.contains("application/rdf+json") -> JenaType.RDF_JSON
         accept.contains("application/ld+json") -> JenaType.JSON_LD
         accept.contains("application/xml") -> JenaType.NOT_JENA
         accept.contains("application/json") -> JenaType.NOT_JENA
-        accept.contains("*/*") -> JenaType.NOT_JENA
+        accept.contains("*/*") -> JenaType.TURTLE
         else -> JenaType.NOT_ACCEPTABLE
     }
 
