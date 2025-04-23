@@ -11,6 +11,6 @@ services:
       - 27017:27017
 
   fdk-nginx-enhetsregisteret-proxy-mock:
-    image: eu.gcr.io/digdir-fdk-infra/fdk-nginx-enhetsregisteret-proxy-mock:latest
+    image: ghcr.io/informasjonsforvaltning/fdk-nginx-enhetsregisteret-proxy-mock:staging_latest
     ports:
       - 8132:8080

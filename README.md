@@ -1,80 +1,47 @@
 # Organization Catalog
 
-Provides search and edit functionality for the current organization catalog in the National Data Catalog
+This application provides a common API for the management of organization data and is used by many other applications in
+the overall architecture. The application has an integration
+to [Enhetsregisteret](https://data.brreg.no/enhetsregisteret/api/dokumentasjon/no/index.html).
 
-# Local development
+For a broader understanding of the system’s context, refer to
+the [architecture documentation](https://github.com/Informasjonsforvaltning/architecture-documentation) wiki.
 
-## Install java, git, maven, docker and docker-compose
+## Getting Started
 
-##### Linux
-```
-sudo apt update
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install default-jdk git maven docker.io docker-compose
-```
+These instructions will give you a copy of the project up and running on your local machine for development and testing
+purposes.
 
-##### Windows
-Git for Windows - https://gitforwindows.org/
+### Prerequisites
 
-Apache Maven - http://maven.apache.org/download.cgi
+Ensure you have the following installed:
 
-Docker for Windows - https://hub.docker.com/editions/community/docker-ce-desktop-windows
+- Java 21
+- Maven
+- Docker
 
-## Steps only necessary for Linux
+### Running locally
 
-##### Configure Docker to start on Boot
-```
-systemctl start docker
-systemctl enable docker
-```
+Clone the repository
 
-##### Enable executing Docker and Maven without sudo
-```
-sudo adduser ${USER} docker
-sudo adduser ${USER} mvn
+```sh
+git clone https://github.com/Informasjonsforvaltning/organization-catalog.git
+cd organization-catalog
 ```
 
-Check that they have been added with "id -nG", force the update with a reboot or with "su - ${USER}"
+Start MongoDB and the application (either through your IDE using the dev profile, or via CLI):
 
-## Nice to have
-#### MongoDB
-https://docs.mongodb.com/manual/installation
-
-## Run locally in IDEA
-Start local instances of SSO, MongoDB and enhetsregisteret-proxy-mock
-```
-% docker-compose up -d
-```
--d enables "detached mode"
-
-### Login for https://docker.pkg.github.com
-The image for auth-utils-java is downloaded from github, where you need to log in.
-First you need an access token from Github. Go to settings for your user in github.com -> Developer settings -> Personal access tokens where you generate a token with access to read packages.
-Then you run docker login and paste the access token when it prompts you for a password.
-```
-% docker login https://docker.pkg.github.com -u {USERNAME}
-```
-
-### Run the application
-```
+```sh
+docker compose up -d
 mvn spring-boot:run -Dspring-boot.run.profiles=develop
 ```
 
-## Get an admin jwt from auth-utils-java:
-```
-% curl localhost:8084/jwt/admin -o jwt.txt
-```
+### API Documentation (OpenAPI)
 
-## Helpful commands
+The API documentation is available at ```src/main/resources/specification```.
 
-Populate organizations cache, just run get
+### Running tests
 
-```
-curl localhost:8140/organizations/910244132 -H "accept:application/json"
-```
-
-Get all cached organizations
-```
-curl localhost:8140/organizations -H "accept:application/json"
+```sh
+mvn verify
 ```
