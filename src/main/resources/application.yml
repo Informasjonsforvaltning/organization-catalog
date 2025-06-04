@@ -1,0 +1,76 @@
+logging.level:
+  root: WARN
+  no: ${LOG_LEVEL:INFO}
+  org.springframework: WARN
+  org.springframework.web: WARN
+
+spring:
+  data.mongodb:
+    host: ${MONGODB_HOST}
+    username: ${MONGODB_USER}
+    password: ${MONGODB_PASSWORD}
+    authentication-database: ${MONGODB_AUTH}
+    replica-set-name: ${MONGODB_REPLICASET}
+    port: 27017
+    database: organizationCatalog
+    auto-index-creation: true
+
+  security.oauth2.resourceserver.jwt:
+    jwk-set-uri: ${SSO_HOST:https://sso.staging.fellesdatakatalog.digdir.no}/auth/realms/fdk/protocol/openid-connect/certs
+    issuer-uri: ${SSO_HOST:https://sso.staging.fellesdatakatalog.digdir.no}/auth/realms/fdk
+
+application:
+  enhetsregisteretUrl: ${ENHETSREGISTERET_URL:https://data.brreg.no/enhetsregisteret/api/enheter/}
+  enhetsregisteretHtmlUrl: ${ENHETSREGISTERET_HTML_URL:https://data.brreg.no/enhetsregisteret/oppslag/enheter/}
+  enhetsregisteretProxyUrl: ${ENHETSREGISTERET_PROXY_BASE_URL:http://fdk-nginx-enhetsregisteret-proxy:8080}/enhetsregisteret/api
+  organizationCatalogUrl: ${ORGANIZATION_CATALOG_HOST:https://organization-catalog.fellesdatakatalog.brreg.no}/organizations/
+  municipalityUrl: ${GEONORGE_MUNICIPALITY_URL:https://data.geonorge.no/administrativeEnheter/kommune/id/}
+  testOrganizations: 555111290,568843537,910131028,910244132,910258028,910298062,910888447,911259583,911527170,916285515,973633449
+  defaultOrgPath: /ANNET/
+  cors.originPatterns: ${CORS_ORIGIN_PATTERNS}
+
+server.port: 8080
+
+---
+spring:
+  config.activate.on-profile: develop
+  data.mongodb:
+    host: localhost
+    username: admin
+    password: admin
+    authentication-database: admin
+    replica-set-name: null
+
+application:
+  enhetsregisteretUrl: https://data.brreg.no/enhetsregisteret/api/enheter/
+  enhetsregisteretHtmlUrl: https://data.brreg.no/enhetsregisteret/oppslag/enheter/
+  enhetsregisteretProxyUrl: http://localhost:8132/enhetsregisteret/api
+  organizationCatalogUrl: http://localhost:8140/organizations/
+  municipalityUrl: https://data.geonorge.no/administrativeEnheter/kommune/id/
+  testOrganizations: 555111290,568843537,910131028,910244132,910258028,910298062,910888447,911259583,911527170,916285515,973633449
+  cors.originPatterns: "*"
+
+server.port: 8140
+
+---
+spring:
+  config.activate.on-profile: test
+  security.oauth2.resourceserver.jwt:
+    jwk-set-uri: http://localhost:5050/auth/realms/fdk/protocol/openid-connect/certs
+    issuer-uri: http://localhost:5050/auth/realms/fdk
+
+  data.mongodb:
+    host: localhost
+    username: testuser
+    password: testpassword
+    authentication-database: admin
+    replica-set-name: null
+
+application:
+  enhetsregisteretUrl: http://localhost:5050/enhetsregisteret/api/enheter/
+  enhetsregisteretHtmlUrl: http://localhost:5050/enhetsregisteret/oppslag/enheter/
+  enhetsregisteretProxyUrl: http://localhost:5050/enhetsregisteret/api
+  organizationCatalogUrl: http://localhost:5050/organizations/
+  municipalityUrl: http://localhost:5050/administrativeEnheter/kommune/id/
+  testOrganizations: 555111290,568843537,910131028,910244132,910258028,910298062,910888447,911259583,911527170,916285515,973633449
+  cors.originPatterns: "*"
