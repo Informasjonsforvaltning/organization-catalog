@@ -90,7 +90,7 @@ fun resetDB(){
     val pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), fromProviders(PojoCodecProvider.builder().automatic(true).build()))
 
     val client: MongoClient = MongoClients.create(connectionString)
-    val mongoDatabase = client.getDatabase("organization-catalog").withCodecRegistry(pojoCodecRegistry)
+    val mongoDatabase = client.getDatabase("organizationCatalog").withCodecRegistry(pojoCodecRegistry)
 
     val orgCollection = mongoDatabase.getCollection("organizations")
     orgCollection.deleteMany(org.bson.Document())
