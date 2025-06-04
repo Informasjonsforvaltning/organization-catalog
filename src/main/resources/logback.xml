@@ -1,5 +1,5 @@
 <configuration>
-    <property resource="application.properties" />
+    <property resource="application.yml" />
 
     <!-- use Spring default values -->
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
