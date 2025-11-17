@@ -10,5 +10,5 @@ data class AppProperties(
     val municipalityUrl: String,
     val organizationCatalogUrl: String,
     val testOrganizations: Set<String> = emptySet(),
-    val defaultOrgPath: String) {
-}
+    val defaultOrgPath: String,
+)

@@ -1,12 +1,12 @@
 package no.digdir.organizationcatalog.model
 
 import jakarta.validation.constraints.NotBlank
-import java.time.LocalDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import java.time.LocalDate
 
 @Document(collection = "organizations")
-data class OrganizationDB (
+data class OrganizationDB(
     @Id
     val organizationId: String,
     @field:NotBlank val name: String,
@@ -23,5 +23,5 @@ data class OrganizationDB (
     val orgStatus: OrgStatus? = null,
     val homepage: String? = null,
     val allowDelegatedRegistration: Boolean? = null,
-    val subordinate: Boolean = false
+    val subordinate: Boolean = false,
 )

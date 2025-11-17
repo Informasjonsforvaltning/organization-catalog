@@ -8,5 +8,5 @@ import com.fasterxml.jackson.annotation.JsonInclude
 data class PrefLabel(
     val nb: String? = null,
     val nn: String? = null,
-    val en: String? = null
+    val en: String? = null,
 )

@@ -4,15 +4,29 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.model.PrefLabel
-import no.digdir.organizationcatalog.utils.*
+import no.digdir.organizationcatalog.utils.ApiTestContext
+import no.digdir.organizationcatalog.utils.Expect
+import no.digdir.organizationcatalog.utils.JenaAndHeader
+import no.digdir.organizationcatalog.utils.NOT_UPDATED_0
 import no.digdir.organizationcatalog.utils.NOT_UPDATED_1
+import no.digdir.organizationcatalog.utils.NOT_UPDATED_2
+import no.digdir.organizationcatalog.utils.ORG_0
+import no.digdir.organizationcatalog.utils.ORG_1
+import no.digdir.organizationcatalog.utils.ORG_2
+import no.digdir.organizationcatalog.utils.PARENT_ORG
+import no.digdir.organizationcatalog.utils.UPDATED_0
+import no.digdir.organizationcatalog.utils.UPDATED_1
+import no.digdir.organizationcatalog.utils.UPDATED_2
+import no.digdir.organizationcatalog.utils.UPDATE_VALUES
+import no.digdir.organizationcatalog.utils.apiAuthorizedRequest
+import no.digdir.organizationcatalog.utils.apiGet
 import no.digdir.organizationcatalog.utils.jwk.Access
 import no.digdir.organizationcatalog.utils.jwk.JwtToken
+import no.digdir.organizationcatalog.utils.resetDB
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.TestInstance
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
@@ -28,12 +42,11 @@ private val mapper = jacksonObjectMapper().findAndRegisterModules()
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(
     properties = ["spring.profiles.active=test"],
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
 )
 @ContextConfiguration(initializers = [ApiTestContext.Initializer::class])
 @Tag("contract")
 internal class OrganizationsApi : ApiTestContext() {
-
     @LocalServerPort
     var port: Int = 0
 
@@ -50,7 +63,6 @@ internal class OrganizationsApi : ApiTestContext() {
 
     @Nested
     internal inner class GetOrganizationById {
-
         @Test
         fun whenEmptyResult404() {
             val status = apiGet("/organizations/123Null", port, "application/json")["status"]
@@ -77,7 +89,6 @@ internal class OrganizationsApi : ApiTestContext() {
 
     @Nested
     internal inner class GetDelegatedOrganizations {
-
         @Test
         fun wrongAcceptHeader() {
             val status = apiGet("/organizations/delegated", port, "text/plain")["status"]
@@ -94,7 +105,6 @@ internal class OrganizationsApi : ApiTestContext() {
 
     @Nested
     internal inner class GetOrganizations {
-
         @Test
         fun missingAcceptHeader() {
             val status = apiGet("/organizations", port, null)["status"]
@@ -166,7 +176,6 @@ internal class OrganizationsApi : ApiTestContext() {
 
     @Nested
     internal inner class UpdateOrganization {
-
         @Test
         fun unauthorizedWhenNotLoggedIn() {
             val response = apiAuthorizedRequest("/organizations/994686011", port, "{}", null, "PUT")
@@ -175,13 +184,14 @@ internal class OrganizationsApi : ApiTestContext() {
 
         @Test
         fun forbiddenWhenNotAdmin() {
-            val response = apiAuthorizedRequest(
-                "/organizations/994686011",
-                port,
-                "{}",
-                JwtToken(Access.ORG_READ).toString(),
-                "PUT"
-            )
+            val response =
+                apiAuthorizedRequest(
+                    "/organizations/994686011",
+                    port,
+                    "{}",
+                    JwtToken(Access.ORG_READ).toString(),
+                    "PUT",
+                )
             Expect(response["status"]).to_equal(HttpStatus.FORBIDDEN.value())
         }
 
@@ -195,13 +205,14 @@ internal class OrganizationsApi : ApiTestContext() {
         @Test
         fun badRequestOnBlankName() {
             val blankName = Organization(name = "  ")
-            val response = apiAuthorizedRequest(
-                "/organizations/${ORG_0.organizationId}",
-                port,
-                mapper.writeValueAsString(blankName),
-                JwtToken(Access.ROOT).toString(),
-                "PUT"
-            )
+            val response =
+                apiAuthorizedRequest(
+                    "/organizations/${ORG_0.organizationId}",
+                    port,
+                    mapper.writeValueAsString(blankName),
+                    JwtToken(Access.ROOT).toString(),
+                    "PUT",
+                )
             Expect(response["status"]).to_equal(HttpStatus.BAD_REQUEST.value())
         }
 
@@ -213,13 +224,14 @@ internal class OrganizationsApi : ApiTestContext() {
             val preValues: Organization =
                 mapper.readValue(apiGet("/organizations/$orgId", port, "application/json")["body"] as String)
 
-            val response = apiAuthorizedRequest(
-                "/organizations/$orgId",
-                port,
-                mapper.writeValueAsString(nullValues),
-                JwtToken(Access.ROOT).toString(),
-                "PUT"
-            )
+            val response =
+                apiAuthorizedRequest(
+                    "/organizations/$orgId",
+                    port,
+                    mapper.writeValueAsString(nullValues),
+                    JwtToken(Access.ROOT).toString(),
+                    "PUT",
+                )
             Expect(response["status"]).to_equal(HttpStatus.OK.value())
             val updated: Organization = mapper.readValue(response["body"] as String)
             Expect(updated).to_equal(preValues)
@@ -234,15 +246,16 @@ internal class OrganizationsApi : ApiTestContext() {
                 mapper.readValue(apiGet("/organizations/$orgId", port, "application/json")["body"] as String)
             Expect(preValues).to_equal(NOT_UPDATED_0)
 
-            val updated: Organization = mapper.readValue(
-                apiAuthorizedRequest(
-                    "/organizations/$orgId",
-                    port,
-                    mapper.writeValueAsString(newName),
-                    JwtToken(Access.ROOT).toString(),
-                    "PUT"
-                )["body"] as String
-            )
+            val updated: Organization =
+                mapper.readValue(
+                    apiAuthorizedRequest(
+                        "/organizations/$orgId",
+                        port,
+                        mapper.writeValueAsString(newName),
+                        JwtToken(Access.ROOT).toString(),
+                        "PUT",
+                    )["body"] as String,
+                )
             Expect(updated).to_equal(UPDATED_0)
         }
 
@@ -253,22 +266,22 @@ internal class OrganizationsApi : ApiTestContext() {
                 mapper.readValue(apiGet("/organizations/$orgId", port, "application/json")["body"] as String)
             Expect(oldValues).to_equal(NOT_UPDATED_1)
 
-            val updated: Organization = mapper.readValue(
-                apiAuthorizedRequest(
-                    "/organizations/$orgId",
-                    port,
-                    mapper.writeValueAsString(UPDATE_VALUES),
-                    JwtToken(Access.ROOT).toString(),
-                    "PUT"
-                )["body"] as String
-            )
+            val updated: Organization =
+                mapper.readValue(
+                    apiAuthorizedRequest(
+                        "/organizations/$orgId",
+                        port,
+                        mapper.writeValueAsString(UPDATE_VALUES),
+                        JwtToken(Access.ROOT).toString(),
+                        "PUT",
+                    )["body"] as String,
+                )
             Expect(updated).to_equal(UPDATED_1)
         }
     }
 
     @Nested
     internal inner class GetOrgPath {
-
         @Test
         fun returnsOrgPathForOrganization() {
             val orgPath = apiGet("/organizations/orgpath/${ORG_0.organizationId}", port, "text/plain")["body"] as String
@@ -280,12 +293,10 @@ internal class OrganizationsApi : ApiTestContext() {
             val orgPath = apiGet("/organizations/orgpath/123", port, "text/plain")["body"] as String
             Expect(orgPath).to_equal("/ANNET/123")
         }
-
     }
 
     @Nested
     internal inner class UpdateFromEnhetsregisteret {
-
         @Test
         fun unauthorizedWhenNotLoggedIn() {
             val response = apiAuthorizedRequest("/organizations/123456789", port, null, null, "POST")
@@ -294,13 +305,14 @@ internal class OrganizationsApi : ApiTestContext() {
 
         @Test
         fun forbiddenWhenNotAdmin() {
-            val response = apiAuthorizedRequest(
-                "/organizations/123456789",
-                port,
-                null,
-                JwtToken(Access.ORG_READ).toString(),
-                "POST"
-            )
+            val response =
+                apiAuthorizedRequest(
+                    "/organizations/123456789",
+                    port,
+                    null,
+                    JwtToken(Access.ORG_READ).toString(),
+                    "POST",
+                )
             Expect(response["status"]).to_equal(HttpStatus.FORBIDDEN.value())
         }
 
@@ -323,21 +335,21 @@ internal class OrganizationsApi : ApiTestContext() {
                 mapper.readValue(apiGet("/organizations/$parentId", port, "application/json")["body"] as String)
             Expect(parentValues).to_equal(PARENT_ORG)
 
-            val updated: Organization = mapper.readValue(
-                apiAuthorizedRequest(
-                    "/organizations/$orgId",
-                    port,
-                    null,
-                    JwtToken(Access.ROOT).toString(),
-                    "POST"
-                )["body"] as String
-            )
+            val updated: Organization =
+                mapper.readValue(
+                    apiAuthorizedRequest(
+                        "/organizations/$orgId",
+                        port,
+                        null,
+                        JwtToken(Access.ROOT).toString(),
+                        "POST",
+                    )["body"] as String,
+                )
             Expect(updated).to_equal(UPDATED_2)
 
             val updatedParent: Organization =
                 mapper.readValue(apiGet("/organizations/$parentId", port, "application/json")["body"] as String)
             Expect(updatedParent).to_equal(PARENT_ORG.copy(prefLabel = PrefLabel(nb = "Teststaten")))
         }
-
     }
 }

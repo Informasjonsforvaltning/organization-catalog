@@ -24,18 +24,16 @@ private val mapper = jacksonObjectMapper().findAndRegisterModules()
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(
     properties = ["spring.profiles.active=test"],
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
 )
 @ContextConfiguration(initializers = [ApiTestContext.Initializer::class])
 @Tag("contract")
 internal class Admin : ApiTestContext() {
-
     @LocalServerPort
     var port: Int = 0
 
     @Nested
     internal inner class UpdateSTAT {
-
         @Test
         fun unauthorizedWhenNotLoggedIn() {
             val response = apiAuthorizedRequest("/admin/update/stat", port, null, null, "POST")
@@ -97,6 +95,5 @@ internal class Admin : ApiTestContext() {
                 mapper.readValue(apiGet("/organizations", port, "application/json")["body"] as String)
             Assertions.assertTrue(updated.map { it.organizationId }.contains(kommOrg))
         }
-
     }
 }

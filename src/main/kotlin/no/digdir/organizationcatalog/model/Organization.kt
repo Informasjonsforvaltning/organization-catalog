@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-data class Organization (
+data class Organization(
     val organizationId: String? = null,
     val norwegianRegistry: String? = null,
     val internationalRegistry: String? = null,
@@ -22,5 +22,5 @@ data class Organization (
     val orgStatus: OrgStatus? = null,
     val homepage: String? = null,
     val allowDelegatedRegistration: Boolean? = null,
-    val subordinate: Boolean = false
+    val subordinate: Boolean = false,
 )

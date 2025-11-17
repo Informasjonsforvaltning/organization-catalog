@@ -3,22 +3,22 @@ package no.digdir.organizationcatalog.service
 import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
-import no.digdir.organizationcatalog.utils.*
-import org.junit.jupiter.api.Tag
-import org.junit.jupiter.api.Test
-
-import java.util.Optional
-
+import no.digdir.organizationcatalog.utils.ENHETSREGISTERET_URL
+import no.digdir.organizationcatalog.utils.ORG_0
+import no.digdir.organizationcatalog.utils.ORG_DB0
+import no.digdir.organizationcatalog.utils.ORG_DB1
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import org.springframework.test.context.ActiveProfiles
+import java.util.Optional
 
 @Tag("unit")
 @ActiveProfiles("test")
 class OrganizationCatalogServiceTest {
-
     private val repository: OrganizationCatalogRepository = mock()
     private val adapter: EnhetsregisteretAdapter = mock()
     private val valuesMock: AppProperties = mock()

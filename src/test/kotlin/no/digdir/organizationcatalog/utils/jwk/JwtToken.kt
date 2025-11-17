@@ -2,18 +2,21 @@ package no.digdir.organizationcatalog.utils.jwk
 
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
-import java.util.*
+import java.util.Date
 
-
-class JwtToken (private val access: Access) {
+class JwtToken(
+    private val access: Access,
+) {
     private val exp = Date().time + 120 * 1000
     private val aud = listOf("organization-catalog")
 
-    private fun buildToken() : String{
-        val claimset = JWTClaimsSet.Builder()
+    private fun buildToken(): String {
+        val claimset =
+            JWTClaimsSet
+                .Builder()
                 .audience(aud)
                 .expirationTime(Date(exp))
-                .claim("user_name","1924782563")
+                .claim("user_name", "1924782563")
                 .claim("iss", "http://localhost:5050/auth/realms/fdk")
                 .claim("name", "TEST USER")
                 .claim("given_name", "TEST")
@@ -27,15 +30,13 @@ class JwtToken (private val access: Access) {
         return signed.serialize()
     }
 
-    override fun toString(): String {
-        return buildToken()
-    }
-
+    override fun toString(): String = buildToken()
 }
 
-enum class Access(val authorities: String) {
+enum class Access(
+    val authorities: String,
+) {
     ORG_READ("organization:910244132:read"),
     ORG_WRITE("organization:910244132:admin"),
-    ROOT("system:root:admin")
+    ROOT("system:root:admin"),
 }
-
