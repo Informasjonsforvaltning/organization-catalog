@@ -1,23 +1,31 @@
 package no.digdir.organizationcatalog.jena
 
-import no.digdir.organizationcatalog.model.Organization
-import no.digdir.organizationcatalog.model.PrefLabel
 import no.digdir.organizationcatalog.mapping.municipalityNumberToId
 import no.digdir.organizationcatalog.model.OrgStatus
+import no.digdir.organizationcatalog.model.Organization
+import no.digdir.organizationcatalog.model.PrefLabel
 import org.apache.jena.rdf.model.Model
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.Property
 import org.apache.jena.rdf.model.Resource
 import org.apache.jena.sparql.vocabulary.FOAF
-import org.apache.jena.vocabulary.*
+import org.apache.jena.vocabulary.DCTerms
+import org.apache.jena.vocabulary.ORG
+import org.apache.jena.vocabulary.RDF
+import org.apache.jena.vocabulary.ROV
+import org.apache.jena.vocabulary.SKOS
 import java.io.ByteArrayOutputStream
 import java.net.URI
 
-fun Organization.jenaResponse(responseType: JenaType, urls: ExternalUrls): String =
-    listOf(this).jenaResponse(responseType, urls)
+fun Organization.jenaResponse(
+    responseType: JenaType,
+    urls: ExternalUrls,
+): String = listOf(this).jenaResponse(responseType, urls)
 
-fun List<Organization>.jenaResponse(responseType: JenaType, urls: ExternalUrls): String =
-    createModel(urls).createResponseString(responseType)
+fun List<Organization>.jenaResponse(
+    responseType: JenaType,
+    urls: ExternalUrls,
+): String = createModel(urls).createResponseString(responseType)
 
 private fun List<Organization>.createModel(urls: ExternalUrls): Model {
     val model = ModelFactory.createDefaultModel()
@@ -27,12 +35,13 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
     model.setNsPrefix("org", ORG.getURI())
     model.setNsPrefix("rov", ROV.getURI())
     model.setNsPrefix("adms", ADMS.uri)
-    model.setNsPrefix("br", BR.uri)
-    model.setNsPrefix("orgstatus", ORGSTATUS.uri)
-    model.setNsPrefix("orgtype", ORGTYPE.uri)
+    model.setNsPrefix("br", BR.URI)
+    model.setNsPrefix("orgstatus", ORGSTATUS.URI)
+    model.setNsPrefix("orgtype", ORGTYPE.URI)
 
     forEach {
-        model.createResource(urls.organizationCatalog + it.organizationId)
+        model
+            .createResource(urls.organizationCatalog + it.organizationId)
             .addProperty(RDF.type, ROV.RegisteredOrganization)
             .safeAddProperty(ROV.legalName, it.name)
             .addRegistration(it)
@@ -40,8 +49,13 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
             .addOrgType(it.orgType)
             .safeAddProperty(BR.orgPath, it.orgPath)
             .safeAddLinkedProperty(ORG.subOrganizationOf, it.subOrganizationOf?.let { parentId -> urls.organizationCatalog + parentId })
-            .safeAddLinkedProperty(BR.municipality, it.municipalityNumber?.let { number -> urls.municipality + municipalityNumberToId(number) })
-            .safeAddLinkedProperty(BR.norwegianRegistry, it.norwegianRegistry)
+            .safeAddLinkedProperty(
+                BR.municipality,
+                it.municipalityNumber?.let { number ->
+                    urls.municipality +
+                        municipalityNumberToId(number)
+                },
+            ).safeAddLinkedProperty(BR.norwegianRegistry, it.norwegianRegistry)
             .safeAddLinkedProperty(BR.internationalRegistry, it.internationalRegistry)
             .safeAddProperty(BR.nace, it.industryCode)
             .safeAddProperty(BR.sectorCode, it.sectorCode)
@@ -56,22 +70,39 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
 private fun Resource.addRegistration(org: Organization): Resource =
     addProperty(
         ROV.registration,
-        model.createResource(ADMS.Identifier)
+        model
+            .createResource(ADMS.Identifier)
             .safeAddProperty(DCTerms.issued, org.issued?.toString())
             .addProperty(SKOS.notation, org.organizationId)
-            .addProperty(ADMS.schemaAgency, "Brønnøysundregistrene"))
+            .addProperty(ADMS.schemaAgency, "Brønnøysundregistrene"),
+    )
 
 private fun Resource.addOrgType(orgType: String?): Resource =
-    if (orgType == null) this
-    else safeAddLinkedProperty(ROV.orgType, "${ORGTYPE.uri}$orgType")
+    if (orgType == null) {
+        this
+    } else {
+        safeAddLinkedProperty(ROV.orgType, "${ORGTYPE.URI}$orgType")
+    }
 
-private fun Resource.safeAddProperty(property: Property, value: String?): Resource =
-    if (value == null) this
-    else addProperty(property, value)
+private fun Resource.safeAddProperty(
+    property: Property,
+    value: String?,
+): Resource =
+    if (value == null) {
+        this
+    } else {
+        addProperty(property, value)
+    }
 
-private fun Resource.safeAddLinkedProperty(property: Property, value: String?): Resource =
-    if(value == null) this
-    else addProperty(property, model.createResource(value))
+private fun Resource.safeAddLinkedProperty(
+    property: Property,
+    value: String?,
+): Resource =
+    if (value == null) {
+        this
+    } else {
+        addProperty(property, model.createResource(value))
+    }
 
 private fun String.isWellFormedIRI(): Boolean =
     try {
@@ -103,8 +134,8 @@ private fun Resource.addOrgStatus(orgStatus: OrgStatus?): Resource {
     return this
 }
 
-private fun Model.createResponseString(responseType: JenaType):String =
-    ByteArrayOutputStream().use{ out ->
+private fun Model.createResponseString(responseType: JenaType): String =
+    ByteArrayOutputStream().use { out ->
         write(out, responseType.value)
         out.flush()
         out.toString("UTF-8")
@@ -123,17 +154,19 @@ fun acceptHeaderToJenaType(accept: String?): JenaType =
         else -> JenaType.NOT_ACCEPTABLE
     }
 
-enum class JenaType(val value: String){
+enum class JenaType(
+    val value: String,
+) {
     TURTLE("TURTLE"),
     RDF_XML("RDF/XML"),
     RDF_JSON("RDF/JSON"),
     JSON_LD("JSON-LD"),
     NOT_JENA("NOT-JENA"),
-    NOT_ACCEPTABLE("")
+    NOT_ACCEPTABLE(""),
 }
 
 data class ExternalUrls(
     val organizationCatalog: String? = null,
     val organizationDomains: String? = null,
-    val municipality: String? = null
+    val municipality: String? = null,
 )

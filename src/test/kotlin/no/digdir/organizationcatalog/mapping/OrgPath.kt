@@ -9,10 +9,8 @@ import org.springframework.test.context.ActiveProfiles
 @Tag("unit")
 @ActiveProfiles("test")
 class OrgPath {
-
     @Nested
     internal inner class CreateOrgPath {
-
         @Test
         fun baseOrgPath() {
             assertEquals("/STAT/123456789", createOrgPath(false, setOf("123456789"), "STAT"))
@@ -39,7 +37,6 @@ class OrgPath {
             val result = createOrgPath(false, setOf("777888999", "444555666", "111222333"), "KOMM")
             assertEquals(expected, result)
         }
-
     }
 
     @Test
@@ -51,5 +48,4 @@ class OrgPath {
         assertEquals("/STAT/123456789/987654321", cutOrgPathForParents(completeOrgPath, "987654321"))
         assertEquals("/STAT/123456789", cutOrgPathForParents(completeOrgPath, "123456789"))
     }
-
 }

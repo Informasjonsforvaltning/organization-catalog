@@ -14,20 +14,28 @@ import org.springframework.stereotype.Component
 private val LOGGER = LoggerFactory.getLogger(BrregForwardingFilter::class.java)
 
 @Component
-class BrregForwardingFilter(private val appProperties: AppProperties) : Filter {
-
-    override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
+class BrregForwardingFilter(
+    private val appProperties: AppProperties,
+) : Filter {
+    override fun doFilter(
+        request: ServletRequest?,
+        response: ServletResponse?,
+        chain: FilterChain?,
+    ) {
         if (request != null && response != null && chain != null) {
             try {
                 val httpRequest = request as HttpServletRequest
                 val httpResponse = response as HttpServletResponse
 
-                val acceptContainsHtml: Boolean = httpRequest.getHeader("Accept")
-                    ?.contains("text/html")
-                    ?: false
+                val acceptContainsHtml: Boolean =
+                    httpRequest
+                        .getHeader("Accept")
+                        ?.contains("text/html")
+                        ?: false
 
-                val orgId = httpRequest.servletPath
-                    .substringAfter("organizations/", "")
+                val orgId =
+                    httpRequest.servletPath
+                        .substringAfter("organizations/", "")
 
                 if (acceptContainsHtml && orgId.isOrganizationNumber()) {
                     httpResponse.setHeader("Location", "${appProperties.enhetsregisteretHtmlUrl}$orgId")
@@ -41,5 +49,4 @@ class BrregForwardingFilter(private val appProperties: AppProperties) : Filter {
 
         chain?.doFilter(request, response)
     }
-
 }

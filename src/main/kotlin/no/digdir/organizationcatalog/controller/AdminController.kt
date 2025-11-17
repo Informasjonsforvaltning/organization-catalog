@@ -17,34 +17,38 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/admin")
 open class AdminController(
     private val catalogService: OrganizationCatalogService,
-    private val endpointPermissions: EndpointPermissions
+    private val endpointPermissions: EndpointPermissions,
 ) {
-
     @PostMapping("/update/stat", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun updateSTAT(
-        @AuthenticationPrincipal jwt: Jwt
+        @AuthenticationPrincipal jwt: Jwt,
     ): ResponseEntity<Any> =
         if (endpointPermissions.hasAdminPermission(jwt)) {
             catalogService.updateSTAT()
             ResponseEntity(HttpStatus.OK)
-        } else ResponseEntity(HttpStatus.FORBIDDEN)
+        } else {
+            ResponseEntity(HttpStatus.FORBIDDEN)
+        }
 
     @PostMapping("/update/fylk", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun updateFYLK(
-        @AuthenticationPrincipal jwt: Jwt
+        @AuthenticationPrincipal jwt: Jwt,
     ): ResponseEntity<Any> =
         if (endpointPermissions.hasAdminPermission(jwt)) {
             catalogService.updateFYLK()
             ResponseEntity(HttpStatus.OK)
-        } else ResponseEntity(HttpStatus.FORBIDDEN)
+        } else {
+            ResponseEntity(HttpStatus.FORBIDDEN)
+        }
 
     @PostMapping("/update/komm", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun updateKOMM(
-        @AuthenticationPrincipal jwt: Jwt
+        @AuthenticationPrincipal jwt: Jwt,
     ): ResponseEntity<Any> =
         if (endpointPermissions.hasAdminPermission(jwt)) {
             catalogService.updateKOMM()
             ResponseEntity(HttpStatus.OK)
-        } else ResponseEntity(HttpStatus.FORBIDDEN)
-
+        } else {
+            ResponseEntity(HttpStatus.FORBIDDEN)
+        }
 }

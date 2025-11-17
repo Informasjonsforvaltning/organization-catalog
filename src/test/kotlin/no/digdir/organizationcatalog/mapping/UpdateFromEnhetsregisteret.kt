@@ -11,15 +11,16 @@ import org.springframework.test.context.ActiveProfiles
 @Tag("unit")
 @ActiveProfiles("test")
 class UpdateFromEnhetsregisteret {
-
     @Test
     fun prefLabelNotUpdatedWhenNameIsUnchanged() {
-        val orgWithNN = ORG_DB1.copy(
-            prefLabel = PrefLabel(
-                nb = "Forsvaret på bokmål",
-                nn = "Forsvaret på nynorsk"
+        val orgWithNN =
+            ORG_DB1.copy(
+                prefLabel =
+                    PrefLabel(
+                        nb = "Forsvaret på bokmål",
+                        nn = "Forsvaret på nynorsk",
+                    ),
             )
-        )
 
         val expectedNb = "Forsvaret på bokmål"
         val expectedNn = "Forsvaret på nynorsk"
@@ -33,12 +34,14 @@ class UpdateFromEnhetsregisteret {
 
     @Test
     fun prefLabelNotUpdatedWhenNameIsBlank() {
-        val orgWithNN = ORG_DB1.copy(
-            prefLabel = PrefLabel(
-                nb = "Forsvaret på bokmål",
-                nn = "Forsvaret på nynorsk"
+        val orgWithNN =
+            ORG_DB1.copy(
+                prefLabel =
+                    PrefLabel(
+                        nb = "Forsvaret på bokmål",
+                        nn = "Forsvaret på nynorsk",
+                    ),
             )
-        )
 
         val expectedNb = "Forsvaret på bokmål"
         val expectedNn = "Forsvaret på nynorsk"
@@ -52,13 +55,15 @@ class UpdateFromEnhetsregisteret {
 
     @Test
     fun prefLabelUpdatedWhenNameIsChanged() {
-        val orgDBWithTypo = ORG_DB1.copy(
-            name = "FØRSVARET",
-            prefLabel = PrefLabel(
-                nb = "Førsvaret",
-                nn = "Føresvaret"
+        val orgDBWithTypo =
+            ORG_DB1.copy(
+                name = "FØRSVARET",
+                prefLabel =
+                    PrefLabel(
+                        nb = "Førsvaret",
+                        nn = "Føresvaret",
+                    ),
             )
-        )
 
         val expectedNb = "Forsvaret"
 
@@ -71,9 +76,10 @@ class UpdateFromEnhetsregisteret {
 
     @Test
     fun prefLabelUpdatedWhenPrefLabelIsEmpty() {
-        val orgDBWithTypo = ORG_DB1.copy(
-            prefLabel = PrefLabel()
-        )
+        val orgDBWithTypo =
+            ORG_DB1.copy(
+                prefLabel = PrefLabel(),
+            )
 
         val expectedNb = "Forsvaret"
 
@@ -83,5 +89,4 @@ class UpdateFromEnhetsregisteret {
         Assertions.assertNull(result.prefLabel?.nn)
         Assertions.assertNull(result.prefLabel?.en)
     }
-
 }

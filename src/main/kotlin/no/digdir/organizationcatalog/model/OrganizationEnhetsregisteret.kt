@@ -1,9 +1,9 @@
-package no.digdir.organizationcatalog.model;
+package no.digdir.organizationcatalog.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class EnhetsregisteretOrganization (
+data class EnhetsregisteretOrganization(
     val organisasjonsnummer: String,
     val navn: String,
     val overordnetEnhet: String? = null,
@@ -16,29 +16,31 @@ data class EnhetsregisteretOrganization (
     val organisasjonsform: EnhetsregisteretCode? = null,
     val naeringskode1: EnhetsregisteretCode? = null,
     val institusjonellSektorkode: EnhetsregisteretCode? = null,
-    val underenhet: Boolean = false
+    val underenhet: Boolean = false,
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class EnhetsregisteretEmbeddedWrapperDTO (
-    val _embedded: EnhetsregisteretLists?
+data class EnhetsregisteretEmbeddedWrapperDTO(
+    val _embedded: EnhetsregisteretLists?,
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class EnhetsregisteretLists (
-    val enheter: List<EnhetsregisteretOrganization> = emptyList()
+data class EnhetsregisteretLists(
+    val enheter: List<EnhetsregisteretOrganization> = emptyList(),
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class EnhetsregisteretCode (
-    val kode: String?
+data class EnhetsregisteretCode(
+    val kode: String?,
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class EnhetsregisteretAddress (
-    val kommunenummer: String?
+data class EnhetsregisteretAddress(
+    val kommunenummer: String?,
 )
 
 enum class EnhetsregisteretType {
-    STAT, FYLK, KOMM
+    STAT,
+    FYLK,
+    KOMM,
 }

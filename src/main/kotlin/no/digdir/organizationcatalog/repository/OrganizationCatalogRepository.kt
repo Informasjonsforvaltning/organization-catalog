@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface OrganizationCatalogRepository : MongoRepository<OrganizationDB, String> {
     fun findByNameLike(name: String): List<OrganizationDB>
+
     fun findByAllowDelegatedRegistration(allowed: Boolean): List<OrganizationDB>
 }

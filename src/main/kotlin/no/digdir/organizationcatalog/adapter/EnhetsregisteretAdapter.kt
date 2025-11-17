@@ -15,13 +15,14 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import java.io.BufferedReader
 import java.net.HttpURLConnection
-import java.net.URL
+import java.net.URI
 
 private val LOGGER = LoggerFactory.getLogger(EnhetsregisteretAdapter::class.java)
 
 @Component
-class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
-
+class EnhetsregisteretAdapter(
+    private val appProperties: AppProperties,
+) {
     fun getOrganizationAndParents(organizationId: String): List<EnhetsregisteretOrganization> {
         LOGGER.info("Downloading data regarding '$organizationId' from Enhetsregisteret")
         return downloadAndParseOrganization(organizationId)
@@ -29,12 +30,13 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
             ?: emptyList()
     }
 
-    private fun downloadAndParseOrganization(organizationId: String): EnhetsregisteretOrganization? = runBlocking {
-        val organizationPromise = async { getOrganizationFromEnhetsregisteret(organizationId) }
-        val subordinateOrganizationPromise = async { getOrganizationFromEnhetsregisteret(organizationId, true) }
+    private fun downloadAndParseOrganization(organizationId: String): EnhetsregisteretOrganization? =
+        runBlocking {
+            val organizationPromise = async { getOrganizationFromEnhetsregisteret(organizationId) }
+            val subordinateOrganizationPromise = async { getOrganizationFromEnhetsregisteret(organizationId, true) }
 
-        organizationPromise.await() ?: subordinateOrganizationPromise.await()
-    }
+            organizationPromise.await() ?: subordinateOrganizationPromise.await()
+        }
 
     private fun EnhetsregisteretOrganization.downloadParentOrgsAndCreateOrgPath(): List<EnhetsregisteretOrganization> {
         val orgList: MutableList<EnhetsregisteretOrganization> = mutableListOf(this)
@@ -51,7 +53,9 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
                 topParentOrgForm = parent.organisasjonsform?.kode
                 parentOrganizationId = parent.overordnetEnhet
                 orgList.add(parent)
-            } else parentOrganizationId = null
+            } else {
+                parentOrganizationId = null
+            }
         }
 
         val completeOrgPath = createOrgPath(isTestOrganization, idSet, topParentOrgForm)
@@ -62,7 +66,8 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
     }
 
     private fun getOrganizationsFromEnhetsregisteret(path: String): EnhetsregisteretEmbeddedWrapperDTO? =
-        URL("${appProperties.enhetsregisteretProxyUrl}$path")
+        URI("${appProperties.enhetsregisteretProxyUrl}$path")
+            .toURL()
             .openConnection()
             .run {
                 this as HttpURLConnection
@@ -82,7 +87,10 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
                 }
             }
 
-    private fun getOrganizationFromEnhetsregisteret(organizationId: String, isSubordinate: Boolean = false): EnhetsregisteretOrganization? {
+    private fun getOrganizationFromEnhetsregisteret(
+        organizationId: String,
+        isSubordinate: Boolean = false,
+    ): EnhetsregisteretOrganization? {
         try {
             Integer.parseInt(organizationId)
         } catch (e: NumberFormatException) {
@@ -90,13 +98,16 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
             return null
         }
 
-        URL("${appProperties.enhetsregisteretProxyUrl}/${if (isSubordinate) "underenheter" else "enheter"}/$organizationId")
+        URI("${appProperties.enhetsregisteretProxyUrl}/${if (isSubordinate) "underenheter" else "enheter"}/$organizationId")
+            .toURL()
             .openConnection()
             .run {
                 this as HttpURLConnection
 
                 if (responseCode != HttpStatus.OK.value()) {
-                    LOGGER.warn("Organization (${if (isSubordinate) "underenhet" else "enhet"}) with id '$organizationId' not found in Enhetsregisteret")
+                    LOGGER.warn(
+                        "Organization (${if (isSubordinate) "underenhet" else "enhet"}) with id '$organizationId' not found in Enhetsregisteret",
+                    )
                     return null
                 }
 
@@ -113,12 +124,11 @@ class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
             }
     }
 
-    fun getOrganizationsFromEnhetsregisteretByType(orgType: EnhetsregisteretType): List<EnhetsregisteretOrganization> {
-        return getOrganizationsFromEnhetsregisteret("/enheter?organisasjonsform=$orgType&size=10000")
+    fun getOrganizationsFromEnhetsregisteretByType(orgType: EnhetsregisteretType): List<EnhetsregisteretOrganization> =
+        getOrganizationsFromEnhetsregisteret("/enheter?organisasjonsform=$orgType&size=10000")
             ?._embedded
             ?.enheter
             ?: emptyList()
-    }
 
     fun getOrganizationsFromEnhetsregisteretByParent(orgnr: String): List<EnhetsregisteretOrganization> =
         getOrganizationsFromEnhetsregisteret("/enheter?overordnetEnhet=$orgnr&size=10000")

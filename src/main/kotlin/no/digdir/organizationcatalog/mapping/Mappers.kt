@@ -1,9 +1,13 @@
 package no.digdir.organizationcatalog.mapping
 
-import no.digdir.organizationcatalog.model.*
+import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
+import no.digdir.organizationcatalog.model.OrgStatus
+import no.digdir.organizationcatalog.model.Organization
+import no.digdir.organizationcatalog.model.OrganizationDB
+import no.digdir.organizationcatalog.model.PrefLabel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Locale
 
 fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
     Organization(
@@ -22,7 +26,7 @@ fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
         orgStatus = orgStatus,
         homepage = homepage,
         allowDelegatedRegistration = allowDelegatedRegistration,
-        subordinate = subordinate
+        subordinate = subordinate,
     )
 
 fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB =
@@ -39,7 +43,7 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB =
         homepage = hjemmeside,
         orgStatus = orgStatusFromDeleteDate(),
         prefLabel = prefLabelFromName(),
-        subordinate = underenhet
+        subordinate = underenhet,
     )
 
 fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
@@ -56,16 +60,17 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         homepage = org.homepage ?: homepage,
         prefLabel = prefLabel?.update(org.prefLabel) ?: PrefLabel().update(org.prefLabel),
         allowDelegatedRegistration = org.allowDelegatedRegistration ?: allowDelegatedRegistration,
-        subordinate = org.subordinate
+        subordinate = org.subordinate,
     )
 
 fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganization): OrganizationDB {
-    val prefLabelShouldBeUpdated = when {
-        org.navn.isBlank() -> false
-        prefLabel.isNullOrEmpty() -> true
-        name != org.navn -> true
-        else -> false
-    }
+    val prefLabelShouldBeUpdated =
+        when {
+            org.navn.isBlank() -> false
+            prefLabel.isNullOrEmpty() -> true
+            name != org.navn -> true
+            else -> false
+        }
 
     return copy(
         name = org.navn,
@@ -79,14 +84,16 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganiz
         orgStatus = org.orgStatusFromDeleteDate(),
         homepage = org.hjemmeside,
         prefLabel = if (prefLabelShouldBeUpdated) org.prefLabelFromName() else prefLabel,
-        subordinate = org.underenhet
+        subordinate = org.underenhet,
     )
 }
 
 private fun EnhetsregisteretOrganization.prefLabelFromName(): PrefLabel =
     PrefLabel(
-        nb = navn.lowercase(Locale.getDefault())
-            .replaceFirstChar { it.titlecase(Locale.getDefault()) }
+        nb =
+            navn
+                .lowercase(Locale.getDefault())
+                .replaceFirstChar { it.titlecase(Locale.getDefault()) },
     )
 
 private fun PrefLabel?.isNullOrEmpty(): Boolean =
@@ -102,14 +109,15 @@ private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel =
     copy(
         nb = newValues?.nb ?: nb,
         nn = newValues?.nn ?: nn,
-        en = newValues?.en ?: en
+        en = newValues?.en ?: en,
     )
 
 private fun EnhetsregisteretOrganization.orgStatusFromDeleteDate(): OrgStatus {
     val today = LocalDate.now()
-    val deleteData: LocalDate? = slettedato?.let {
-        LocalDate.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-    }
+    val deleteData: LocalDate? =
+        slettedato?.let {
+            LocalDate.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        }
 
     return when {
         deleteData == null -> OrgStatus.NORMAL

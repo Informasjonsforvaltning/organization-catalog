@@ -9,17 +9,20 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator
-import org.springframework.security.oauth2.jwt.*
 import org.springframework.security.oauth2.jwt.JwtClaimNames.AUD
+import org.springframework.security.oauth2.jwt.JwtClaimValidator
+import org.springframework.security.oauth2.jwt.JwtDecoder
+import org.springframework.security.oauth2.jwt.JwtIssuerValidator
+import org.springframework.security.oauth2.jwt.JwtTimestampValidator
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 
 @Configuration
 open class SecurityConfig(
     @Value("\${application.cors.originPatterns}")
-    val corsOriginPatterns: Array<String>
+    val corsOriginPatterns: Array<String>,
 ) {
-
     @Bean
     open fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
@@ -36,13 +39,15 @@ open class SecurityConfig(
 
                     config
                 }
-            }
-            .authorizeHttpRequests { authorize ->
-                authorize.requestMatchers(HttpMethod.OPTIONS).permitAll()
-                    .requestMatchers(HttpMethod.GET).permitAll()
-                    .anyRequest().authenticated()
-            }
-            .oauth2ResourceServer { resourceServer -> resourceServer.jwt { } }
+            }.authorizeHttpRequests { authorize ->
+                authorize
+                    .requestMatchers(HttpMethod.OPTIONS)
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET)
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+            }.oauth2ResourceServer { resourceServer -> resourceServer.jwt { } }
         return http.build()
     }
 
@@ -53,8 +58,8 @@ open class SecurityConfig(
             DelegatingOAuth2TokenValidator(
                 JwtTimestampValidator(),
                 JwtIssuerValidator(properties.jwt.issuerUri),
-                JwtClaimValidator(AUD) { aud: List<String> -> aud.contains("organization-catalog") }
-            )
+                JwtClaimValidator(AUD) { aud: List<String> -> aud.contains("organization-catalog") },
+            ),
         )
         return jwtDecoder
     }
