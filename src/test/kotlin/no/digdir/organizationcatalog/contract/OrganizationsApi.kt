@@ -65,14 +65,20 @@ internal class OrganizationsApi : ApiTestContext() {
     internal inner class GetOrganizationById {
         @Test
         fun whenEmptyResult404() {
-            val status = apiGet("/organizations/123Null", port, "application/json")["status"]
+            val status = apiGet("/organizations/123123123", port, "application/json")["status"]
             Expect(status).to_equal(HttpStatus.NOT_FOUND.value())
         }
 
         @Test
         fun wrongAcceptHeader() {
-            val status = apiGet("/organizations/123", port, "text/plain")["status"]
+            val status = apiGet("/organizations/${ORG_0.organizationId}", port, "text/plain")["status"]
             Expect(status).to_equal(HttpStatus.NOT_ACCEPTABLE.value())
+        }
+
+        @Test
+        fun badRequestWhenInvalidId() {
+            val status = apiGet("/organizations/123", port, "application/json")["status"]
+            Expect(status).to_equal(HttpStatus.BAD_REQUEST.value())
         }
 
         @Test
@@ -160,6 +166,12 @@ internal class OrganizationsApi : ApiTestContext() {
         }
 
         @Test
+        fun badRequestWhenInvalidId() {
+            val response = apiGet("/organizations?organizationId=invalid", port, rdfxml.acceptHeader)
+            Expect(response["status"]).to_equal(HttpStatus.BAD_REQUEST.value())
+        }
+
+        @Test
         fun getByOrgidAndName() {
             val response =
                 apiGet("/organizations?name=ET&organizationId=974760673,994686011", port, rdfxml.acceptHeader)["body"]
@@ -198,8 +210,15 @@ internal class OrganizationsApi : ApiTestContext() {
         @Test
         fun notFoundWhenIdNotAvailableInDB() {
             val response =
-                apiAuthorizedRequest("/organizations/123NotFound", port, "{}", JwtToken(Access.ROOT).toString(), "PUT")
+                apiAuthorizedRequest("/organizations/123123123", port, "{}", JwtToken(Access.ROOT).toString(), "PUT")
             Expect(response["status"]).to_equal(HttpStatus.NOT_FOUND.value())
+        }
+
+        @Test
+        fun badRequestWhenInvalidId() {
+            val response =
+                apiAuthorizedRequest("/organizations/123", port, "{}", JwtToken(Access.ROOT).toString(), "PUT")
+            Expect(response["status"]).to_equal(HttpStatus.BAD_REQUEST.value())
         }
 
         @Test
@@ -319,8 +338,15 @@ internal class OrganizationsApi : ApiTestContext() {
         @Test
         fun notFoundWhenIdNotAvailableInDB() {
             val response =
-                apiAuthorizedRequest("/organizations/123NotFound", port, null, JwtToken(Access.ROOT).toString(), "POST")
+                apiAuthorizedRequest("/organizations/123123123", port, null, JwtToken(Access.ROOT).toString(), "POST")
             Expect(response["status"]).to_equal(HttpStatus.NOT_FOUND.value())
+        }
+
+        @Test
+        fun badRequestWhenInvalidId() {
+            val response =
+                apiAuthorizedRequest("/organizations/123", port, null, JwtToken(Access.ROOT).toString(), "POST")
+            Expect(response["status"]).to_equal(HttpStatus.BAD_REQUEST.value())
         }
 
         @Test

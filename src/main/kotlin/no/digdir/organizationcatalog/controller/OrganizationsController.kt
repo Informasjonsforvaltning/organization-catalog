@@ -9,6 +9,7 @@ import no.digdir.organizationcatalog.jena.jenaResponse
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.security.EndpointPermissions
 import no.digdir.organizationcatalog.service.OrganizationCatalogService
+import no.digdir.organizationcatalog.utils.isOrganizationNumber
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpHeaders
@@ -44,23 +45,25 @@ open class OrganizationsController(
         @PathVariable id: String,
         @RequestBody organization: Organization,
     ): ResponseEntity<Organization> =
-        if (endpointPermissions.hasAdminPermission(jwt)) {
-            try {
-                LOGGER.debug("update organization $id")
-                catalogService
-                    .updateEntry(id, organization)
-                    ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
-                    ?: ResponseEntity(HttpStatus.NOT_FOUND)
-            } catch (exception: Exception) {
-                LOGGER.error("error updating organization $id", exception)
-                when (exception) {
-                    is ConstraintViolationException -> ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
-                    is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
-                    else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+        when {
+            !id.isOrganizationNumber() -> ResponseEntity(HttpStatus.BAD_REQUEST)
+            !endpointPermissions.hasAdminPermission(jwt) -> ResponseEntity(HttpStatus.FORBIDDEN)
+            else -> {
+                try {
+                    LOGGER.debug("update organization $id")
+                    catalogService
+                        .updateEntry(id, organization)
+                        ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
+                        ?: ResponseEntity(HttpStatus.NOT_FOUND)
+                } catch (exception: Exception) {
+                    LOGGER.error("error updating organization $id", exception)
+                    when (exception) {
+                        is ConstraintViolationException -> ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
+                        is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
+                        else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+                    }
                 }
             }
-        } else {
-            ResponseEntity(HttpStatus.FORBIDDEN)
         }
 
     @GetMapping(
@@ -78,21 +81,25 @@ open class OrganizationsController(
         @RequestHeader(HttpHeaders.ACCEPT) accept: String?,
         @PathVariable id: String,
     ): ResponseEntity<Any> {
-        LOGGER.debug("get organization $id")
-        val jenaType = acceptHeaderToJenaType(accept)
-        val organization = catalogService.getByOrgnr(id)
+        if (!id.isOrganizationNumber()) {
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        } else {
+            LOGGER.debug("get organization $id")
+            val jenaType = acceptHeaderToJenaType(accept)
+            val organization = catalogService.getByOrgnr(id)
 
-        val urls =
-            ExternalUrls(
-                organizationCatalog = appProperties.organizationCatalogUrl,
-                municipality = appProperties.municipalityUrl,
-            )
+            val urls =
+                ExternalUrls(
+                    organizationCatalog = appProperties.organizationCatalogUrl,
+                    municipality = appProperties.municipalityUrl,
+                )
 
-        return when {
-            organization == null -> ResponseEntity(HttpStatus.NOT_FOUND)
-            jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
-            jenaType == JenaType.NOT_JENA -> ResponseEntity(organization, HttpStatus.OK)
-            else -> ResponseEntity(organization.jenaResponse(jenaType, urls), HttpStatus.OK)
+            return when {
+                organization == null -> ResponseEntity(HttpStatus.NOT_FOUND)
+                jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+                jenaType == JenaType.NOT_JENA -> ResponseEntity(organization, HttpStatus.OK)
+                else -> ResponseEntity(organization.jenaResponse(jenaType, urls), HttpStatus.OK)
+            }
         }
     }
 
@@ -145,20 +152,24 @@ open class OrganizationsController(
         @RequestParam(required = false) organizationId: List<String>?,
         @RequestParam(name = "includesubordinate", required = false) includeSubordinate: Boolean = true,
     ): ResponseEntity<Any> {
-        LOGGER.debug("get organizations")
-        val jenaType = acceptHeaderToJenaType(accept)
-        val organizations = catalogService.getOrganizations(name, organizationId, orgPath, includeSubordinate)
+        if (organizationId?.any { !it.isOrganizationNumber() } ?: false) {
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        } else {
+            LOGGER.debug("get organizations")
+            val jenaType = acceptHeaderToJenaType(accept)
+            val organizations = catalogService.getOrganizations(name, organizationId, orgPath, includeSubordinate)
 
-        val urls =
-            ExternalUrls(
-                organizationCatalog = appProperties.organizationCatalogUrl,
-                municipality = appProperties.municipalityUrl,
-            )
+            val urls =
+                ExternalUrls(
+                    organizationCatalog = appProperties.organizationCatalogUrl,
+                    municipality = appProperties.municipalityUrl,
+                )
 
-        return when (jenaType) {
-            JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
-            JenaType.NOT_JENA -> ResponseEntity(organizations, HttpStatus.OK)
-            else -> ResponseEntity(organizations.jenaResponse(jenaType, urls), HttpStatus.OK)
+            return when (jenaType) {
+                JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+                JenaType.NOT_JENA -> ResponseEntity(organizations, HttpStatus.OK)
+                else -> ResponseEntity(organizations.jenaResponse(jenaType, urls), HttpStatus.OK)
+            }
         }
     }
 
@@ -167,14 +178,16 @@ open class OrganizationsController(
         @AuthenticationPrincipal jwt: Jwt,
         @PathVariable id: String,
     ): ResponseEntity<Organization> =
-        if (endpointPermissions.hasAdminPermission(jwt)) {
-            LOGGER.debug("update organization with id $id with data from Enhetsregisteret")
-            catalogService
-                .updateEntryFromEnhetsregisteret(id)
-                ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
-                ?: ResponseEntity(HttpStatus.NOT_FOUND)
-        } else {
-            ResponseEntity(HttpStatus.FORBIDDEN)
+        when {
+            !id.isOrganizationNumber() -> ResponseEntity(HttpStatus.BAD_REQUEST)
+            !endpointPermissions.hasAdminPermission(jwt) -> ResponseEntity(HttpStatus.FORBIDDEN)
+            else -> {
+                LOGGER.debug("update organization with id $id with data from Enhetsregisteret")
+                catalogService
+                    .updateEntryFromEnhetsregisteret(id)
+                    ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
+                    ?: ResponseEntity(HttpStatus.NOT_FOUND)
+            }
         }
 
     @GetMapping("/orgpath/{org}", produces = [MediaType.TEXT_PLAIN_VALUE])
