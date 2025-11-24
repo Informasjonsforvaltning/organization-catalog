@@ -44,11 +44,11 @@ spec:
                 secretKeyRef:
                   name: mongodb
                   key: MONGODB_AUTH
-            - name: KEYCLOAK_OIDC_ISSUER
+            - name: SSO_HOST
               valueFrom:
                 secretKeyRef:
-                  name: keycloak
-                  key: KEYCLOAK_OIDC_ISSUER
+                  name: commonurl
+                  key: SSO_BASE_URI
             - name: ENHETSREGISTERET_PROXY_BASE_URL
               valueFrom:
                 secretKeyRef:
