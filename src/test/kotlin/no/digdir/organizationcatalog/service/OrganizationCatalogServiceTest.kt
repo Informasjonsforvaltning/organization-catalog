@@ -1,8 +1,10 @@
 package no.digdir.organizationcatalog.service
 
 import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
+import no.digdir.organizationcatalog.adapter.TransportDataAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
+import no.digdir.organizationcatalog.repository.TransportModelRepository
 import no.digdir.organizationcatalog.utils.ENHETSREGISTERET_URL
 import no.digdir.organizationcatalog.utils.ORG_0
 import no.digdir.organizationcatalog.utils.ORG_DB0
@@ -20,9 +22,14 @@ import java.util.Optional
 @ActiveProfiles("test")
 class OrganizationCatalogServiceTest {
     private val repository: OrganizationCatalogRepository = mock()
+    private val transportModelRepository: TransportModelRepository = mock()
     private val adapter: EnhetsregisteretAdapter = mock()
+    private val transportDataAdapter: TransportDataAdapter = mock()
     private val valuesMock: AppProperties = mock()
-    private val catalogService: OrganizationCatalogService = OrganizationCatalogService(repository, adapter, valuesMock)
+    private val catalogService: OrganizationCatalogService = OrganizationCatalogService(
+        repository, transportModelRepository, adapter, transportDataAdapter,
+        valuesMock
+    )
 
     @Test
     fun getByIdNotFound() {

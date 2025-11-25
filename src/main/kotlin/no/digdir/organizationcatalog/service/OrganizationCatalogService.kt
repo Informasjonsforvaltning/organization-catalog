@@ -1,6 +1,7 @@
 package no.digdir.organizationcatalog.service
 
 import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
+import no.digdir.organizationcatalog.adapter.TransportDataAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.mapping.getOrgPathBase
 import no.digdir.organizationcatalog.mapping.mapForCreation
@@ -11,7 +12,9 @@ import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
 import no.digdir.organizationcatalog.model.EnhetsregisteretType
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.model.OrganizationDB
+import no.digdir.organizationcatalog.model.toDB
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
+import no.digdir.organizationcatalog.repository.TransportModelRepository
 import no.digdir.organizationcatalog.utils.isOrganizationNumber
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -24,7 +27,9 @@ private val LOGGER = LoggerFactory.getLogger(OrganizationCatalogService::class.j
 @Service
 class OrganizationCatalogService(
     private val repository: OrganizationCatalogRepository,
+    private val transportModelRepository: TransportModelRepository,
     private val enhetsregisteretAdapter: EnhetsregisteretAdapter,
+    private val transportDataAdapter: TransportDataAdapter,
     private val appProperties: AppProperties,
 ) {
     fun getByOrgnr(orgId: String): Organization? =
@@ -126,6 +131,18 @@ class OrganizationCatalogService(
 
         return copy(orgPath = "$orgPathBase/$organisasjonsnummer")
     }
+
+    //TODO delete after testing
+    fun getTransportDataList() = transportDataAdapter.downloadTransportDataList()
+
+    //TODO delete after testing
+    fun getTransportDataRaw() = transportDataAdapter.downloadTransportData()
+
+    @Scheduled(cron = "0 30 18 5 * ?")
+    fun updateTransportData(): Unit =
+        transportDataAdapter.downloadTransportDataList().toDB()
+            .let { transportModelRepository.saveAll(it) }
+
 
     @Scheduled(cron = "0 30 20 5 * ?")
     fun updateAllEntriesFromEnhetsregisteret() {

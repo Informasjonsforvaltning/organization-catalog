@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties("application")
 data class AppProperties(
+    val transDataUrl: String,
     val enhetsregisteretUrl: String,
     val enhetsregisteretHtmlUrl: String,
     val enhetsregisteretProxyUrl: String,

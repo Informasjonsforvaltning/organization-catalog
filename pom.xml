@@ -135,6 +135,10 @@
             <version>${kotlin.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
         </dependency>
@@ -242,6 +246,11 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <args>
+                        <arg>-Xannotation-default-target=param-property</arg>
+                    </args>
+                </configuration>
             </plugin>
 
         <plugin>
