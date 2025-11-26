@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-data class TransportModel(
+data class TransportOrganization(
     @JsonProperty("id")
     val id: String? = null,
 
@@ -39,15 +39,15 @@ data class ResourceFrame(
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Organisations(
     @JsonProperty("Authority")
-    val authorities: List<TransportModel>? = emptyList(),
+    val authorities: List<TransportOrganization>? = emptyList(),
 
     @JsonProperty("Operator")
-    val operators: List<TransportModel>? = emptyList()
+    val operators: List<TransportOrganization>? = emptyList()
 )
 
-fun TransportModel.toDB() = TransportModelDB(
+fun TransportOrganization.toDB() = TransportOrganizationDB(
     organizationId = this.companyNumber ?: "",
     prefLabel = this.tradingName?.let { PrefLabel(nb = it) }
 )
 
-fun Iterable<TransportModel>.toDB() = this.map { it.toDB() }
+fun Iterable<TransportOrganization>.toDB() = this.map { it.toDB() }

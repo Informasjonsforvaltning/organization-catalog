@@ -5,9 +5,10 @@ import no.digdir.organizationcatalog.model.OrgStatus
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.model.OrganizationDB
 import no.digdir.organizationcatalog.model.PrefLabel
+import no.digdir.organizationcatalog.model.TransportOrganizationDB
+import no.digdir.organizationcatalog.utils.prefLabelFromName
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
     Organization(
@@ -42,7 +43,7 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB =
         sectorCode = institusjonellSektorkode?.kode,
         homepage = hjemmeside,
         orgStatus = orgStatusFromDeleteDate(),
-        prefLabel = prefLabelFromName(),
+        prefLabel = navn.prefLabelFromName(),
         subordinate = underenhet,
     )
 
@@ -63,7 +64,7 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         subordinate = org.subordinate,
     )
 
-fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganization): OrganizationDB {
+fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganization, transportOrg: TransportOrganizationDB? = null): OrganizationDB {
     val prefLabelShouldBeUpdated =
         when {
             org.navn.isBlank() -> false
@@ -83,18 +84,10 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganiz
         sectorCode = org.institusjonellSektorkode?.kode,
         orgStatus = org.orgStatusFromDeleteDate(),
         homepage = org.hjemmeside,
-        prefLabel = if (prefLabelShouldBeUpdated) org.prefLabelFromName() else prefLabel,
+        prefLabel = if (prefLabelShouldBeUpdated) transportOrg?.prefLabel ?: org.navn.prefLabelFromName() else prefLabel,
         subordinate = org.underenhet,
     )
 }
-
-private fun EnhetsregisteretOrganization.prefLabelFromName(): PrefLabel =
-    PrefLabel(
-        nb =
-            navn
-                .lowercase(Locale.getDefault())
-                .replaceFirstChar { it.titlecase(Locale.getDefault()) },
-    )
 
 private fun PrefLabel?.isNullOrEmpty(): Boolean =
     when {

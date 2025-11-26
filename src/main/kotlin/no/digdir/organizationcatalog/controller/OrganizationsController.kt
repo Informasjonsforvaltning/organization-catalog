@@ -7,7 +7,7 @@ import no.digdir.organizationcatalog.jena.JenaType
 import no.digdir.organizationcatalog.jena.acceptHeaderToJenaType
 import no.digdir.organizationcatalog.jena.jenaResponse
 import no.digdir.organizationcatalog.model.Organization
-import no.digdir.organizationcatalog.model.TransportModel
+import no.digdir.organizationcatalog.model.TransportOrganization
 import no.digdir.organizationcatalog.security.EndpointPermissions
 import no.digdir.organizationcatalog.service.OrganizationCatalogService
 import no.digdir.organizationcatalog.utils.isOrganizationNumber
@@ -201,7 +201,7 @@ open class OrganizationsController(
 
     //TODO delete after testing
     @GetMapping("/trans-data-list", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getTransportDataList(): ResponseEntity<List<TransportModel>> =
+    fun getTransportDataList(): ResponseEntity<List<TransportOrganization>> =
         ResponseEntity(catalogService.getTransportDataList(), HttpStatus.OK)
 
     //TODO delete after testing

@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component
 import java.net.HttpURLConnection
 import java.net.URI
 
-private val logger = LoggerFactory.getLogger(TransportDataAdapter::class.java)
+private val logger = LoggerFactory.getLogger(TransportOrganizationAdapter::class.java)
 
 @Component
-class TransportDataAdapter(
+class TransportOrganizationAdapter(
     private val appProperties: AppProperties,
 ) {
 
-    fun downloadTransportDataList(): List<TransportModel> {
+    fun downloadTransportDataList(): List<TransportOrganization> {
         logger.info("Downloading trans data list")
 
         URI("${appProperties.transDataUrl}")

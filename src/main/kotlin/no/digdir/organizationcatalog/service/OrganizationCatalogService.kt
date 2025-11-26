@@ -1,7 +1,7 @@
 package no.digdir.organizationcatalog.service
 
 import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
-import no.digdir.organizationcatalog.adapter.TransportDataAdapter
+import no.digdir.organizationcatalog.adapter.TransportOrganizationAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.mapping.getOrgPathBase
 import no.digdir.organizationcatalog.mapping.mapForCreation
@@ -12,6 +12,7 @@ import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
 import no.digdir.organizationcatalog.model.EnhetsregisteretType
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.model.OrganizationDB
+import no.digdir.organizationcatalog.model.TransportOrganizationDB
 import no.digdir.organizationcatalog.model.toDB
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
 import no.digdir.organizationcatalog.repository.TransportModelRepository
@@ -29,7 +30,7 @@ class OrganizationCatalogService(
     private val repository: OrganizationCatalogRepository,
     private val transportModelRepository: TransportModelRepository,
     private val enhetsregisteretAdapter: EnhetsregisteretAdapter,
-    private val transportDataAdapter: TransportDataAdapter,
+    private val transportOrganizationAdapter: TransportOrganizationAdapter,
     private val appProperties: AppProperties,
 ) {
     fun getByOrgnr(orgId: String): Organization? =
@@ -96,11 +97,14 @@ class OrganizationCatalogService(
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
     }
 
-    private fun EnhetsregisteretOrganization.updateExistingOrMapForCreation(): OrganizationDB =
-        repository
+    private fun EnhetsregisteretOrganization.updateExistingOrMapForCreation(): OrganizationDB {
+        val transportOrganization: TransportOrganizationDB? =
+            transportModelRepository.findByIdOrNull(organisasjonsnummer)
+        return repository
             .findByIdOrNull(organisasjonsnummer)
-            ?.updateWithEnhetsregisteretValues(this)
+            ?.updateWithEnhetsregisteretValues(this, transportOrganization)
             ?: mapForCreation()
+    }
 
     fun updateEntry(
         orgId: String,
@@ -133,14 +137,14 @@ class OrganizationCatalogService(
     }
 
     //TODO delete after testing
-    fun getTransportDataList() = transportDataAdapter.downloadTransportDataList()
+    fun getTransportDataList() = transportOrganizationAdapter.downloadTransportDataList()
 
     //TODO delete after testing
-    fun getTransportDataRaw() = transportDataAdapter.downloadTransportData()
+    fun getTransportDataRaw() = transportOrganizationAdapter.downloadTransportData()
 
     @Scheduled(cron = "0 30 18 5 * ?")
     fun updateTransportData(): Unit =
-        transportDataAdapter.downloadTransportDataList().toDB()
+        transportOrganizationAdapter.downloadTransportDataList().toDB()
             .let { transportModelRepository.saveAll(it) }
 
 

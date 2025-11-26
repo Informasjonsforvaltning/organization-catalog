@@ -1,7 +1,7 @@
 package no.digdir.organizationcatalog.service
 
 import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
-import no.digdir.organizationcatalog.adapter.TransportDataAdapter
+import no.digdir.organizationcatalog.adapter.TransportOrganizationAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
 import no.digdir.organizationcatalog.repository.TransportModelRepository
@@ -24,10 +24,10 @@ class OrganizationCatalogServiceTest {
     private val repository: OrganizationCatalogRepository = mock()
     private val transportModelRepository: TransportModelRepository = mock()
     private val adapter: EnhetsregisteretAdapter = mock()
-    private val transportDataAdapter: TransportDataAdapter = mock()
+    private val transportOrganizationAdapter: TransportOrganizationAdapter = mock()
     private val valuesMock: AppProperties = mock()
     private val catalogService: OrganizationCatalogService = OrganizationCatalogService(
-        repository, transportModelRepository, adapter, transportDataAdapter,
+        repository, transportModelRepository, adapter, transportOrganizationAdapter,
         valuesMock
     )
 
