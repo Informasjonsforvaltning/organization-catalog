@@ -5,10 +5,13 @@ import no.digdir.organizationcatalog.model.OrgStatus
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.model.OrganizationDB
 import no.digdir.organizationcatalog.model.PrefLabel
+import no.digdir.organizationcatalog.model.TransportOrganization
 import no.digdir.organizationcatalog.model.TransportOrganizationDB
+import no.digdir.organizationcatalog.model.toDB
 import no.digdir.organizationcatalog.utils.prefLabelFromName
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.text.isNullOrEmpty
 
 fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
     Organization(
@@ -87,6 +90,26 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(org: EnhetsregisteretOrganiz
         prefLabel = if (prefLabelShouldBeUpdated) transportOrg?.prefLabel ?: org.navn.prefLabelFromName() else prefLabel,
         subordinate = org.underenhet,
     )
+}
+
+fun TransportOrganization.updateOrCreateTransportData(
+    existingData: TransportOrganizationDB,
+): TransportOrganizationDB {
+    val shouldUpdatePrefLabel: Boolean =
+        when {
+            tradingName.isNullOrEmpty() -> false
+            existingData.prefLabel == null -> true
+            existingData.prefLabel.nb.isNullOrEmpty() -> true
+            existingData.prefLabel.nb != tradingName -> true
+            else -> false
+        }
+
+    return this.toDB()
+        .apply {
+            copy(
+                prefLabel = if (shouldUpdatePrefLabel) this.prefLabel else existingData.prefLabel,
+            )
+        }
 }
 
 private fun PrefLabel?.isNullOrEmpty(): Boolean =

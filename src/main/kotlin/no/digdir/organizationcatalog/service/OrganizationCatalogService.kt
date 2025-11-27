@@ -8,14 +8,16 @@ import no.digdir.organizationcatalog.mapping.mapForCreation
 import no.digdir.organizationcatalog.mapping.mapToGenerated
 import no.digdir.organizationcatalog.mapping.updateValues
 import no.digdir.organizationcatalog.mapping.updateWithEnhetsregisteretValues
+import no.digdir.organizationcatalog.mapping.updateOrCreateTransportData
+
 import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
 import no.digdir.organizationcatalog.model.EnhetsregisteretType
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.model.OrganizationDB
+import no.digdir.organizationcatalog.model.TransportOrganization
 import no.digdir.organizationcatalog.model.TransportOrganizationDB
-import no.digdir.organizationcatalog.model.toDB
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
-import no.digdir.organizationcatalog.repository.TransportModelRepository
+import no.digdir.organizationcatalog.repository.TransportDataRepository
 import no.digdir.organizationcatalog.utils.isOrganizationNumber
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -28,7 +30,7 @@ private val LOGGER = LoggerFactory.getLogger(OrganizationCatalogService::class.j
 @Service
 class OrganizationCatalogService(
     private val repository: OrganizationCatalogRepository,
-    private val transportModelRepository: TransportModelRepository,
+    private val transportDataRepository: TransportDataRepository,
     private val enhetsregisteretAdapter: EnhetsregisteretAdapter,
     private val transportOrganizationAdapter: TransportOrganizationAdapter,
     private val appProperties: AppProperties,
@@ -99,7 +101,7 @@ class OrganizationCatalogService(
 
     private fun EnhetsregisteretOrganization.updateExistingOrMapForCreation(): OrganizationDB {
         val transportOrganization: TransportOrganizationDB? =
-            transportModelRepository.findByIdOrNull(organisasjonsnummer)
+            transportDataRepository.findByIdOrNull(organisasjonsnummer)
         return repository
             .findByIdOrNull(organisasjonsnummer)
             ?.updateWithEnhetsregisteretValues(this, transportOrganization)
@@ -144,8 +146,18 @@ class OrganizationCatalogService(
 
     @Scheduled(cron = "0 30 18 5 * ?")
     fun updateTransportData(): Unit =
-        transportOrganizationAdapter.downloadTransportDataList().toDB()
-            .let { transportModelRepository.saveAll(it) }
+        transportOrganizationAdapter.downloadTransportDataList()
+            .forEach { updateTransportData(it) }
+
+    fun updateTransportData(transportOrganization: TransportOrganization): TransportOrganizationDB? =
+        transportOrganization.companyNumber?.let {
+            val transportOrganizationDB = transportDataRepository.findByIdOrNull(it)
+            transportOrganization.updateOrCreateTransportData(
+                transportOrganizationDB ?: TransportOrganizationDB(organizationId = it)
+            )
+        }?.run {
+                transportDataRepository.save(this)
+            }
 
 
     @Scheduled(cron = "0 30 20 5 * ?")
