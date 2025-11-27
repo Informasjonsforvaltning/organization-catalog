@@ -104,12 +104,9 @@ fun TransportOrganization.updateOrCreateTransportData(
             else -> false
         }
 
-    return this.toDB()
-        .apply {
-            copy(
-                prefLabel = if (shouldUpdatePrefLabel) this.prefLabel else existingData.prefLabel,
-            )
-        }
+    return this.toDB().copy(
+        prefLabel = if (shouldUpdatePrefLabel) tradingName?.prefLabelFromName() else existingData.prefLabel
+    )
 }
 
 private fun PrefLabel?.isNullOrEmpty(): Boolean =
