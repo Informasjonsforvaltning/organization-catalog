@@ -22,7 +22,7 @@ class TransportOrganizationAdapter(
     fun downloadTransportDataList(): List<TransportOrganization> {
         logger.info("Downloading trans data list")
 
-        URI("${appProperties.transDataUrl}")
+        URI("${appProperties.transportDataUrl}")
             .toURL()
             .openConnection()
             .run {
@@ -75,7 +75,7 @@ class TransportOrganizationAdapter(
     fun downloadTransportData(): String {
         logger.info("Downloading trans data list from Entur API")
 
-        URI("${appProperties.transDataUrl}")
+        URI("${appProperties.transportDataUrl}")
             .toURL()
             .openConnection()
             .run {

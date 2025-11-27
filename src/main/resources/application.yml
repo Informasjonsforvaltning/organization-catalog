@@ -20,7 +20,7 @@ spring:
     issuer-uri: ${KEYCLOAK_OIDC_ISSUER:https://auth.staging.fellesdatakatalog.digdir.no/realms/fdk}
 
 application:
-  transDataUrl: https://api.entur.io/agreements/v1/adapter/transmodel/export
+  transportDataUrl: https://api.entur.io/agreements/v1/adapter/transmodel/export
   enhetsregisteretUrl: ${ENHETSREGISTERET_URL:https://data.brreg.no/enhetsregisteret/api/enheter/}
   enhetsregisteretHtmlUrl: ${ENHETSREGISTERET_HTML_URL:https://data.brreg.no/enhetsregisteret/oppslag/enheter/}
   enhetsregisteretProxyUrl: ${ENHETSREGISTERET_PROXY_BASE_URL:http://fdk-nginx-enhetsregisteret-proxy:8080}/enhetsregisteret/api
@@ -43,7 +43,7 @@ spring:
     replica-set-name: null
 
 application:
-  transDataUrl: https://api.entur.io/agreements/v1/adapter/transmodel/export
+  transportDataUrl: https://api.entur.io/agreements/v1/adapter/transmodel/export
   enhetsregisteretUrl: https://data.brreg.no/enhetsregisteret/api/enheter/
   enhetsregisteretHtmlUrl: https://data.brreg.no/enhetsregisteret/oppslag/enheter/
   enhetsregisteretProxyUrl: http://localhost:8132/enhetsregisteret/api
@@ -69,7 +69,7 @@ spring:
     replica-set-name: null
 
 application:
-  transDataUrl: https://api.entur.io/agreements/v1/adapter/transmodel/export
+  transportDataUrl: https://api.entur.io/agreements/v1/adapter/transmodel/export
   enhetsregisteretUrl: http://localhost:5050/enhetsregisteret/api/enheter/
   enhetsregisteretHtmlUrl: http://localhost:5050/enhetsregisteret/oppslag/enheter/
   enhetsregisteretProxyUrl: http://localhost:5050/enhetsregisteret/api

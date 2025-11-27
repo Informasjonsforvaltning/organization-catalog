@@ -200,11 +200,11 @@ open class OrganizationsController(
     }
 
     // TODO delete after testing
-    @GetMapping("/trans-data-list", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping("/transport-data-list", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getTransportDataList(): ResponseEntity<List<TransportOrganization>> =
         ResponseEntity(catalogService.getTransportDataList(), HttpStatus.OK)
 
     // TODO delete after testing
-    @GetMapping("/trans-data", produces = [MediaType.APPLICATION_XML_VALUE])
+    @GetMapping("/transport-data", produces = [MediaType.APPLICATION_XML_VALUE])
     fun getTransportDataRaw(): ResponseEntity<String> = ResponseEntity(catalogService.getTransportDataRaw(), HttpStatus.OK)
 }
