@@ -13,7 +13,6 @@ import org.springframework.test.context.ActiveProfiles
 @Tag("unit")
 @ActiveProfiles("test")
 class UpdateFromTransportDataTest {
-
     val transportOrganization: TransportOrganization =
         TransportOrganization(
             id = "transp-123",
@@ -41,10 +40,10 @@ class UpdateFromTransportDataTest {
                 .updateOrCreateTransportData(initialTransportDataDB)
 
         assertNotNull(
-            updatedTransportDataDB.navn
+            updatedTransportDataDB.navn,
         )
         assertNotNull(
-            updatedTransportDataDB.navn
+            updatedTransportDataDB.navn,
         )
 
         updatedTransportDataDB =
@@ -65,7 +64,7 @@ class UpdateFromTransportDataTest {
         val updatedTransportDataDB = updatedTransportData.updateOrCreateTransportData(initialTransportDataDB)
 
         assertNotNull(
-            updatedTransportDataDB.navn
+            updatedTransportDataDB.navn,
         )
 
         assertEquals(updatedTransportDataDB.navn, updatedTransportData.tradingName)

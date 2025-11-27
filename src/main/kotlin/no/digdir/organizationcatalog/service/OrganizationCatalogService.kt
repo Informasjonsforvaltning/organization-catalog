@@ -137,12 +137,6 @@ class OrganizationCatalogService(
         return copy(orgPath = "$orgPathBase/$organisasjonsnummer")
     }
 
-    // TODO delete after testing
-    fun getTransportDataList() = transportOrganizationAdapter.downloadTransportDataList()
-
-    // TODO delete after testing
-    fun getTransportDataRaw() = transportOrganizationAdapter.downloadTransportData()
-
     @Scheduled(cron = "0 30 18 5 * ?")
     fun updateTransportData(): Unit =
         transportOrganizationAdapter

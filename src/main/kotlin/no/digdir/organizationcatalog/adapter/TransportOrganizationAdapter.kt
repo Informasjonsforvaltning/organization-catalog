@@ -1,6 +1,5 @@
 package no.digdir.organizationcatalog.adapter
 
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
@@ -71,29 +70,6 @@ class TransportOrganizationAdapter(
                     logger.error("Error parsing downloaded data data : ${ex.message}")
                     return emptyList()
                 }
-            }
-    }
-
-    fun downloadTransportData(): String {
-        logger.info("Downloading trans data list from Entur API")
-
-        URI(transportDataUrl)
-            .toURL()
-            .openConnection()
-            .run {
-                this as HttpURLConnection
-                this.setRequestProperty(organizationKey, organizationValue)
-
-                if (responseCode != HttpStatus.OK.value()) {
-                    logger.error("Download of transport data failed with code $responseCode")
-                    return "No data"
-                }
-
-                val xmlMapper = XmlMapper().registerKotlinModule()
-                val xml = inputStream.reader().readText()
-                val rootNode: JsonNode = xmlMapper.readTree(xml)
-
-                return rootNode.toString() ?: "No data"
             }
     }
 }

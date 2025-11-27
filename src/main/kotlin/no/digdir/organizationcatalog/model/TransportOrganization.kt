@@ -45,7 +45,7 @@ data class Organisations(
 fun TransportOrganization.toDB() =
     TransportOrganizationDB(
         organizationId = this.companyNumber ?: "",
-        navn = this.tradingName?: "",
+        navn = this.tradingName ?: "",
     )
 
 fun Iterable<TransportOrganization>.toDB() = this.map { it.toDB() }
