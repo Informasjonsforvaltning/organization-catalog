@@ -7,13 +7,11 @@ import org.springframework.data.mongodb.core.mapping.Document
 data class TransportOrganizationDB(
     @Id
     val organizationId: String,
-    val id: String? = null,
-    val prefLabel: PrefLabel? = null,
+    val navn: String? = null,
 )
 
 fun TransportOrganizationDB.toTransportOrganization() =
     TransportOrganization(
-        id = this.id,
         companyNumber = this.organizationId,
-        tradingName = this.prefLabel?.nb,
+        tradingName = this.navn,
     )

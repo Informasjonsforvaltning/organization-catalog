@@ -90,7 +90,7 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(
         sectorCode = org.institusjonellSektorkode?.kode,
         orgStatus = org.orgStatusFromDeleteDate(),
         homepage = org.hjemmeside,
-        prefLabel = if (prefLabelShouldBeUpdated) transportOrg?.prefLabel ?: org.navn.prefLabelFromName() else prefLabel,
+        prefLabel = if (prefLabelShouldBeUpdated) (transportOrg?.navn ?: org.navn).prefLabelFromName() else prefLabel,
         subordinate = org.underenhet,
     )
 }
@@ -99,14 +99,13 @@ fun TransportOrganization.updateOrCreateTransportData(existingData: TransportOrg
     val shouldUpdatePrefLabel: Boolean =
         when {
             tradingName.isNullOrEmpty() -> false
-            existingData.prefLabel == null -> true
-            existingData.prefLabel.nb.isNullOrEmpty() -> true
-            existingData.prefLabel.nb != tradingName -> true
+            existingData.navn.isNullOrEmpty() -> true
+            existingData.navn != tradingName -> true
             else -> false
         }
 
     return this.toDB().copy(
-        prefLabel = if (shouldUpdatePrefLabel) tradingName?.prefLabelFromName() else existingData.prefLabel,
+        navn = if (shouldUpdatePrefLabel) tradingName else existingData.navn,
     )
 }
 

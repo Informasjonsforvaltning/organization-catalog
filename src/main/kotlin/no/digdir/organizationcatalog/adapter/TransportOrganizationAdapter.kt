@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.model.PublicationDelivery
 import no.digdir.organizationcatalog.model.TransportOrganization
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import java.net.HttpURLConnection
@@ -17,17 +17,19 @@ private val logger = LoggerFactory.getLogger(TransportOrganizationAdapter::class
 
 @Component
 class TransportOrganizationAdapter(
-    private val appProperties: AppProperties,
+    @Value("\${application.transportDataUrl}") val transportDataUrl: String,
+    @Value("\${application.organizationKey}") val organizationKey: String,
+    @Value("\${application.organizationValue}") val organizationValue: String,
 ) {
     fun downloadTransportDataList(): List<TransportOrganization> {
         logger.info("Downloading trans data list")
 
-        URI("${appProperties.transportDataUrl}")
+        URI(transportDataUrl)
             .toURL()
             .openConnection()
             .run {
                 this as HttpURLConnection
-                this.setRequestProperty("Et-Client-Name", "Digdir")
+                this.setRequestProperty(organizationKey, organizationValue)
 
                 if (responseCode != HttpStatus.OK.value()) {
                     logger.error("Download of transport data failed with code $responseCode")
@@ -75,12 +77,12 @@ class TransportOrganizationAdapter(
     fun downloadTransportData(): String {
         logger.info("Downloading trans data list from Entur API")
 
-        URI("${appProperties.transportDataUrl}")
+        URI(transportDataUrl)
             .toURL()
             .openConnection()
             .run {
                 this as HttpURLConnection
-                this.setRequestProperty("Et-Client-Name", "Digdir")
+                this.setRequestProperty(organizationKey, organizationValue)
 
                 if (responseCode != HttpStatus.OK.value()) {
                     logger.error("Download of transport data failed with code $responseCode")
