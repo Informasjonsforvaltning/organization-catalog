@@ -26,10 +26,14 @@ class OrganizationCatalogServiceTest {
     private val adapter: EnhetsregisteretAdapter = mock()
     private val transportOrganizationAdapter: TransportOrganizationAdapter = mock()
     private val valuesMock: AppProperties = mock()
-    private val catalogService: OrganizationCatalogService = OrganizationCatalogService(
-        repository, transportDataRepository, adapter, transportOrganizationAdapter,
-        valuesMock
-    )
+    private val catalogService: OrganizationCatalogService =
+        OrganizationCatalogService(
+            repository,
+            transportDataRepository,
+            adapter,
+            transportOrganizationAdapter,
+            valuesMock,
+        )
 
     @Test
     fun getByIdNotFound() {

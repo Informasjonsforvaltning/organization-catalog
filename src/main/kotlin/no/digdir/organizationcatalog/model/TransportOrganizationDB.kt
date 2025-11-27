@@ -11,8 +11,9 @@ data class TransportOrganizationDB(
     val prefLabel: PrefLabel? = null,
 )
 
-fun TransportOrganizationDB.toTransportOrganization() = TransportOrganization(
-    id = this.id,
-    companyNumber = this.organizationId,
-    tradingName = this.prefLabel?.nb,
-)
+fun TransportOrganizationDB.toTransportOrganization() =
+    TransportOrganization(
+        id = this.id,
+        companyNumber = this.organizationId,
+        tradingName = this.prefLabel?.nb,
+    )

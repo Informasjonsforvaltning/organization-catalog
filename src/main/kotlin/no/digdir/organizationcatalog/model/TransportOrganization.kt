@@ -10,46 +10,44 @@ import no.digdir.organizationcatalog.utils.prefLabelFromName
 data class TransportOrganization(
     @JsonProperty("id")
     val id: String? = null,
-
     @JsonProperty("CompanyNumber")
     val companyNumber: String? = null,
-
     @JsonProperty("TradingName")
-    val tradingName: String? = null
+    val tradingName: String? = null,
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 data class PublicationDelivery(
     @JsonProperty("dataObjects")
-    val dataObjects: DataObjects? = null
+    val dataObjects: DataObjects? = null,
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class DataObjects(
     @JsonProperty("ResourceFrame")
-    val resourceFrame: ResourceFrame? = null
+    val resourceFrame: ResourceFrame? = null,
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ResourceFrame(
     @JsonProperty("organisations")
-    val organisations: Organisations? = null
+    val organisations: Organisations? = null,
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Organisations(
     @JsonProperty("Authority")
     val authorities: List<TransportOrganization>? = emptyList(),
-
     @JsonProperty("Operator")
-    val operators: List<TransportOrganization>? = emptyList()
+    val operators: List<TransportOrganization>? = emptyList(),
 )
 
-fun TransportOrganization.toDB() = TransportOrganizationDB(
-    id = this.id,
-    organizationId = this.companyNumber ?: "",
-    prefLabel = this.tradingName?.prefLabelFromName()
-)
+fun TransportOrganization.toDB() =
+    TransportOrganizationDB(
+        id = this.id,
+        organizationId = this.companyNumber ?: "",
+        prefLabel = this.tradingName?.prefLabelFromName(),
+    )
 
 fun Iterable<TransportOrganization>.toDB() = this.map { it.toDB() }

@@ -5,6 +5,4 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TransportDataRepository : MongoRepository<TransportOrganizationDB, String> {
-
-}
+interface TransportDataRepository : MongoRepository<TransportOrganizationDB, String>

@@ -6,10 +6,9 @@ import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.mapping.getOrgPathBase
 import no.digdir.organizationcatalog.mapping.mapForCreation
 import no.digdir.organizationcatalog.mapping.mapToGenerated
+import no.digdir.organizationcatalog.mapping.updateOrCreateTransportData
 import no.digdir.organizationcatalog.mapping.updateValues
 import no.digdir.organizationcatalog.mapping.updateWithEnhetsregisteretValues
-import no.digdir.organizationcatalog.mapping.updateOrCreateTransportData
-
 import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
 import no.digdir.organizationcatalog.model.EnhetsregisteretType
 import no.digdir.organizationcatalog.model.Organization
@@ -138,27 +137,28 @@ class OrganizationCatalogService(
         return copy(orgPath = "$orgPathBase/$organisasjonsnummer")
     }
 
-    //TODO delete after testing
+    // TODO delete after testing
     fun getTransportDataList() = transportOrganizationAdapter.downloadTransportDataList()
 
-    //TODO delete after testing
+    // TODO delete after testing
     fun getTransportDataRaw() = transportOrganizationAdapter.downloadTransportData()
 
     @Scheduled(cron = "0 30 18 5 * ?")
     fun updateTransportData(): Unit =
-        transportOrganizationAdapter.downloadTransportDataList()
+        transportOrganizationAdapter
+            .downloadTransportDataList()
             .forEach { updateTransportData(it) }
 
     fun updateTransportData(transportOrganization: TransportOrganization): TransportOrganizationDB? =
-        transportOrganization.companyNumber?.let {
-            val transportOrganizationDB = transportDataRepository.findByIdOrNull(it)
-            transportOrganization.updateOrCreateTransportData(
-                transportOrganizationDB ?: TransportOrganizationDB(organizationId = it)
-            )
-        }?.run {
+        transportOrganization.companyNumber
+            ?.let {
+                val transportOrganizationDB = transportDataRepository.findByIdOrNull(it)
+                transportOrganization.updateOrCreateTransportData(
+                    transportOrganizationDB ?: TransportOrganizationDB(organizationId = it),
+                )
+            }?.run {
                 transportDataRepository.save(this)
             }
-
 
     @Scheduled(cron = "0 30 20 5 * ?")
     fun updateAllEntriesFromEnhetsregisteret() {
