@@ -16,9 +16,9 @@ private val logger = LoggerFactory.getLogger(TransportOrganizationAdapter::class
 
 @Component
 class TransportOrganizationAdapter(
-    @Value("\${application.ENTUR_TRANSMODEL_URL}") val enturDataUrl: String,
-    @Value("\${application.ENTUR_HEADER_KEY}") val enturHeaderKey: String,
-    @Value("\${application.ENTUR_HEADER_VALUE}") val enturHeaderValue: String,
+    @Value("\${application.enturDataUrl}") val enturDataUrl: String,
+    @Value("\${application.enturHeaderKey}") val enturHeaderKey: String,
+    @Value("\${application.enturHeaderValue}") val enturHeaderValue: String,
 ) {
     fun downloadTransportDataList(): List<TransportOrganization> {
         logger.info("Downloading trans data list")

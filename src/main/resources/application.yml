@@ -70,9 +70,9 @@ spring:
     replica-set-name: null
 
 application:
-  transportDataUrl: http://localhost:5050/agreements/v1/adapter/transmodel/export
-  organizationKey: Header-Key
-  organizationValue: test
+  enturDataUrl: http://localhost:5050/agreements/v1/adapter/transmodel/export
+  enturHeaderKey: Header-Key
+  enturHeaderValue: test
   enhetsregisteretUrl: http://localhost:5050/enhetsregisteret/api/enheter/
   enhetsregisteretHtmlUrl: http://localhost:5050/enhetsregisteret/oppslag/enheter/
   enhetsregisteretProxyUrl: http://localhost:5050/enhetsregisteret/api
