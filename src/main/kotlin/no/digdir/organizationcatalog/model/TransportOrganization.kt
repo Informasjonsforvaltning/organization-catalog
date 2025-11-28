@@ -43,9 +43,12 @@ data class Organisations(
 )
 
 fun TransportOrganization.toDB() =
-    TransportOrganizationDB(
+    OrganizationPrefLabel(
         organizationId = this.companyNumber ?: "",
-        navn = this.tradingName ?: "",
+        prefLabel =
+            PrefLabel(
+                nb = (this.tradingName ?: "").trim(),
+            ),
     )
 
 fun Iterable<TransportOrganization>.toDB() = this.map { it.toDB() }

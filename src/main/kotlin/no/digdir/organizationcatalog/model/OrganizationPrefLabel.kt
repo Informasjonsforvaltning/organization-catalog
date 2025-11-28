@@ -3,15 +3,15 @@ package no.digdir.organizationcatalog.model
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
-@Document(collection = "transport_data")
-data class TransportOrganizationDB(
+@Document(collection = "orgPrefLabel")
+data class OrganizationPrefLabel(
     @Id
     val organizationId: String,
-    val navn: String? = null,
+    val prefLabel: PrefLabel,
 )
 
-fun TransportOrganizationDB.toTransportOrganization() =
+fun OrganizationPrefLabel.toTransportOrganization() =
     TransportOrganization(
         companyNumber = this.organizationId,
-        tradingName = this.navn,
+        tradingName = this.prefLabel.nb,
     )

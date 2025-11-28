@@ -13,10 +13,11 @@ import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
 import no.digdir.organizationcatalog.model.EnhetsregisteretType
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.model.OrganizationDB
+import no.digdir.organizationcatalog.model.OrganizationPrefLabel
+import no.digdir.organizationcatalog.model.PrefLabel
 import no.digdir.organizationcatalog.model.TransportOrganization
-import no.digdir.organizationcatalog.model.TransportOrganizationDB
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
-import no.digdir.organizationcatalog.repository.TransportDataRepository
+import no.digdir.organizationcatalog.repository.OrganizationPrefLabelRepository
 import no.digdir.organizationcatalog.utils.isOrganizationNumber
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -29,7 +30,7 @@ private val LOGGER = LoggerFactory.getLogger(OrganizationCatalogService::class.j
 @Service
 class OrganizationCatalogService(
     private val repository: OrganizationCatalogRepository,
-    private val transportDataRepository: TransportDataRepository,
+    private val organizationPrefLabelRepository: OrganizationPrefLabelRepository,
     private val enhetsregisteretAdapter: EnhetsregisteretAdapter,
     private val transportOrganizationAdapter: TransportOrganizationAdapter,
     private val appProperties: AppProperties,
@@ -99,8 +100,8 @@ class OrganizationCatalogService(
     }
 
     private fun EnhetsregisteretOrganization.updateExistingOrMapForCreation(): OrganizationDB {
-        val transportOrganization: TransportOrganizationDB? =
-            transportDataRepository.findByIdOrNull(organisasjonsnummer)
+        val transportOrganization: OrganizationPrefLabel? =
+            organizationPrefLabelRepository.findByIdOrNull(organisasjonsnummer)
         return repository
             .findByIdOrNull(organisasjonsnummer)
             ?.updateWithEnhetsregisteretValues(this, transportOrganization)
@@ -143,15 +144,15 @@ class OrganizationCatalogService(
             .downloadTransportDataList()
             .forEach { updateTransportData(it) }
 
-    fun updateTransportData(transportOrganization: TransportOrganization): TransportOrganizationDB? =
+    fun updateTransportData(transportOrganization: TransportOrganization): OrganizationPrefLabel? =
         transportOrganization.companyNumber
             ?.let {
-                val transportOrganizationDB = transportDataRepository.findByIdOrNull(it)
+                val transportOrganizationDB = organizationPrefLabelRepository.findByIdOrNull(it)
                 transportOrganization.updateOrCreateTransportData(
-                    transportOrganizationDB ?: TransportOrganizationDB(organizationId = it),
+                    transportOrganizationDB ?: OrganizationPrefLabel(organizationId = it, prefLabel = PrefLabel()),
                 )
             }?.run {
-                transportDataRepository.save(this)
+                organizationPrefLabelRepository.save(this)
             }
 
     @Scheduled(cron = "0 30 20 5 * ?")

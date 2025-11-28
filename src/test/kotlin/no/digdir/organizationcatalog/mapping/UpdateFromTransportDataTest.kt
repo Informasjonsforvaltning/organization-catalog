@@ -1,7 +1,8 @@
 package no.digdir.organizationcatalog.mapping
 
+import no.digdir.organizationcatalog.model.OrganizationPrefLabel
+import no.digdir.organizationcatalog.model.PrefLabel
 import no.digdir.organizationcatalog.model.TransportOrganization
-import no.digdir.organizationcatalog.model.TransportOrganizationDB
 import no.digdir.organizationcatalog.model.toDB
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -22,11 +23,15 @@ class UpdateFromTransportDataTest {
 
     @Test
     fun `Should create if there is no transport data in DB`() {
-        val intitialTransportDataDB = TransportOrganizationDB(organizationId = transportOrganization.companyNumber!!)
-        val updatedTransportDataDB = transportOrganization.updateOrCreateTransportData(intitialTransportDataDB)
+        val initialTransportDataDB =
+            OrganizationPrefLabel(
+                organizationId = transportOrganization.companyNumber!!,
+                prefLabel = PrefLabel(),
+            )
+        val updatedTransportDataDB = transportOrganization.updateOrCreateTransportData(initialTransportDataDB)
 
         assertEquals(
-            updatedTransportDataDB.navn,
+            updatedTransportDataDB.prefLabel.nb,
             transportOrganization.tradingName,
         )
     }
@@ -40,19 +45,16 @@ class UpdateFromTransportDataTest {
                 .updateOrCreateTransportData(initialTransportDataDB)
 
         assertNotNull(
-            updatedTransportDataDB.navn,
-        )
-        assertNotNull(
-            updatedTransportDataDB.navn,
+            updatedTransportDataDB.prefLabel.nb,
         )
 
         updatedTransportDataDB =
             transportOrganization
-                .copy(tradingName = " ")
+                .copy(tradingName = "")
                 .updateOrCreateTransportData(initialTransportDataDB)
 
         assertFalse(
-            updatedTransportDataDB.navn.isNullOrEmpty(),
+            updatedTransportDataDB.prefLabel.nb.isNullOrEmpty(),
         )
     }
 
@@ -64,23 +66,23 @@ class UpdateFromTransportDataTest {
         val updatedTransportDataDB = updatedTransportData.updateOrCreateTransportData(initialTransportDataDB)
 
         assertNotNull(
-            updatedTransportDataDB.navn,
+            updatedTransportDataDB.prefLabel.nb,
         )
 
-        assertEquals(updatedTransportDataDB.navn, updatedTransportData.tradingName)
+        assertEquals(updatedTransportDataDB.prefLabel.nb, updatedTransportData.tradingName)
     }
 
     @Test
     fun `Should update if data has new has empty or null prefLabel`() {
-        val initialTransportDataDB = transportOrganization.toDB().copy(navn = null)
+        val initialTransportDataDB = transportOrganization.toDB().copy(prefLabel = PrefLabel())
         var updatedTransportData = transportOrganization.copy(tradingName = "New name")
 
         val updatedTransportDataDB = updatedTransportData.updateOrCreateTransportData(initialTransportDataDB)
 
         assertNotNull(
-            updatedTransportDataDB.navn,
+            updatedTransportDataDB.prefLabel.nb,
         )
 
-        assertEquals(updatedTransportDataDB.navn, updatedTransportData.tradingName)
+        assertEquals(updatedTransportDataDB.prefLabel.nb, updatedTransportData.tradingName)
     }
 }

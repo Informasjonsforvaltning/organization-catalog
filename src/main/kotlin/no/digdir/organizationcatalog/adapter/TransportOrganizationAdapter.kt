@@ -16,19 +16,19 @@ private val logger = LoggerFactory.getLogger(TransportOrganizationAdapter::class
 
 @Component
 class TransportOrganizationAdapter(
-    @Value("\${application.transportDataUrl}") val transportDataUrl: String,
-    @Value("\${application.organizationKey}") val organizationKey: String,
-    @Value("\${application.organizationValue}") val organizationValue: String,
+    @Value("\${application.ENTUR_TRANSMODEL_URL}") val enturDataUrl: String,
+    @Value("\${application.ENTUR_HEADER_KEY}") val enturHeaderKey: String,
+    @Value("\${application.ENTUR_HEADER_VALUE}") val enturHeaderValue: String,
 ) {
     fun downloadTransportDataList(): List<TransportOrganization> {
         logger.info("Downloading trans data list")
 
-        URI(transportDataUrl)
+        URI(enturDataUrl)
             .toURL()
             .openConnection()
             .run {
                 this as HttpURLConnection
-                this.setRequestProperty(organizationKey, organizationValue)
+                this.setRequestProperty(enturHeaderKey, enturHeaderValue)
 
                 if (responseCode != HttpStatus.OK.value()) {
                     logger.error("Download of transport data failed with code $responseCode")

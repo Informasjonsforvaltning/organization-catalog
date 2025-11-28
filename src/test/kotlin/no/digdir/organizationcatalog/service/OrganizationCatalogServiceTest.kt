@@ -4,7 +4,7 @@ import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
 import no.digdir.organizationcatalog.adapter.TransportOrganizationAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
-import no.digdir.organizationcatalog.repository.TransportDataRepository
+import no.digdir.organizationcatalog.repository.OrganizationPrefLabelRepository
 import no.digdir.organizationcatalog.utils.ENHETSREGISTERET_URL
 import no.digdir.organizationcatalog.utils.ORG_0
 import no.digdir.organizationcatalog.utils.ORG_DB0
@@ -22,14 +22,14 @@ import java.util.Optional
 @ActiveProfiles("test")
 class OrganizationCatalogServiceTest {
     private val repository: OrganizationCatalogRepository = mock()
-    private val transportDataRepository: TransportDataRepository = mock()
+    private val organizationPrefLabelRepository: OrganizationPrefLabelRepository = mock()
     private val adapter: EnhetsregisteretAdapter = mock()
     private val transportOrganizationAdapter: TransportOrganizationAdapter = mock()
     private val valuesMock: AppProperties = mock()
     private val catalogService: OrganizationCatalogService =
         OrganizationCatalogService(
             repository,
-            transportDataRepository,
+            organizationPrefLabelRepository,
             adapter,
             transportOrganizationAdapter,
             valuesMock,

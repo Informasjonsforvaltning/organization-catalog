@@ -4,14 +4,13 @@ import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
 import no.digdir.organizationcatalog.model.OrgStatus
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.model.OrganizationDB
+import no.digdir.organizationcatalog.model.OrganizationPrefLabel
 import no.digdir.organizationcatalog.model.PrefLabel
 import no.digdir.organizationcatalog.model.TransportOrganization
-import no.digdir.organizationcatalog.model.TransportOrganizationDB
 import no.digdir.organizationcatalog.model.toDB
 import no.digdir.organizationcatalog.utils.prefLabelFromName
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import kotlin.text.isNullOrEmpty
 
 fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
     Organization(
@@ -69,7 +68,7 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
 
 fun OrganizationDB.updateWithEnhetsregisteretValues(
     org: EnhetsregisteretOrganization,
-    transportOrg: TransportOrganizationDB? = null,
+    transportOrg: OrganizationPrefLabel? = null,
 ): OrganizationDB {
     val prefLabelShouldBeUpdated =
         when {
@@ -81,8 +80,9 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(
 
     val updatedPrefLabel =
         when {
-            prefLabelShouldBeUpdated -> (transportOrg?.navn ?: org.navn).prefLabelFromName()
-            else -> prefLabel
+            !prefLabelShouldBeUpdated -> prefLabel
+            !transportOrg?.prefLabel.isNullOrEmpty() -> transportOrg?.prefLabel
+            else -> org.navn.prefLabelFromName()
         }
 
     return copy(
@@ -101,24 +101,22 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(
     )
 }
 
-fun TransportOrganization.updateOrCreateTransportData(existingData: TransportOrganizationDB): TransportOrganizationDB {
-    val shouldUpdateNavn: Boolean =
+fun TransportOrganization.updateOrCreateTransportData(existingData: OrganizationPrefLabel): OrganizationPrefLabel {
+    val shouldUpdatePrefLabel: Boolean =
         when {
             tradingName.isNullOrEmpty() -> false
-            existingData.navn.isNullOrEmpty() -> true
-            existingData.navn != tradingName -> true
+            existingData.prefLabel.nb.isNullOrEmpty() -> true
+            existingData.prefLabel.nb != tradingName -> true
             else -> false
         }
 
     val updatedNavn =
         when {
-            shouldUpdateNavn -> tradingName
-            else -> existingData.navn
+            shouldUpdatePrefLabel -> tradingName
+            else -> existingData.prefLabel.nb
         }
 
-    return this.toDB().copy(
-        navn = updatedNavn,
-    )
+    return this.copy(tradingName = updatedNavn).toDB()
 }
 
 private fun PrefLabel?.isNullOrEmpty(): Boolean =
