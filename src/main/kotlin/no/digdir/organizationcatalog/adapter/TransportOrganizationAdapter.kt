@@ -45,22 +45,13 @@ class TransportOrganizationAdapter(
                             val jsonMapper = jacksonObjectMapper()
 
                             val organisations =
-                                jsonMapper.treeToValue(rootJsonNode, PublicationDelivery::class.java)?.let {
-                                    (
-                                        it.dataObjects
-                                            ?.resourceFrame
-                                            ?.organisations
-                                            ?.authorities ?: emptyList()
-                                    ) +
-                                        (
-                                            it.dataObjects
-                                                ?.resourceFrame
-                                                ?.organisations
-                                                ?.operators ?: emptyList()
-                                        )
-                                }
+                                jsonMapper.treeToValue(rootJsonNode, PublicationDelivery::class.java)
+                                    ?.dataObjects
+                                    ?.resourceFrame
+                                    ?.organisations
 
-                            organisations ?: emptyList()
+                            (organisations?.authorities ?: emptyList()) +
+                                (organisations?.operators ?: emptyList())
                         }
 
                     transList.forEach { logger.info(it.toString()) }
