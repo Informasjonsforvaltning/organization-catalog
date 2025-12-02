@@ -5,8 +5,8 @@ import no.digdir.organizationcatalog.model.PrefLabel
 import no.digdir.organizationcatalog.model.TransportOrganization
 import no.digdir.organizationcatalog.model.toDB
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.springframework.test.context.ActiveProfiles
@@ -28,10 +28,10 @@ class UpdateFromTransportDataTest {
                 organizationId = transportOrganization.companyNumber!!,
                 prefLabel = PrefLabel(),
             )
-        val updatedTransportDataDB = transportOrganization.updateOrCreateTransportData(initialTransportDataDB)
+        val updatedTransportDataDB = transportOrganization.prefLabelToUpdate(initialTransportDataDB)
 
         assertEquals(
-            updatedTransportDataDB.prefLabel.nb,
+            updatedTransportDataDB?.prefLabel?.nb,
             transportOrganization.tradingName,
         )
     }
@@ -42,20 +42,9 @@ class UpdateFromTransportDataTest {
         var updatedTransportDataDB =
             transportOrganization
                 .copy(tradingName = null)
-                .updateOrCreateTransportData(initialTransportDataDB)
+                .prefLabelToUpdate(initialTransportDataDB)
 
-        assertNotNull(
-            updatedTransportDataDB.prefLabel.nb,
-        )
-
-        updatedTransportDataDB =
-            transportOrganization
-                .copy(tradingName = "")
-                .updateOrCreateTransportData(initialTransportDataDB)
-
-        assertFalse(
-            updatedTransportDataDB.prefLabel.nb.isNullOrEmpty(),
-        )
+        assertNull(updatedTransportDataDB)
     }
 
     @Test
@@ -63,13 +52,13 @@ class UpdateFromTransportDataTest {
         val initialTransportDataDB = transportOrganization.toDB()
         var updatedTransportData = transportOrganization.copy(tradingName = "New name")
 
-        val updatedTransportDataDB = updatedTransportData.updateOrCreateTransportData(initialTransportDataDB)
+        val updatedTransportDataDB = updatedTransportData.prefLabelToUpdate(initialTransportDataDB)
 
         assertNotNull(
-            updatedTransportDataDB.prefLabel.nb,
+            updatedTransportDataDB?.prefLabel?.nb,
         )
 
-        assertEquals(updatedTransportDataDB.prefLabel.nb, updatedTransportData.tradingName)
+        assertEquals(updatedTransportDataDB?.prefLabel?.nb, updatedTransportData.tradingName)
     }
 
     @Test
@@ -77,12 +66,12 @@ class UpdateFromTransportDataTest {
         val initialTransportDataDB = transportOrganization.toDB().copy(prefLabel = PrefLabel())
         var updatedTransportData = transportOrganization.copy(tradingName = "New name")
 
-        val updatedTransportDataDB = updatedTransportData.updateOrCreateTransportData(initialTransportDataDB)
+        val updatedTransportDataDB = updatedTransportData.prefLabelToUpdate(initialTransportDataDB)
 
         assertNotNull(
-            updatedTransportDataDB.prefLabel.nb,
+            updatedTransportDataDB?.prefLabel?.nb,
         )
 
-        assertEquals(updatedTransportDataDB.prefLabel.nb, updatedTransportData.tradingName)
+        assertEquals(updatedTransportDataDB?.prefLabel?.nb, updatedTransportData.tradingName)
     }
 }

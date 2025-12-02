@@ -101,23 +101,13 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(
     )
 }
 
-fun TransportOrganization.updateOrCreateTransportData(existingData: OrganizationPrefLabel): OrganizationPrefLabel {
-    val shouldUpdatePrefLabel: Boolean =
-        when {
-            tradingName.isNullOrEmpty() -> false
-            existingData.prefLabel.nb.isNullOrEmpty() -> true
-            existingData.prefLabel.nb != tradingName -> true
-            else -> false
-        }
-
-    val updatedNavn =
-        when {
-            shouldUpdatePrefLabel -> tradingName
-            else -> existingData.prefLabel.nb
-        }
-
-    return this.copy(tradingName = updatedNavn).toDB()
-}
+fun TransportOrganization.prefLabelToUpdate(existingData: OrganizationPrefLabel?): OrganizationPrefLabel? =
+    when {
+        tradingName.isNullOrEmpty() -> null
+        existingData?.prefLabel?.nb.isNullOrEmpty() -> toDB()
+        existingData?.prefLabel?.nb != tradingName -> toDB()
+        else -> null
+    }
 
 private fun PrefLabel?.isNullOrEmpty(): Boolean =
     when {

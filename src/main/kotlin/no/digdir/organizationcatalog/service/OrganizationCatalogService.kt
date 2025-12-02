@@ -6,7 +6,7 @@ import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.mapping.getOrgPathBase
 import no.digdir.organizationcatalog.mapping.mapForCreation
 import no.digdir.organizationcatalog.mapping.mapToGenerated
-import no.digdir.organizationcatalog.mapping.updateOrCreateTransportData
+import no.digdir.organizationcatalog.mapping.prefLabelToUpdate
 import no.digdir.organizationcatalog.mapping.updateValues
 import no.digdir.organizationcatalog.mapping.updateWithEnhetsregisteretValues
 import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
@@ -14,8 +14,6 @@ import no.digdir.organizationcatalog.model.EnhetsregisteretType
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.model.OrganizationDB
 import no.digdir.organizationcatalog.model.OrganizationPrefLabel
-import no.digdir.organizationcatalog.model.PrefLabel
-import no.digdir.organizationcatalog.model.TransportOrganization
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
 import no.digdir.organizationcatalog.repository.OrganizationPrefLabelRepository
 import no.digdir.organizationcatalog.utils.isOrganizationNumber
@@ -142,17 +140,13 @@ class OrganizationCatalogService(
     fun updateTransportData(): Unit =
         transportOrganizationAdapter
             .downloadTransportDataList()
-            .forEach { updateTransportData(it) }
-
-    fun updateTransportData(transportOrganization: TransportOrganization): OrganizationPrefLabel? =
-        transportOrganization.companyNumber
-            ?.let {
-                val transportOrganizationDB = organizationPrefLabelRepository.findByIdOrNull(it)
-                transportOrganization.updateOrCreateTransportData(
-                    transportOrganizationDB ?: OrganizationPrefLabel(organizationId = it, prefLabel = PrefLabel()),
+            .filter { it.companyNumber != null }
+            .mapNotNull {
+                it.prefLabelToUpdate(
+                    organizationPrefLabelRepository.findByIdOrNull(it.companyNumber!!),
                 )
-            }?.run {
-                organizationPrefLabelRepository.save(this)
+            }.run {
+                organizationPrefLabelRepository.saveAll(this)
             }
 
     @Scheduled(cron = "0 30 20 5 * ?")

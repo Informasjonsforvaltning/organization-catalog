@@ -9,9 +9,3 @@ data class OrganizationPrefLabel(
     val organizationId: String,
     val prefLabel: PrefLabel,
 )
-
-fun OrganizationPrefLabel.toTransportOrganization() =
-    TransportOrganization(
-        companyNumber = this.organizationId,
-        tradingName = this.prefLabel.nb,
-    )
