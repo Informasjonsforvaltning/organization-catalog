@@ -146,7 +146,7 @@ class OrganizationCatalogService(
                     organizationPrefLabelRepository.findByIdOrNull(it.companyNumber!!),
                 )
             }.run {
-                organizationPrefLabelRepository.saveAll(this)
+                if (this.isNotEmpty()) organizationPrefLabelRepository.saveAll(this)
             }
 
     @Scheduled(cron = "0 30 20 5 * ?")
