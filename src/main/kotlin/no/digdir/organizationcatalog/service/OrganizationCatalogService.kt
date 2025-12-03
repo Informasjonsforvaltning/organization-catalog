@@ -98,11 +98,11 @@ class OrganizationCatalogService(
     }
 
     private fun EnhetsregisteretOrganization.updateExistingOrMapForCreation(): OrganizationDB {
-        val transportOrganization: OrganizationPrefLabel? =
+        val organizationPrefLabel: OrganizationPrefLabel? =
             organizationPrefLabelRepository.findByIdOrNull(organisasjonsnummer)
         return repository
             .findByIdOrNull(organisasjonsnummer)
-            ?.updateWithEnhetsregisteretValues(this, transportOrganization)
+            ?.updateWithEnhetsregisteretValues(this, organizationPrefLabel)
             ?: mapForCreation()
     }
 

@@ -45,7 +45,7 @@ data class Organisations(
 fun TransportOrganization.toDB() =
     OrganizationPrefLabel(
         organizationId = this.companyNumber ?: "",
-        prefLabel =
+        value =
             PrefLabel(
                 nb = (this.tradingName ?: "").trim(),
             ),

@@ -26,12 +26,12 @@ class UpdateFromTransportDataTest {
         val initialTransportDataDB =
             OrganizationPrefLabel(
                 organizationId = transportOrganization.companyNumber!!,
-                prefLabel = PrefLabel(),
+                value = PrefLabel(),
             )
         val updatedTransportDataDB = transportOrganization.prefLabelToUpdate(initialTransportDataDB)
 
         assertEquals(
-            updatedTransportDataDB?.prefLabel?.nb,
+            updatedTransportDataDB?.value?.nb,
             transportOrganization.tradingName,
         )
     }
@@ -55,23 +55,23 @@ class UpdateFromTransportDataTest {
         val updatedTransportDataDB = updatedTransportData.prefLabelToUpdate(initialTransportDataDB)
 
         assertNotNull(
-            updatedTransportDataDB?.prefLabel?.nb,
+            updatedTransportDataDB?.value?.nb,
         )
 
-        assertEquals(updatedTransportDataDB?.prefLabel?.nb, updatedTransportData.tradingName)
+        assertEquals(updatedTransportDataDB?.value?.nb, updatedTransportData.tradingName)
     }
 
     @Test
     fun `Should update if data has new has empty or null prefLabel`() {
-        val initialTransportDataDB = transportOrganization.toDB().copy(prefLabel = PrefLabel())
+        val initialTransportDataDB = transportOrganization.toDB().copy(value = PrefLabel())
         var updatedTransportData = transportOrganization.copy(tradingName = "New name")
 
         val updatedTransportDataDB = updatedTransportData.prefLabelToUpdate(initialTransportDataDB)
 
         assertNotNull(
-            updatedTransportDataDB?.prefLabel?.nb,
+            updatedTransportDataDB?.value?.nb,
         )
 
-        assertEquals(updatedTransportDataDB?.prefLabel?.nb, updatedTransportData.tradingName)
+        assertEquals(updatedTransportDataDB?.value?.nb, updatedTransportData.tradingName)
     }
 }

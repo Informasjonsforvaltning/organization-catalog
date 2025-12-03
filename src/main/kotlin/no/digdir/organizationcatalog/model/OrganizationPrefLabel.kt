@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.core.mapping.Document
 data class OrganizationPrefLabel(
     @Id
     val organizationId: String,
-    val prefLabel: PrefLabel,
+    val value: PrefLabel,
 )

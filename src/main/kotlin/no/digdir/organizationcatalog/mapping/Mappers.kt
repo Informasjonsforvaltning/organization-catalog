@@ -68,7 +68,7 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
 
 fun OrganizationDB.updateWithEnhetsregisteretValues(
     org: EnhetsregisteretOrganization,
-    transportOrg: OrganizationPrefLabel? = null,
+    organizationPrefLabel: OrganizationPrefLabel? = null,
 ): OrganizationDB {
     val prefLabelShouldBeUpdated =
         when {
@@ -81,7 +81,7 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(
     val updatedPrefLabel =
         when {
             !prefLabelShouldBeUpdated -> prefLabel
-            !transportOrg?.prefLabel.isNullOrEmpty() -> transportOrg?.prefLabel
+            !organizationPrefLabel?.value.isNullOrEmpty() -> organizationPrefLabel?.value
             else -> org.navn.prefLabelFromName()
         }
 
@@ -104,8 +104,8 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(
 fun TransportOrganization.prefLabelToUpdate(existingData: OrganizationPrefLabel?): OrganizationPrefLabel? =
     when {
         tradingName.isNullOrEmpty() -> null
-        existingData?.prefLabel?.nb.isNullOrEmpty() -> toDB()
-        existingData?.prefLabel?.nb != tradingName -> toDB()
+        existingData?.value?.nb.isNullOrEmpty() -> toDB()
+        existingData?.value?.nb != tradingName -> toDB()
         else -> null
     }
 
