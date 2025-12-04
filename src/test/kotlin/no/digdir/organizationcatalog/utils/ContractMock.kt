@@ -6,6 +6,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.get
 import com.github.tomakehurst.wiremock.client.WireMock.notFound
 import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.okJson
+import com.github.tomakehurst.wiremock.client.WireMock.okXml
 import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 import no.digdir.organizationcatalog.utils.jwk.JwkStore
 import java.io.File
@@ -60,6 +61,11 @@ fun startMockServer() {
         mockserver.stubFor(
             get(urlEqualTo("/enhetsregisteret/api/enheter?organisasjonsform=KOMM&size=10000"))
                 .willReturn(ok(File("src/test/resources/responses/download_komm.json").readText())),
+        )
+
+        mockserver.stubFor(
+            get(urlEqualTo("/agreements/v1/adapter/transmodel/export"))
+                .willReturn(okXml(File("src/test/resources/responses/entur_data.xml").readText())),
         )
 
         mockserver.start()

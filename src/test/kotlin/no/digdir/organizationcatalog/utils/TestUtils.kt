@@ -18,10 +18,12 @@ fun apiGet(
     endpoint: String,
     port: Int,
     acceptHeader: String?,
+    otherHeaders: List<Pair<String, String>> = emptyList(),
 ): Map<String, Any> =
     try {
         val connection = URI(getApiAddress(port, endpoint)).toURL().openConnection() as HttpURLConnection
-        connection.setRequestProperty("Accept", acceptHeader)
+        acceptHeader?.let { connection.addRequestProperty("Accept", it) }
+        otherHeaders.forEach { connection.addRequestProperty(it.first, it.second) }
         connection.connect()
 
         if (isOK(connection.responseCode)) {
