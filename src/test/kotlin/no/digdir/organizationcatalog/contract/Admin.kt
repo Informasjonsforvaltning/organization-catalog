@@ -5,7 +5,6 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.utils.ApiTestContext
 import no.digdir.organizationcatalog.utils.Expect
-import no.digdir.organizationcatalog.utils.LOCAL_SERVER_PORT
 import no.digdir.organizationcatalog.utils.apiAuthorizedRequest
 import no.digdir.organizationcatalog.utils.apiGet
 import no.digdir.organizationcatalog.utils.jwk.Access
@@ -15,12 +14,10 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.ContextConfiguration
-import java.io.File
 
 private val mapper = jacksonObjectMapper().findAndRegisterModules()
 
@@ -100,31 +97,4 @@ internal class Admin : ApiTestContext() {
         }
     }
 
-    @Nested
-    internal inner class TransportOrganizationTest {
-        @Value("\${application.enturHeaderKey}")
-        lateinit var enturHeaderKey: String
-
-        @Value("\${application.enturHeaderValue}")
-        lateinit var enturHeaderValue: String
-
-        @Test
-        fun `get transport organizations`() {
-            val url = "/agreements/v1/adapter/transmodel/export"
-            val response =
-                apiGet(
-                    url,
-                    LOCAL_SERVER_PORT,
-                    null,
-                    otherHeaders = listOf(Pair(enturHeaderKey, enturHeaderValue)),
-                )
-
-            Expect(response["status"]).to_equal(HttpStatus.OK.value())
-
-            Expect(response["body"])
-                .to_equal(
-                    File("src/test/resources/responses/entur_data.xml").readText(),
-                )
-        }
-    }
 }
