@@ -1,17 +1,21 @@
 package no.digdir.organizationcatalog.service
 
 import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
+import no.digdir.organizationcatalog.adapter.TransportOrganizationAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.mapping.getOrgPathBase
 import no.digdir.organizationcatalog.mapping.mapForCreation
 import no.digdir.organizationcatalog.mapping.mapToGenerated
+import no.digdir.organizationcatalog.mapping.prefLabelToUpdate
 import no.digdir.organizationcatalog.mapping.updateValues
 import no.digdir.organizationcatalog.mapping.updateWithEnhetsregisteretValues
 import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
 import no.digdir.organizationcatalog.model.EnhetsregisteretType
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.model.OrganizationDB
+import no.digdir.organizationcatalog.model.OrganizationPrefLabel
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
+import no.digdir.organizationcatalog.repository.OrganizationPrefLabelRepository
 import no.digdir.organizationcatalog.utils.isOrganizationNumber
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -24,7 +28,9 @@ private val LOGGER = LoggerFactory.getLogger(OrganizationCatalogService::class.j
 @Service
 class OrganizationCatalogService(
     private val repository: OrganizationCatalogRepository,
+    private val organizationPrefLabelRepository: OrganizationPrefLabelRepository,
     private val enhetsregisteretAdapter: EnhetsregisteretAdapter,
+    private val transportOrganizationAdapter: TransportOrganizationAdapter,
     private val appProperties: AppProperties,
 ) {
     fun getByOrgnr(orgId: String): Organization? =
@@ -91,11 +97,14 @@ class OrganizationCatalogService(
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
     }
 
-    private fun EnhetsregisteretOrganization.updateExistingOrMapForCreation(): OrganizationDB =
-        repository
+    private fun EnhetsregisteretOrganization.updateExistingOrMapForCreation(): OrganizationDB {
+        val organizationPrefLabel: OrganizationPrefLabel? =
+            organizationPrefLabelRepository.findByIdOrNull(organisasjonsnummer)
+        return repository
             .findByIdOrNull(organisasjonsnummer)
-            ?.updateWithEnhetsregisteretValues(this)
+            ?.updateWithEnhetsregisteretValues(this, organizationPrefLabel)
             ?: mapForCreation()
+    }
 
     fun updateEntry(
         orgId: String,
@@ -126,6 +135,19 @@ class OrganizationCatalogService(
 
         return copy(orgPath = "$orgPathBase/$organisasjonsnummer")
     }
+
+    @Scheduled(cron = "0 30 18 5 * ?")
+    fun updateTransportData(): Unit =
+        transportOrganizationAdapter
+            .downloadTransportDataList()
+            .filter { it.companyNumber != null }
+            .mapNotNull {
+                it.prefLabelToUpdate(
+                    organizationPrefLabelRepository.findByIdOrNull(it.companyNumber!!),
+                )
+            }.run {
+                if (this.isNotEmpty()) organizationPrefLabelRepository.saveAll(this)
+            }
 
     @Scheduled(cron = "0 30 20 5 * ?")
     fun updateAllEntriesFromEnhetsregisteret() {

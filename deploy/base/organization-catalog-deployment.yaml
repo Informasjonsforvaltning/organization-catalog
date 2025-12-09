@@ -59,6 +59,21 @@ spec:
                 secretKeyRef:
                   name: commonurl
                   key: ORGANIZATION_CATALOG_BASE_URI
+            - name: ENTUR_TRANSMODEL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: commonurl
+                  key: ENTUR_TRANSMODEL_URL
+            - name: ENTUR_HEADER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: organization-catalog
+                  key: ENTUR_HEADER_KEY
+            - name: ENTUR_HEADER_VALUE
+              valueFrom:
+                secretKeyRef:
+                  name: organization-catalog
+                  key: ENTUR_HEADER_VALUE
             - name: CORS_ORIGIN_PATTERNS
               valueFrom:
                 secretKeyRef:

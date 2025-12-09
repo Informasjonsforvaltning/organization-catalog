@@ -1,0 +1,42 @@
+<PublicationDelivery xmlns="http://www.netex.org.uk/netex" xmlns:ns2="http://www.opengis.net/gml/3.2" xmlns:ns3="http://www.siri.org.uk/siri">
+    <PublicationTimestamp>2025-12-03T09:03:19.304</PublicationTimestamp>
+    <ParticipantRef>EnTur:Avtaler</ParticipantRef>
+    <dataObjects>
+        <ResourceFrame version="1" id="NOG:ResourceFrame:1">
+            <organisations>
+                <Operator created="2023-06-20T00:00:00" version="1" id="NOG:Operator:eaiEZukmNKG">
+                    <PrivateCode type="organisationId">135</PrivateCode>
+                    <CompanyNumber>123456789</CompanyNumber>
+                    <Name>Lesja Bilruter</Name>
+                    <LegalName>LESJA INNKJØPSLAG SA</LegalName>
+                    <TradingName>Innlandstrafikk Nyy</TradingName>
+                    <ContactDetails>
+                        <Email></Email>
+                        <Phone>111111</Phone>
+                        <Url>http://www.norge.no/</Url>
+                    </ContactDetails>
+                    <ValidityPeriod>
+                        <FromDate>2023-06-20T00:00:00</FromDate>
+                    </ValidityPeriod>
+                    <CountryRef ref="no">NO</CountryRef>
+                </Operator>
+                <Authority created="2023-06-20T00:00:00" version="15" id="NOG:Authority:23iDsbucVmu">
+                    <PrivateCode type="organisationId">39</PrivateCode>
+                    <CompanyNumber>123456789</CompanyNumber>
+                    <Name>Innlandstrafikk</Name>
+                    <LegalName>INNLANDET FYLKESKOMMUNE SAMFERDSEL</LegalName>
+                    <TradingName>Innlandstrafikk Nyy</TradingName>
+                    <ContactDetails>
+                        <Email></Email>
+                        <Phone></Phone>
+                        <Url>https://innlandetfylke.no/tjenester/veg-og-trafikk/</Url>
+                    </ContactDetails>
+                    <ValidityPeriod>
+                        <FromDate>2023-06-20T00:00:00</FromDate>
+                    </ValidityPeriod>
+                    <CountryRef ref="no">NO</CountryRef>
+                </Authority>
+            </organisations>
+        </ResourceFrame>
+    </dataObjects>
+</PublicationDelivery>
