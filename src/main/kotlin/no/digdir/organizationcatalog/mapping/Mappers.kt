@@ -72,8 +72,9 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(
 ): OrganizationDB {
     val prefLabelShouldBeUpdated =
         when {
-            org.navn.isBlank() -> false
+            org.navn.isBlank() && organizationPrefLabel == null -> false
             prefLabel.isNullOrEmpty() -> true
+            organizationPrefLabel?.value != null && prefLabel != organizationPrefLabel?.value -> true
             name != org.navn -> true
             else -> false
         }
@@ -109,7 +110,7 @@ fun TransportOrganization.prefLabelToUpdate(existingData: OrganizationPrefLabel?
         else -> null
     }
 
-private fun PrefLabel?.isNullOrEmpty(): Boolean =
+fun PrefLabel?.isNullOrEmpty(): Boolean =
     when {
         this == null -> true
         !en.isNullOrBlank() -> false

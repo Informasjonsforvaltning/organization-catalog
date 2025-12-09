@@ -63,9 +63,10 @@ fun startMockServer() {
                 .willReturn(ok(File("src/test/resources/responses/download_komm.json").readText())),
         )
 
+        val xmlFilePath = "src/test/resources/responses/entur_data.xml"
         mockserver.stubFor(
             get(urlEqualTo("/agreements/v1/adapter/transmodel/export"))
-                .willReturn(okXml(File("src/test/resources/responses/entur_data.xml").readText())),
+                .willReturn(okXml(File(xmlFilePath).readText())),
         )
 
         mockserver.start()

@@ -1,10 +1,7 @@
 package no.digdir.organizationcatalog.adapter
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import no.digdir.organizationcatalog.model.PublicationDelivery
 import no.digdir.organizationcatalog.model.TransportOrganization
+import no.digdir.organizationcatalog.utils.transformToTransportDataList
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
@@ -20,9 +17,12 @@ class TransportOrganizationAdapter(
     @Value("\${application.enturHeaderKey}") val enturHeaderKey: String,
     @Value("\${application.enturHeaderValue}") val enturHeaderValue: String,
 ) {
-    fun downloadTransportDataList(): List<TransportOrganization> {
-        logger.info("Downloading trans data list")
+    fun downloadTransportDataList(): List<TransportOrganization> =
+        downloadTransportDataRaw()
+            ?.let { it.transformToTransportDataList() }
+            ?.distinctBy { it.companyNumber } ?: emptyList()
 
+    fun downloadTransportDataRaw(): String? =
         URI(enturDataUrl)
             .toURL()
             .openConnection()
@@ -32,35 +32,16 @@ class TransportOrganizationAdapter(
 
                 if (responseCode != HttpStatus.OK.value()) {
                     logger.error("Download of transport data failed with code $responseCode")
-                    return emptyList()
+                    return@run null
                 }
 
                 try {
-                    val xmlMapper = XmlMapper().registerKotlinModule()
-
-                    val transList =
-                        inputStream.bufferedReader().use { reader ->
-                            val xmlResponse = reader.readText()
-                            val rootJsonNode = xmlMapper.readTree(xmlResponse)
-                            val jsonMapper = jacksonObjectMapper()
-
-                            val organisations =
-                                jsonMapper.treeToValue(rootJsonNode, PublicationDelivery::class.java)
-                                    ?.dataObjects
-                                    ?.resourceFrame
-                                    ?.organisations
-
-                            (organisations?.authorities ?: emptyList()) +
-                                (organisations?.operators ?: emptyList())
-                        }
-
-                    transList.forEach { logger.info(it.toString()) }
-
-                    return transList.distinctBy { listOf(it.companyNumber) }
+                    inputStream.bufferedReader().use { reader ->
+                        reader.readText()
+                    }
                 } catch (ex: Exception) {
-                    logger.error("Error parsing downloaded data data : ${ex.message}")
-                    return emptyList()
+                    logger.error("Error reading downloaded data : ${ex.message}")
+                    null
                 }
             }
-    }
 }

@@ -1,45 +1,44 @@
 package no.digdir.organizationcatalog.model
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonProperty
+import org.simpleframework.xml.Attribute
+import org.simpleframework.xml.Element
+import org.simpleframework.xml.ElementList
+import org.simpleframework.xml.Root
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Root(strict = false)
 data class TransportOrganization(
-    @JsonProperty("id")
-    val id: String? = null,
-    @JsonProperty("CompanyNumber")
-    val companyNumber: String? = null,
-    @JsonProperty("TradingName")
-    val tradingName: String? = null,
+    @field:Attribute(name = "id")
+    var id: String? = null,
+    @field:Element(name = "CompanyNumber")
+    var companyNumber: String? = null,
+    @field:Element(name = "TradingName")
+    var tradingName: String? = null,
 )
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Root(name = "PublicationDelivery", strict = false)
 data class PublicationDelivery(
-    @JsonProperty("dataObjects")
-    val dataObjects: DataObjects? = null,
+    @field:Element(name = "dataObjects", required = false)
+    var dataObjects: DataObjects? = null,
 )
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Root(name = "dataObjects", strict = false)
 data class DataObjects(
-    @JsonProperty("ResourceFrame")
-    val resourceFrame: ResourceFrame? = null,
+    @field:Element("ResourceFrame", required = false)
+    var resourceFrame: ResourceFrame? = null,
 )
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Root(name = "ResourceFrame", strict = false)
 data class ResourceFrame(
-    @JsonProperty("organisations")
-    val organisations: Organisations? = null,
+    @field:Element(name = "organisations", required = false)
+    var organisations: Organizations? = null,
 )
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-data class Organisations(
-    @JsonProperty("Authority")
-    val authorities: List<TransportOrganization>? = emptyList(),
-    @JsonProperty("Operator")
-    val operators: List<TransportOrganization>? = emptyList(),
+@Root(name = "organisations", strict = false)
+data class Organizations(
+    @field:ElementList(entry = "Authority", inline = true, required = false)
+    var authorities: MutableList<TransportOrganization> = mutableListOf(),
+    @field:ElementList(entry = "Operator", inline = true, required = false)
+    var operators: MutableList<TransportOrganization> = mutableListOf(),
 )
 
 fun TransportOrganization.toDB() =

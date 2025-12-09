@@ -117,6 +117,9 @@ fun resetDB() {
     orgCollection.deleteMany(org.bson.Document())
     orgCollection.insertMany(organizationsDBPopulation())
 
+    val prefLabelCollection = mongoDatabase.getCollection("orgPrefLabel")
+    prefLabelCollection.deleteMany(org.bson.Document())
+
     client.close()
 }
 
