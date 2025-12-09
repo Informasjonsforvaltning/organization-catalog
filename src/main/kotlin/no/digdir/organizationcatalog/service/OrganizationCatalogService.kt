@@ -136,7 +136,7 @@ class OrganizationCatalogService(
         return copy(orgPath = "$orgPathBase/$organisasjonsnummer")
     }
 
-    @Scheduled(cron = "0 30 18 5 * ?")
+    @Scheduled(cron = "0 30 18 9 * ?")
     fun updateTransportData(): Unit =
         transportOrganizationAdapter
             .downloadTransportDataList()
@@ -149,7 +149,7 @@ class OrganizationCatalogService(
                 if (this.isNotEmpty()) organizationPrefLabelRepository.saveAll(this)
             }
 
-    @Scheduled(cron = "0 30 20 5 * ?")
+    @Scheduled(cron = "0 30 20 9 * ?")
     fun updateAllEntriesFromEnhetsregisteret() {
         repository
             .findAll()
