@@ -43,6 +43,7 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
         model
             .createResource(urls.organizationCatalog + it.organizationId)
             .addProperty(RDF.type, ROV.RegisteredOrganization)
+            .addProperty(RDF.type, FOAF.Agent)
             .safeAddProperty(ROV.legalName, it.name)
             .addRegistration(it)
             .safeAddProperty(DCTerms.identifier, it.organizationId)

@@ -96,5 +96,4 @@ internal class Admin : ApiTestContext() {
             Assertions.assertTrue(updated.map { it.organizationId }.contains(kommOrg))
         }
     }
-
 }
