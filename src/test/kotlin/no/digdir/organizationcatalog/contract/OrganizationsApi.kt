@@ -1,5 +1,6 @@
 package no.digdir.organizationcatalog.contract
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import no.digdir.organizationcatalog.model.Organization
@@ -37,7 +38,10 @@ private val turtle = JenaAndHeader("text/turtle", "TURTLE")
 private val ldjson = JenaAndHeader("application/ld+json", "JSONLD")
 private val rdfjson = JenaAndHeader("application/rdf+json", "RDF/JSON")
 private val rdfxml = JenaAndHeader("application/rdf+xml", "RDFXML")
-private val mapper = jacksonObjectMapper().findAndRegisterModules()
+private val mapper =
+    jacksonObjectMapper()
+        .registerModule(JavaTimeModule())
+        .findAndRegisterModules()
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(
