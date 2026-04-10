@@ -38,7 +38,8 @@ class BrregForwardingFilter(
                         .substringAfter("organizations/", "")
 
                 if (acceptContainsHtml && orgId.isOrganizationNumber()) {
-                    httpResponse.setHeader("Location", "${appProperties.enhetsregisteretHtmlUrl}$orgId")
+                    val sanitizedOrgId = String.format("%09d", orgId.toLong())
+                    httpResponse.setHeader("Location", "${appProperties.enhetsregisteretHtmlUrl}$sanitizedOrgId")
                     httpResponse.status = HttpStatus.SEE_OTHER.value()
                     return
                 }
