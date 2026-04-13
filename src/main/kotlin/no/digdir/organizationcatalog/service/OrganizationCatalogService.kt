@@ -18,10 +18,8 @@ import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
 import no.digdir.organizationcatalog.repository.OrganizationPrefLabelRepository
 import no.digdir.organizationcatalog.utils.isOrganizationNumber
 import org.slf4j.LoggerFactory
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
-import java.util.Locale
 
 private val LOGGER = LoggerFactory.getLogger(OrganizationCatalogService::class.java)
 
@@ -35,7 +33,8 @@ class OrganizationCatalogService(
 ) {
     fun getByOrgnr(orgId: String): Organization? =
         repository
-            .findByIdOrNull(orgId)
+            .findById(orgId)
+            .orElse(null)
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
             ?: updateEntryFromEnhetsregisteret(orgId)
 
@@ -75,14 +74,14 @@ class OrganizationCatalogService(
 
     private fun searchForOrganizationsByName(name: String) =
         repository
-            .findByNameLike(name.uppercase(Locale.getDefault()))
+            .findByNameContainingIgnoreCase(name)
             .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
     private fun searchForOrganizationsByNameAndIds(
         name: String,
         orgs: List<String>,
     ) = repository
-        .findByNameLike(name)
+        .findByNameContainingIgnoreCase(name)
         .filter { orgs.contains(it.organizationId) }
         .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
@@ -93,15 +92,17 @@ class OrganizationCatalogService(
             .run { repository.saveAll(this) }
 
         return repository
-            .findByIdOrNull(orgId)
+            .findById(orgId)
+            .orElse(null)
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
     }
 
     private fun EnhetsregisteretOrganization.updateExistingOrMapForCreation(): OrganizationDB {
         val organizationPrefLabel: OrganizationPrefLabel? =
-            organizationPrefLabelRepository.findByIdOrNull(organisasjonsnummer)
+            organizationPrefLabelRepository.findById(organisasjonsnummer).orElse(null)
         return repository
-            .findByIdOrNull(organisasjonsnummer)
+            .findById(organisasjonsnummer)
+            .orElse(null)
             ?.updateWithEnhetsregisteretValues(this, organizationPrefLabel)
             ?: mapForCreation()
     }
@@ -111,7 +112,8 @@ class OrganizationCatalogService(
         org: Organization,
     ): Organization? =
         repository
-            .findByIdOrNull(orgId)
+            .findById(orgId)
+            .orElse(null)
             ?.updateValues(org)
             ?.let { repository.save(it) }
             ?.mapToGenerated(appProperties.enhetsregisteretUrl)
@@ -143,7 +145,7 @@ class OrganizationCatalogService(
             .filter { it.companyNumber != null }
             .mapNotNull {
                 it.prefLabelToUpdate(
-                    organizationPrefLabelRepository.findByIdOrNull(it.companyNumber!!),
+                    organizationPrefLabelRepository.findById(it.companyNumber!!).orElse(null),
                 )
             }.run {
                 if (this.isNotEmpty()) organizationPrefLabelRepository.saveAll(this)

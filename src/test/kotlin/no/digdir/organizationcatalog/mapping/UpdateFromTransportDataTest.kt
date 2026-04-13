@@ -63,7 +63,11 @@ class UpdateFromTransportDataTest {
 
     @Test
     fun `Should update if data has new has empty or null prefLabel`() {
-        val initialTransportDataDB = transportOrganization.toDB().copy(value = PrefLabel())
+        val initialTransportDataDB =
+            OrganizationPrefLabel(
+                organizationId = transportOrganization.companyNumber!!,
+                value = PrefLabel(),
+            )
         var updatedTransportData = transportOrganization.copy(tradingName = "New name")
 
         val updatedTransportDataDB = updatedTransportData.prefLabelToUpdate(initialTransportDataDB)

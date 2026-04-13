@@ -4,14 +4,18 @@ import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
 import no.digdir.organizationcatalog.adapter.TransportOrganizationAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
 import no.digdir.organizationcatalog.mapping.isNullOrEmpty
+import no.digdir.organizationcatalog.model.EmbeddedPrefLabel
 import no.digdir.organizationcatalog.model.OrganizationDB
 import no.digdir.organizationcatalog.model.OrganizationPrefLabel
 import no.digdir.organizationcatalog.model.PrefLabel
+import no.digdir.organizationcatalog.model.toEmbedded
+import no.digdir.organizationcatalog.model.toPrefLabel
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
 import no.digdir.organizationcatalog.repository.OrganizationPrefLabelRepository
 import no.digdir.organizationcatalog.service.OrganizationCatalogService
 import no.digdir.organizationcatalog.utils.ApiTestContext
 import no.digdir.organizationcatalog.utils.prefLabelFromName
+import no.digdir.organizationcatalog.utils.resetDB
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -57,6 +61,8 @@ class TransportDataTest : ApiTestContext() {
 
     @BeforeEach
     fun beforeEach() {
+        resetDB()
+        organizationPrefLabelRepository.deleteAll()
         organizationCatalogService =
             OrganizationCatalogService(
                 repository = repository,
@@ -78,7 +84,7 @@ class TransportDataTest : ApiTestContext() {
         val updatedOrganizationDB = repository.findById(orgPrefLabel.organizationId).getOrNull()
 
         assertNotNull { updatedOrganizationDB }
-        assertEquals(orgPrefLabel.value, updatedOrganizationDB?.prefLabel)
+        assertEquals(orgPrefLabel.value.toEmbedded(), updatedOrganizationDB?.prefLabel)
 
         logger.info("OrgPrefLabel ${orgPrefLabel.value}")
         logger.info("OrganizationDB ${updatedOrganizationDB?.prefLabel}")
@@ -144,7 +150,7 @@ class TransportDataTest : ApiTestContext() {
         val updatedOrganizationDB = repository.findById(orgId).getOrNull()
 
         assertNotNull { updatedOrganizationDB }
-        assertEquals(orgPrefLabel?.value, updatedOrganizationDB?.prefLabel)
+        assertEquals(orgPrefLabel?.value?.toEmbedded(), updatedOrganizationDB?.prefLabel)
     }
 
     @Test
@@ -154,12 +160,17 @@ class TransportDataTest : ApiTestContext() {
 
         assertNotNull { orgPrefLabel }
 
-        organizationPrefLabelRepository.save(orgPrefLabel?.copy(value = PrefLabel())!!)
+        organizationPrefLabelRepository.save(
+            OrganizationPrefLabel(
+                organizationId = orgPrefLabel!!.organizationId,
+                value = PrefLabel(),
+            ),
+        )
         organizationCatalogService.updateEntryFromEnhetsregisteret(orgId)
         val updatedOrganizationDB = repository.findById(orgId).getOrNull()
 
         assertNotNull { updatedOrganizationDB }
-        assertEquals("TESTENHETEN I TESTSUND".prefLabelFromName(), updatedOrganizationDB?.prefLabel)
+        assertEquals("TESTENHETEN I TESTSUND".prefLabelFromName().toEmbedded(), updatedOrganizationDB?.prefLabel)
     }
 
     @Test
@@ -174,13 +185,13 @@ class TransportDataTest : ApiTestContext() {
 
         organizationDB = repository.save(organizationDB?.copy(prefLabel = null)!!)
 
-        assertTrue { organizationDB.prefLabel.isNullOrEmpty() }
+        assertTrue { organizationDB.prefLabel?.toPrefLabel().isNullOrEmpty() }
 
         organizationCatalogService.updateEntryFromEnhetsregisteret(orgId)
         val updatedOrganizationDB = repository.findById(orgId).getOrNull()
 
         assertNotNull { updatedOrganizationDB }
-        assertEquals(organizationPrefLabel?.value, updatedOrganizationDB?.prefLabel)
+        assertEquals(organizationPrefLabel?.value?.toEmbedded(), updatedOrganizationDB?.prefLabel)
     }
 
     @Test
@@ -198,7 +209,7 @@ class TransportDataTest : ApiTestContext() {
             OrganizationDB(
                 organizationId = orgId,
                 name = orgPrefLabel.organizationId,
-                prefLabel = orgPrefLabel.value.copy(nb = " Old Name"),
+                prefLabel = EmbeddedPrefLabel(nb = " Old Name"),
             ),
         )
 
