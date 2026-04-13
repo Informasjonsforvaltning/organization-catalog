@@ -1,5 +1,6 @@
 package no.digdir.organizationcatalog.contract
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import no.digdir.organizationcatalog.model.Organization
@@ -19,7 +20,10 @@ import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.ContextConfiguration
 
-private val mapper = jacksonObjectMapper().findAndRegisterModules()
+private val mapper =
+    jacksonObjectMapper()
+        .registerModule(JavaTimeModule())
+        .findAndRegisterModules()
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(

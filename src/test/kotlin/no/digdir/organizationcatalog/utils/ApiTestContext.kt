@@ -16,7 +16,7 @@ abstract class ApiTestContext {
         override fun initialize(configurableApplicationContext: ConfigurableApplicationContext) {
             TestPropertyValues
                 .of(
-                    "spring.data.mongodb.port=${mongoContainer.getMappedPort(MONGO_PORT)}",
+                    "spring.mongodb.port=${mongoContainer.getMappedPort(MONGO_PORT)}",
                 ).applyTo(configurableApplicationContext.environment)
         }
     }
@@ -32,7 +32,7 @@ abstract class ApiTestContext {
             Testcontainers.exposeHostPorts(LOCAL_SERVER_PORT)
 
             mongoContainer =
-                KGenericContainer("mongo:4.4.17")
+                KGenericContainer("mongo:latest")
                     .withEnv(MONGO_ENV_VALUES)
                     .withExposedPorts(MONGO_PORT)
                     .withNetworkAliases("mongodb")

@@ -3,7 +3,7 @@ package no.digdir.organizationcatalog.security
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties
+import org.springframework.boot.security.oauth2.server.resource.autoconfigure.OAuth2ResourceServerProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -16,17 +16,21 @@ import org.springframework.security.oauth2.jwt.JwtIssuerValidator
 import org.springframework.security.oauth2.jwt.JwtTimestampValidator
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.util.matcher.AnyRequestMatcher
 import org.springframework.web.cors.CorsConfiguration
 
 @Configuration
-open class SecurityConfig(
+class SecurityConfig(
     @Value("\${application.cors.originPatterns}")
     val corsOriginPatterns: Array<String>,
 ) {
     @Bean
-    open fun filterChain(http: HttpSecurity): SecurityFilterChain {
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .cors { cors ->
+            .csrf { csrf ->
+                // Stateless OAuth2 resource server with bearer-token auth only, CSRF is not applicable
+                csrf.ignoringRequestMatchers(AnyRequestMatcher.INSTANCE)
+            }.cors { cors ->
                 cors.configurationSource { _ ->
                     val config = CorsConfiguration()
                     config.allowCredentials = false
@@ -52,7 +56,7 @@ open class SecurityConfig(
     }
 
     @Bean
-    open fun jwtDecoder(properties: OAuth2ResourceServerProperties): JwtDecoder {
+    fun jwtDecoder(properties: OAuth2ResourceServerProperties): JwtDecoder {
         val jwtDecoder = NimbusJwtDecoder.withJwkSetUri(properties.jwt.jwkSetUri).build()
         jwtDecoder.setJwtValidator(
             DelegatingOAuth2TokenValidator(
