@@ -108,38 +108,6 @@ open class OrganizationsController(
     }
 
     @GetMapping(
-        "/delegated",
-        produces = [
-            "application/json",
-            "application/xml",
-            "application/ld+json",
-            "application/rdf+json",
-            "application/rdf+xml",
-            "text/turtle",
-        ],
-    )
-    fun getDelegatedOrganizations(
-        @RequestHeader(HttpHeaders.ACCEPT) accept: String?,
-    ): ResponseEntity<Any> {
-        LOGGER.debug("get organizations with delegation permissions")
-        val jenaType = acceptHeaderToJenaType(accept)
-        val organizations = catalogService.getOrganizationsWithDelegationPermissions()
-
-        val urls =
-            ExternalUrls(
-                organizationCatalog = appProperties.organizationCatalogUrl,
-                municipality = appProperties.municipalityUrl,
-            )
-
-        return when {
-            organizations.isEmpty() -> ResponseEntity(HttpStatus.NOT_FOUND)
-            jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
-            jenaType == JenaType.NOT_JENA -> ResponseEntity(organizations, HttpStatus.OK)
-            else -> ResponseEntity(organizations.jenaResponse(jenaType, urls), HttpStatus.OK)
-        }
-    }
-
-    @GetMapping(
         produces = [
             "application/json",
             "application/xml",

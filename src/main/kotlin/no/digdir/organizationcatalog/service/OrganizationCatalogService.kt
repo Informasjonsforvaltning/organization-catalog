@@ -57,11 +57,6 @@ class OrganizationCatalogService(
             .filter { if (includeSubordinate) true else !it.subordinate }
     }
 
-    fun getOrganizationsWithDelegationPermissions(): List<Organization> =
-        repository
-            .findByAllowDelegatedRegistration(true)
-            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
-
     private fun getCatalog() =
         repository
             .findAll()

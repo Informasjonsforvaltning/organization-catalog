@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository
 @Repository
 interface OrganizationCatalogRepository : JpaRepository<OrganizationDB, String> {
     fun findByNameContainingIgnoreCase(name: String): List<OrganizationDB>
-
-    fun findByAllowDelegatedRegistration(allowed: Boolean): List<OrganizationDB>
 }

@@ -30,7 +30,6 @@ fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
         prefLabel = prefLabel?.toPrefLabel(),
         orgStatus = orgStatus,
         homepage = homepage,
-        allowDelegatedRegistration = allowDelegatedRegistration,
         subordinate = subordinate,
     )
 
@@ -64,7 +63,6 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         sectorCode = org.sectorCode ?: sectorCode,
         homepage = org.homepage ?: homepage,
         prefLabel = (prefLabel?.toPrefLabel() ?: PrefLabel()).update(org.prefLabel).toEmbedded(),
-        allowDelegatedRegistration = org.allowDelegatedRegistration ?: allowDelegatedRegistration,
         subordinate = org.subordinate,
     )
 

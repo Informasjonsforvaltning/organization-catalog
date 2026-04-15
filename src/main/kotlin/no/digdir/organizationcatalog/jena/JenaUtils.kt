@@ -168,6 +168,5 @@ enum class JenaType(
 
 data class ExternalUrls(
     val organizationCatalog: String? = null,
-    val organizationDomains: String? = null,
     val municipality: String? = null,
 )

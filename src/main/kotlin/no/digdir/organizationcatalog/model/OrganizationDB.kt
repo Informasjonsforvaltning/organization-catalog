@@ -1,16 +1,12 @@
 package no.digdir.organizationcatalog.model
 
-import jakarta.persistence.CollectionTable
 import jakarta.persistence.Column
-import jakarta.persistence.ElementCollection
 import jakarta.persistence.Embeddable
 import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
-import jakarta.persistence.FetchType
 import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
 import jakarta.persistence.Table
 import jakarta.validation.constraints.NotBlank
 import java.time.LocalDate
@@ -52,17 +48,11 @@ data class OrganizationDB(
     val sectorCode: String? = null,
     @Embedded
     val prefLabel: EmbeddedPrefLabel? = null,
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "organization_domains", joinColumns = [JoinColumn(name = "organization_id")])
-    @Column(name = "domain")
-    val domains: Set<String>? = null,
     @Enumerated(EnumType.STRING)
     @Column(name = "org_status")
     val orgStatus: OrgStatus? = null,
     @Column(name = "homepage")
     val homepage: String? = null,
-    @Column(name = "allow_delegated_registration")
-    val allowDelegatedRegistration: Boolean? = null,
     @Column(name = "subordinate", nullable = false)
     val subordinate: Boolean = false,
 )

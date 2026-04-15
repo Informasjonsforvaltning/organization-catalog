@@ -34,7 +34,7 @@ abstract class ApiTestContext {
 
             postgresContainer =
                 PostgreSQLContainer("postgres:16")
-                    .withDatabaseName("organizationCatalog")
+                    .withDatabaseName("organization_catalog")
                     .withUsername("testuser")
                     .withPassword("testpassword")
             postgresContainer.start()

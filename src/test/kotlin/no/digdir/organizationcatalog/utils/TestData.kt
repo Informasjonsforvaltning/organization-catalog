@@ -33,7 +33,6 @@ val ORG_0 =
         industryCode = "84.110",
         sectorCode = "6100",
         homepage = "www.brreg.no",
-        allowDelegatedRegistration = true,
         prefLabel =
             PrefLabel(
                 nb = "Brønnøysundregistrene",
@@ -68,7 +67,6 @@ val ORG_2 =
         industryCode = "84.220",
         sectorCode = "6100",
         homepage = "www.fors varet.no",
-        allowDelegatedRegistration = false,
         prefLabel = PrefLabel(en = "Forsvaret"),
         orgStatus = OrgStatus.NORMAL,
     )
@@ -119,7 +117,6 @@ val UPDATE_VALUES =
         municipalityNumber = "6548",
         industryCode = "industryUriUpdated",
         sectorCode = "sectorUriUpdated",
-        allowDelegatedRegistration = true,
         prefLabel =
             PrefLabel(
                 nb = "nbLabelUpdated",
@@ -161,7 +158,6 @@ val UPDATED_1 =
         municipalityNumber = "6548",
         industryCode = "industryUriUpdated",
         sectorCode = "sectorUriUpdated",
-        allowDelegatedRegistration = true,
         prefLabel =
             PrefLabel(
                 nb = "nbLabelUpdated",
@@ -212,8 +208,6 @@ val ORG_DB0 =
         industryCode = "84.110",
         sectorCode = "6100",
         homepage = "www.brreg.no",
-        domains = emptySet(),
-        allowDelegatedRegistration = true,
         prefLabel = EmbeddedPrefLabel(nb = "Brønnøysundregistrene"),
         orgStatus = OrgStatus.NORMAL,
     )
@@ -226,9 +220,7 @@ val ORG_DB1 =
         orgPath = "/STAT/972417823/986105174",
         subOrganizationOf = "972417823",
         issued = LocalDate.of(1999, 2, 3),
-        domains = emptySet(),
         homepage = "www.fors varet.no",
-        allowDelegatedRegistration = true,
         prefLabel = EmbeddedPrefLabel(nb = "Forsvaret"),
         orgStatus = OrgStatus.NORMAL,
     )
@@ -303,7 +295,6 @@ data class TestOrg(
     val prefLabel: PrefLabel? = null,
     val orgStatus: OrgStatus? = null,
     val homepage: String? = null,
-    val allowDelegatedRegistration: Boolean? = null,
     val subordinate: Boolean = false,
 )
 
@@ -334,6 +325,5 @@ private fun Organization.toTestOrg(): TestOrg =
         prefLabel = prefLabel,
         orgStatus = orgStatus,
         homepage = homepage,
-        allowDelegatedRegistration = allowDelegatedRegistration,
         subordinate = subordinate,
     )

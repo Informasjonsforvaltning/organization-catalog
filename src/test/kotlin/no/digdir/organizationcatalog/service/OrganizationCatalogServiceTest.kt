@@ -123,16 +123,4 @@ class OrganizationCatalogServiceTest {
 
         assertNull(publisher)
     }
-
-    @Test
-    fun getOrganizationsWithDelegationPermissions() {
-        whenever(repository.findByAllowDelegatedRegistration(true))
-            .thenReturn(listOf(ORG_DB0))
-        whenever(valuesMock.enhetsregisteretUrl)
-            .thenReturn(ENHETSREGISTERET_URL)
-
-        val publishers = catalogService.getOrganizationsWithDelegationPermissions()
-
-        assertEquals(listOf(ORG_0), publishers)
-    }
 }

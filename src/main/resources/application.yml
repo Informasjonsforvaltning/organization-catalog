@@ -40,7 +40,7 @@ server.port: 8080
 spring:
   config.activate.on-profile: develop
   datasource:
-    url: jdbc:postgresql://localhost:5432/organizationCatalog
+    url: jdbc:postgresql://localhost:5432/organization_catalog
     username: admin
     password: admin
 
@@ -59,7 +59,7 @@ server.port: 8140
 spring:
   config.activate.on-profile: test
   datasource:
-    url: jdbc:postgresql://localhost:5432/organizationCatalog
+    url: jdbc:postgresql://localhost:5432/organization_catalog
     username: testuser
     password: testpassword
   security.oauth2.resourceserver.jwt:

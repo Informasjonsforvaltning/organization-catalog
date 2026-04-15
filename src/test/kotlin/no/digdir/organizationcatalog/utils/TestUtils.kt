@@ -98,7 +98,6 @@ fun resetDB() {
     val conn = DriverManager.getConnection(container.jdbcUrl, container.username, container.password)
     conn.use { c ->
         val stmt = c.createStatement()
-        stmt.execute("DELETE FROM organization_domains")
         stmt.execute("DELETE FROM org_pref_labels")
         stmt.execute("DELETE FROM organizations")
 
@@ -109,8 +108,8 @@ fun resetDB() {
                     """INSERT INTO organizations
                     (organization_id, name, org_type, org_path, sub_organization_of, issued,
                      municipality_number, industry_code, sector_code, pref_label_nb, pref_label_nn,
-                     pref_label_en, org_status, homepage, allow_delegated_registration, subordinate)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                     pref_label_en, org_status, homepage, subordinate)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 )
             ps.setString(1, org.organizationId)
             ps.setString(2, org.name)
@@ -126,12 +125,7 @@ fun resetDB() {
             ps.setString(12, org.prefLabel?.en)
             ps.setString(13, org.orgStatus?.name)
             ps.setString(14, org.homepage)
-            if (org.allowDelegatedRegistration != null) {
-                ps.setBoolean(15, org.allowDelegatedRegistration!!)
-            } else {
-                ps.setNull(15, java.sql.Types.BOOLEAN)
-            }
-            ps.setBoolean(16, org.subordinate)
+            ps.setBoolean(15, org.subordinate)
             ps.executeUpdate()
             ps.close()
         }
