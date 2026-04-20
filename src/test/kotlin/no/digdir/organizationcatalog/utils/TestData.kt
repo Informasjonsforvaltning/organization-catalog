@@ -1,31 +1,19 @@
 package no.digdir.organizationcatalog.utils
 
+import no.digdir.organizationcatalog.model.EmbeddedPrefLabel
 import no.digdir.organizationcatalog.model.EnhetsregisteretCode
 import no.digdir.organizationcatalog.model.EnhetsregisteretOrganization
 import no.digdir.organizationcatalog.model.OrgStatus
 import no.digdir.organizationcatalog.model.Organization
 import no.digdir.organizationcatalog.model.OrganizationDB
 import no.digdir.organizationcatalog.model.PrefLabel
-import org.testcontainers.shaded.com.google.common.collect.ImmutableMap
 import java.time.LocalDate
 
 const val LOCAL_SERVER_PORT = 5050
 
-const val MONGO_USER = "testuser"
-const val MONGO_PASSWORD = "testpassword"
-const val MONGO_PORT = 27017
-
 const val WIREMOCK_TEST_HOST = "http://localhost:5050"
 
 const val ENHETSREGISTERET_URL = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/"
-
-val MONGO_ENV_VALUES: Map<String, String> =
-    ImmutableMap.of(
-        "MONGO_INITDB_ROOT_USERNAME",
-        MONGO_USER,
-        "MONGO_INITDB_ROOT_PASSWORD",
-        MONGO_PASSWORD,
-    )
 
 fun getApiAddress(
     port: Int,
@@ -45,7 +33,6 @@ val ORG_0 =
         industryCode = "84.110",
         sectorCode = "6100",
         homepage = "www.brreg.no",
-        allowDelegatedRegistration = true,
         prefLabel =
             PrefLabel(
                 nb = "Brønnøysundregistrene",
@@ -80,7 +67,6 @@ val ORG_2 =
         industryCode = "84.220",
         sectorCode = "6100",
         homepage = "www.fors varet.no",
-        allowDelegatedRegistration = false,
         prefLabel = PrefLabel(en = "Forsvaret"),
         orgStatus = OrgStatus.NORMAL,
     )
@@ -131,7 +117,6 @@ val UPDATE_VALUES =
         municipalityNumber = "6548",
         industryCode = "industryUriUpdated",
         sectorCode = "sectorUriUpdated",
-        allowDelegatedRegistration = true,
         prefLabel =
             PrefLabel(
                 nb = "nbLabelUpdated",
@@ -173,7 +158,6 @@ val UPDATED_1 =
         municipalityNumber = "6548",
         industryCode = "industryUriUpdated",
         sectorCode = "sectorUriUpdated",
-        allowDelegatedRegistration = true,
         prefLabel =
             PrefLabel(
                 nb = "nbLabelUpdated",
@@ -224,9 +208,7 @@ val ORG_DB0 =
         industryCode = "84.110",
         sectorCode = "6100",
         homepage = "www.brreg.no",
-        domains = emptySet(),
-        allowDelegatedRegistration = true,
-        prefLabel = PrefLabel(nb = "Brønnøysundregistrene"),
+        prefLabel = EmbeddedPrefLabel(nb = "Brønnøysundregistrene"),
         orgStatus = OrgStatus.NORMAL,
     )
 
@@ -238,10 +220,8 @@ val ORG_DB1 =
         orgPath = "/STAT/972417823/986105174",
         subOrganizationOf = "972417823",
         issued = LocalDate.of(1999, 2, 3),
-        domains = emptySet(),
         homepage = "www.fors varet.no",
-        allowDelegatedRegistration = true,
-        prefLabel = PrefLabel(nb = "Forsvaret"),
+        prefLabel = EmbeddedPrefLabel(nb = "Forsvaret"),
         orgStatus = OrgStatus.NORMAL,
     )
 
@@ -302,7 +282,23 @@ val BRREG_ORG =
         registreringsdatoEnhetsregisteret = "1999-02-03",
     )
 
-fun organizationsDBPopulation(): List<org.bson.Document> =
+data class TestOrg(
+    val organizationId: String,
+    val name: String,
+    val orgType: String? = null,
+    val orgPath: String? = null,
+    val subOrganizationOf: String? = null,
+    val issued: LocalDate? = null,
+    val municipalityNumber: String? = null,
+    val industryCode: String? = null,
+    val sectorCode: String? = null,
+    val prefLabel: PrefLabel? = null,
+    val orgStatus: OrgStatus? = null,
+    val homepage: String? = null,
+    val subordinate: Boolean = false,
+)
+
+fun organizationsDBPopulation(): List<TestOrg> =
     listOf(
         ORG_0,
         ORG_1,
@@ -313,24 +309,21 @@ fun organizationsDBPopulation(): List<org.bson.Document> =
         ORG_WITHOUT_DOMAIN,
         NOT_UPDATED_2,
         PARENT_ORG,
-    ).map { it.mapDBO() }
+    ).map { it.toTestOrg() }
 
-private fun Organization.mapDBO(): org.bson.Document =
-    org.bson
-        .Document()
-        .append("_id", organizationId)
-        .append("name", name)
-        .append("norwegianRegistry", norwegianRegistry)
-        .append("organizationId", organizationId)
-        .append("orgType", orgType)
-        .append("orgPath", orgPath)
-        .append("subOrganizationOf", subOrganizationOf)
-        .append("issued", issued)
-        .append("municipalityNumber", municipalityNumber)
-        .append("industryCode", industryCode)
-        .append("prefLabel", prefLabel)
-        .append("orgStatus", orgStatus?.name)
-        .append("sectorCode", sectorCode)
-        .append("homepage", homepage)
-        .append("allowDelegatedRegistration", allowDelegatedRegistration)
-        .append("subordinate", subordinate)
+private fun Organization.toTestOrg(): TestOrg =
+    TestOrg(
+        organizationId = organizationId ?: "",
+        name = name ?: "",
+        orgType = orgType,
+        orgPath = orgPath,
+        subOrganizationOf = subOrganizationOf,
+        issued = issued,
+        municipalityNumber = municipalityNumber,
+        industryCode = industryCode,
+        sectorCode = sectorCode,
+        prefLabel = prefLabel,
+        orgStatus = orgStatus,
+        homepage = homepage,
+        subordinate = subordinate,
+    )

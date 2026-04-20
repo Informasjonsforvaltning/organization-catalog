@@ -11,13 +11,14 @@ import no.digdir.organizationcatalog.security.EndpointPermissions
 import no.digdir.organizationcatalog.service.OrganizationCatalogService
 import no.digdir.organizationcatalog.utils.isOrganizationNumber
 import org.slf4j.LoggerFactory
-import org.springframework.dao.DuplicateKeyException
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.jwt.Jwt
+import org.springframework.transaction.TransactionSystemException
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -57,9 +58,12 @@ open class OrganizationsController(
                         ?: ResponseEntity(HttpStatus.NOT_FOUND)
                 } catch (exception: Exception) {
                     LOGGER.error("error updating organization $id", exception)
-                    when (exception) {
-                        is ConstraintViolationException -> ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
-                        is DuplicateKeyException -> ResponseEntity(HttpStatus.CONFLICT)
+                    when {
+                        exception is ConstraintViolationException -> ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
+                        exception is TransactionSystemException &&
+                            exception.rootCause is ConstraintViolationException ->
+                            ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
+                        exception is DataIntegrityViolationException -> ResponseEntity(HttpStatus.CONFLICT)
                         else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
                     }
                 }
@@ -100,38 +104,6 @@ open class OrganizationsController(
                 jenaType == JenaType.NOT_JENA -> ResponseEntity(organization, HttpStatus.OK)
                 else -> ResponseEntity(organization.jenaResponse(jenaType, urls), HttpStatus.OK)
             }
-        }
-    }
-
-    @GetMapping(
-        "/delegated",
-        produces = [
-            "application/json",
-            "application/xml",
-            "application/ld+json",
-            "application/rdf+json",
-            "application/rdf+xml",
-            "text/turtle",
-        ],
-    )
-    fun getDelegatedOrganizations(
-        @RequestHeader(HttpHeaders.ACCEPT) accept: String?,
-    ): ResponseEntity<Any> {
-        LOGGER.debug("get organizations with delegation permissions")
-        val jenaType = acceptHeaderToJenaType(accept)
-        val organizations = catalogService.getOrganizationsWithDelegationPermissions()
-
-        val urls =
-            ExternalUrls(
-                organizationCatalog = appProperties.organizationCatalogUrl,
-                municipality = appProperties.municipalityUrl,
-            )
-
-        return when {
-            organizations.isEmpty() -> ResponseEntity(HttpStatus.NOT_FOUND)
-            jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
-            jenaType == JenaType.NOT_JENA -> ResponseEntity(organizations, HttpStatus.OK)
-            else -> ResponseEntity(organizations.jenaResponse(jenaType, urls), HttpStatus.OK)
         }
     }
 

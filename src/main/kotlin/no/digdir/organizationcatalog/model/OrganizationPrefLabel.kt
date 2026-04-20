@@ -1,11 +1,33 @@
 package no.digdir.organizationcatalog.model
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.mongodb.core.mapping.Document
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 
-@Document(collection = "orgPrefLabel")
+@Entity
+@Table(name = "org_pref_labels")
 data class OrganizationPrefLabel(
     @Id
-    val organizationId: String,
-    val value: PrefLabel,
+    @Column(name = "organization_id")
+    val organizationId: String = "",
+    @Column(name = "nb")
+    val nb: String? = null,
+    @Column(name = "nn")
+    val nn: String? = null,
+    @Column(name = "en")
+    val en: String? = null,
+) {
+    val value: PrefLabel
+        get() = PrefLabel(nb = nb, nn = nn, en = en)
+}
+
+fun OrganizationPrefLabel(
+    organizationId: String,
+    value: PrefLabel,
+) = OrganizationPrefLabel(
+    organizationId = organizationId,
+    nb = value.nb,
+    nn = value.nn,
+    en = value.en,
 )

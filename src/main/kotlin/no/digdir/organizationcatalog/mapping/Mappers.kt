@@ -8,6 +8,8 @@ import no.digdir.organizationcatalog.model.OrganizationPrefLabel
 import no.digdir.organizationcatalog.model.PrefLabel
 import no.digdir.organizationcatalog.model.TransportOrganization
 import no.digdir.organizationcatalog.model.toDB
+import no.digdir.organizationcatalog.model.toEmbedded
+import no.digdir.organizationcatalog.model.toPrefLabel
 import no.digdir.organizationcatalog.utils.prefLabelFromName
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -25,10 +27,9 @@ fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
         municipalityNumber = municipalityNumber,
         industryCode = industryCode,
         sectorCode = sectorCode,
-        prefLabel = prefLabel,
+        prefLabel = prefLabel?.toPrefLabel(),
         orgStatus = orgStatus,
         homepage = homepage,
-        allowDelegatedRegistration = allowDelegatedRegistration,
         subordinate = subordinate,
     )
 
@@ -45,7 +46,7 @@ fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB =
         sectorCode = institusjonellSektorkode?.kode,
         homepage = hjemmeside,
         orgStatus = orgStatusFromDeleteDate(),
-        prefLabel = navn.prefLabelFromName(),
+        prefLabel = navn.prefLabelFromName().toEmbedded(),
         subordinate = underenhet,
     )
 
@@ -61,8 +62,7 @@ fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
         industryCode = org.industryCode ?: industryCode,
         sectorCode = org.sectorCode ?: sectorCode,
         homepage = org.homepage ?: homepage,
-        prefLabel = prefLabel?.update(org.prefLabel) ?: PrefLabel().update(org.prefLabel),
-        allowDelegatedRegistration = org.allowDelegatedRegistration ?: allowDelegatedRegistration,
+        prefLabel = (prefLabel?.toPrefLabel() ?: PrefLabel()).update(org.prefLabel).toEmbedded(),
         subordinate = org.subordinate,
     )
 
@@ -70,18 +70,19 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(
     org: EnhetsregisteretOrganization,
     organizationPrefLabel: OrganizationPrefLabel? = null,
 ): OrganizationDB {
+    val currentPrefLabel = prefLabel?.toPrefLabel()
     val prefLabelShouldBeUpdated =
         when {
             org.navn.isBlank() && organizationPrefLabel == null -> false
-            prefLabel.isNullOrEmpty() -> true
-            organizationPrefLabel?.value != null && prefLabel != organizationPrefLabel?.value -> true
+            currentPrefLabel.isNullOrEmpty() -> true
+            organizationPrefLabel?.value != null && currentPrefLabel != organizationPrefLabel.value -> true
             name != org.navn -> true
             else -> false
         }
 
     val updatedPrefLabel =
         when {
-            !prefLabelShouldBeUpdated -> prefLabel
+            !prefLabelShouldBeUpdated -> currentPrefLabel
             !organizationPrefLabel?.value.isNullOrEmpty() -> organizationPrefLabel?.value
             else -> org.navn.prefLabelFromName()
         }
@@ -97,7 +98,7 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(
         sectorCode = org.institusjonellSektorkode?.kode,
         orgStatus = org.orgStatusFromDeleteDate(),
         homepage = org.hjemmeside,
-        prefLabel = updatedPrefLabel,
+        prefLabel = updatedPrefLabel?.toEmbedded(),
         subordinate = org.underenhet,
     )
 }

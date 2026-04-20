@@ -1,18 +1,11 @@
 package no.digdir.organizationcatalog.utils
 
-import com.mongodb.ConnectionString
-import com.mongodb.MongoClientSettings
-import com.mongodb.client.MongoClient
-import com.mongodb.client.MongoClients
-import no.digdir.organizationcatalog.utils.ApiTestContext.Companion.mongoContainer
-import org.bson.codecs.configuration.CodecRegistries.fromProviders
-import org.bson.codecs.configuration.CodecRegistries.fromRegistries
-import org.bson.codecs.pojo.PojoCodecProvider
 import org.springframework.http.HttpStatus
 import java.io.BufferedReader
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URI
+import java.sql.DriverManager
 
 fun apiGet(
     endpoint: String,
@@ -101,26 +94,43 @@ private fun isOK(response: Int?): Boolean =
     }
 
 fun resetDB() {
-    val connectionString =
-        ConnectionString(
-            "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:${mongoContainer.getMappedPort(
-                MONGO_PORT,
-            )}/organization-catalog?authSource=admin&authMechanism=SCRAM-SHA-1",
-        )
-    val pojoCodecRegistry =
-        fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), fromProviders(PojoCodecProvider.builder().automatic(true).build()))
+    val container = ApiTestContext.postgresContainer
+    val conn = DriverManager.getConnection(container.jdbcUrl, container.username, container.password)
+    conn.use { c ->
+        val stmt = c.createStatement()
+        stmt.execute("DELETE FROM org_pref_labels")
+        stmt.execute("DELETE FROM organizations")
 
-    val client: MongoClient = MongoClients.create(connectionString)
-    val mongoDatabase = client.getDatabase("organizationCatalog").withCodecRegistry(pojoCodecRegistry)
-
-    val orgCollection = mongoDatabase.getCollection("organizations")
-    orgCollection.deleteMany(org.bson.Document())
-    orgCollection.insertMany(organizationsDBPopulation())
-
-    val prefLabelCollection = mongoDatabase.getCollection("orgPrefLabel")
-    prefLabelCollection.deleteMany(org.bson.Document())
-
-    client.close()
+        val orgs = organizationsDBPopulation()
+        for (org in orgs) {
+            val ps =
+                c.prepareStatement(
+                    """INSERT INTO organizations
+                    (organization_id, name, org_type, org_path, sub_organization_of, issued,
+                     municipality_number, industry_code, sector_code, pref_label_nb, pref_label_nn,
+                     pref_label_en, org_status, homepage, subordinate)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                )
+            ps.setString(1, org.organizationId)
+            ps.setString(2, org.name)
+            ps.setString(3, org.orgType)
+            ps.setString(4, org.orgPath)
+            ps.setString(5, org.subOrganizationOf)
+            if (org.issued != null) ps.setObject(6, org.issued) else ps.setNull(6, java.sql.Types.DATE)
+            ps.setString(7, org.municipalityNumber)
+            ps.setString(8, org.industryCode)
+            ps.setString(9, org.sectorCode)
+            ps.setString(10, org.prefLabel?.nb)
+            ps.setString(11, org.prefLabel?.nn)
+            ps.setString(12, org.prefLabel?.en)
+            ps.setString(13, org.orgStatus?.name)
+            ps.setString(14, org.homepage)
+            ps.setBoolean(15, org.subordinate)
+            ps.executeUpdate()
+            ps.close()
+        }
+        stmt.close()
+    }
 }
 
 data class JenaAndHeader(

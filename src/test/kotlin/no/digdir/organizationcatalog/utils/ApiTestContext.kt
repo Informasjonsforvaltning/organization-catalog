@@ -5,8 +5,7 @@ import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.Testcontainers
-import org.testcontainers.containers.GenericContainer
-import org.testcontainers.containers.wait.strategy.Wait
+import org.testcontainers.postgresql.PostgreSQLContainer
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URI
@@ -16,14 +15,16 @@ abstract class ApiTestContext {
         override fun initialize(configurableApplicationContext: ConfigurableApplicationContext) {
             TestPropertyValues
                 .of(
-                    "spring.mongodb.port=${mongoContainer.getMappedPort(MONGO_PORT)}",
+                    "spring.datasource.url=${postgresContainer.jdbcUrl}",
+                    "spring.datasource.username=${postgresContainer.username}",
+                    "spring.datasource.password=${postgresContainer.password}",
                 ).applyTo(configurableApplicationContext.environment)
         }
     }
 
     companion object {
         private val logger = LoggerFactory.getLogger(ApiTestContext::class.java)
-        var mongoContainer: KGenericContainer
+        var postgresContainer: PostgreSQLContainer
 
         init {
 
@@ -31,17 +32,15 @@ abstract class ApiTestContext {
 
             Testcontainers.exposeHostPorts(LOCAL_SERVER_PORT)
 
-            mongoContainer =
-                KGenericContainer("mongo:latest")
-                    .withEnv(MONGO_ENV_VALUES)
-                    .withExposedPorts(MONGO_PORT)
-                    .withNetworkAliases("mongodb")
-                    .waitingFor(Wait.forListeningPort())
-            mongoContainer.start()
-
-            resetDB()
+            postgresContainer =
+                PostgreSQLContainer("postgres:16")
+                    .withDatabaseName("organization_catalog")
+                    .withUsername("testuser")
+                    .withPassword("testpassword")
+            postgresContainer.start()
 
             try {
+
                 val con = URI("http://localhost:5050/ping").toURL().openConnection() as HttpURLConnection
                 con.connect()
                 if (con.responseCode != 200) {
@@ -58,8 +57,3 @@ abstract class ApiTestContext {
         }
     }
 }
-
-// Hack needed because testcontainers use of generics confuses Kotlin
-class KGenericContainer(
-    imageName: String,
-) : GenericContainer<KGenericContainer>(imageName)

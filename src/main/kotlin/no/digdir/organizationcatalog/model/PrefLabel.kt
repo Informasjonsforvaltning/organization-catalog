@@ -10,3 +10,7 @@ data class PrefLabel(
     val nn: String? = null,
     val en: String? = null,
 )
+
+fun PrefLabel.toEmbedded() = EmbeddedPrefLabel(nb = nb, nn = nn, en = en)
+
+fun EmbeddedPrefLabel.toPrefLabel() = PrefLabel(nb = nb, nn = nn, en = en)

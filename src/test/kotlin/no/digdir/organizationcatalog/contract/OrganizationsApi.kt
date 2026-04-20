@@ -98,22 +98,6 @@ internal class OrganizationsApi : ApiTestContext() {
     }
 
     @Nested
-    internal inner class GetDelegatedOrganizations {
-        @Test
-        fun wrongAcceptHeader() {
-            val status = apiGet("/organizations/delegated", port, "text/plain")["status"]
-            Expect(status).to_equal(HttpStatus.NOT_ACCEPTABLE.value())
-        }
-
-        @Test
-        fun listOfDelegatedOrganizationsFromSupportedRequest() {
-            val response0 = apiGet("/organizations/delegated", port, rdfjson.acceptHeader)["body"]
-
-            Expect(response0).isomorphic_with_response_in_file("getBrreg.ttl", rdfjson.jenaType)
-        }
-    }
-
-    @Nested
     internal inner class GetOrganizations {
         @Test
         fun missingAcceptHeader() {

@@ -3,6 +3,7 @@ package no.digdir.organizationcatalog.service
 import no.digdir.organizationcatalog.adapter.EnhetsregisteretAdapter
 import no.digdir.organizationcatalog.adapter.TransportOrganizationAdapter
 import no.digdir.organizationcatalog.configuration.AppProperties
+import no.digdir.organizationcatalog.model.toPrefLabel
 import no.digdir.organizationcatalog.repository.OrganizationCatalogRepository
 import no.digdir.organizationcatalog.repository.OrganizationPrefLabelRepository
 import no.digdir.organizationcatalog.utils.ENHETSREGISTERET_URL
@@ -58,7 +59,7 @@ class OrganizationCatalogServiceTest {
         assertEquals(persisted.name, publisher!!.name)
         assertEquals(persisted.organizationId, publisher.organizationId)
         assertEquals(persisted.orgPath, publisher.orgPath)
-        assertEquals(persisted.prefLabel, publisher.prefLabel)
+        assertEquals(persisted.prefLabel?.toPrefLabel(), publisher.prefLabel)
         assertEquals(ENHETSREGISTERET_URL + persisted.organizationId, publisher.norwegianRegistry)
     }
 
@@ -75,14 +76,14 @@ class OrganizationCatalogServiceTest {
         assertEquals(persistedList[0].name, publisherList[0].name)
         assertEquals(persistedList[0].organizationId, publisherList[0].organizationId)
         assertEquals(persistedList[0].orgPath, publisherList[0].orgPath)
-        assertEquals(persistedList[0].prefLabel, publisherList[0].prefLabel)
+        assertEquals(persistedList[0].prefLabel?.toPrefLabel(), publisherList[0].prefLabel)
         assertEquals(ENHETSREGISTERET_URL + persistedList[0].organizationId, publisherList[0].norwegianRegistry)
     }
 
     @Test
     fun getByOrgIdIsPrioritized() {
         val persistedList = listOf(ORG_DB0, ORG_DB1)
-        whenever(repository.findByNameLike("Name"))
+        whenever(repository.findByNameContainingIgnoreCase("Name"))
             .thenReturn(persistedList)
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
@@ -92,14 +93,14 @@ class OrganizationCatalogServiceTest {
         assertEquals(persistedList[0].name, publisherList[0].name)
         assertEquals(persistedList[0].organizationId, publisherList[0].organizationId)
         assertEquals(persistedList[0].orgPath, publisherList[0].orgPath)
-        assertEquals(persistedList[0].prefLabel, publisherList[0].prefLabel)
+        assertEquals(persistedList[0].prefLabel?.toPrefLabel(), publisherList[0].prefLabel)
         assertEquals(ENHETSREGISTERET_URL + persistedList[0].organizationId, publisherList[0].norwegianRegistry)
     }
 
     @Test
     fun getByName() {
         val persistedList = listOf(ORG_DB0)
-        whenever(repository.findByNameLike("NAME"))
+        whenever(repository.findByNameContainingIgnoreCase("Name"))
             .thenReturn(persistedList)
         whenever(valuesMock.enhetsregisteretUrl)
             .thenReturn(ENHETSREGISTERET_URL)
@@ -109,7 +110,7 @@ class OrganizationCatalogServiceTest {
         assertEquals(persistedList[0].name, publisherList[0].name)
         assertEquals(persistedList[0].organizationId, publisherList[0].organizationId)
         assertEquals(persistedList[0].orgPath, publisherList[0].orgPath)
-        assertEquals(persistedList[0].prefLabel, publisherList[0].prefLabel)
+        assertEquals(persistedList[0].prefLabel?.toPrefLabel(), publisherList[0].prefLabel)
         assertEquals(ENHETSREGISTERET_URL + persistedList[0].organizationId, publisherList[0].norwegianRegistry)
     }
 
@@ -121,17 +122,5 @@ class OrganizationCatalogServiceTest {
         val publisher = catalogService.updateEntry("123ID", ORG_0)
 
         assertNull(publisher)
-    }
-
-    @Test
-    fun getOrganizationsWithDelegationPermissions() {
-        whenever(repository.findByAllowDelegatedRegistration(true))
-            .thenReturn(listOf(ORG_DB0))
-        whenever(valuesMock.enhetsregisteretUrl)
-            .thenReturn(ENHETSREGISTERET_URL)
-
-        val publishers = catalogService.getOrganizationsWithDelegationPermissions()
-
-        assertEquals(listOf(ORG_0), publishers)
     }
 }

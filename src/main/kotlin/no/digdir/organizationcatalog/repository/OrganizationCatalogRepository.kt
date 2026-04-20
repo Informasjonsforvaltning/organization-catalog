@@ -1,12 +1,10 @@
 package no.digdir.organizationcatalog.repository
 
 import no.digdir.organizationcatalog.model.OrganizationDB
-import org.springframework.data.mongodb.repository.MongoRepository
+import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface OrganizationCatalogRepository : MongoRepository<OrganizationDB, String> {
-    fun findByNameLike(name: String): List<OrganizationDB>
-
-    fun findByAllowDelegatedRegistration(allowed: Boolean): List<OrganizationDB>
+interface OrganizationCatalogRepository : JpaRepository<OrganizationDB, String> {
+    fun findByNameContainingIgnoreCase(name: String): List<OrganizationDB>
 }

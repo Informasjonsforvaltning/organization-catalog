@@ -5,20 +5,21 @@ logging.level:
   org.springframework.web: WARN
 
 spring:
-  data.mongodb:
-    auto-index-creation: true
+  datasource:
+    url: jdbc:postgresql://${POSTGRESQL_HOST}:5432/${POSTGRESQL_DB}
+    username: ${POSTGRESQL_USER}
+    password: ${POSTGRESQL_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
 
   security.oauth2.resourceserver.jwt:
     jwk-set-uri: ${KEYCLOAK_OIDC_ISSUER:https://auth.staging.fellesdatakatalog.digdir.no/realms/fdk}/protocol/openid-connect/certs
     issuer-uri: ${KEYCLOAK_OIDC_ISSUER:https://auth.staging.fellesdatakatalog.digdir.no/realms/fdk}
-  mongodb:
-    authentication-database: ${MONGODB_AUTH}
-    username: ${MONGODB_USER}
-    host: ${MONGODB_HOST}
-    password: ${MONGODB_PASSWORD}
-    replica-set-name: ${MONGODB_REPLICASET}
-    port: 27017
-    database: organizationCatalog
 
 application:
   enturDataUrl: ${ENTUR_TRANSMODEL_URL}
@@ -38,12 +39,10 @@ server.port: 8080
 ---
 spring:
   config.activate.on-profile: develop
-  mongodb:
-    host: localhost
+  datasource:
+    url: jdbc:postgresql://localhost:5432/organization_catalog
     username: admin
     password: admin
-    authentication-database: admin
-    replica-set-name: null
 
 application:
   enhetsregisteretUrl: https://data.brreg.no/enhetsregisteret/api/enheter/
@@ -59,16 +58,13 @@ server.port: 8140
 ---
 spring:
   config.activate.on-profile: test
+  datasource:
+    url: jdbc:postgresql://localhost:5432/organization_catalog
+    username: testuser
+    password: testpassword
   security.oauth2.resourceserver.jwt:
     jwk-set-uri: http://localhost:5050/auth/realms/fdk/protocol/openid-connect/certs
     issuer-uri: http://localhost:5050/auth/realms/fdk
-
-  mongodb:
-    host: localhost
-    username: testuser
-    password: testpassword
-    authentication-database: admin
-    replica-set-name: null
 
 application:
   enturDataUrl: http://localhost:5050/agreements/v1/adapter/transmodel/export

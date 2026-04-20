@@ -1,6 +1,7 @@
 package no.digdir.organizationcatalog.mapping
 
-import no.digdir.organizationcatalog.model.PrefLabel
+import no.digdir.organizationcatalog.model.EmbeddedPrefLabel
+import no.digdir.organizationcatalog.model.toPrefLabel
 import no.digdir.organizationcatalog.utils.BRREG_ORG
 import no.digdir.organizationcatalog.utils.ORG_DB1
 import org.junit.jupiter.api.Assertions
@@ -16,7 +17,7 @@ class UpdateFromEnhetsregisteret {
         val orgWithNN =
             ORG_DB1.copy(
                 prefLabel =
-                    PrefLabel(
+                    EmbeddedPrefLabel(
                         nb = "Forsvaret på bokmål",
                         nn = "Forsvaret på nynorsk",
                     ),
@@ -27,9 +28,9 @@ class UpdateFromEnhetsregisteret {
 
         val result = orgWithNN.updateWithEnhetsregisteretValues(BRREG_ORG)
 
-        Assertions.assertEquals(expectedNb, result.prefLabel?.nb)
-        Assertions.assertEquals(expectedNn, result.prefLabel?.nn)
-        Assertions.assertNull(result.prefLabel?.en)
+        Assertions.assertEquals(expectedNb, result.prefLabel?.toPrefLabel()?.nb)
+        Assertions.assertEquals(expectedNn, result.prefLabel?.toPrefLabel()?.nn)
+        Assertions.assertNull(result.prefLabel?.toPrefLabel()?.en)
     }
 
     @Test
@@ -37,7 +38,7 @@ class UpdateFromEnhetsregisteret {
         val orgWithNN =
             ORG_DB1.copy(
                 prefLabel =
-                    PrefLabel(
+                    EmbeddedPrefLabel(
                         nb = "Forsvaret på bokmål",
                         nn = "Forsvaret på nynorsk",
                     ),
@@ -48,9 +49,9 @@ class UpdateFromEnhetsregisteret {
 
         val result = orgWithNN.updateWithEnhetsregisteretValues(BRREG_ORG.copy(navn = "  "))
 
-        Assertions.assertEquals(expectedNb, result.prefLabel?.nb)
-        Assertions.assertEquals(expectedNn, result.prefLabel?.nn)
-        Assertions.assertNull(result.prefLabel?.en)
+        Assertions.assertEquals(expectedNb, result.prefLabel?.toPrefLabel()?.nb)
+        Assertions.assertEquals(expectedNn, result.prefLabel?.toPrefLabel()?.nn)
+        Assertions.assertNull(result.prefLabel?.toPrefLabel()?.en)
     }
 
     @Test
@@ -59,7 +60,7 @@ class UpdateFromEnhetsregisteret {
             ORG_DB1.copy(
                 name = "FØRSVARET",
                 prefLabel =
-                    PrefLabel(
+                    EmbeddedPrefLabel(
                         nb = "Førsvaret",
                         nn = "Føresvaret",
                     ),
@@ -69,24 +70,24 @@ class UpdateFromEnhetsregisteret {
 
         val result = orgDBWithTypo.updateWithEnhetsregisteretValues(BRREG_ORG)
 
-        Assertions.assertEquals(expectedNb, result.prefLabel?.nb)
-        Assertions.assertNull(result.prefLabel?.nn)
-        Assertions.assertNull(result.prefLabel?.en)
+        Assertions.assertEquals(expectedNb, result.prefLabel?.toPrefLabel()?.nb)
+        Assertions.assertNull(result.prefLabel?.toPrefLabel()?.nn)
+        Assertions.assertNull(result.prefLabel?.toPrefLabel()?.en)
     }
 
     @Test
     fun prefLabelUpdatedWhenPrefLabelIsEmpty() {
         val orgDBWithTypo =
             ORG_DB1.copy(
-                prefLabel = PrefLabel(),
+                prefLabel = EmbeddedPrefLabel(),
             )
 
         val expectedNb = "Forsvaret"
 
         val result = orgDBWithTypo.updateWithEnhetsregisteretValues(BRREG_ORG)
 
-        Assertions.assertEquals(expectedNb, result.prefLabel?.nb)
-        Assertions.assertNull(result.prefLabel?.nn)
-        Assertions.assertNull(result.prefLabel?.en)
+        Assertions.assertEquals(expectedNb, result.prefLabel?.toPrefLabel()?.nb)
+        Assertions.assertNull(result.prefLabel?.toPrefLabel()?.nn)
+        Assertions.assertNull(result.prefLabel?.toPrefLabel()?.en)
     }
 }
