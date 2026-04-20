@@ -19,26 +19,26 @@ spec:
       containers:
         - name: organization-catalog
           env:
-            - name: POSTGRES_HOST
+            - name: POSTGRESQL_HOST
               valueFrom:
                 secretKeyRef:
                   name: postgres
-                  key: HOST
-            - name: POSTGRES_DB
+                  key: POSTGRESQL_HOST
+            - name: POSTGRESQL_DB
               valueFrom:
                 secretKeyRef:
                   name: organization-catalog
-                  key: POSTGRES_DB
-            - name: POSTGRES_USERNAME
+                  key: POSTGRESQL_DB
+            - name: POSTGRESQL_USER
               valueFrom:
                 secretKeyRef:
                   name: organization-catalog
-                  key: POSTGRES_USERNAME
-            - name: POSTGRES_PASSWORD
+                  key: POSTGRESQL_USER
+            - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: organization-catalog
-                  key: POSTGRES_PASSWORD
+                  key: POSTGRESQL_PASSWORD
             - name: KEYCLOAK_OIDC_ISSUER
               valueFrom:
                 secretKeyRef:
