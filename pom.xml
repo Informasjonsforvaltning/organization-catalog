@@ -128,7 +128,6 @@
             <scope>test</scope>
         </dependency>
 
-
         <!-- Kotlin dependencies -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
