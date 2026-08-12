@@ -1,11 +1,10 @@
 package no.digdir.organizationcatalog.utils
 
+import org.junit.jupiter.api.Assertions
+
 /**
  * Expect assertion style wrapper for jupiter assertions
  */
-
-import org.junit.jupiter.api.Assertions
-
 class Expect(
     _result: Any?,
 ) {

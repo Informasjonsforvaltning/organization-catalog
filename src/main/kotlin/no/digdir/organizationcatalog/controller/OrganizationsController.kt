@@ -47,8 +47,14 @@ open class OrganizationsController(
         @RequestBody organization: Organization,
     ): ResponseEntity<Organization> =
         when {
-            !id.isOrganizationNumber() -> ResponseEntity(HttpStatus.BAD_REQUEST)
-            !endpointPermissions.hasAdminPermission(jwt) -> ResponseEntity(HttpStatus.FORBIDDEN)
+            !id.isOrganizationNumber() -> {
+                ResponseEntity(HttpStatus.BAD_REQUEST)
+            }
+
+            !endpointPermissions.hasAdminPermission(jwt) -> {
+                ResponseEntity(HttpStatus.FORBIDDEN)
+            }
+
             else -> {
                 try {
                     LOGGER.debug("update organization $id")
@@ -59,12 +65,22 @@ open class OrganizationsController(
                 } catch (exception: Exception) {
                     LOGGER.error("error updating organization $id", exception)
                     when {
-                        exception is ConstraintViolationException -> ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
-                        exception is TransactionSystemException &&
-                            exception.rootCause is ConstraintViolationException ->
+                        exception is ConstraintViolationException -> {
                             ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
-                        exception is DataIntegrityViolationException -> ResponseEntity(HttpStatus.CONFLICT)
-                        else -> ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+                        }
+
+                        exception is TransactionSystemException &&
+                            exception.rootCause is ConstraintViolationException -> {
+                            ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
+                        }
+
+                        exception is DataIntegrityViolationException -> {
+                            ResponseEntity(HttpStatus.CONFLICT)
+                        }
+
+                        else -> {
+                            ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+                        }
                     }
                 }
             }
@@ -151,8 +167,14 @@ open class OrganizationsController(
         @PathVariable id: String,
     ): ResponseEntity<Organization> =
         when {
-            !id.isOrganizationNumber() -> ResponseEntity(HttpStatus.BAD_REQUEST)
-            !endpointPermissions.hasAdminPermission(jwt) -> ResponseEntity(HttpStatus.FORBIDDEN)
+            !id.isOrganizationNumber() -> {
+                ResponseEntity(HttpStatus.BAD_REQUEST)
+            }
+
+            !endpointPermissions.hasAdminPermission(jwt) -> {
+                ResponseEntity(HttpStatus.FORBIDDEN)
+            }
+
             else -> {
                 LOGGER.debug("update organization with id $id with data from Enhetsregisteret")
                 catalogService

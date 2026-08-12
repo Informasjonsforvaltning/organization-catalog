@@ -57,11 +57,19 @@ class SecurityConfig(
 
     @Bean
     fun jwtDecoder(properties: OAuth2ResourceServerProperties): JwtDecoder {
-        val jwtDecoder = NimbusJwtDecoder.withJwkSetUri(properties.jwt.jwkSetUri).build()
+        val jwkSetUri =
+            requireNotNull(properties.jwt.jwkSetUri) {
+                "spring.security.oauth2.resourceserver.jwt.jwk-set-uri must be set"
+            }
+        val issuerUri =
+            requireNotNull(properties.jwt.issuerUri) {
+                "spring.security.oauth2.resourceserver.jwt.issuer-uri must be set"
+            }
+        val jwtDecoder = NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build()
         jwtDecoder.setJwtValidator(
             DelegatingOAuth2TokenValidator(
                 JwtTimestampValidator(),
-                JwtIssuerValidator(properties.jwt.issuerUri),
+                JwtIssuerValidator(issuerUri),
                 JwtClaimValidator(AUD) { aud: List<String> -> aud.contains("organization-catalog") },
             ),
         )
