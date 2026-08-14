@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Assertions
 /**
  * Expect assertion style wrapper for jupiter assertions
  */
-class Expect(
-    _result: Any?,
-) {
+class Expect(_result: Any?) {
     private val responseReader = TestResponseReader()
 
     val result = _result
@@ -24,10 +22,7 @@ class Expect(
         }
     }
 
-    fun isomorphic_with_response_in_file(
-        filename: String,
-        resultLang: String,
-    ) {
+    fun isomorphic_with_response_in_file(filename: String, resultLang: String) {
         val resultModel = responseReader.parseResponse(result as String, resultLang)
         val expectedModel = responseReader.getExpectedResponse(filename, "TURTLE")
 

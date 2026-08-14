@@ -17,15 +17,10 @@ import org.apache.jena.vocabulary.SKOS
 import java.io.ByteArrayOutputStream
 import java.net.URI
 
-fun Organization.jenaResponse(
-    responseType: JenaType,
-    urls: ExternalUrls,
-): String = listOf(this).jenaResponse(responseType, urls)
+fun Organization.jenaResponse(responseType: JenaType, urls: ExternalUrls): String = listOf(this).jenaResponse(responseType, urls)
 
-fun List<Organization>.jenaResponse(
-    responseType: JenaType,
-    urls: ExternalUrls,
-): String = createModel(urls).createResponseString(responseType)
+fun List<Organization>.jenaResponse(responseType: JenaType, urls: ExternalUrls): String =
+    createModel(urls).createResponseString(responseType)
 
 private fun List<Organization>.createModel(urls: ExternalUrls): Model {
     val model = ModelFactory.createDefaultModel()
@@ -68,57 +63,45 @@ private fun List<Organization>.createModel(urls: ExternalUrls): Model {
     return model
 }
 
-private fun Resource.addRegistration(org: Organization): Resource =
-    addProperty(
-        ROV.registration,
-        model
-            .createResource(ADMS.Identifier)
-            .safeAddProperty(DCTerms.issued, org.issued?.toString())
-            .addProperty(SKOS.notation, org.organizationId)
-            .addProperty(ADMS.schemaAgency, "Brønnøysundregistrene"),
-    )
+private fun Resource.addRegistration(org: Organization): Resource = addProperty(
+    ROV.registration,
+    model
+        .createResource(ADMS.Identifier)
+        .safeAddProperty(DCTerms.issued, org.issued?.toString())
+        .addProperty(SKOS.notation, org.organizationId)
+        .addProperty(ADMS.schemaAgency, "Brønnøysundregistrene"),
+)
 
-private fun Resource.addOrgType(orgType: String?): Resource =
-    if (orgType == null) {
-        this
-    } else {
-        safeAddLinkedProperty(ROV.orgType, "${ORGTYPE.URI}$orgType")
-    }
+private fun Resource.addOrgType(orgType: String?): Resource = if (orgType == null) {
+    this
+} else {
+    safeAddLinkedProperty(ROV.orgType, "${ORGTYPE.URI}$orgType")
+}
 
-private fun Resource.safeAddProperty(
-    property: Property,
-    value: String?,
-): Resource =
-    if (value == null) {
-        this
-    } else {
-        addProperty(property, value)
-    }
+private fun Resource.safeAddProperty(property: Property, value: String?): Resource = if (value == null) {
+    this
+} else {
+    addProperty(property, value)
+}
 
-private fun Resource.safeAddLinkedProperty(
-    property: Property,
-    value: String?,
-): Resource =
-    if (value == null) {
-        this
-    } else {
-        addProperty(property, model.createResource(value))
-    }
+private fun Resource.safeAddLinkedProperty(property: Property, value: String?): Resource = if (value == null) {
+    this
+} else {
+    addProperty(property, model.createResource(value))
+}
 
-private fun String.isWellFormedIRI(): Boolean =
-    try {
-        URI.create(this).isAbsolute
-    } catch (ex: Exception) {
-        false
-    }
+private fun String.isWellFormedIRI(): Boolean = try {
+    URI.create(this).isAbsolute
+} catch (ex: Exception) {
+    false
+}
 
-private fun Resource.safeAddHomepage(value: String?): Resource =
-    when {
-        value == null -> this
-        value.isWellFormedIRI() -> addProperty(FOAF.homepage, model.createResource(value))
-        "http://$value".isWellFormedIRI() -> addProperty(FOAF.homepage, model.createResource("http://$value"))
-        else -> this
-    }
+private fun Resource.safeAddHomepage(value: String?): Resource = when {
+    value == null -> this
+    value.isWellFormedIRI() -> addProperty(FOAF.homepage, model.createResource(value))
+    "http://$value".isWellFormedIRI() -> addProperty(FOAF.homepage, model.createResource("http://$value"))
+    else -> this
+}
 
 private fun Resource.addPreferredNames(preferredNames: PrefLabel?): Resource {
     if (preferredNames?.nb != null) addProperty(FOAF.name, preferredNames.nb, "nb")
@@ -135,29 +118,25 @@ private fun Resource.addOrgStatus(orgStatus: OrgStatus?): Resource {
     return this
 }
 
-private fun Model.createResponseString(responseType: JenaType): String =
-    ByteArrayOutputStream().use { out ->
-        write(out, responseType.value)
-        out.flush()
-        out.toString("UTF-8")
-    }
+private fun Model.createResponseString(responseType: JenaType): String = ByteArrayOutputStream().use { out ->
+    write(out, responseType.value)
+    out.flush()
+    out.toString("UTF-8")
+}
 
-fun acceptHeaderToJenaType(accept: String?): JenaType =
-    when {
-        accept == null -> JenaType.TURTLE
-        accept.contains("text/turtle") -> JenaType.TURTLE
-        accept.contains("application/rdf+xml") -> JenaType.RDF_XML
-        accept.contains("application/rdf+json") -> JenaType.RDF_JSON
-        accept.contains("application/ld+json") -> JenaType.JSON_LD
-        accept.contains("application/xml") -> JenaType.NOT_JENA
-        accept.contains("application/json") -> JenaType.NOT_JENA
-        accept.contains("*/*") -> JenaType.TURTLE
-        else -> JenaType.NOT_ACCEPTABLE
-    }
+fun acceptHeaderToJenaType(accept: String?): JenaType = when {
+    accept == null -> JenaType.TURTLE
+    accept.contains("text/turtle") -> JenaType.TURTLE
+    accept.contains("application/rdf+xml") -> JenaType.RDF_XML
+    accept.contains("application/rdf+json") -> JenaType.RDF_JSON
+    accept.contains("application/ld+json") -> JenaType.JSON_LD
+    accept.contains("application/xml") -> JenaType.NOT_JENA
+    accept.contains("application/json") -> JenaType.NOT_JENA
+    accept.contains("*/*") -> JenaType.TURTLE
+    else -> JenaType.NOT_ACCEPTABLE
+}
 
-enum class JenaType(
-    val value: String,
-) {
+enum class JenaType(val value: String) {
     TURTLE("TURTLE"),
     RDF_XML("RDF/XML"),
     RDF_JSON("RDF/JSON"),
@@ -166,7 +145,4 @@ enum class JenaType(
     NOT_ACCEPTABLE(""),
 }
 
-data class ExternalUrls(
-    val organizationCatalog: String? = null,
-    val municipality: String? = null,
-)
+data class ExternalUrls(val organizationCatalog: String? = null, val municipality: String? = null)

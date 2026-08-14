@@ -31,19 +31,13 @@ class OrganizationCatalogService(
     private val transportOrganizationAdapter: TransportOrganizationAdapter,
     private val appProperties: AppProperties,
 ) {
-    fun getByOrgnr(orgId: String): Organization? =
-        repository
-            .findById(orgId)
-            .orElse(null)
-            ?.mapToGenerated(appProperties.enhetsregisteretUrl)
-            ?: updateEntryFromEnhetsregisteret(orgId)
+    fun getByOrgnr(orgId: String): Organization? = repository
+        .findById(orgId)
+        .orElse(null)
+        ?.mapToGenerated(appProperties.enhetsregisteretUrl)
+        ?: updateEntryFromEnhetsregisteret(orgId)
 
-    fun getOrganizations(
-        name: String?,
-        orgIds: List<String>?,
-        orgPath: String?,
-        includeSubordinate: Boolean,
-    ): List<Organization> {
+    fun getOrganizations(name: String?, orgIds: List<String>?, orgPath: String?, includeSubordinate: Boolean): List<Organization> {
         val organizations =
             when {
                 name != null && orgIds != null -> searchForOrganizationsByNameAndIds(name, orgIds)
@@ -57,25 +51,19 @@ class OrganizationCatalogService(
             .filter { if (includeSubordinate) true else !it.subordinate }
     }
 
-    private fun getCatalog() =
-        repository
-            .findAll()
-            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
+    private fun getCatalog() = repository
+        .findAll()
+        .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
-    private fun searchForOrganizationsByIds(orgs: List<String>) =
-        repository
-            .findAllById(orgs)
-            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
+    private fun searchForOrganizationsByIds(orgs: List<String>) = repository
+        .findAllById(orgs)
+        .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
-    private fun searchForOrganizationsByName(name: String) =
-        repository
-            .findByNameContainingIgnoreCase(name)
-            .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
+    private fun searchForOrganizationsByName(name: String) = repository
+        .findByNameContainingIgnoreCase(name)
+        .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
 
-    private fun searchForOrganizationsByNameAndIds(
-        name: String,
-        orgs: List<String>,
-    ) = repository
+    private fun searchForOrganizationsByNameAndIds(name: String, orgs: List<String>) = repository
         .findByNameContainingIgnoreCase(name)
         .filter { orgs.contains(it.organizationId) }
         .map { it.mapToGenerated(appProperties.enhetsregisteretUrl) }
@@ -102,25 +90,20 @@ class OrganizationCatalogService(
             ?: mapForCreation()
     }
 
-    fun updateEntry(
-        orgId: String,
-        org: Organization,
-    ): Organization? =
-        repository
-            .findById(orgId)
-            .orElse(null)
-            ?.updateValues(org)
-            ?.let { repository.save(it) }
-            ?.mapToGenerated(appProperties.enhetsregisteretUrl)
+    fun updateEntry(orgId: String, org: Organization): Organization? = repository
+        .findById(orgId)
+        .orElse(null)
+        ?.updateValues(org)
+        ?.let { repository.save(it) }
+        ?.mapToGenerated(appProperties.enhetsregisteretUrl)
 
-    fun getOrgPath(orgId: String): String =
-        if (orgId.isOrganizationNumber()) {
-            getByOrgnr(orgId)
-                ?.orgPath
-                ?: "${appProperties.defaultOrgPath}$orgId"
-        } else {
-            "${appProperties.defaultOrgPath}$orgId"
-        }
+    fun getOrgPath(orgId: String): String = if (orgId.isOrganizationNumber()) {
+        getByOrgnr(orgId)
+            ?.orgPath
+            ?: "${appProperties.defaultOrgPath}$orgId"
+    } else {
+        "${appProperties.defaultOrgPath}$orgId"
+    }
 
     private fun EnhetsregisteretOrganization.addOrgPath(): EnhetsregisteretOrganization {
         val orgPathBase =
@@ -134,17 +117,16 @@ class OrganizationCatalogService(
     }
 
     @Scheduled(cron = "0 30 18 9 * ?")
-    fun updateTransportData(): Unit =
-        transportOrganizationAdapter
-            .downloadTransportDataList()
-            .filter { it.companyNumber != null }
-            .mapNotNull {
-                it.prefLabelToUpdate(
-                    organizationPrefLabelRepository.findById(it.companyNumber!!).orElse(null),
-                )
-            }.run {
-                if (this.isNotEmpty()) organizationPrefLabelRepository.saveAll(this)
-            }
+    fun updateTransportData(): Unit = transportOrganizationAdapter
+        .downloadTransportDataList()
+        .filter { it.companyNumber != null }
+        .mapNotNull {
+            it.prefLabelToUpdate(
+                organizationPrefLabelRepository.findById(it.companyNumber!!).orElse(null),
+            )
+        }.run {
+            if (this.isNotEmpty()) organizationPrefLabelRepository.saveAll(this)
+        }
 
     @Scheduled(cron = "0 30 20 9 * ?")
     fun updateAllEntriesFromEnhetsregisteret() {

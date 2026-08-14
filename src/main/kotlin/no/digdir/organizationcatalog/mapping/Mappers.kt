@@ -14,57 +14,54 @@ import no.digdir.organizationcatalog.utils.prefLabelFromName
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization =
-    Organization(
-        name = name,
-        norwegianRegistry = enhetsregisteretUrl + organizationId,
-        internationalRegistry = internationalRegistry,
-        organizationId = organizationId,
-        orgType = orgType,
-        orgPath = orgPath,
-        subOrganizationOf = subOrganizationOf,
-        issued = issued,
-        municipalityNumber = municipalityNumber,
-        industryCode = industryCode,
-        sectorCode = sectorCode,
-        prefLabel = prefLabel?.toPrefLabel(),
-        orgStatus = orgStatus,
-        homepage = homepage,
-        subordinate = subordinate,
-    )
+fun OrganizationDB.mapToGenerated(enhetsregisteretUrl: String): Organization = Organization(
+    name = name,
+    norwegianRegistry = enhetsregisteretUrl + organizationId,
+    internationalRegistry = internationalRegistry,
+    organizationId = organizationId,
+    orgType = orgType,
+    orgPath = orgPath,
+    subOrganizationOf = subOrganizationOf,
+    issued = issued,
+    municipalityNumber = municipalityNumber,
+    industryCode = industryCode,
+    sectorCode = sectorCode,
+    prefLabel = prefLabel?.toPrefLabel(),
+    orgStatus = orgStatus,
+    homepage = homepage,
+    subordinate = subordinate,
+)
 
-fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB =
-    OrganizationDB(
-        name = navn,
-        organizationId = organisasjonsnummer,
-        orgType = organisasjonsform?.kode,
-        orgPath = orgPath,
-        subOrganizationOf = overordnetEnhet,
-        municipalityNumber = forretningsadresse?.kommunenummer ?: postadresse?.kommunenummer,
-        issued = registreringsdatoEnhetsregisteret?.let { LocalDate.parse(it) },
-        industryCode = naeringskode1?.kode,
-        sectorCode = institusjonellSektorkode?.kode,
-        homepage = hjemmeside,
-        orgStatus = orgStatusFromDeleteDate(),
-        prefLabel = navn.prefLabelFromName().toEmbedded(),
-        subordinate = underenhet,
-    )
+fun EnhetsregisteretOrganization.mapForCreation(): OrganizationDB = OrganizationDB(
+    name = navn,
+    organizationId = organisasjonsnummer,
+    orgType = organisasjonsform?.kode,
+    orgPath = orgPath,
+    subOrganizationOf = overordnetEnhet,
+    municipalityNumber = forretningsadresse?.kommunenummer ?: postadresse?.kommunenummer,
+    issued = registreringsdatoEnhetsregisteret?.let { LocalDate.parse(it) },
+    industryCode = naeringskode1?.kode,
+    sectorCode = institusjonellSektorkode?.kode,
+    homepage = hjemmeside,
+    orgStatus = orgStatusFromDeleteDate(),
+    prefLabel = navn.prefLabelFromName().toEmbedded(),
+    subordinate = underenhet,
+)
 
-fun OrganizationDB.updateValues(org: Organization): OrganizationDB =
-    copy(
-        name = org.name ?: name,
-        internationalRegistry = org.internationalRegistry ?: internationalRegistry,
-        orgType = org.orgType ?: orgType,
-        orgPath = org.orgPath ?: orgPath,
-        subOrganizationOf = org.subOrganizationOf ?: subOrganizationOf,
-        municipalityNumber = org.municipalityNumber ?: municipalityNumber,
-        issued = org.issued ?: issued,
-        industryCode = org.industryCode ?: industryCode,
-        sectorCode = org.sectorCode ?: sectorCode,
-        homepage = org.homepage ?: homepage,
-        prefLabel = (prefLabel?.toPrefLabel() ?: PrefLabel()).update(org.prefLabel).toEmbedded(),
-        subordinate = org.subordinate,
-    )
+fun OrganizationDB.updateValues(org: Organization): OrganizationDB = copy(
+    name = org.name ?: name,
+    internationalRegistry = org.internationalRegistry ?: internationalRegistry,
+    orgType = org.orgType ?: orgType,
+    orgPath = org.orgPath ?: orgPath,
+    subOrganizationOf = org.subOrganizationOf ?: subOrganizationOf,
+    municipalityNumber = org.municipalityNumber ?: municipalityNumber,
+    issued = org.issued ?: issued,
+    industryCode = org.industryCode ?: industryCode,
+    sectorCode = org.sectorCode ?: sectorCode,
+    homepage = org.homepage ?: homepage,
+    prefLabel = (prefLabel?.toPrefLabel() ?: PrefLabel()).update(org.prefLabel).toEmbedded(),
+    subordinate = org.subordinate,
+)
 
 fun OrganizationDB.updateWithEnhetsregisteretValues(
     org: EnhetsregisteretOrganization,
@@ -103,29 +100,26 @@ fun OrganizationDB.updateWithEnhetsregisteretValues(
     )
 }
 
-fun TransportOrganization.prefLabelToUpdate(existingData: OrganizationPrefLabel?): OrganizationPrefLabel? =
-    when {
-        tradingName.isNullOrEmpty() -> null
-        existingData?.value?.nb.isNullOrEmpty() -> toDB()
-        existingData?.value?.nb != tradingName -> toDB()
-        else -> null
-    }
+fun TransportOrganization.prefLabelToUpdate(existingData: OrganizationPrefLabel?): OrganizationPrefLabel? = when {
+    tradingName.isNullOrEmpty() -> null
+    existingData?.value?.nb.isNullOrEmpty() -> toDB()
+    existingData?.value?.nb != tradingName -> toDB()
+    else -> null
+}
 
-fun PrefLabel?.isNullOrEmpty(): Boolean =
-    when {
-        this == null -> true
-        !en.isNullOrBlank() -> false
-        !nb.isNullOrBlank() -> false
-        !nn.isNullOrBlank() -> false
-        else -> true
-    }
+fun PrefLabel?.isNullOrEmpty(): Boolean = when {
+    this == null -> true
+    !en.isNullOrBlank() -> false
+    !nb.isNullOrBlank() -> false
+    !nn.isNullOrBlank() -> false
+    else -> true
+}
 
-private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel =
-    copy(
-        nb = newValues?.nb ?: nb,
-        nn = newValues?.nn ?: nn,
-        en = newValues?.en ?: en,
-    )
+private fun PrefLabel.update(newValues: PrefLabel?): PrefLabel = copy(
+    nb = newValues?.nb ?: nb,
+    nn = newValues?.nn ?: nn,
+    en = newValues?.en ?: en,
+)
 
 private fun EnhetsregisteretOrganization.orgStatusFromDeleteDate(): OrgStatus {
     val today = LocalDate.now()

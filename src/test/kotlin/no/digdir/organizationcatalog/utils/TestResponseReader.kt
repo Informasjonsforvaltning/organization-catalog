@@ -11,19 +11,13 @@ class TestResponseReader {
     private fun resourceAsReader(resourceName: String): Reader =
         InputStreamReader(javaClass.classLoader.getResourceAsStream(resourceName)!!, StandardCharsets.UTF_8)
 
-    fun getExpectedResponse(
-        filename: String,
-        lang: String,
-    ): Model {
+    fun getExpectedResponse(filename: String, lang: String): Model {
         val expected = ModelFactory.createDefaultModel()
         expected.read(resourceAsReader("responses/$filename"), "", lang)
         return expected
     }
 
-    fun parseResponse(
-        response: String,
-        lang: String,
-    ): Model {
+    fun parseResponse(response: String, lang: String): Model {
         val responseModel = ModelFactory.createDefaultModel()
         responseModel.read(StringReader(response), "", lang)
         return responseModel

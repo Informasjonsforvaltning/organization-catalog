@@ -41,13 +41,12 @@ data class Organizations(
     var operators: MutableList<TransportOrganization> = mutableListOf(),
 )
 
-fun TransportOrganization.toDB() =
-    OrganizationPrefLabel(
-        organizationId = this.companyNumber ?: "",
-        value =
-            PrefLabel(
-                nb = (this.tradingName ?: "").trim(),
-            ),
-    )
+fun TransportOrganization.toDB() = OrganizationPrefLabel(
+    organizationId = this.companyNumber ?: "",
+    value =
+    PrefLabel(
+        nb = (this.tradingName ?: "").trim(),
+    ),
+)
 
 fun Iterable<TransportOrganization>.toDB() = this.map { it.toDB() }

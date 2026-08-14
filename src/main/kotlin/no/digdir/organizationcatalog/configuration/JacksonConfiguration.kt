@@ -8,8 +8,7 @@ import tools.jackson.databind.DeserializationFeature
 @Configuration
 class JacksonConfiguration {
     @Bean
-    fun disableFailOnNullForPrimitives(): JsonMapperBuilderCustomizer =
-        JsonMapperBuilderCustomizer { builder ->
-            builder.disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
-        }
+    fun disableFailOnNullForPrimitives(): JsonMapperBuilderCustomizer = JsonMapperBuilderCustomizer { builder ->
+        builder.disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
+    }
 }

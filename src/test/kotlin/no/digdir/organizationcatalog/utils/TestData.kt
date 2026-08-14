@@ -15,10 +15,7 @@ const val WIREMOCK_TEST_HOST = "http://localhost:5050"
 
 const val ENHETSREGISTERET_URL = "$WIREMOCK_TEST_HOST/enhetsregisteret/api/enheter/"
 
-fun getApiAddress(
-    port: Int,
-    endpoint: String,
-): String = "http://localhost:$port$endpoint"
+fun getApiAddress(port: Int, endpoint: String): String = "http://localhost:$port$endpoint"
 
 val ORG_0 =
     Organization(
@@ -34,9 +31,9 @@ val ORG_0 =
         sectorCode = "6100",
         homepage = "www.brreg.no",
         prefLabel =
-            PrefLabel(
-                nb = "Brønnøysundregistrene",
-            ),
+        PrefLabel(
+            nb = "Brønnøysundregistrene",
+        ),
         orgStatus = OrgStatus.NORMAL,
     )
 
@@ -83,11 +80,11 @@ val NOT_UPDATED_0 =
         industryCode = "84.220",
         sectorCode = "6100",
         prefLabel =
-            PrefLabel(
-                nb = "nbNotUpdated",
-                nn = "nnNotUpdated",
-                en = "enNotUpdated",
-            ),
+        PrefLabel(
+            nb = "nbNotUpdated",
+            nn = "nnNotUpdated",
+            en = "enNotUpdated",
+        ),
         orgStatus = OrgStatus.NORMAL,
     )
 
@@ -118,11 +115,11 @@ val UPDATE_VALUES =
         industryCode = "industryUriUpdated",
         sectorCode = "sectorUriUpdated",
         prefLabel =
-            PrefLabel(
-                nb = "nbLabelUpdated",
-                nn = "nnLabelUpdated",
-                en = "enLabelUpdated",
-            ),
+        PrefLabel(
+            nb = "nbLabelUpdated",
+            nn = "nnLabelUpdated",
+            en = "enLabelUpdated",
+        ),
         orgStatus = OrgStatus.NORMAL,
     )
 
@@ -138,11 +135,11 @@ val UPDATED_0 =
         industryCode = "84.220",
         sectorCode = "6100",
         prefLabel =
-            PrefLabel(
-                nb = "nbNotUpdated",
-                nn = "nnNotUpdated",
-                en = "enNotUpdated",
-            ),
+        PrefLabel(
+            nb = "nbNotUpdated",
+            nn = "nnNotUpdated",
+            en = "enNotUpdated",
+        ),
         orgStatus = OrgStatus.NORMAL,
     )
 
@@ -159,11 +156,11 @@ val UPDATED_1 =
         industryCode = "industryUriUpdated",
         sectorCode = "sectorUriUpdated",
         prefLabel =
-            PrefLabel(
-                nb = "nbLabelUpdated",
-                nn = "nnLabelUpdated",
-                en = "enLabelUpdated",
-            ),
+        PrefLabel(
+            nb = "nbLabelUpdated",
+            nn = "nnLabelUpdated",
+            en = "enLabelUpdated",
+        ),
         orgStatus = OrgStatus.NORMAL,
     )
 
@@ -298,32 +295,30 @@ data class TestOrg(
     val subordinate: Boolean = false,
 )
 
-fun organizationsDBPopulation(): List<TestOrg> =
-    listOf(
-        ORG_0,
-        ORG_1,
-        ORG_2,
-        NOT_UPDATED_0,
-        NOT_UPDATED_1,
-        ORG_WITH_DOMAIN,
-        ORG_WITHOUT_DOMAIN,
-        NOT_UPDATED_2,
-        PARENT_ORG,
-    ).map { it.toTestOrg() }
+fun organizationsDBPopulation(): List<TestOrg> = listOf(
+    ORG_0,
+    ORG_1,
+    ORG_2,
+    NOT_UPDATED_0,
+    NOT_UPDATED_1,
+    ORG_WITH_DOMAIN,
+    ORG_WITHOUT_DOMAIN,
+    NOT_UPDATED_2,
+    PARENT_ORG,
+).map { it.toTestOrg() }
 
-private fun Organization.toTestOrg(): TestOrg =
-    TestOrg(
-        organizationId = organizationId ?: "",
-        name = name ?: "",
-        orgType = orgType,
-        orgPath = orgPath,
-        subOrganizationOf = subOrganizationOf,
-        issued = issued,
-        municipalityNumber = municipalityNumber,
-        industryCode = industryCode,
-        sectorCode = sectorCode,
-        prefLabel = prefLabel,
-        orgStatus = orgStatus,
-        homepage = homepage,
-        subordinate = subordinate,
-    )
+private fun Organization.toTestOrg(): TestOrg = TestOrg(
+    organizationId = organizationId ?: "",
+    name = name ?: "",
+    orgType = orgType,
+    orgPath = orgPath,
+    subOrganizationOf = subOrganizationOf,
+    issued = issued,
+    municipalityNumber = municipalityNumber,
+    industryCode = industryCode,
+    sectorCode = sectorCode,
+    prefLabel = prefLabel,
+    orgStatus = orgStatus,
+    homepage = homepage,
+    subordinate = subordinate,
+)

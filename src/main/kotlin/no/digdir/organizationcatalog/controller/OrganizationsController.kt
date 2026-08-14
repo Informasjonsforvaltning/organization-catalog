@@ -45,46 +45,45 @@ open class OrganizationsController(
         @AuthenticationPrincipal jwt: Jwt,
         @PathVariable id: String,
         @RequestBody organization: Organization,
-    ): ResponseEntity<Organization> =
-        when {
-            !id.isOrganizationNumber() -> {
-                ResponseEntity(HttpStatus.BAD_REQUEST)
-            }
+    ): ResponseEntity<Organization> = when {
+        !id.isOrganizationNumber() -> {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
 
-            !endpointPermissions.hasAdminPermission(jwt) -> {
-                ResponseEntity(HttpStatus.FORBIDDEN)
-            }
+        !endpointPermissions.hasAdminPermission(jwt) -> {
+            ResponseEntity(HttpStatus.FORBIDDEN)
+        }
 
-            else -> {
-                try {
-                    LOGGER.debug("update organization $id")
-                    catalogService
-                        .updateEntry(id, organization)
-                        ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
-                        ?: ResponseEntity(HttpStatus.NOT_FOUND)
-                } catch (exception: Exception) {
-                    LOGGER.error("error updating organization $id", exception)
-                    when {
-                        exception is ConstraintViolationException -> {
-                            ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
-                        }
+        else -> {
+            try {
+                LOGGER.debug("update organization $id")
+                catalogService
+                    .updateEntry(id, organization)
+                    ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
+                    ?: ResponseEntity(HttpStatus.NOT_FOUND)
+            } catch (exception: Exception) {
+                LOGGER.error("error updating organization $id", exception)
+                when {
+                    exception is ConstraintViolationException -> {
+                        ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
+                    }
 
-                        exception is TransactionSystemException &&
-                            exception.rootCause is ConstraintViolationException -> {
-                            ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
-                        }
+                    exception is TransactionSystemException &&
+                        exception.rootCause is ConstraintViolationException -> {
+                        ResponseEntity<Organization>(HttpStatus.BAD_REQUEST)
+                    }
 
-                        exception is DataIntegrityViolationException -> {
-                            ResponseEntity(HttpStatus.CONFLICT)
-                        }
+                    exception is DataIntegrityViolationException -> {
+                        ResponseEntity(HttpStatus.CONFLICT)
+                    }
 
-                        else -> {
-                            ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
-                        }
+                    else -> {
+                        ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
                     }
                 }
             }
         }
+    }
 
     @GetMapping(
         "/{id}",
@@ -97,10 +96,7 @@ open class OrganizationsController(
             "text/turtle",
         ],
     )
-    fun getOrganizationById(
-        @RequestHeader(HttpHeaders.ACCEPT) accept: String?,
-        @PathVariable id: String,
-    ): ResponseEntity<Any> {
+    fun getOrganizationById(@RequestHeader(HttpHeaders.ACCEPT) accept: String?, @PathVariable id: String): ResponseEntity<Any> {
         if (!id.isOrganizationNumber()) {
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         } else {
@@ -162,32 +158,26 @@ open class OrganizationsController(
     }
 
     @PostMapping("/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun updateFromEnhetsregisteret(
-        @AuthenticationPrincipal jwt: Jwt,
-        @PathVariable id: String,
-    ): ResponseEntity<Organization> =
-        when {
-            !id.isOrganizationNumber() -> {
-                ResponseEntity(HttpStatus.BAD_REQUEST)
-            }
-
-            !endpointPermissions.hasAdminPermission(jwt) -> {
-                ResponseEntity(HttpStatus.FORBIDDEN)
-            }
-
-            else -> {
-                LOGGER.debug("update organization with id $id with data from Enhetsregisteret")
-                catalogService
-                    .updateEntryFromEnhetsregisteret(id)
-                    ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
-                    ?: ResponseEntity(HttpStatus.NOT_FOUND)
-            }
+    fun updateFromEnhetsregisteret(@AuthenticationPrincipal jwt: Jwt, @PathVariable id: String): ResponseEntity<Organization> = when {
+        !id.isOrganizationNumber() -> {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
         }
 
+        !endpointPermissions.hasAdminPermission(jwt) -> {
+            ResponseEntity(HttpStatus.FORBIDDEN)
+        }
+
+        else -> {
+            LOGGER.debug("update organization with id $id with data from Enhetsregisteret")
+            catalogService
+                .updateEntryFromEnhetsregisteret(id)
+                ?.let { updated -> ResponseEntity(updated, HttpStatus.OK) }
+                ?: ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+    }
+
     @GetMapping("/orgpath/{org}", produces = [MediaType.TEXT_PLAIN_VALUE])
-    fun getOrgPath(
-        @PathVariable org: String,
-    ): ResponseEntity<String> {
+    fun getOrgPath(@PathVariable org: String): ResponseEntity<String> {
         LOGGER.debug("get orgPath for $org")
         return ResponseEntity(catalogService.getOrgPath(org), HttpStatus.OK)
     }

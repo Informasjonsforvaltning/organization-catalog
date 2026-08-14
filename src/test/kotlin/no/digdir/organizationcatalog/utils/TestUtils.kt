@@ -7,12 +7,7 @@ import java.net.HttpURLConnection
 import java.net.URI
 import java.sql.DriverManager
 
-fun apiGet(
-    endpoint: String,
-    port: Int,
-    acceptHeader: String?,
-    otherHeaders: List<Pair<String, String>> = emptyList(),
-): Map<String, Any> =
+fun apiGet(endpoint: String, port: Int, acceptHeader: String?, otherHeaders: List<Pair<String, String>> = emptyList()): Map<String, Any> =
     try {
         val connection = URI(getApiAddress(port, endpoint)).toURL().openConnection() as HttpURLConnection
         acceptHeader?.let { connection.addRequestProperty("Accept", it) }
@@ -41,57 +36,49 @@ fun apiGet(
         )
     }
 
-fun apiAuthorizedRequest(
-    endpoint: String,
-    port: Int,
-    body: String?,
-    token: String?,
-    method: String,
-): Map<String, Any> =
-    try {
-        val connection = URI("http://localhost:$port$endpoint").toURL().openConnection() as HttpURLConnection
-        connection.requestMethod = method
-        connection.setRequestProperty("Content-type", "application/json")
-        connection.setRequestProperty("Accept", "application/json")
-        if (!token.isNullOrEmpty()) connection.setRequestProperty("Authorization", "Bearer $token")
+fun apiAuthorizedRequest(endpoint: String, port: Int, body: String?, token: String?, method: String): Map<String, Any> = try {
+    val connection = URI("http://localhost:$port$endpoint").toURL().openConnection() as HttpURLConnection
+    connection.requestMethod = method
+    connection.setRequestProperty("Content-type", "application/json")
+    connection.setRequestProperty("Accept", "application/json")
+    if (!token.isNullOrEmpty()) connection.setRequestProperty("Authorization", "Bearer $token")
 
-        connection.doOutput = true
-        connection.connect()
+    connection.doOutput = true
+    connection.connect()
 
-        if (body != null) {
-            val writer = OutputStreamWriter(connection.outputStream)
-            writer.write(body)
-            writer.close()
-        }
+    if (body != null) {
+        val writer = OutputStreamWriter(connection.outputStream)
+        writer.write(body)
+        writer.close()
+    }
 
-        if (isOK(connection.responseCode)) {
-            val responseBody = connection.inputStream.bufferedReader().use(BufferedReader::readText)
-            mapOf(
-                "body" to responseBody,
-                "header" to connection.headerFields.toString(),
-                "status" to connection.responseCode,
-            )
-        } else {
-            mapOf(
-                "status" to connection.responseCode,
-                "header" to " ",
-                "body" to " ",
-            )
-        }
-    } catch (e: Exception) {
+    if (isOK(connection.responseCode)) {
+        val responseBody = connection.inputStream.bufferedReader().use(BufferedReader::readText)
         mapOf(
-            "status" to e.toString(),
+            "body" to responseBody,
+            "header" to connection.headerFields.toString(),
+            "status" to connection.responseCode,
+        )
+    } else {
+        mapOf(
+            "status" to connection.responseCode,
             "header" to " ",
             "body" to " ",
         )
     }
+} catch (e: Exception) {
+    mapOf(
+        "status" to e.toString(),
+        "header" to " ",
+        "body" to " ",
+    )
+}
 
-private fun isOK(response: Int?): Boolean =
-    if (response == null) {
-        false
-    } else {
-        HttpStatus.resolve(response)?.is2xxSuccessful == true
-    }
+private fun isOK(response: Int?): Boolean = if (response == null) {
+    false
+} else {
+    HttpStatus.resolve(response)?.is2xxSuccessful == true
+}
 
 fun resetDB() {
     val container = ApiTestContext.postgresContainer
@@ -133,7 +120,4 @@ fun resetDB() {
     }
 }
 
-data class JenaAndHeader(
-    val acceptHeader: String,
-    val jenaType: String,
-)
+data class JenaAndHeader(val acceptHeader: String, val jenaType: String)

@@ -96,9 +96,9 @@ class TransportDataTest : ApiTestContext() {
             OrganizationPrefLabel(
                 organizationId = orgId,
                 value =
-                    PrefLabel(
-                        nb = "Old Name",
-                    ),
+                PrefLabel(
+                    nb = "Old Name",
+                ),
             )
         organizationPrefLabelRepository.save(oldTransportDb)
         organizationCatalogService.updateTransportData()
