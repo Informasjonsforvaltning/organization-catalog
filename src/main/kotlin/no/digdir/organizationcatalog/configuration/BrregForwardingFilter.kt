@@ -14,14 +14,8 @@ import org.springframework.stereotype.Component
 private val LOGGER = LoggerFactory.getLogger(BrregForwardingFilter::class.java)
 
 @Component
-class BrregForwardingFilter(
-    private val appProperties: AppProperties,
-) : Filter {
-    override fun doFilter(
-        request: ServletRequest?,
-        response: ServletResponse?,
-        chain: FilterChain?,
-    ) {
+class BrregForwardingFilter(private val appProperties: AppProperties) : Filter {
+    override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
         if (request != null && response != null && chain != null) {
             try {
                 val httpRequest = request as HttpServletRequest

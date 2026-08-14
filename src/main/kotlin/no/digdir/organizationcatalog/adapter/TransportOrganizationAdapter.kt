@@ -17,31 +17,29 @@ class TransportOrganizationAdapter(
     @Value("\${application.enturHeaderKey}") val enturHeaderKey: String,
     @Value("\${application.enturHeaderValue}") val enturHeaderValue: String,
 ) {
-    fun downloadTransportDataList(): List<TransportOrganization> =
-        downloadTransportDataRaw()
-            ?.let { it.transformToTransportDataList() }
-            ?.distinctBy { it.companyNumber } ?: emptyList()
+    fun downloadTransportDataList(): List<TransportOrganization> = downloadTransportDataRaw()
+        ?.let { it.transformToTransportDataList() }
+        ?.distinctBy { it.companyNumber } ?: emptyList()
 
-    fun downloadTransportDataRaw(): String? =
-        URI(enturDataUrl)
-            .toURL()
-            .openConnection()
-            .run {
-                this as HttpURLConnection
-                this.setRequestProperty(enturHeaderKey, enturHeaderValue)
+    fun downloadTransportDataRaw(): String? = URI(enturDataUrl)
+        .toURL()
+        .openConnection()
+        .run {
+            this as HttpURLConnection
+            this.setRequestProperty(enturHeaderKey, enturHeaderValue)
 
-                if (responseCode != HttpStatus.OK.value()) {
-                    logger.error("Download of transport data failed with code $responseCode")
-                    return@run null
-                }
-
-                try {
-                    inputStream.bufferedReader().use { reader ->
-                        reader.readText()
-                    }
-                } catch (ex: Exception) {
-                    logger.error("Error reading downloaded data : ${ex.message}")
-                    null
-                }
+            if (responseCode != HttpStatus.OK.value()) {
+                logger.error("Download of transport data failed with code $responseCode")
+                return@run null
             }
+
+            try {
+                inputStream.bufferedReader().use { reader ->
+                    reader.readText()
+                }
+            } catch (ex: Exception) {
+                logger.error("Error reading downloaded data : ${ex.message}")
+                null
+            }
+        }
 }

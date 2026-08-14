@@ -20,24 +20,16 @@ data class EnhetsregisteretOrganization(
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class EnhetsregisteretEmbeddedWrapperDTO(
-    val _embedded: EnhetsregisteretLists?,
-)
+data class EnhetsregisteretEmbeddedWrapperDTO(val _embedded: EnhetsregisteretLists?)
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class EnhetsregisteretLists(
-    val enheter: List<EnhetsregisteretOrganization> = emptyList(),
-)
+data class EnhetsregisteretLists(val enheter: List<EnhetsregisteretOrganization> = emptyList())
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class EnhetsregisteretCode(
-    val kode: String?,
-)
+data class EnhetsregisteretCode(val kode: String?)
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class EnhetsregisteretAddress(
-    val kommunenummer: String?,
-)
+data class EnhetsregisteretAddress(val kommunenummer: String?)
 
 enum class EnhetsregisteretType {
     STAT,

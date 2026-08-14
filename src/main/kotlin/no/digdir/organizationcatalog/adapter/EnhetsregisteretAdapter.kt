@@ -20,9 +20,7 @@ import java.net.URI
 private val LOGGER = LoggerFactory.getLogger(EnhetsregisteretAdapter::class.java)
 
 @Component
-class EnhetsregisteretAdapter(
-    private val appProperties: AppProperties,
-) {
+class EnhetsregisteretAdapter(private val appProperties: AppProperties) {
     fun getOrganizationAndParents(organizationId: String): List<EnhetsregisteretOrganization> {
         LOGGER.info("Downloading data regarding '$organizationId' from Enhetsregisteret")
         return downloadAndParseOrganization(organizationId)
@@ -30,13 +28,12 @@ class EnhetsregisteretAdapter(
             ?: emptyList()
     }
 
-    private fun downloadAndParseOrganization(organizationId: String): EnhetsregisteretOrganization? =
-        runBlocking {
-            val organizationPromise = async { getOrganizationFromEnhetsregisteret(organizationId) }
-            val subordinateOrganizationPromise = async { getOrganizationFromEnhetsregisteret(organizationId, true) }
+    private fun downloadAndParseOrganization(organizationId: String): EnhetsregisteretOrganization? = runBlocking {
+        val organizationPromise = async { getOrganizationFromEnhetsregisteret(organizationId) }
+        val subordinateOrganizationPromise = async { getOrganizationFromEnhetsregisteret(organizationId, true) }
 
-            organizationPromise.await() ?: subordinateOrganizationPromise.await()
-        }
+        organizationPromise.await() ?: subordinateOrganizationPromise.await()
+    }
 
     private fun EnhetsregisteretOrganization.downloadParentOrgsAndCreateOrgPath(): List<EnhetsregisteretOrganization> {
         val orgList: MutableList<EnhetsregisteretOrganization> = mutableListOf(this)
@@ -136,7 +133,6 @@ class EnhetsregisteretAdapter(
             ?.enheter
             ?: emptyList()
 
-    private fun isTestEnvironment(): Boolean =
-        setOf("localhost", "staging", "demo")
-            .any { it in appProperties.organizationCatalogUrl }
+    private fun isTestEnvironment(): Boolean = setOf("localhost", "staging", "demo")
+        .any { it in appProperties.organizationCatalogUrl }
 }

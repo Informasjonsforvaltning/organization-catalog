@@ -22,10 +22,7 @@ data class OrganizationPrefLabel(
         get() = PrefLabel(nb = nb, nn = nn, en = en)
 }
 
-fun OrganizationPrefLabel(
-    organizationId: String,
-    value: PrefLabel,
-) = OrganizationPrefLabel(
+fun OrganizationPrefLabel(organizationId: String, value: PrefLabel) = OrganizationPrefLabel(
     organizationId = organizationId,
     nb = value.nb,
     nn = value.nn,

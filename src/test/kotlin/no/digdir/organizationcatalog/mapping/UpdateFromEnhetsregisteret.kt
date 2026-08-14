@@ -17,10 +17,10 @@ class UpdateFromEnhetsregisteret {
         val orgWithNN =
             ORG_DB1.copy(
                 prefLabel =
-                    EmbeddedPrefLabel(
-                        nb = "Forsvaret på bokmål",
-                        nn = "Forsvaret på nynorsk",
-                    ),
+                EmbeddedPrefLabel(
+                    nb = "Forsvaret på bokmål",
+                    nn = "Forsvaret på nynorsk",
+                ),
             )
 
         val expectedNb = "Forsvaret på bokmål"
@@ -38,10 +38,10 @@ class UpdateFromEnhetsregisteret {
         val orgWithNN =
             ORG_DB1.copy(
                 prefLabel =
-                    EmbeddedPrefLabel(
-                        nb = "Forsvaret på bokmål",
-                        nn = "Forsvaret på nynorsk",
-                    ),
+                EmbeddedPrefLabel(
+                    nb = "Forsvaret på bokmål",
+                    nn = "Forsvaret på nynorsk",
+                ),
             )
 
         val expectedNb = "Forsvaret på bokmål"
@@ -60,10 +60,10 @@ class UpdateFromEnhetsregisteret {
             ORG_DB1.copy(
                 name = "FØRSVARET",
                 prefLabel =
-                    EmbeddedPrefLabel(
-                        nb = "Førsvaret",
-                        nn = "Føresvaret",
-                    ),
+                EmbeddedPrefLabel(
+                    nb = "Førsvaret",
+                    nn = "Føresvaret",
+                ),
             )
 
         val expectedNb = "Forsvaret"

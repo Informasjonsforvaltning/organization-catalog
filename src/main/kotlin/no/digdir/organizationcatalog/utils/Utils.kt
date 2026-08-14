@@ -15,31 +15,29 @@ fun String.isOrganizationNumber(): Boolean {
     return regex.containsMatchIn(this)
 }
 
-fun String.prefLabelFromName(): PrefLabel =
-    PrefLabel(
-        nb =
-            this
-                .lowercase(Locale.getDefault())
-                .replaceFirstChar { it.titlecase(Locale.getDefault()) },
-    )
+fun String.prefLabelFromName(): PrefLabel = PrefLabel(
+    nb =
+    this
+        .lowercase(Locale.getDefault())
+        .replaceFirstChar { it.titlecase(Locale.getDefault()) },
+)
 
-fun String.transformToTransportDataList(): List<TransportOrganization> =
-    this.let {
-        val serializer = Persister()
-        try {
-            val publicationDelivery = serializer.read(PublicationDelivery::class.java, this)
-            logger.info("PublicationDelivery parsed: $publicationDelivery")
+fun String.transformToTransportDataList(): List<TransportOrganization> = this.let {
+    val serializer = Persister()
+    try {
+        val publicationDelivery = serializer.read(PublicationDelivery::class.java, this)
+        logger.info("PublicationDelivery parsed: $publicationDelivery")
 
-            val organisations =
-                publicationDelivery
-                    ?.dataObjects
-                    ?.resourceFrame
-                    ?.organisations
+        val organisations =
+            publicationDelivery
+                ?.dataObjects
+                ?.resourceFrame
+                ?.organisations
 
-            return@let (organisations?.authorities ?: emptyList()) +
-                (organisations?.operators ?: emptyList())
-        } catch (ex: Exception) {
-            logger.error("Error transforming xml data : ${ex.message}")
-        }
-        return@let emptyList()
+        return@let (organisations?.authorities ?: emptyList()) +
+            (organisations?.operators ?: emptyList())
+    } catch (ex: Exception) {
+        logger.error("Error transforming xml data : ${ex.message}")
     }
+    return@let emptyList()
+}

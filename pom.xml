@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.5</version>
+        <version>4.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -35,6 +35,9 @@
         <kotlin.version>2.2.21</kotlin.version>
         <testcontainers.version>2.0.4</testcontainers.version>
         <jena.version>6.0.0</jena.version>
+        <ktlint.version>3.7.1</ktlint.version>
+        <!-- Overrides Spring Boot 4.1.0 (42.7.11), which is still affected by CVE-2026-54291 -->
+        <postgresql.version>42.7.13</postgresql.version>
     </properties>
 
     <dependencies>
@@ -279,20 +282,19 @@
                 </configuration>
             </plugin>
 
-        <plugin>
-            <groupId>com.github.gantsign.maven</groupId>
-            <artifactId>ktlint-maven-plugin</artifactId>
-            <version>3.5.0</version>
-            <executions>
-                <execution>
-                    <id>format-and-check</id>
-                    <goals>
-                        <goal>format</goal>
-                        <goal>check</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
+            <plugin>
+                <groupId>com.github.gantsign.maven</groupId>
+                <artifactId>ktlint-maven-plugin</artifactId>
+                <version>${ktlint.version}</version>
+                <executions>
+                    <execution>
+                        <id>ktlint-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.jacoco</groupId>

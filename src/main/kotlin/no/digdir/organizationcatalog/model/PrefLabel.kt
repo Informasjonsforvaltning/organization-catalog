@@ -5,11 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-data class PrefLabel(
-    val nb: String? = null,
-    val nn: String? = null,
-    val en: String? = null,
-)
+data class PrefLabel(val nb: String? = null, val nn: String? = null, val en: String? = null)
 
 fun PrefLabel.toEmbedded() = EmbeddedPrefLabel(nb = nb, nn = nn, en = en)
 
