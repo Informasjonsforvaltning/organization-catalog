@@ -34,7 +34,12 @@ application:
   defaultOrgPath: /ANNET/
   cors.originPatterns: ${CORS_ORIGIN_PATTERNS}
 
-server.port: 8080
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: application/json,application/ld+json,application/rdf+json,application/xml,application/rdf+xml,text/turtle,text/plain
+    min-response-size: 2KB
 
 ---
 spring:
@@ -56,6 +61,10 @@ application:
 server.port: 8140
 
 ---
+# Compress regardless of size under test, so the gzip assertion does not depend
+# on how large the fixture data happens to be.
+server.compression.min-response-size: 0
+
 spring:
   config.activate.on-profile: test
   datasource:

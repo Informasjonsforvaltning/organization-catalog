@@ -12,6 +12,7 @@ import no.digdir.organizationcatalog.service.OrganizationCatalogService
 import no.digdir.organizationcatalog.utils.isOrganizationNumber
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.http.CacheControl
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -29,6 +30,20 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.util.concurrent.TimeUnit
+
+// Overrides Spring Security's default "no-store". Kept short because the
+// collection grows whenever an unknown organisation is looked up and fetched
+// from Enhetsregisteret.
+private val PUBLIC_CACHE: CacheControl = CacheControl.maxAge(5, TimeUnit.MINUTES).cachePublic()
+
+// Vary on Accept is required: these URLs serve JSON, Turtle, JSON-LD, RDF/XML
+// and RDF/JSON from the same path, so a shared cache must key on it.
+private fun cachedOk(body: Any): ResponseEntity<Any> = ResponseEntity
+    .ok()
+    .cacheControl(PUBLIC_CACHE)
+    .varyBy(HttpHeaders.ACCEPT)
+    .body(body)
 
 private val LOGGER = LoggerFactory.getLogger(OrganizationsController::class.java)
 
@@ -113,8 +128,8 @@ open class OrganizationsController(
             return when {
                 organization == null -> ResponseEntity(HttpStatus.NOT_FOUND)
                 jenaType == JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
-                jenaType == JenaType.NOT_JENA -> ResponseEntity(organization, HttpStatus.OK)
-                else -> ResponseEntity(organization.jenaResponse(jenaType, urls), HttpStatus.OK)
+                jenaType == JenaType.NOT_JENA -> cachedOk(organization)
+                else -> cachedOk(organization.jenaResponse(jenaType, urls))
             }
         }
     }
@@ -151,8 +166,8 @@ open class OrganizationsController(
 
             return when (jenaType) {
                 JenaType.NOT_ACCEPTABLE -> ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
-                JenaType.NOT_JENA -> ResponseEntity(organizations, HttpStatus.OK)
-                else -> ResponseEntity(organizations.jenaResponse(jenaType, urls), HttpStatus.OK)
+                JenaType.NOT_JENA -> cachedOk(organizations)
+                else -> cachedOk(organizations.jenaResponse(jenaType, urls))
             }
         }
     }
