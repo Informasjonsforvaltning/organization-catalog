@@ -7,6 +7,19 @@ import java.net.HttpURLConnection
 import java.net.URI
 import java.sql.DriverManager
 
+fun apiConnect(
+    endpoint: String,
+    port: Int,
+    acceptHeader: String?,
+    otherHeaders: List<Pair<String, String>> = emptyList(),
+): HttpURLConnection {
+    val connection = URI(getApiAddress(port, endpoint)).toURL().openConnection() as HttpURLConnection
+    acceptHeader?.let { connection.addRequestProperty("Accept", it) }
+    otherHeaders.forEach { connection.addRequestProperty(it.first, it.second) }
+    connection.connect()
+    return connection
+}
+
 fun apiGet(endpoint: String, port: Int, acceptHeader: String?, otherHeaders: List<Pair<String, String>> = emptyList()): Map<String, Any> =
     try {
         val connection = URI(getApiAddress(port, endpoint)).toURL().openConnection() as HttpURLConnection

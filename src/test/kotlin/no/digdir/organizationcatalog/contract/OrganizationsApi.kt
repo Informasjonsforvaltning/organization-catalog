@@ -20,10 +20,12 @@ import no.digdir.organizationcatalog.utils.UPDATED_1
 import no.digdir.organizationcatalog.utils.UPDATED_2
 import no.digdir.organizationcatalog.utils.UPDATE_VALUES
 import no.digdir.organizationcatalog.utils.apiAuthorizedRequest
+import no.digdir.organizationcatalog.utils.apiConnect
 import no.digdir.organizationcatalog.utils.apiGet
 import no.digdir.organizationcatalog.utils.jwk.Access
 import no.digdir.organizationcatalog.utils.jwk.JwtToken
 import no.digdir.organizationcatalog.utils.resetDB
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Tag
@@ -57,6 +59,61 @@ internal class OrganizationsApi : ApiTestContext() {
     @BeforeAll
     fun resetDatabase() {
         resetDB()
+    }
+
+    @Nested
+    internal inner class CachingHeaders {
+        @Test
+        fun `collection is publicly cacheable and varies on Accept`() {
+            val connection = apiConnect("/organizations", port, "application/json")
+
+            Assertions.assertEquals(HttpStatus.OK.value(), connection.responseCode)
+            Assertions.assertEquals("max-age=300, public", connection.getHeaderField("Cache-Control"))
+            Assertions.assertTrue(
+                connection.getHeaderField("Vary").contains("Accept", ignoreCase = true),
+                "Vary must include Accept: " + connection.getHeaderField("Vary"),
+            )
+        }
+
+        // The ETag must stay weak; a strong one silently disables compression.
+        @Test
+        fun `collection returns a weak ETag`() {
+            val connection = apiConnect("/organizations", port, "application/json")
+
+            Assertions.assertEquals(HttpStatus.OK.value(), connection.responseCode)
+            val etag = connection.getHeaderField("ETag")
+            Assertions.assertNotNull(etag, "no ETag on the response")
+            Assertions.assertTrue(etag.startsWith("W/"), "ETag must be weak, was: $etag")
+        }
+
+        @Test
+        fun `revalidating with If-None-Match returns 304`() {
+            val etag = apiConnect("/organizations", port, "application/json").getHeaderField("ETag")
+
+            val revalidated = apiConnect("/organizations", port, "application/json", listOf("If-None-Match" to etag))
+
+            Assertions.assertEquals(HttpStatus.NOT_MODIFIED.value(), revalidated.responseCode)
+        }
+
+        @Test
+        fun `collection is gzipped`() {
+            val connection = apiConnect("/organizations", port, "application/json", listOf("Accept-Encoding" to "gzip"))
+
+            Assertions.assertEquals(HttpStatus.OK.value(), connection.responseCode)
+            Assertions.assertEquals(
+                "gzip",
+                connection.getHeaderField("Content-Encoding"),
+                "response was not compressed; headers: " + connection.headerFields,
+            )
+        }
+
+        @Test
+        fun `single organization is publicly cacheable`() {
+            val connection = apiConnect("/organizations/${ORG_0.organizationId}", port, "application/json")
+
+            Assertions.assertEquals(HttpStatus.OK.value(), connection.responseCode)
+            Assertions.assertEquals("max-age=300, public", connection.getHeaderField("Cache-Control"))
+        }
     }
 
     @Test
